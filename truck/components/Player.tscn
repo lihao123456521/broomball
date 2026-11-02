@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://domhm87hbhbg1"]
+
+[ext_resource type="Script" uid="uid://dajlr3n5wjwmb" path="res://truck/src/Player.gd" id="1_nm1yx"]
+[ext_resource type="Script" uid="uid://b62ppvc03a6b1" path="res://truck/src/CameraManager.gd" id="2_loos7"]
+[ext_resource type="AudioStream" uid="uid://d1f566kcks3a" path="res://assets/11月1日.wav" id="4_cyjav"]
+[ext_resource type="PackedScene" uid="uid://0cbij2bj3qch" path="res://assets/tex_mesh.glb" id="4_lp74m"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_smq6u"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ecuyb"]
+radius = 0.52685547
+height = 1.7404785
+
+[node name="Player" type="CharacterBody3D" unique_id=1290689744]
+collision_layer = 2
+script = ExtResource("1_nm1yx")
+gravity_enabled = false
+
+[node name="CameraManager" type="Node3D" parent="." unique_id=369758490]
+script = ExtResource("2_loos7")
+
+[node name="Arm" type="SpringArm3D" parent="CameraManager" unique_id=692045584]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 2.32515, -0.0321627)
+shape = SubResource("SphereShape3D_smq6u")
+spring_length = 6.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="CameraManager/Arm" unique_id=540469844]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 1.5)
+fov = 62.0
+near = 0.25
+far = 16384.0
+
+[node name="AimPivot" type="Node3D" parent="." unique_id=1317569132]
+metadata/_edit_lock_ = true
+
+[node name="ModelFix" type="Node3D" parent="AimPivot" unique_id=223511750]
+metadata/_edit_lock_ = true
+
+[node name="Body" parent="AimPivot/ModelFix" unique_id=1728274229 instance=ExtResource("4_lp74m")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=612093178]
+transform = Transform3D(-0.054176465, 0, 1.9992661, 0, 2, 0, -1.9992661, 0, -0.054176465, 0, -0.008178711, 0)
+shape = SubResource("CapsuleShape3D_ecuyb")
+metadata/_edit_lock_ = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=2103846944]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5075876, 0.6514177, -0.0039283037)
+light_color = Color(0.9493424, 0.5347663, 0.14501402, 1)
+light_size = 0.25
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1422613513]
+stream = ExtResource("4_cyjav")
+autoplay = true

@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://b3xqrugdnkak"]
+
+[ext_resource type="PackedScene" uid="uid://d2jihfohphuue" path="res://truck/components/UI.tscn" id="1_xjsxf"]
+[ext_resource type="PackedScene" uid="uid://bb2lp50sjndus" path="res://truck/components/Environment.tscn" id="2_6kn52"]
+[ext_resource type="PackedScene" uid="uid://dwnhqfjq7v1pq" path="res://truck/components/Borders.tscn" id="3_e7qlj"]
+[ext_resource type="PackedScene" uid="uid://djhl3foqkj4e2" path="res://truck/components/Tunnel.tscn" id="4_gbwul"]
+[ext_resource type="PackedScene" uid="uid://domhm87hbhbg1" path="res://truck/components/Player.tscn" id="5_6kn52"]
+[ext_resource type="Terrain3DAssets" uid="uid://dal3jhw6241qg" path="res://truck/data/assets.tres" id="5_gwwul"]
+[ext_resource type="PackedScene" uid="uid://d3sr0a7dxfkr8" path="res://addons/terrain_3d/extras/particle_example/Terrain3DParticles.tscn" id="6_6y4kb"]
+
+[sub_resource type="Gradient" id="Gradient_vr1m7"]
+offsets = PackedFloat32Array(0.2, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_d8lcj"]
+noise_type = 2
+frequency = 0.03
+cellular_jitter = 3.0
+cellular_return_type = 0
+domain_warp_enabled = true
+domain_warp_type = 1
+domain_warp_amplitude = 50.0
+domain_warp_fractal_type = 2
+domain_warp_fractal_lacunarity = 1.5
+domain_warp_fractal_gain = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bov7h"]
+noise = SubResource("FastNoiseLite_d8lcj")
+color_ramp = SubResource("Gradient_vr1m7")
+seamless = true
+
+[sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_betfc"]
+_shader_parameters = {
+"_mouse_layer": 2147483648,
+"auto_base_texture": 0,
+"auto_height_reduction": 0.05,
+"auto_overlay_texture": 1,
+"auto_slope": 0.45,
+"bias_distance": 512.0,
+"blend_sharpness": 0.5,
+"depth_blur": 0.0,
+"dual_scale_far": 170.0,
+"dual_scale_near": 100.0,
+"dual_scale_reduction": 0.3,
+"dual_scale_texture": 0,
+"enable_macro_variation": true,
+"enable_projection": true,
+&"flat_terrain_normals": false,
+"macro_variation1": Color(0.855, 0.8625, 0.9, 1),
+"macro_variation2": Color(0.9, 0.885, 0.81, 1),
+"macro_variation_slope": 0.333,
+"mipmap_bias": 1.0,
+"noise1_angle": 0.1,
+"noise1_offset": Vector2(0.5, 0.5),
+"noise1_scale": 0.04,
+"noise2_scale": 0.076,
+"noise_texture": SubResource("NoiseTexture2D_bov7h"),
+"projection_threshold": 0.87,
+"tri_scale_reduction": 0.3,
+"world_noise_fragment_normals": false,
+"world_noise_height": 34.0,
+"world_noise_lod_distance": 7500.0,
+"world_noise_max_octaves": 4,
+"world_noise_min_octaves": 2,
+"world_noise_offset": Vector3(2.17, -1.225, 1.9),
+"world_noise_region_blend": 0.33,
+"world_noise_scale": 9.85
+}
+world_background = 2
+auto_shader = true
+dual_scaling = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_76ny3"]
+shape = 0
+section_length = 0.18
+section_segments = 1
+
+[node name="Node3D" type="Node3D" unique_id=1028031145]
+
+[node name="UI" parent="." unique_id=204709506 instance=ExtResource("1_xjsxf")]
+
+[node name="Environment" parent="." unique_id=119822013 instance=ExtResource("2_6kn52")]
+
+[node name="Borders" parent="." unique_id=1111963250 instance=ExtResource("3_e7qlj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 512, -3, 512)
+collision_mask = 3
+
+[node name="Tunnel" parent="." unique_id=1276239472 instance=ExtResource("4_gbwul")]
+
+[node name="Player" parent="." unique_id=1789640811 instance=ExtResource("5_6kn52")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 369.1426, 131.07155, -1918.5063)
+
+[node name="Terrain3D" type="Terrain3D" parent="." unique_id=111463981]
+data_directory = "res://demo/data"
+material = SubResource("Terrain3DMaterial_betfc")
+assets = ExtResource("5_gwwul")
+collision_mask = 3
+top_level = true
+metadata/_edit_lock_ = true
+
+[node name="Terrain3DParticles" parent="Terrain3D" unique_id=1367731322 node_paths=PackedStringArray("terrain") instance=ExtResource("6_6y4kb")]
+terrain = NodePath("..")
+mesh = SubResource("RibbonTrailMesh_76ny3")

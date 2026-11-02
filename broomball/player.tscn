@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://d2kw02ohjabgr"]
+
+[ext_resource type="PackedScene" uid="uid://c84x1l2u8p28h" path="res://assets/godot.glb" id="1_1ug8m"]
+[ext_resource type="Script" uid="uid://wb05ck7yttgg" path="res://broomball/scripts/player.gd" id="1_c04fj"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh53e"]
+height = 1.970459
+
+[node name="player" type="CharacterBody3D" unique_id=1146219860]
+script = ExtResource("1_c04fj")
+
+[node name="player" parent="." unique_id=164213853 instance=ExtResource("1_1ug8m")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=141478747]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.90686035, 0)
+shape = SubResource("CapsuleShape3D_sh53e")
