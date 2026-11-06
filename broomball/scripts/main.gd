@@ -22,6 +22,8 @@ var character_index := 0
 var character_ids: Array = ["harry", "hermione", "ron"]
 var character_names: Array = ["HARRY POTTER", "HERMIONE GRANGER", "RON WEASLEY"]
 var spell_names: Array = ["EXPELLIARMUS", "STUPEFY", "PROTEGO"]
+var spell_chinese_names: Array = ["除你武器", "昏昏倒地", "盔甲护身"]
+var spell_descriptions: Array = ["缴械掉球 · 36m", "昏迷 / 冻结 3.2s · 32m", "护盾 4s · 格挡撞击与抢断"]
 var spell_cooldowns: Array = [0.0, 0.0, 0.0]
 var spell_cooldown_max: Array = [7.0, 9.0, 12.0]
 var spell_callout := ""
@@ -131,9 +133,9 @@ func is_playing() -> bool:
 
 
 func _physics_process(delta: float) -> void:
-	message_time = maxf(0.0, message_time - delta)
 	if state == "ended" or paused:
 		return
+	message_time = maxf(0.0, message_time - delta)
 	if state == "countdown":
 		countdown -= delta
 		if countdown <= 0.0:
@@ -161,13 +163,17 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_ESCAPE and state != "ended":
 			paused = not paused
+			player.velocity = Vector3.ZERO
+			player.boosting = false
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if paused else Input.MOUSE_MODE_CAPTURED)
 			get_viewport().set_input_as_handled()
-		elif event.keycode == KEY_R and (state == "ended" or paused):
+		elif event.keycode == KEY_ENTER and (state == "ended" or paused):
 			get_tree().paused = false
 			get_tree().reload_current_scene()
 		elif event.keycode == KEY_F and is_playing():
 			throw_quaffle()
+		elif event.keycode == KEY_R and is_playing():
+			cast_spell()
 		elif event.keycode in [KEY_1, KEY_2, KEY_3] and state != "ended" and not paused:
 			select_character(int(event.keycode - KEY_1))
 	if event is InputEventMouseButton and event.pressed and is_playing():
@@ -175,6 +181,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			throw_quaffle()
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			cast_spell()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and state != "ended":
+		paused = true
+		if is_instance_valid(player):
+			player.velocity = Vector3.ZERO
+			player.boosting = false
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func _update_quaffle(delta: float) -> void:
@@ -217,7 +232,7 @@ func _update_quaffle(delta: float) -> void:
 				notify("QUAFFLE SECURED — F TO THROW", 1.7)
 				return
 			for rival in rivals:
-				if rival.role == "chaser" and rival.global_position.distance_to(quaffle.global_position) < 2.55:
+				if rival.role == "chaser" and rival.stun <= 0.0 and rival.global_position.distance_to(quaffle.global_position) < 2.55:
 					_set_carrier(rival)
 					notify("THE RAVENS HAVE THE QUAFFLE", 1.4)
 					return
@@ -302,7 +317,7 @@ func _update_steals() -> void:
 				steal_cooldown = 1.4
 				notify("TACKLED — BOOST INTO THE CARRIER TO STEAL", 2.0)
 				return
-	elif player.speed > 22.0 and player.global_position.distance_to(quaffle_carrier.global_position) < 2.45:
+	elif (player.speed > 30.0 or quaffle_carrier.stun > 0.0) and player.global_position.distance_to(quaffle_carrier.global_position) < 2.7:
 		_set_carrier(player)
 		steal_cooldown = 1.4
 		notify("CLEAN STEAL!  F TO THROW", 1.8)
@@ -362,7 +377,7 @@ func _update_snitch(delta: float) -> void:
 		_catch_snitch("player")
 		return
 	for rival in rivals:
-		if rival.role == "seeker" and rival.global_position.distance_to(snitch.global_position) < 2.05:
+		if rival.role == "seeker" and rival.stun <= 0.0 and rival.global_position.distance_to(snitch.global_position) < 2.05:
 			_catch_snitch("rival")
 			return
 
@@ -378,15 +393,20 @@ func _catch_snitch(side: String) -> void:
 	if state != "playing" or not snitch_active:
 		return
 	snitch.visible = false
+	snitch_active = false
 	if side == "player":
 		player_score += 150
-		end_title = "GOLDEN VICTORY"
-		end_detail = "You caught the Snitch. The stadium roars for the Lions!"
 	else:
 		rival_score += 150
-		end_title = "RAVENS TAKE THE SNITCH"
-		end_detail = "The rival Seeker got there first. Take to the sky again!"
+	if player_score > rival_score:
+		end_title = "GOLDEN VICTORY" if side == "player" else "LIONS WIN"
+	elif rival_score > player_score:
+		end_title = "RAVENS TAKE THE SNITCH" if side == "rival" else "RAVENS WIN"
+	else:
+		end_title = "A GOLDEN DRAW"
+	end_detail = ("你" if side == "player" else "对方找球手") + "抓到金色飞贼，获得 150 分。比赛按最终总分结算。"
 	state = "ended"
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func _update_bludgers(delta: float) -> void:
@@ -444,6 +464,16 @@ func get_spell_name() -> String:
 	return spell_names[character_index]
 
 
+func get_spell_target_text() -> String:
+	if character_index == 2:
+		return "自身护盾 · 无需锁定"
+	var target: Node3D = _find_spell_target(character_index == 1)
+	if not is_instance_valid(target):
+		return "将准星对准范围内目标"
+	var label := "游走球" if not rivals.has(target) else ("持球对手" if quaffle_carrier == target else "对手")
+	return "%s · %dm · R / 右键" % [label, int(player.global_position.distance_to(target.global_position))]
+
+
 func get_spell_cooldown() -> float:
 	return spell_cooldowns[character_index]
 
@@ -453,15 +483,21 @@ func select_character(index: int) -> void:
 		return
 	character_index = index
 	player.set_character(character_ids[index])
-	notify(character_names[index] + " • " + spell_names[index], 1.6)
+	notify(character_names[index] + " · " + spell_chinese_names[index], 1.6)
 
 
 func cast_spell() -> void:
 	if not is_playing():
 		return
 	if get_spell_cooldown() > 0.0:
-		notify(spell_names[character_index] + " READY IN %.1fs" % get_spell_cooldown(), 0.9)
+		notify(spell_chinese_names[character_index] + " 冷却 %.1fs" % get_spell_cooldown(), 0.9)
 		return
+	var target: Node3D = null
+	if character_index != 2:
+		target = _find_spell_target(character_index == 1)
+		if not is_instance_valid(target):
+			notify("请瞄准范围内的对手" + ("或游走球" if character_index == 1 else "") + " · 未消耗冷却", 1.4)
+			return
 	spell_cooldowns[character_index] = spell_cooldown_max[character_index]
 	spell_callout = spell_names[character_index] + "!"
 	spell_callout_time = 1.45
@@ -469,11 +505,9 @@ func cast_spell() -> void:
 	if character_index == 2:
 		player.shield_time = 4.0
 		_spell_burst(player.global_position + Vector3.UP, Color("79bfff"))
-		notify("PROTEGO • 4 SECOND SHIELD", 1.5)
+		notify("盔甲护身 · 4 秒内格挡撞击与抢断", 1.5)
 		return
 
-	var include_bludgers := character_index == 1
-	var target: Node3D = _find_spell_target(include_bludgers)
 	var bolt := Node3D.new()
 	bolt.name = spell_names[character_index] + "Bolt"
 	add_child(bolt)
@@ -493,7 +527,7 @@ func cast_spell() -> void:
 		"target": target,
 		"effect": "expelliarmus" if character_index == 0 else "stupefy",
 		"velocity": direction * 46.0,
-		"life": 2.2
+		"life": 2.8
 	})
 
 
@@ -504,14 +538,14 @@ func _find_spell_target(include_bludgers: bool) -> Node3D:
 	for rival in rivals:
 		var offset: Vector3 = rival.global_position - player.global_position
 		var distance: float = offset.length()
-		if distance > 36.0 or distance < 0.1:
+		if distance > (32.0 if include_bludgers else 36.0) or distance < 0.1:
 			continue
 		var alignment: float = offset.normalized().dot(forward)
-		if alignment < 0.12:
+		if alignment < cos(deg_to_rad(22.0)):
 			continue
-		var score: float = distance - alignment * 10.0
+		var score: float = distance * 0.15 + (1.0 - alignment) * 100.0
 		if quaffle_carrier == rival:
-			score -= 18.0
+			score -= 0.6
 		if score < best_score:
 			best_score = score
 			best = rival
@@ -520,8 +554,9 @@ func _find_spell_target(include_bludgers: bool) -> Node3D:
 			var node: Node3D = bludger["node"]
 			var offset: Vector3 = node.global_position - player.global_position
 			var distance: float = offset.length()
-			if distance <= 32.0 and distance > 0.1 and offset.normalized().dot(forward) > 0.2:
-				var score: float = distance + 5.0
+			var alignment: float = offset.normalized().dot(forward)
+			if distance <= 32.0 and distance > 0.1 and alignment >= cos(deg_to_rad(22.0)):
+				var score: float = distance * 0.15 + (1.0 - alignment) * 100.0
 				if score < best_score:
 					best_score = score
 					best = node
@@ -554,16 +589,16 @@ func _apply_spell(effect: String, target, position: Vector3) -> void:
 	var color := Color("ff8266") if effect == "expelliarmus" else Color("ff4f78")
 	_spell_burst(position, color)
 	if rivals.has(target):
-		if quaffle_carrier == target:
+		if effect == "expelliarmus" and quaffle_carrier == target:
 			_drop_quaffle()
-		target.stun = maxf(target.stun, 1.5 if effect == "expelliarmus" else 3.2)
-		notify(spell_names[character_index] + " HIT • OPPONENT STUNNED", 1.6)
+		target.stun = maxf(target.stun, 0.65 if effect == "expelliarmus" else 3.2)
+		notify("除你武器 · 缴械命中" if effect == "expelliarmus" else "昏昏倒地 · 对手昏迷 3.2 秒", 1.6)
 		return
 	for bludger in bludgers:
 		if bludger["node"] == target:
 			bludger["frozen"] = 3.2 if effect == "stupefy" else 1.2
 			bludger["velocity"] *= 0.15
-			notify("BLUDGER IMMOBILIZED", 1.5)
+			notify("昏昏倒地 · 游走球冻结 3.2 秒", 1.5)
 			return
 
 
@@ -604,6 +639,7 @@ func _finish_by_time() -> void:
 		end_title = "A GOLDEN DRAW"
 		end_detail = "Honours even. Rematch and settle it in the sky."
 	state = "ended"
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func notify(text: String, duration: float = 2.0) -> void:

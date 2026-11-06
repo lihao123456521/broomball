@@ -3,21 +3,23 @@ extends CharacterBody3D
 const CharacterModels = preload("res://broomball/scripts/character_models.gd")
 const CameraManager = preload("res://broomball/scripts/camera_manager.gd")
 
-@export var MOVE_SPEED: float = 50.0
-@export var FLY_SPEED: float = 20.0
+@export var MOVE_SPEED: float = 28.0
+@export var BOOST_SPEED: float = 48.0
+@export var FLY_SPEED: float = 16.0
 @export var first_person: bool = false:
 	set(value):
 		first_person = value
 		if not is_node_ready():
 			return
 		var arm: SpringArm3D = $CameraManager/Arm
-		var body: Node3D = $AimPivot/ModelFix/Body
-		var tween := create_tween()
-		tween.tween_property(arm, "spring_length", 0.0 if first_person else 14.0, 0.33)
+		if is_instance_valid(view_tween):
+			view_tween.kill()
+		view_tween = create_tween()
+		view_tween.tween_property(arm, "spring_length", 0.0 if first_person else 14.0, 0.25)
 		if first_person:
-			tween.tween_callback(body.set_visible.bind(false))
+			view_tween.tween_callback(_finish_view_transition)
 		else:
-			body.visible = true
+			visual.visible = true
 @export var gravity_enabled: bool = false:
 	set(value):
 		gravity_enabled = value
@@ -30,11 +32,11 @@ const CameraManager = preload("res://broomball/scripts/camera_manager.gd")
 			$CollisionShapeBody.disabled = not collision_enabled
 			$CollisionShapeRay.disabled = not collision_enabled
 @export var acceleration: float = 30.0
-@export var deceleration: float = 40.0
+@export var deceleration: float = 110.0
 @export var air_acceleration: float = 60.0
-@export var air_deceleration: float = 60.0
+@export var air_deceleration: float = 110.0
 @export var vertical_accel: float = 40.0
-@export var vertical_brake: float = 25.0
+@export var vertical_brake: float = 65.0
 @export var turn_speed: float = 8.0
 @export var pitch_speed: float = 6.0
 @export var max_pitch_degrees: float = 45.0
@@ -62,6 +64,7 @@ var _current_yaw := 0.0
 var _current_pitch := 0.0
 var _current_roll := 0.0
 var _last_yaw := 0.0
+var view_tween: Tween
 
 
 func _ready() -> void:
@@ -138,7 +141,11 @@ func set_character(value: String) -> void:
 	visual.name = "Body"
 	model_fix.add_child(visual)
 	visual.visible = not first_person
-	shield_time = 0.0
+
+
+func _finish_view_transition() -> void:
+	if first_person and is_instance_valid(visual):
+		visual.visible = false
 
 
 func toggle_view() -> void:
@@ -189,23 +196,24 @@ func move_toward_vector(current: Vector3, target: Vector3, max_delta: float) -> 
 
 
 func _physics_process(delta: float) -> void:
-	flight_time += delta
-	hit_cooldown = maxf(0.0, hit_cooldown - delta)
 	if game == null or not game.is_playing():
-		_update_cosmetics(delta)
 		return
 
+	flight_time += delta
+	hit_cooldown = maxf(0.0, hit_cooldown - delta)
 	shield_time = maxf(0.0, shield_time - delta)
 	boundary_notice = maxf(0.0, boundary_notice - delta)
 	var direction: Vector3 = get_camera_relative_input()
-	var h_velocity := Vector2(direction.x, direction.z).normalized() * MOVE_SPEED
-	boosting = Input.is_key_pressed(KEY_SHIFT)
-	if boosting:
-		h_velocity *= 2.0
-	stamina = 100.0
+	var braking := Input.is_key_pressed(KEY_X)
+	boosting = Input.is_key_pressed(KEY_SHIFT) and not braking and direction.length_squared() > 0.01
+	var h_velocity := Vector2(direction.x, direction.z).normalized() * (BOOST_SPEED if boosting else MOVE_SPEED)
+	if braking:
+		h_velocity = Vector2.ZERO
 
 	var accel := acceleration if is_on_floor() else air_acceleration
 	var decel := deceleration if is_on_floor() else air_deceleration
+	if braking:
+		decel = 180.0
 	var target_velocity := Vector3(h_velocity.x, 0.0, h_velocity.y)
 	var current_h := Vector3(velocity.x, 0.0, velocity.z)
 	if h_velocity.length() > 0.1:
@@ -216,11 +224,13 @@ func _physics_process(delta: float) -> void:
 	velocity.z = current_h.z
 
 	var vertical_input := 0.0
-	if Input.is_key_pressed(KEY_E) or Input.is_key_pressed(KEY_SPACE):
+	if Input.is_key_pressed(KEY_E) or Input.is_key_pressed(KEY_SPACE) or Input.is_key_pressed(KEY_UP):
 		vertical_input += 1.0
-	if Input.is_key_pressed(KEY_Q):
+	if Input.is_key_pressed(KEY_Q) or Input.is_key_pressed(KEY_CTRL) or Input.is_key_pressed(KEY_DOWN):
 		vertical_input -= 1.0
-	if vertical_input != 0.0:
+	if braking:
+		velocity.y = move_toward(velocity.y, 0.0, 180.0 * delta)
+	elif vertical_input != 0.0:
 		velocity.y = move_toward(velocity.y, vertical_input * FLY_SPEED, vertical_accel * delta)
 	elif gravity_enabled:
 		velocity.y -= 40.0 * delta
@@ -242,7 +252,7 @@ func _update_cosmetics(delta: float) -> void:
 		shield_mesh.rotation.y += delta * 0.8
 		shield_mesh.scale = Vector3.ONE * (1.0 + sin(flight_time * 6.0) * 0.025)
 	if camera != null:
-		camera.fov = lerpf(camera.fov, 70.0 if boosting else 62.0, delta * 4.0)
+		camera.fov = lerpf(camera.fov, 65.0 if boosting else 62.0, delta * 4.0)
 
 
 func _face_move_direction(delta: float) -> void:
@@ -295,10 +305,6 @@ func get_camera_relative_input() -> Vector3:
 		input_dir -= camera.global_transform.basis.z
 	if Input.is_key_pressed(KEY_S):
 		input_dir += camera.global_transform.basis.z
-	if Input.is_key_pressed(KEY_KP_ADD) or Input.is_key_pressed(KEY_EQUAL):
-		MOVE_SPEED = clampf(MOVE_SPEED + 0.5, 5.0, 9999.0)
-	if Input.is_key_pressed(KEY_KP_SUBTRACT) or Input.is_key_pressed(KEY_MINUS):
-		MOVE_SPEED = clampf(MOVE_SPEED - 0.5, 5.0, 9999.0)
 	return input_dir
 
 
@@ -319,20 +325,10 @@ func _apply_airwall() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			MOVE_SPEED = clampf(MOVE_SPEED + 5.0, 5.0, 9999.0)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			MOVE_SPEED = clampf(MOVE_SPEED - 5.0, 5.0, 9999.0)
-	elif event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_V:
-			toggle_view()
-		elif event.keycode == KEY_G:
-			gravity_enabled = not gravity_enabled
-		elif event.keycode == KEY_C:
-			collision_enabled = not collision_enabled
-	elif event is InputEventKey and not event.pressed and event.keycode in [KEY_Q, KEY_E, KEY_SPACE]:
-		velocity.y = 0.0
+	if game == null or not game.is_playing():
+		return
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_V:
+		toggle_view()
 
 
 func apply_hit(direction: Vector3) -> void:

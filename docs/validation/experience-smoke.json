@@ -1,0 +1,24 @@
+{
+  "passed": [
+    "W movement and release braking",
+    "X overrides boost",
+    "Vertical input",
+    "Focus loss clears held input",
+    "No-target cooldown and keyboard disarm/stun effects",
+    "Stun blocks automatic collection and Snitch capture",
+    "Screen-centered close aim and distant moving spell target",
+    "Shield and cooldown freeze on pause",
+    "Snitch final score settlement",
+    "Real restart and persisted comfort settings"
+  ],
+  "moving": {
+    "speed": 28,
+    "z": -12.66887200000001,
+    "paused": false,
+    "state": "playing"
+  },
+  "stopped": 0,
+  "errors": [],
+  "offline": true,
+  "blockedNetworkRequests": []
+}

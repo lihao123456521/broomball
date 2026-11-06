@@ -14,6 +14,8 @@ var speed_label: Label
 var possession_label: Label
 var character_label: Label
 var spell_label: Label
+var spell_description_label: Label
+var target_label: Label
 var spell_callout_label: Label
 var stamina_bar: ProgressBar
 var message_label: Label
@@ -186,7 +188,7 @@ func _build_scoreboard() -> void:
 
 func _build_character_panel() -> void:
 	var panel := _panel()
-	_place(panel, Vector4(0, 0, 0, 0), Vector4(22, 78, 306, 165))
+	_place(panel, Vector4(0, 0, 0, 0), Vector4(22, 78, 322, 215))
 	root.add_child(panel)
 	var stack := VBoxContainer.new()
 	stack.add_theme_constant_override("separation", 4)
@@ -195,8 +197,12 @@ func _build_character_panel() -> void:
 	stack.add_child(character_label)
 	var choose := _label("1 HARRY   2 HERMIONE   3 RON", 9, MUTED)
 	stack.add_child(choose)
-	spell_label = _label("RMB  EXPELLIARMUS • READY", 11, PALE)
+	spell_label = _label("R / 右键  除你武器 · 就绪", 12, PALE)
 	stack.add_child(spell_label)
+	spell_description_label = _label("缴械掉球 · 36m", 11, MUTED)
+	stack.add_child(spell_description_label)
+	target_label = _label("将准星对准范围内目标", 11, GOLD)
+	stack.add_child(target_label)
 
 
 func _build_status() -> void:
@@ -215,7 +221,7 @@ func _build_status() -> void:
 	stamina_bar.add_theme_stylebox_override("background", _style(Color("202b3c"), Color.TRANSPARENT, 4))
 	stamina_bar.add_theme_stylebox_override("fill", _style(GOLD, Color.TRANSPARENT, 4))
 	stack.add_child(stamina_bar)
-	var boost := _label("BOOST RESERVE", 9, MUTED)
+	var boost := _label("飞行速度 · SHIFT 加速 / X 制动", 10, MUTED)
 	stack.add_child(boost)
 	possession_label = _label("QUAFFLE • IN FLIGHT", 12, GOLD)
 	stack.add_child(possession_label)
@@ -236,7 +242,7 @@ func _build_center_messages() -> void:
 	root.add_child(message_label)
 	reticle_label = _label("+", 23, Color(1, 1, 1, 0.65))
 	reticle_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_place(reticle_label, Vector4(0.5, 0.5, 0.5, 0.5), Vector4(-30, -20, 30, 20))
+	_place(reticle_label, Vector4(0.5, 0.5, 0.5, 0.5), Vector4(-100, -20, 100, 20))
 	root.add_child(reticle_label)
 	spell_callout_label = _label("", 31, GOLD)
 	spell_callout_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -249,11 +255,11 @@ func _build_center_messages() -> void:
 
 
 func _build_controls() -> void:
-	var primary := _label("WASD FLY   •   E/SPACE ↑   Q ↓   •   SHIFT ×2   •   F/LMB THROW   •   RMB SPELL   •   V VIEW", 11, PALE)
+	var primary := _label("WASD 移动（S 后退） · SPACE/E ↑ Q/CTRL ↓ · SHIFT 加速 · X 制动 · F/左键 射门 · R/右键 咒语", 11, PALE)
 	primary.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_place(primary, Vector4(0.5, 1, 0.5, 1), Vector4(-435, -51, 435, -30))
 	root.add_child(primary)
-	var secondary := _label("1 HARRY   2 HERMIONE   3 RON   •   WHEEL SPEED   •   G GRAVITY   •   C COLLISION   •   ESC PAUSE", 10, MUTED)
+	var secondary := _label("1 哈利   2 赫敏   3 罗恩 · V 视角 · ESC 暂停 · 蓝色球门进攻 / 金色球门防守", 10, MUTED)
 	secondary.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_place(secondary, Vector4(0.5, 1, 0.5, 1), Vector4(-390, -29, 390, -9))
 	root.add_child(secondary)
@@ -284,7 +290,7 @@ func _build_end_screen() -> void:
 	end_detail_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	end_detail_label.custom_minimum_size.x = 530
 	stack.add_child(end_detail_label)
-	var restart := _label("PRESS R TO FLY AGAIN", 14, GOLD)
+	var restart := _label("按 ENTER 再赛一场", 14, GOLD)
 	restart.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	stack.add_child(restart)
 	end_overlay.visible = false
@@ -296,7 +302,7 @@ func _build_pause_screen() -> void:
 	pause_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	root.add_child(pause_overlay)
 	_place(pause_overlay, Vector4(0, 0, 1, 1), Vector4.ZERO)
-	var label := _label("MATCH PAUSED\n\nESC  RESUME     •     R  RESTART", 26, GOLD)
+	var label := _label("比赛已暂停\n\nESC 继续飞行   ·   ENTER 重新开赛", 26, GOLD)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_place(label, Vector4(0.5, 0.5, 0.5, 0.5), Vector4(-360, -90, 360, 90))
 	pause_overlay.add_child(label)
@@ -311,29 +317,32 @@ func _process(_delta: float) -> void:
 	var seconds := int(ceil(game.time_left))
 	time_label.text = "%02d:%02d" % [seconds / 60, seconds % 60]
 	speed_label.text = "AIRSPEED  %02d   •   ALT  %02d" % [int(game.player.speed), int(game.player.global_position.y)]
-	stamina_bar.value = game.player.stamina
+	stamina_bar.value = clampf(game.player.speed / game.player.BOOST_SPEED * 100.0, 0.0, 100.0)
 	character_label.text = "%d  %s" % [game.character_index + 1, game.get_character_name()]
 	var cooldown: float = game.get_spell_cooldown()
-	spell_label.text = "RMB  %s • %s" % [game.get_spell_name(), "READY" if cooldown <= 0.0 else "%.1fs" % cooldown]
+	spell_label.text = "R / 右键  %s · %s" % [game.spell_chinese_names[game.character_index], "就绪" if cooldown <= 0.0 else "%.1fs" % cooldown]
+	spell_description_label.text = game.spell_descriptions[game.character_index]
+	target_label.text = game.get_spell_target_text()
 	spell_label.add_theme_color_override("font_color", GOLD if cooldown <= 0.0 else MUTED)
 	if game.player.shield_time > 0.0:
-		spell_label.text = "PROTEGO • %.1fs SHIELD" % game.player.shield_time
-		spell_label.add_theme_color_override("font_color", Color("8fcaff"))
+		spell_description_label.text += "\n盔甲护身生效 · 剩余 %.1fs" % game.player.shield_time
 	spell_callout_label.text = game.spell_callout
 	spell_callout_label.visible = game.spell_callout_time > 0.0 and game.state == "playing" and not game.paused
 	if game.quaffle_carrier == game.player:
 		possession_label.text = "QUAFFLE • YOU HAVE IT"
 		possession_label.add_theme_color_override("font_color", GOLD)
-		reticle_label.text = "[  Q  ]"
+		reticle_label.text = "[ F / 左键 ]"
 		reticle_label.add_theme_color_override("font_color", GOLD)
 	elif is_instance_valid(game.quaffle_carrier):
 		possession_label.text = "QUAFFLE • RAVENS HAVE IT"
 		possession_label.add_theme_color_override("font_color", Color("a9ccec"))
 		reticle_label.text = "+"
+		reticle_label.add_theme_color_override("font_color", PALE)
 	else:
 		possession_label.text = "QUAFFLE • IN FLIGHT"
 		possession_label.add_theme_color_override("font_color", MUTED)
 		reticle_label.text = "+"
+		reticle_label.add_theme_color_override("font_color", PALE)
 	if game.snitch_active:
 		snitch_label.text = "SNITCH • IN PLAY"
 	elif game.state == "playing":

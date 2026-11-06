@@ -1,3 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Reproducible local verification output
+/tests/artifacts/
+/tests/*.log

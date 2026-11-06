@@ -1,0 +1,42 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+PASS: Each end has three scoring hoops
+PASS: Rival roles and Bludgers are initialized
+PASS: Character and broom retain independent replacement nodes
+PASS: Match starts at three minutes
+PASS: Cruise speed is comfortable for the pitch size
+PASS: Releasing movement brakes promptly
+PASS: A player goal awards ten points
+PASS: Throw releases a live shot toward the Ravens
+PASS: Goals accumulate without ending the match
+PASS: A rival goal awards ten points
+PASS: No target does not consume an offensive spell cooldown
+PASS: Hermione casts Stupefy with a real cooldown
+PASS: Offensive spells create a guided projectile
+PASS: Ron casts Protego as a timed defensive shield
+PASS: Switching rider preserves a live Protego shield
+PASS: Stupefy immobilizes without behaving like a disarm
+PASS: Projectile impact names its own spell after character switching
+PASS: Expelliarmus disarms with only a brief hit reaction
+PASS: Pause freezes hit immunity and rival stun
+PASS: Rapid view toggles cannot hide the third-person rider
+PASS: First-person view follows the original hidden-body transition
+PASS: Third-person view restores the rider body
+PASS: Catching the Snitch awards 150 points
+PASS: A player Snitch catch ends the match
+PASS: Snitch capture awards points but the final score determines the winner
+PASS: A tied score after a Snitch capture is a draw
+PASS: Time expiry resolves the match by score
+ERROR: FAIL: A stunned chaser cannot pick up a free Quaffle on contact
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] expect (res://tests/smoke_test.gd:15)
+       [1] _run (res://tests/smoke_test.gd:119)
+PASS: A recovered chaser can pick up a free Quaffle
+ERROR: FAIL: A stunned seeker cannot catch the Snitch on contact
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] expect (res://tests/smoke_test.gd:15)
+       [1] _run (res://tests/smoke_test.gd:132)
+PASS: A recovered seeker can catch the Snitch
+SMOKE_TEST_COMPLETE failures=2

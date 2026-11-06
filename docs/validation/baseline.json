@@ -1,0 +1,11 @@
+{
+  "result": {
+    "right": "← · 20m",
+    "left": "→ · 20m",
+    "shieldBefore": 4,
+    "shieldAfter": 0,
+    "visibleAfterRestart": false,
+    "baseSpeed": 50
+  },
+  "errors": []
+}

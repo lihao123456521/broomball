@@ -1,0 +1,36 @@
+{
+  "diagnostics": {
+    "calls": 213,
+    "triangles": 251202,
+    "batching": {
+      "originalMeshes": 1732,
+      "batches": 37
+    },
+    "staticMeshes": 37
+  },
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 720,
+      "horizontalOverflow": false,
+      "cardFits": true,
+      "scrollable": true
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "horizontalOverflow": false,
+      "cardFits": true,
+      "scrollable": true
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "horizontalOverflow": false,
+      "cardFits": true,
+      "scrollable": true
+    }
+  ],
+  "errors": [],
+  "remoteRequests": []
+}

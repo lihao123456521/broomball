@@ -12,6 +12,26 @@
 <style>
 .objective{width:360px;padding:9px 14px;text-align:center;background:linear-gradient(135deg,rgba(12,22,40,.82),rgba(5,12,25,.7));border:1px solid var(--line);border-radius:10px;white-space:normal;letter-spacing:.2px}.objective-title{font-size:8px;letter-spacing:2px;color:var(--muted)}#objectiveText{font-size:13px;margin-top:3px;color:var(--pale)}#objectiveArrow{color:var(--gold);font-size:11px;margin-top:2px}.flight-panel{width:286px}.flight-keys{display:grid;gap:4px;margin:9px 0 7px;font-size:9px;color:var(--muted)}.flight-keys div{display:flex;align-items:center;justify-content:space-between}.flight-keys kbd,.keycap{min-width:24px;display:inline-flex;align-items:center;justify-content:center;padding:2px 6px;border:1px solid rgba(233,200,121,.38);border-bottom-width:2px;border-radius:5px;background:#101a2d;color:var(--pale);font:10px Consolas,monospace;letter-spacing:.3px}.coach{position:absolute;left:50%;bottom:70px;transform:translateX(-50%);width:min(560px,70vw);padding:10px 16px;display:flex;align-items:center;gap:12px;text-align:left}.coach-step{white-space:nowrap;color:var(--gold);font:12px Georgia,serif;letter-spacing:1px}#coachText{font-size:11px;line-height:1.5;color:var(--pale)}.howto{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0 2px}.howto div{padding:10px 8px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:rgba(255,255,255,.025);font-size:10px;line-height:1.55;color:var(--muted)}.howto b{display:block;color:var(--gold);font:15px Georgia,serif;margin-bottom:4px}.guide-card{width:min(820px,92vw);padding:28px 34px;border-radius:18px;background:linear-gradient(145deg,rgba(14,24,43,.98),rgba(5,11,23,.96));border:1px solid rgba(233,200,121,.42);box-shadow:0 28px 90px rgba(0,0,0,.5);max-height:92vh;overflow:auto}.guide-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}.guide-panel{padding:16px 18px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.025)}.guide-panel h3{margin:0 0 13px;font:18px Georgia,serif;color:var(--gold)}.key-line{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:11px;color:var(--muted)}.key-line>span,.key-line>strong,.key-line .keycap{white-space:nowrap}.key-line strong{min-width:150px;color:var(--pale);font-weight:500}.score-step{display:grid;grid-template-columns:28px 1fr;gap:8px;margin:11px 0;font-size:11px;line-height:1.65;color:var(--muted)}.score-step i{width:24px;height:24px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-style:normal}.guide-actions{margin-top:18px;text-align:center}@media(max-width:800px){.howto{grid-template-columns:1fr 1fr}.guide-grid{grid-template-columns:1fr}.objective{width:310px;top:112px}.coach{bottom:74px;width:88vw}.controls{bottom:7px}.flight-panel{display:none}}@media(max-width:560px){.howto{display:none}.objective{width:290px}.coach{bottom:82px}.coach-step{display:none}}
 </style>
+<style>
+:focus-visible{outline:2px solid #f6d78e;outline-offset:4px}.spell-bar{position:absolute;bottom:58px;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:repeat(3,1fr);gap:7px;width:456px;pointer-events:auto}.spell-slot{position:relative;overflow:hidden;text-align:left;color:var(--pale);border:1px solid rgba(233,200,121,.2);border-radius:9px;padding:10px 11px;background:rgba(7,15,29,.92);cursor:pointer;min-height:72px}.spell-slot.active{border-color:var(--gold);box-shadow:inset 0 0 18px rgba(233,200,121,.09)}.spell-slot strong{font-size:12px;display:block;margin:4px 0}.spell-slot small{display:block;font-size:10px;color:var(--muted)}.spell-slot .spell-key{font:10px Consolas,monospace;color:var(--gold)}.spell-slot .cooldown-track{position:absolute;height:3px;bottom:0;left:0;background:var(--gold);transition:width .1s}.spell-slot.cooling .cooldown-track{background:#738aa5}.coach{bottom:147px;width:min(490px,70vw);padding:9px 13px}.wizard-panel{width:258px}.wizard-switch{line-height:1.6}.flight-panel{width:258px}.settings{display:grid;gap:16px;text-align:left;margin:24px 0;padding:18px;border:1px solid var(--line);border-radius:10px;font-size:13px}.settings label{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.settings input[type=range]{flex:1;min-width:90px;accent-color:var(--gold)}.settings input[type=checkbox]{accent-color:var(--gold);width:16px;height:16px}.settings small{color:var(--muted);font-size:11px;line-height:1.5}.settings output{width:38px;font-variant-numeric:tabular-nums;color:var(--gold)}#targetHint{position:absolute;top:calc(50% + 29px);left:50%;transform:translateX(-50%);font-size:11px;white-space:nowrap;text-shadow:0 2px 6px #000;color:#eed69b}#reticle{font-size:18px}.controls{font-size:10px;line-height:20px}.objective{top:108px}.menu-card{max-height:95vh;overflow:auto}.character .spell{font-family:inherit;line-height:1.7}.guide-panel .key-line{flex-wrap:wrap}.guide-panel .key-line strong{min-width:100px}#message{font-family:inherit;font-size:16px;max-width:80vw;white-space:normal;text-align:center}#spellCallout{font-family:inherit;font-size:22px}
+@media(max-width:1050px){.brand{display:none}.wizard-panel{top:112px;width:210px}.objective{width:320px}.flight-panel{display:none}.spell-bar{width:430px}.coach{width:470px}.scoreboard{width:450px}}
+@media(max-width:760px){.wizard-panel{display:none}.spell-bar{width:min(430px,94vw);bottom:66px}.coach{bottom:153px;width:88vw}#radar{display:none}.controls{width:96vw;white-space:normal;font-size:9px}.scoreboard{width:min(450px,94vw)}#snitchStatus{top:100px;right:12px;font-size:10px}.objective{top:125px;width:min(320px,86vw);display:block}.guide-grid{grid-template-columns:1fr}.spell-slot{padding:8px;min-height:68px}}
+@media(max-height:680px){.menu-card{padding:20px 28px}.menu-card h1{font-size:38px}.rule{margin:12px auto}.subtitle{margin-bottom:16px}.character{padding:12px 10px}.sigil{display:none}.howto{margin-top:12px}.primary{margin-top:16px}.coach{display:none}.objective{top:106px}}
+</style>
+<style>
+.mode-picker{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:17px auto 0;max-width:720px}
+.mode-option{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.025);color:var(--pale);cursor:pointer}
+.mode-option[aria-pressed="true"]{border-color:var(--gold);background:rgba(233,200,121,.13);color:var(--gold)}
+.mode-option strong,.mode-option small{display:block}.mode-option small{color:var(--muted);font-size:10px;margin-top:4px}
+.stamina-label{display:flex;justify-content:space-between;font-size:10px;color:var(--pale)}
+#staminaFill{height:100%;background:linear-gradient(90deg,#428d9d,#9ad7cc);transition:width .12s}
+#trainingEnd .result-detail{margin-bottom:10px}.training-active .coach{display:flex}
+#endStats,#endBest{margin-top:10px;color:var(--pale);font-size:13px;line-height:1.7}
+#reticle.shot-ready{color:#a4e6d3;text-shadow:0 0 9px #82e7cf}
+@media(max-width:1050px){.flight-panel{display:block;width:170px;bottom:62px;padding:9px 12px}.flight-keys{display:none}.objective{display:block}}
+@media(max-width:760px){.flight-panel{width:145px;left:8px;bottom:155px}#possession{display:none}.training-active .flight-panel{bottom:220px}.training-active .coach{bottom:155px}}
+@media(max-height:680px){.mode-picker{margin-top:11px}.training-active .coach{width:min(360px,76vw);bottom:140px}}
+</style>
 </head>
 <body>
 <canvas id="world" tabindex="0"></canvas>
@@ -21,25 +41,31 @@
   <div id="snitchStatus">SNITCH · DORMANT</div>
   <div class="scoreboard glass">
     <div class="team lions">LIONS<strong id="playerScore">0</strong></div>
-    <div class="clock"><div class="label">GOLDEN MATCH</div><div id="clock">03:00</div></div>
+    <div class="clock"><div class="label" id="modeLabel">标准赛</div><div id="clock">03:00</div></div>
     <div class="team ravens">RAVENS<strong id="rivalScore">0</strong></div>
   </div>
   <div class="objective"><div class="objective-title">CURRENT OBJECTIVE · 当前目标</div><div id="objectiveText">飞向中央橙色鬼飞球</div><div id="objectiveArrow">↑ · 38m</div></div>
-  <div class="wizard-panel glass"><div class="wizard-name" id="wizardName">HARRY POTTER</div><div class="wizard-switch">1 HARRY &nbsp; 2 HERMIONE &nbsp; 3 RON</div><div id="spellStatus">RMB EXPELLIARMUS · READY</div></div>
-  <div class="flight-panel glass"><div id="speed">AIRSPEED 00 · ALT 10</div><div class="speed-track"><div id="speedFill"></div></div><div class="flight-keys"><div><span><kbd>WASD</kbd> 镜头方向移动</span><span id="viewMode">第三人称</span></div><div><span><kbd>SPACE / ↑</kbd> 上升</span><span><kbd>Q / ↓</kbd> 下降</span></div><div><span><kbd>SHIFT</kbd> 两倍速</span><span><kbd>V</kbd> 视角</span></div></div><div id="possession">QUAFFLE · IN FLIGHT</div></div>
+  <div class="wizard-panel glass"><div class="wizard-name" id="wizardName">HARRY POTTER</div><div class="wizard-switch">1 HARRY &nbsp; 2 HERMIONE &nbsp; 3 RON</div><div id="spellStatus">R / 右键 · 除你武器</div></div>
+  <div class="flight-panel glass"><div id="speed">AIRSPEED 00 · ALT 10</div><div class="speed-track"><div id="speedFill"></div></div><div class="stamina-label"><span>冲刺体力</span><span id="staminaValue">100%</span></div><div class="speed-track"><div id="staminaFill"></div></div><div class="flight-keys"><div><span><kbd>WASD</kbd> 镜头方向移动</span><span id="viewMode">第三人称</span></div><div><span><kbd>SPACE / ↑</kbd> 上升</span><span><kbd>Q / ↓</kbd> 下降</span></div><div><span><kbd>SHIFT</kbd> 加速</span><span><kbd>V</kbd> 视角</span></div></div><div id="possession">QUAFFLE · IN FLIGHT</div></div>
   <canvas id="radar" width="336" height="288"></canvas>
-  <div id="message"></div><div id="reticle">+</div><div id="spellCallout"></div><div id="countdown">3</div>
-  <div class="coach glass" id="coach"><div class="coach-step" id="coachStep">FLIGHT 1/5</div><div id="coachText">按住 W 沿镜头方向飞行；A / D 平移，S 减速。</div></div>
-  <div class="controls"><span class="keycap">WASD</span> 移动 &nbsp;•&nbsp; <span class="keycap">SPACE / ↑</span> 上升 &nbsp;•&nbsp; <span class="keycap">Q / ↓</span> 下降 &nbsp;•&nbsp; <span class="keycap">SHIFT</span> 两倍速 &nbsp;•&nbsp; <span class="keycap">F / LMB</span> 射门 &nbsp;•&nbsp; <span class="keycap">RMB</span> 咒语<br><span>1/2/3 巫师 &nbsp;•&nbsp; V 视角 &nbsp;•&nbsp; H 玩法说明 &nbsp;•&nbsp; G 重力 &nbsp;•&nbsp; C 碰撞 &nbsp;•&nbsp; ESC 暂停</span></div>
+  <div id="message"></div><div id="reticle">+</div><div id="targetHint"></div><div id="spellCallout"></div><div id="countdown">3</div>
+  <div class="coach glass" id="coach"><div class="coach-step" id="coachStep">FLIGHT 1/5</div><div id="coachText">按住 W 沿镜头方向飞行；A / D 平移，S 后退。</div></div>
+  <div class="spell-bar" id="spellBar" aria-label="选择巫师与技能"></div>
+  <div class="controls"><span class="keycap">WASD</span> 移动 &nbsp;•&nbsp; <span class="keycap">SPACE / ↑</span> 上升 &nbsp;•&nbsp; <span class="keycap">Q / ↓</span> 下降 &nbsp;•&nbsp; <span class="keycap">SHIFT</span> 加速 &nbsp;•&nbsp; <span class="keycap">F / LMB</span> 射门 &nbsp;•&nbsp; <span class="keycap">R / RMB</span> 咒语<br><span>1/2/3 巫师 &nbsp;•&nbsp; V 视角 &nbsp;•&nbsp; T 传球 &nbsp;•&nbsp; Tab 追踪飞贼 &nbsp;•&nbsp; ← / → 转向 &nbsp;•&nbsp; H 玩法说明 &nbsp;•&nbsp; X 急停 &nbsp;•&nbsp; 松键制动 &nbsp;•&nbsp; ESC 暂停</span></div>
 </div>
 <div class="overlay" id="menu">
   <div class="menu-card">
     <div class="eyebrow">A QUIDDITCH-INSPIRED AERIAL SPORT</div><h1>BROOMBALL</h1><div class="subtitle">THE GOLDEN MATCH · 金色球场的空中对决</div>
     <div class="rule"></div><div class="choose">选择你的巫师</div>
     <div class="characters">
-      <button class="character selected" data-id="harry"><span class="sigil">H</span><strong>HARRY POTTER</strong><div class="cn">哈利·波特 / 全能进攻</div><div class="spell">EXPELLIARMUS</div><p>缴械前方对手并使其掉落鬼飞球<br>冷却 7 秒</p></button>
-      <button class="character" data-id="hermione"><span class="sigil">H</span><strong>HERMIONE GRANGER</strong><div class="cn">赫敏·格兰杰 / 精准控制</div><div class="spell">STUPEFY</div><p>长时间击晕对手或冻结游走球<br>冷却 9 秒</p></button>
-      <button class="character" data-id="ron"><span class="sigil">R</span><strong>RON WEASLEY</strong><div class="cn">罗恩·韦斯莱 / 防守反击</div><div class="spell">PROTEGO</div><p>四秒护盾，格挡撞击与抢断<br>冷却 12 秒</p></button>
+      <button class="character selected" data-id="harry"><span class="sigil">H</span><strong>HARRY POTTER</strong><div class="cn">哈利·波特 / 全能进攻</div><div class="spell">除你武器 · EXPELLIARMUS</div><p>缴械掉球 + 短暂受击 · 射程 36 米<br>冷却 7 秒 · 无目标不消耗</p></button>
+      <button class="character" data-id="hermione"><span class="sigil">H</span><strong>HERMIONE GRANGER</strong><div class="cn">赫敏·格兰杰 / 精准控制</div><div class="spell">昏昏倒地 · STUPEFY</div><p>昏迷 / 冻结 3.2 秒 · 射程 32 米<br>冷却 9 秒 · 控制后靠近抢球</p></button>
+      <button class="character" data-id="ron"><span class="sigil">R</span><strong>RON WEASLEY</strong><div class="cn">罗恩·韦斯莱 / 防守反击</div><div class="spell">盔甲护身 · PROTEGO</div><p>4 秒护盾，格挡撞击与抢断<br>冷却 12 秒 · 切换角色保留护盾</p></button>
+    </div>
+    <div class="mode-picker" role="group" aria-label="选择游戏模式">
+      <button type="button" class="mode-option" data-mode="training" aria-pressed="false"><strong>引导训练</strong><small>无计时 · 五步练习</small></button>
+      <button type="button" class="mode-option" data-mode="standard" aria-pressed="true"><strong>标准赛</strong><small>180 秒 · 110 秒出现飞贼</small></button>
+      <button type="button" class="mode-option" data-mode="challenge" aria-pressed="false"><strong>挑战赛</strong><small>150 秒 · 更快的对手</small></button>
     </div>
     <button class="primary" id="startBtn">进入球场</button><button class="secondary" id="startHelpBtn">查看完整玩法</button>
     <div class="howto">
@@ -47,13 +73,14 @@
       <div><b>02</b>Space 或 ↑ 上升，Q 或 ↓ 下降，Shift 加速。</div>
       <div><b>03</b>飞近橙色鬼飞球自动拿球，跟着金色航标走。</div>
       <div><b>04</b>F 或左键射向蓝色门环，每球 10 分。</div>
-      <div><b>05</b>35 秒后追金色飞贼，150 分并立即结束。</div>
+      <div><b>05</b>标准赛第 110 秒出现金色飞贼，抓住得 150 分。</div>
     </div>
-    <div class="menu-help">右键释放咒语 · 1/2/3 换角色 · V 第一/第三人称 · H 随时查看玩法</div>
+    <div class="menu-help">R 或右键释放咒语 · 1/2/3 换角色 · V 第一/第三人称 · H 随时查看玩法</div>
   </div>
 </div>
-<div class="overlay hidden" id="pause"><div class="menu-card" style="max-width:560px"><div class="pause-title">MATCH PAUSED</div><p class="subtitle">比赛已暂停</p><button class="primary" id="resumeBtn">继续飞行</button><button class="secondary" id="helpBtnPause">玩法说明</button><br><button class="secondary" id="restartPauseBtn">重新开赛</button></div></div>
-<div class="overlay hidden" id="ending"><div class="menu-card" style="max-width:650px"><div class="eyebrow">MATCH COMPLETE</div><h2 id="endTitle">GOLDEN VICTORY</h2><div class="result-score" id="endScore">150 — 0</div><p class="result-detail" id="endDetail"></p><br><button class="primary" id="restartBtn">再赛一场</button></div></div>
+<div class="overlay hidden" id="pause"><div class="menu-card" style="max-width:560px"><div class="pause-title">比赛已暂停</div><p class="subtitle">调整手感，按 Esc 或点击继续</p><div class="settings"><label for="sensitivity">鼠标灵敏度 <input id="sensitivity" type="range" min="0.4" max="2" step="0.1"><output id="sensitivityValue">1.0×</output></label><label><input type="checkbox" id="reducedMotion"> 减少镜头动态</label><small>关闭加速视野扩张与骑手侧倾。设置自动保存在当前浏览器。</small></div><button class="primary" id="resumeBtn">继续飞行</button><button class="secondary" id="helpBtnPause">玩法说明</button><br><button class="secondary" id="restartPauseBtn">重新开赛</button><button class="secondary" id="menuPauseBtn">返回主菜单</button></div></div>
+<div class="overlay hidden" id="ending"><div class="menu-card" style="max-width:650px"><div class="eyebrow">比赛结束</div><h2 id="endTitle">狮队获胜</h2><div class="result-score" id="endScore">150 — 0</div><p class="result-detail" id="endDetail"></p><div id="endStats"></div><div id="endBest"></div><button class="primary" id="restartBtn">再赛一场</button><button class="secondary" id="menuEndBtn">返回主菜单</button></div></div>
+<div class="overlay hidden" id="trainingEnd"><div class="menu-card" style="max-width:560px"><div class="eyebrow">引导训练</div><h2>训练完成</h2><p class="result-detail">已完成飞行、升降、拾球、射门得分与施法。</p><button class="primary" id="trainingPlayBtn">开始标准赛</button><button class="secondary" id="trainingResetBtn">再练一次</button><button class="secondary" id="menuTrainingBtn">返回主菜单</button></div></div>
 <div class="overlay hidden" id="help">
   <div class="guide-card">
     <div class="eyebrow">HOW TO PLAY · 完整玩法</div><h2>像追球手一样飞行与得分</h2>
@@ -61,25 +88,27 @@
       <div class="guide-panel"><h3>飞行与操作</h3>
         <div class="key-line"><strong>移动 / 加速</strong><span class="keycap">W A S D</span> + <span class="keycap">SHIFT</span></div>
         <div class="key-line"><strong>上升</strong><span class="keycap">SPACE</span><span class="keycap">E</span><span class="keycap">↑</span></div>
-        <div class="key-line"><strong>下降</strong><span class="keycap">Q</span><span class="keycap">↓</span><span class="keycap">PAGE DOWN</span></div>
-        <div class="key-line"><strong>瞄准镜头</strong>鼠标移动；WASD 始终沿镜头水平方向移动</div>
+        <div class="key-line"><strong>下降</strong><span class="keycap">Q / CTRL</span><span class="keycap">↓</span><span class="keycap">PAGE DOWN</span></div>
+        <div class="key-line"><strong>瞄准镜头</strong>鼠标移动；← / → 转向，I / K 抬头、低头</div>
         <div class="key-line"><strong>射门</strong><span class="keycap">F</span> 或鼠标左键</div>
-        <div class="key-line"><strong>咒语</strong>鼠标右键；1/2/3 切换角色</div>
-        <div class="key-line"><strong>其他</strong><span class="keycap">V</span> 视角 · <span class="keycap">H</span> 本说明 · <span class="keycap">ESC</span> 暂停</div>
+        <div class="key-line"><strong>传球 / 追踪</strong><span class="keycap">T</span> 传给接应队友；<span class="keycap">TAB</span> 切换飞贼追踪</div>
+        <div class="key-line"><strong>咒语</strong><span class="keycap">R / 右键</span>；1/2/3 切换角色</div>
+        <div class="key-line"><strong>制动 / 其他</strong><span class="keycap">X</span> 急停；松键自动停稳 · <span class="keycap">V</span> 视角 · <span class="keycap">H</span> 本说明 · <span class="keycap">ESC</span> 暂停</div>
       </div>
       <div class="guide-panel"><h3>比赛目标</h3>
         <div class="score-step"><i>1</i><div>追随场中金色航标，飞近橙色鬼飞球即可自动拿球。</div></div>
-        <div class="score-step"><i>2</i><div>持球后瞄准球场尽头的三道蓝色门环，按 F 或左键射门，<b>+10 分</b>。</div></div>
-        <div class="score-step"><i>3</i><div>避开黑色游走球；被撞会丢失鬼飞球。右键咒语可缴械、击晕或护盾。</div></div>
-        <div class="score-step"><i>4</i><div>比赛进行 35 秒后金色飞贼出现，捕捉后 <b>+150 分</b>并立即结束比赛。</div></div>
-        <div class="score-step"><i>5</i><div>若 3 分钟结束时未抓到飞贼，得分高者获胜。</div></div>
+        <div class="score-step"><i>2</i><div>持球后瞄准蓝色门环，按 F 或左键射门。38 米内且准星对准才有轻度辅助，穿过门环得 <b>10 分</b>。</div></div>
+        <div class="score-step"><i>3</i><div>避开黑色游走球；被撞会丢失鬼飞球。R 或右键咒语可缴械、击晕或护盾。</div></div>
+        <div class="score-step"><i>4</i><div>标准赛第 110 秒出现飞贼，对手第 130 秒开始追捕。飞贼值 <b>150 分</b>，捕获即结束比赛。</div></div>
+        <div class="score-step"><i>5</i><div>时间结束后按总分判胜负。挑战赛为 150 秒，飞贼第 78 秒出现，对手第 93 秒开始追捕。</div></div>
       </div>
     </div>
     <div class="guide-actions"><button class="primary" id="closeHelpBtn">返回游戏</button></div>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script>if(!window.THREE){document.write('<script src="https://unpkg.com/three@0.160.0/build/three.min.js"><\/script>')}</script>
+<div id="fatal">游戏渲染库加载失败，请保留 vendor 文件夹并刷新页面。</div>
+<script src="./vendor/three-0.160.0.min.js"></script>
+<script src="./game-environment.js"></script>
 <script>
 (() => {
 'use strict';
@@ -88,7 +117,7 @@ const canvas=document.getElementById('world'), $=id=>document.getElementById(id)
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
 renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;
 const scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x66738e,.00125);
-const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.15,700);
+const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.15,1000);
 const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z), UP=V(0,1,0), TAU=Math.PI*2;
 const clamp=THREE.MathUtils.clamp, lerp=THREE.MathUtils.lerp;
 const angleDelta=(a,b)=>Math.atan2(Math.sin(b-a),Math.cos(b-a));
@@ -117,89 +146,853 @@ function buildWorld(){
 function buildStands(){const crimson=0x732d3d,navy=0x233c61,stone=0x303849,gold=0xcda85c;for(let s=0;s<28;s++){const a=s/28*TAU,team=s%2?navy:crimson;for(let t=0;t<3;t++){const g=new THREE.Group();g.position.set(Math.sin(a)*(72+t*3),1+t*2.35,Math.cos(a)*(91+t*3));g.rotation.y=a;scene.add(g);box(g,V(17.2,1.55,5.2),V(),stone);box(g,V(16.8,.18,4.6),V(0,.86,0),team);beam(g,V(-8.3,1.25,-2.15),V(8.3,1.25,-2.15),.075,gold);for(let seat=0;seat<5;seat++){const x=-6.4+seat*3.2;box(g,V(.65,.75,.55),V(x,1.35,.25),team);sph(g,.24,V(x,1.96,.25),0xd5a37e);}}if(s%2===0){const root=new THREE.Group();root.position.set(Math.sin(a)*70,7.5,Math.cos(a)*89);root.rotation.y=a;scene.add(root);makeFlag(root,V(),team,5.5,2.6);}}
  for(const x of[-68,68])for(const z of[-76,76]){const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);cyl(g,3,22,V(0,10.5,0),0x3b4052,2.35,12);cyl(g,3.6,.65,V(0,20.8,0),0xd0aa60,3.6,16,.5);cyl(g,4.2,6.5,V(0,25,0),x*z>0?crimson:navy,0,12);cyl(g,.12,6,V(0,30.5,0),0xd6b76f,.12,8,.6);sph(g,.38,V(0,33.6,0),0xffe39a,.4,2);makeFlag(g,V(2.3,30.4,0),x*z>0?crimson:navy,4.6,2.2);}}
 function makeFlag(parent,pos,color,w,h){const m=addMesh(parent,new THREE.PlaneGeometry(w,h,8,2),new THREE.MeshStandardMaterial({color,side:THREE.DoubleSide,roughness:.8}),pos);m.rotation.y=Math.PI/2;flags.push(m);return m;}
-function buildGoals(){for(const side of[-1,1])for(let i=0;i<3;i++){const pos=V((i-1)*12,i===1?15:10,side*61);(side>0?homeGoals:awayGoals).push(pos);cyl(scene,.24,pos.y,V(pos.x,pos.y/2,pos.z),0xcaa354,.24,16,.75);cyl(scene,.72,.35,V(pos.x,.18,pos.z),0xe2be68,.72,20,.65);torus(scene,3.52,.19,pos,0xf3ce71,.78,.65);torus(scene,3.77,.045,pos,0xfff0ac,.4,1.5);}}
+function buildGoals(){for(const side of[-1,1])for(let i=0;i<3;i++){const pos=V((i-1)*12,i===1?15:10,side*61),color=side<0?0x75b9ed:0xf3ce71,glow=side<0?0xb9e5ff:0xfff0ac;(side>0?homeGoals:awayGoals).push(pos);cyl(scene,.24,pos.y,V(pos.x,pos.y/2,pos.z),side<0?0x647f9c:0xcaa354,.24,12,.65);cyl(scene,.72,.35,V(pos.x,.18,pos.z),color,.72,16,.65);torus(scene,3.52,.19,pos,color,.65,.65);torus(scene,3.77,.045,pos,glow,.4,1.5);}}
 function buildAirwall(){const wallMat=new THREE.MeshBasicMaterial({color:0x91c8ef,transparent:true,opacity:.035,side:THREE.DoubleSide,depthWrite:false});const wall=new THREE.Mesh(new THREE.CylinderGeometry(1,1,38,64,1,true),wallMat);wall.position.y=20;wall.scale.set(55.2,1,74.5);scene.add(wall);lineEllipse(55.2,74.5,39.5,0xe7c779,64);for(let i=0;i<16;i++){const a=i/16*TAU;beam(scene,V(Math.sin(a)*55.2,1,Math.cos(a)*74.5),V(Math.sin(a)*55.2,39.5,Math.cos(a)*74.5),.035,new THREE.MeshBasicMaterial({color:0x9ac9e8,transparent:true,opacity:.22}));}}
 function buildHorizon(){for(let i=0;i<24;i++){const a=i/24*TAU,d=270+Math.random()*150,h=34+Math.random()*44,r=24+Math.random()*24;cyl(scene,r,h,V(Math.sin(a)*d,h/2-15,Math.cos(a)*d),0x303c58,0,5);}for(let i=0;i<13;i++){const a=i/13*TAU+.2,g=new THREE.Group();g.position.set(Math.sin(a)*(125+Math.random()*65),42+Math.random()*25,Math.cos(a)*(125+Math.random()*65));scene.add(g);for(let j=0;j<4;j++){const cloud=sph(g,3+Math.random()*2.5,V(j*4.2,Math.random()*2-1,Math.random()*4-2),0xc8c5d3);cloud.scale.set(1.6,.65,1);cloud.material=cloud.material.clone();cloud.material.transparent=true;cloud.material.opacity=.62;}}}
-function createWizard(id='harry',rival=false){const root=new THREE.Group(),broom=new THREE.Group(),body=new THREE.Group();broom.name='BroomModel';body.name='CharacterModel';root.name='WizardRig';root.add(broom,body);const spellSocket=new THREE.Object3D();spellSocket.name='SpellSocket';spellSocket.position.set(.62,1.1,-1.15);root.add(spellSocket);root.userData.replaceable={broom,body,spellSocket};
- const cfg={harry:[0x8f2f45,0xf0c66d,0x171922],hermione:[0x773247,0xedc975,0x4a2b22],ron:[0x873a35,0xe6bd65,0xa64e28],rival:[0x294f7d,0xb9d6e8,0x171922]}[id]||[0x294f7d,0xb9d6e8,0x171922];
- beam(broom,V(0,.35,1.85),V(0,.35,-2.35),.075,id==='ron'?0x765039:0x9b6a38);const br=cyl(broom,.42,1.35,V(0,.35,2.15),id==='hermione'?0xc39455:0xb77b3c,.07,12);br.rotation.x=Math.PI/2;for(let i=0;i<6;i++){const a=i/6*TAU;beam(broom,V(0,.35,1.45),V(Math.cos(a)*.34,.35+Math.sin(a)*.34,2.7),.03,0xc18a45);}
- const skin=0xe7b78f,dark=0x202131;box(body,V(.78,.92,.48),V(0,1.12,.22),cfg[0]);const cape=box(body,V(.9,1.25,.12),V(0,1.02,.62),cfg[0]);cape.rotation.x=-.28;beam(body,V(-.28,1.48,0),V(-.62,.65,-.72),.13,cfg[0]);beam(body,V(.28,1.48,0),V(.62,.65,-.72),.13,cfg[0]);sph(body,.14,V(-.62,.65,-.72),skin);sph(body,.14,V(.62,.65,-.72),skin);beam(body,V(-.25,.78,.2),V(-.36,.18,-.42),.16,dark);beam(body,V(.25,.78,.2),V(.36,.18,-.42),.16,dark);sph(body,.34,V(0,1.94,.05),skin);const hair=sph(body,.35,V(0,2.08,.11),cfg[2]);hair.scale.set(1.02,.62,1.02);box(body,V(.82,.13,.52),V(0,1.62,.16),cfg[1]);box(body,V(.18,.12,1.25),V(.28,1.58,.92),cfg[1]);
- if(id==='harry'){for(const side of[-1,1]){const lens=torus(body,.12,.025,V(side*.145,1.98,-.275),0x34333a,.6);lens.rotation.x=0;}beam(body,V(-.03,1.98,-.285),V(.03,1.98,-.285),.015,0x34333a);beam(body,V(.055,2.13,-.265),V(.09,2.06,-.29),.012,0x8e493c);}else if(id==='hermione'){for(const side of[-1,1]){const curl=sph(body,.24,V(side*.29,1.86,.16),cfg[2]);curl.scale.set(.8,1.8,1);}}else if(id==='ron'){for(let i=0;i<3;i++)sph(body,.018,V(-.09+i*.09,1.91,-.292),0xb87755);}
- return root;}
+function createWizard(id='harry',rival=false){
+ const root=new THREE.Group(),broom=new THREE.Group(),body=new THREE.Group();root.name='WizardRig';broom.name='BroomModel';body.name='CharacterModel';root.add(broom,body);
+ const palette={harry:[0x87374c,0xe9c573,0x21212b],hermione:[0x773a52,0xe9ca8a,0x513427],ron:[0x984c3b,0xe2b969,0xb35e32],rival:[0x315d88,0xa9d4e4,0x292939]},cfg=palette[id]||palette.rival,skin=0xe5b696,leather=0x302a2b;
+ // A curved handle, wrapped grip and layered bristles keep the broom readable in flight.
+ const handle=new THREE.CatmullRomCurve3([V(0,.38,1.9),V(0,.38,.4),V(0,.48,-1.5),V(0,.64,-2.3)]);
+ addMesh(broom,new THREE.TubeGeometry(handle,12,.065,7,false),0x95643c,V());
+ for(let i=0;i<5;i++){const wrap=torus(broom,.08,.018,V(0,.48+i*.014,-1.25+i*.09),cfg[1],.35);wrap.rotation.x=Math.PI/2;}
+ const tail=cyl(broom,.32,1.3,V(0,.36,2.05),0x96643b,.09,10);tail.rotation.x=-Math.PI/2;
+ for(let i=0;i<10;i++){const a=i/10*TAU;beam(broom,V(Math.cos(a)*.08,.36+Math.sin(a)*.08,1.35),V(Math.cos(a)*.39,.36+Math.sin(a)*.26,2.75+(i%3)*.08),.027,i%2?0xc59454:0xad7c42);}
+ for(const z of[1.42,1.58]){const tie=torus(broom,.16,.035,V(0,.36,z),cfg[1],.5);tie.rotation.x=Math.PI/2;}
+ const coat=cyl(body,.34,.9,V(0,1.12,.1),cfg[0],.44,10);coat.scale.z=.67;coat.rotation.x=-.12;
+ const collar=cyl(body,.25,.14,V(0,1.58,.02),0xe9e1cf,.23,10);collar.scale.z=.72;
+ const waist=cyl(body,.3,.18,V(0,.76,.15),leather,.33,10);waist.scale.z=.72;
+ const chest=box(body,V(.16,.56,.035),V(0,1.22,-.2),0xe7d8b7);chest.rotation.x=-.12;
+ const badge=addMesh(body,new THREE.CircleGeometry(.095,5),cfg[1],V(-.24,1.38,-.22));badge.rotation.y=-.13;
+ for(const side of[-1,1]){
+  const hip=V(side*.24,.78,.13),knee=V(side*.46,.38,-.4),ankle=V(side*.44,-.05,.05);
+  beam(body,hip,knee,.145,0x343240);sph(body,.15,knee,0x353440);beam(body,knee,ankle,.105,leather);
+  const boot=box(body,V(.23,.21,.47),V(side*.44,-.07,-.08),leather);boot.rotation.x=.1;
+  beam(broom,V(side*.15,.22,.15),V(side*.52,.05,.15),.025,0x9d8a61);
+ }
+ const shoulder=V(-.36,1.45,.01),elbow=V(-.56,1.03,-.25),hand=V(-.08,.48,-.84);
+ beam(body,shoulder,elbow,.125,cfg[0]);sph(body,.13,elbow,cfg[0]);beam(body,elbow,hand,.105,cfg[0]);sph(body,.115,hand,skin);
+ const arm=new THREE.Group();arm.name='CastingArm';arm.position.set(.36,1.45,.01);body.add(arm);
+ beam(arm,V(),V(.19,-.35,-.22),.125,cfg[0]);sph(arm,.13,V(.19,-.35,-.22),cfg[0]);beam(arm,V(.19,-.35,-.22),V(.24,-.38,-.72),.095,cfg[0]);sph(arm,.115,V(.24,-.38,-.72),skin);
+ beam(arm,V(.24,-.38,-.65),V(.24,-.32,-1.48),.028,0x6d4330);sph(arm,.035,V(.24,-.32,-1.48),cfg[1],.3,.3);
+ const spellSocket=new THREE.Object3D();spellSocket.name='SpellSocket';spellSocket.position.set(.24,-.32,-1.5);arm.add(spellSocket);
+ const head=new THREE.Group();head.position.set(0,1.87,-.06);head.name='Head';body.add(head);const face=sph(head,.31,V(),skin);face.scale.set(.9,1.12,.92);
+ for(const side of[-1,1]){sph(head,.065,V(side*.275,-.015,0),skin);const eye=sph(head,.027,V(side*.105,.035,-.275),0x202c34);eye.scale.y=.8;}
+ const nose=sph(head,.045,V(0,-.015,-.291),skin);nose.scale.set(.65,.85,1.4);beam(head,V(-.06,-.125,-.269),V(.06,-.125,-.269),.009,0x9b6659);
+ const hair=sph(head,.32,V(0,.14,.04),cfg[2]);hair.scale.set(.98,.72,1.03);
+ for(let i=0;i<5;i++){const lock=sph(head,.11,V((i-2)*.095,.21,-.18+(i%2)*.035),cfg[2]);lock.scale.set(.8,1.1+(i%2)*.3,1.1);}
+ if(id==='harry'){for(const side of[-1,1])torus(head,.11,.017,V(side*.12,.04,-.29),0x272837,.4);beam(head,V(-.025,.04,-.3),V(.025,.04,-.3),.014,0x272837);beam(head,V(.05,.22,-.245),V(.085,.16,-.278),.01,0xa06353);}
+ if(id==='hermione'){for(const side of[-1,1])for(let i=0;i<3;i++){const curl=sph(head,.145,V(side*(.24+(i%2)*.03),.06-i*.15,.08),cfg[2]);curl.scale.set(.8,1.25,.95);}}
+ if(id==='ron'){for(const side of[-1,1])for(let i=0;i<3;i++)sph(head,.009,V(side*(.11+i*.033),-.045,-.269+i*.01),0xa96443);}
+ const scarf=torus(body,.29,.065,V(0,1.59,0),cfg[1]);scarf.rotation.x=Math.PI/2;scarf.scale.y=.7;
+ const scarfTail=new THREE.Group();scarfTail.name='ScarfTail';scarfTail.position.set(-.19,1.57,.25);body.add(scarfTail);const fabric=box(scarfTail,V(.17,.055,.92),V(0,-.04,.45),cfg[1]);fabric.rotation.x=.12;
+ const cape=new THREE.Group();cape.name='Cape';cape.position.set(0,1.48,.3);body.add(cape);
+ const vertices=new Float32Array([-.37,0,0,.37,0,0,-.5,-.63,.42,.5,-.63,.42,-.62,-1.03,.9,.62,-1.03,.9]);
+ const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(vertices,3));geo.setIndex([0,2,1,1,2,3,2,4,3,3,4,5]);geo.computeVertexNormals();const capeMat=mat(cfg[0]).clone();capeMat.side=THREE.DoubleSide;capeMat.userData.owned=true;addMesh(cape,geo,capeMat,V());
+ root.userData.replaceable={broom,body,spellSocket};root.userData.rig={cape,scarfTail,arm,body};root.userData.castTime=0;return root;
+}
+function disposeObject(object){object.traverse(child=>{if(child.geometry)child.geometry.dispose();const materials=Array.isArray(child.material)?child.material:[child.material];for(const material of materials)if(material?.userData.owned)material.dispose();});object.removeFromParent();}
+function animateWizard(mesh,dt,speed,time){const rig=mesh.userData.rig;if(!rig)return;const flow=clamp(speed/48,0,1);mesh.userData.castTime=Math.max(0,(mesh.userData.castTime||0)-dt);rig.cape.rotation.x=.1+flow*.28+Math.sin(time*5)*.025;rig.scarfTail.rotation.y=Math.sin(time*6)*(.05+flow*.1);rig.scarfTail.rotation.x=-flow*.18;rig.arm.rotation.x=lerp(rig.arm.rotation.x,mesh.userData.castTime>0?-.35:0,1-Math.exp(-dt*16));}
 function createQuaffle(){const g=new THREE.Group();sph(g,.78,V(),0xb85236,.1);const seam=torus(g,.74,.05,V(),0xe6a06e);seam.rotation.x=Math.PI/2;scene.add(g);return g;}
 function createSnitch(){const g=new THREE.Group();sph(g,.48,V(),0xffd76a,.75,2.2);torus(g,.44,.055,V(),0xfff0a6,.8,1);for(const side of[-1,1]){const w=sph(g,.55,V(side*.88,.08,0),0xeaf5ff,.15,.7);w.name=side<0?'WingL':'WingR';w.scale.set(1.65,.12,.55);w.rotation.z=side*.28;}const light=new THREE.PointLight(0xffd36a,2,8);g.add(light);scene.add(g);return g;}
 function createWaypoint(){const g=new THREE.Group(),ring=torus(g,2.15,.12,V(),0xffe181,0,1.9);ring.rotation.x=Math.PI/2;g.userData.ring=ring;const cone=cyl(g,.72,1.15,V(0,-1.25,0),0xffe181,0,3,0,1.6);cone.rotation.x=Math.PI;const glow=new THREE.MeshBasicMaterial({color:0xffe181,transparent:true,opacity:.11,depthWrite:false});cyl(g,.13,11,V(0,-5.8,0),glow,.13,8);scene.add(g);return g;}
 buildWorld();
-const configs=[{id:'harry',name:'HARRY POTTER',spell:'EXPELLIARMUS',cooldown:7,color:0xff8266,pitch:.9,rate:.92},{id:'hermione',name:'HERMIONE GRANGER',spell:'STUPEFY',cooldown:9,color:0xff4f78,pitch:1.08,rate:1.04},{id:'ron',name:'RON WEASLEY',spell:'PROTEGO',cooldown:12,color:0x79bfff,pitch:.82,rate:.9}];
-const match={state:'menu',paused:false,countdown:3,elapsed:0,timeLeft:180,playerScore:0,rivalScore:0,message:'',messageTime:0,callout:'',calloutTime:0,snitchActive:false,kickoff:0,stealCooldown:1.5,selected:0,cooldowns:[0,0,0],firstPerson:false,gravity:false,collision:true,usedMove:false,usedVertical:false,usedThrow:false,usedSpell:false};
-const player={mesh:null,pos:V(0,10,38),vel:V(),baseSpeed:50,flySpeed:20,speed:0,shield:0,hitCooldown:0,boundaryNotice:0};
-const rivals=[],bludgers=[],projectiles=[];let quaffle,snitch,waypoint,shield,carrier=null,quaffleVel=V(),quaffleTarget=null,quaffleSide='',pickupDelay=0,snitchTarget=V(),snitchRetarget=0,snitchTime=0,cameraYaw=0,cameraPitch=-.12,lastTime=performance.now(),audioCtx=null,helpReturn='menu';
+const environment=window.BroomEnvironment?.build({THREE,scene,renderer});
+const configs=[
+ {id:'harry',name:'哈利 · 波特',spell:'EXPELLIARMUS',cn:'除你武器',effect:'expelliarmus',description:'缴械掉球 · 短暂受击',cooldown:7,range:36,color:0xff8266,pitch:.9,rate:.92},
+ {id:'hermione',name:'赫敏 · 格兰杰',spell:'STUPEFY',cn:'昏昏倒地',effect:'stupefy',description:'昏迷 / 冻结 3.2 秒',cooldown:9,range:32,color:0xff4f78,pitch:1.08,rate:1.04},
+ {id:'ron',name:'罗恩 · 韦斯莱',spell:'PROTEGO',cn:'盔甲护身',effect:'protego',description:'护盾 4 秒 · 防撞 / 防抢断',cooldown:12,range:0,color:0x79bfff,pitch:.82,rate:.9}
+];
+const settings={sensitivity:1,reducedMotion:false};
+try{const saved=JSON.parse(localStorage.getItem('broomball-comfort')||'{}');if(Number.isFinite(saved.sensitivity))settings.sensitivity=clamp(saved.sensitivity,.4,2);settings.reducedMotion=saved.reducedMotion===true;}catch{}
+function saveSettings(){try{localStorage.setItem('broomball-comfort',JSON.stringify(settings));}catch{}}
+const modes={
+ training:{label:'引导训练',duration:Infinity,snitchAt:Infinity,rivalSnitchAt:Infinity,rivalSpeed:0},
+ standard:{label:'标准赛',duration:180,snitchAt:110,rivalSnitchAt:130,rivalSpeed:1},
+ challenge:{label:'挑战赛',duration:150,snitchAt:78,rivalSnitchAt:93,rivalSpeed:1.15}
+};
+const freshStats=()=>({shots:0,goals:0,steals:0,passes:0});
+let selectedMode='standard',bestScores={};
+try{const saved=JSON.parse(localStorage.getItem('broomball-best')||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))bestScores=saved;}catch{}
+const match={mode:'standard',rules:modes.standard,stats:freshStats(),trainingStep:0,trainingDistance:0,trainingHeight:0,trackSnitch:false,state:'menu',paused:false,countdown:3,elapsed:0,timeLeft:180,playerScore:0,rivalScore:0,message:'',messageTime:0,callout:'',calloutTime:0,snitchActive:false,kickoff:0,stealCooldown:1.5,selected:0,cooldowns:[0,0,0],firstPerson:false,gravity:false,collision:true,usedMove:false,usedVertical:false,usedThrow:false,usedSpell:false};
+const player={mesh:null,pos:V(0,10,38),vel:V(),baseSpeed:28,stamina:100,boosting:false,exhausted:false,flySpeed:15,speed:0,shield:0,hitCooldown:0,boundaryNotice:0};
+const rivals=[],allies=[],bludgers=[],projectiles=[],spellEffects=[];let quaffle,snitch,waypoint,shield,carrier=null,quaffleVel=V(),shot=null,passTarget=null,passAge=0,pickupDelay=0,trainingReset=0,snitchTarget=V(),snitchRetarget=0,snitchTime=0,cameraYaw=0,cameraPitch=-.12,lastTime=performance.now(),audioCtx=null,helpReturn='menu';
 const keys={};
-function replacePlayerModel(){const pos=player.pos.clone(),rot=player.mesh?player.mesh.rotation.clone():null;if(player.mesh)scene.remove(player.mesh);player.mesh=createWizard(configs[match.selected].id);scene.add(player.mesh);player.mesh.position.copy(pos);if(rot)player.mesh.rotation.copy(rot);player.pos=player.mesh.position;player.mesh.visible=!match.firstPerson;}
+const goalRadius=2.68,shotRange=38,passRange=30;
+const training=()=>match.mode==='training';
+function replacePlayerModel(){const pos=player.pos.clone(),rot=player.mesh?player.mesh.rotation.clone():null;if(player.mesh)disposeObject(player.mesh);player.mesh=createWizard(configs[match.selected].id);scene.add(player.mesh);player.mesh.position.copy(pos);if(rot)player.mesh.rotation.copy(rot);player.pos=player.mesh.position;player.mesh.visible=!match.firstPerson;}
 replacePlayerModel();
 shield=new THREE.Mesh(new THREE.SphereGeometry(2.35,28,16),new THREE.MeshBasicMaterial({color:0x74baff,transparent:true,opacity:.14,side:THREE.DoubleSide,depthWrite:false}));shield.visible=false;scene.add(shield);
-function addRival(role,pos,index){const mesh=createWizard('rival',true);mesh.position.copy(pos);scene.add(mesh);rivals.push({role,index,mesh,speed:role==='keeper'?29:role==='seeker'?31:26,stun:0,phase:index});}
+const targetMarker=new THREE.Mesh(new THREE.TorusGeometry(1.6,.045,6,36),new THREE.MeshBasicMaterial({color:0xffd48b,transparent:true,opacity:.9,depthTest:false}));targetMarker.renderOrder=5;targetMarker.visible=false;scene.add(targetMarker);
+function addRival(role,pos,index){const mesh=createWizard('rival',true);mesh.position.copy(pos);scene.add(mesh);rivals.push({role,index,mesh,speed:role==='keeper'?24:role==='seeker'?23:22,stun:0,phase:index});}
 addRival('chaser',V(-16,12,-12),0);addRival('chaser',V(18,9,20),1);addRival('keeper',V(0,12,-53),2);addRival('seeker',V(25,24,2),3);
+function addAlly(role,position,index){
+ const mesh=createWizard(role==='keeper'?'ron':'hermione');
+ mesh.position.copy(position);
+ const pennant=torus(mesh,.58,.065,V(0,2.65,0),0xe9aa6d,.1,.75);
+ pennant.castShadow=false;
+ scene.add(mesh);
+ allies.push({role,index,mesh,speed:role==='keeper'?22:23,stun:0,initialPosition:position});
+}
+addAlly('chaser',V(14,11,25),0);
+addAlly('keeper',V(0,11,52),1);
+const practiceDummy={mesh:createWizard('rival'),stun:0};
+practiceDummy.mesh.visible=false;
+scene.add(practiceDummy.mesh);
 quaffle=createQuaffle();snitch=createSnitch();snitch.visible=false;waypoint=createWaypoint();waypoint.visible=false;
-for(const [pos,vel] of[[V(-28,15,-4),V(12,0,16)],[V(27,18,12),V(-14,-2,-14)]]){const g=new THREE.Group();sph(g,.92,V(),0x202636,.7);const band=torus(g,.86,.075,V(),0x576078,.65);band.rotation.x=Math.PI/2;g.position.copy(pos);scene.add(g);bludgers.push({mesh:g,vel:vel.clone(),retarget:7+Math.random()*3,frozen:0});}
-function resetMatch(){match.state='countdown';match.paused=false;match.countdown=3;match.elapsed=0;match.timeLeft=180;match.playerScore=0;match.rivalScore=0;match.message='';match.messageTime=0;match.calloutTime=0;match.snitchActive=false;match.kickoff=2.4;match.stealCooldown=1.5;match.cooldowns=[0,0,0];match.firstPerson=false;match.gravity=false;match.collision=true;match.usedMove=false;match.usedVertical=false;match.usedThrow=false;match.usedSpell=false;carrier=null;quaffleSide='';quaffleTarget=null;quaffleVel.set(0,0,0);quaffle.position.set(0,9,0);pickupDelay=.75;snitch.visible=false;snitch.position.set(0,21,-8);snitchRetarget=0;snitchTime=0;player.pos.set(0,10,38);player.vel.set(0,0,0);player.baseSpeed=50;player.shield=0;player.hitCooldown=0;cameraYaw=0;cameraPitch=-.12;for(const r of rivals)r.stun=0;rivals[0].mesh.position.set(-16,12,-12);rivals[1].mesh.position.set(18,9,20);rivals[2].mesh.position.set(0,12,-53);rivals[3].mesh.position.set(25,24,2);for(let i=0;i<bludgers.length;i++){const b=bludgers[i];b.retarget=7+Math.random()*3;b.frozen=0;}for(const p of projectiles)scene.remove(p.mesh);projectiles.length=0;$('ending').classList.add('hidden');$('pause').classList.add('hidden');$('help').classList.add('hidden');waypoint.visible=false;updateHUD();}
-function startMatch(){initAudio();resetMatch();$('menu').classList.add('hidden');lockPointer();}
-function restartMatch(){resetMatch();lockPointer();}
-function lockPointer(){if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();canvas.focus();if(canvas.requestPointerLock)canvas.requestPointerLock();}
-function pauseMatch(){if(match.state!=='playing'&&match.state!=='countdown')return;match.paused=true;$('pause').classList.remove('hidden');if(document.pointerLockElement)document.exitPointerLock();}
-function resumeMatch(){match.paused=false;$('pause').classList.add('hidden');lockPointer();}
-function openHelp(source='pause'){helpReturn=source;match.paused=true;if(document.pointerLockElement)document.exitPointerLock();$('menu').classList.add('hidden');$('pause').classList.add('hidden');$('help').classList.remove('hidden');}
+for(const [pos,vel] of[[V(-28,15,-4),V(12,0,16)],[V(27,18,12),V(-14,-2,-14)]]){const g=new THREE.Group();sph(g,.92,V(),0x202636,.7);const band=torus(g,.86,.075,V(),0x576078,.65);band.rotation.x=Math.PI/2;g.position.copy(pos);scene.add(g);bludgers.push({mesh:g,vel:vel.clone(),initialPos:pos.clone(),initialVel:vel.clone(),retarget:7+Math.random()*3,frozen:0});}
+function selectMode(mode){
+ if(!Object.hasOwn(modes,mode))return;
+ selectedMode=mode;
+ for(const button of document.querySelectorAll('.mode-option')){
+  button.setAttribute('aria-pressed',String(button.dataset.mode===mode));
+ }
+ $('startBtn').textContent=mode==='training'?'开始训练':'进入球场';
+}
+function resetMatch(mode=selectedMode){
+ selectMode(mode);
+ clearInput();
+ Object.assign(match,{mode:selectedMode,rules:modes[selectedMode],stats:freshStats(),
+  state:selectedMode==='training'?'playing':'countdown',paused:false,countdown:3,
+  elapsed:0,timeLeft:modes[selectedMode].duration,playerScore:0,rivalScore:0,message:'',
+  messageTime:0,calloutTime:0,snitchActive:false,trackSnitch:false,
+  kickoff:selectedMode==='training'?0:2.4,stealCooldown:1.5,cooldowns:[0,0,0],
+  firstPerson:false,gravity:false,collision:true,usedMove:false,usedVertical:false,
+  usedThrow:false,usedSpell:false,trainingStep:0,trainingDistance:0,trainingHeight:0});
+ resetQuaffle();
+ quaffle.visible=true;
+ trainingReset=0;
+ snitch.visible=false;
+ snitch.position.set(0,21,-8);
+ snitchRetarget=0;
+ snitchTime=0;
+ player.pos.set(0,10,38);
+ Object.assign(player,{baseSpeed:28,speed:0,stamina:100,boosting:false,exhausted:false,boundaryNotice:0,shield:0,hitCooldown:0});
+ player.mesh.visible=true;
+ player.mesh.rotation.set(0,0,0);
+ shield.visible=false;
+ cameraYaw=0;
+ cameraPitch=-.12;
+ camera.position.copy(player.pos).addScaledVector(getAimForward(),-11.5).add(V(0,2.8,0));
+ updateCamera(0);
+ const starts=[V(-16,12,-12),V(18,9,20),V(0,12,-53),V(25,24,2)];
+ for(const r of rivals){
+  r.stun=0;
+  r.mesh.visible=!training();
+  r.mesh.position.copy(starts[r.index]);
+ }
+ for(const a of allies){
+  a.mesh.position.copy(a.initialPosition);
+  a.mesh.visible=!training();
+  a.stun=0;
+ }
+ practiceDummy.mesh.visible=false;
+ practiceDummy.stun=0;
+ for(const b of bludgers){
+  b.mesh.visible=!training();
+  b.mesh.position.copy(b.initialPos);
+  b.vel.copy(b.initialVel);
+  b.retarget=7+Math.random()*3;
+  b.frozen=0;
+ }
+ for(const effects of [projectiles,spellEffects]){
+  for(const effect of effects)disposeObject(effect.mesh);
+  effects.length=0;
+ }
+ targetMarker.visible=false;
+ for(const id of ['ending','pause','help','trainingEnd'])$(id).classList.add('hidden');
+ $('restartPauseBtn').textContent=training()?'重置训练':'重新开赛';
+ $('hud').classList.toggle('training-active',training());
+ waypoint.visible=false;
+ updateCoach();
+ updateHUD();
+}
+function startMatch(mode=selectedMode){
+ initAudio();
+ resetMatch(mode);
+ $('menu').classList.add('hidden');
+ lockPointer();
+}
+function restartMatch(){
+ resetMatch(match.mode);
+ lockPointer();
+}
+function returnToMenu(){
+ clearInput();
+ match.state='menu';
+ match.paused=false;
+ for(const id of ['ending','pause','help','trainingEnd'])$(id).classList.add('hidden');
+ $('menu').classList.remove('hidden');
+ for(const button of document.querySelectorAll('.character'))button.classList.toggle('selected',button.dataset.id===configs[match.selected].id);
+ for(const unit of [...rivals,...allies,...bludgers])unit.mesh.visible=true;
+ practiceDummy.mesh.visible=false;
+ player.mesh.visible=true;
+ waypoint.visible=false;
+ if(document.pointerLockElement===canvas)document.exitPointerLock();
+}
+function lockPointer(){if(document.activeElement?.blur)document.activeElement.blur();canvas.focus();try{const attempt=canvas.requestPointerLock?.();if(attempt?.catch)attempt.catch(()=>notify('点击球场以捕获鼠标；也可用键盘继续操作',2));}catch{notify('点击球场以捕获鼠标',2);}}
+function clearInput(){for(const key of Object.keys(keys))delete keys[key];player.vel.set(0,0,0);player.speed=0;}
+function pauseMatch(){if(match.state!=='playing'&&match.state!=='countdown')return;clearInput();match.paused=true;$('pause').classList.remove('hidden');if(document.pointerLockElement)document.exitPointerLock();}
+function resumeMatch(){clearInput();match.paused=false;$('pause').classList.add('hidden');lockPointer();}
+function openHelp(source='pause'){clearInput();helpReturn=source;match.paused=true;if(document.pointerLockElement)document.exitPointerLock();$('menu').classList.add('hidden');$('pause').classList.add('hidden');$('help').classList.remove('hidden');}
 function closeHelp(){$('help').classList.add('hidden');if(helpReturn==='menu'){$('menu').classList.remove('hidden');}else{$('pause').classList.remove('hidden');}}
 function notify(text,time=2){match.message=text;match.messageTime=time;}
+function setAim(yaw,pitch){cameraYaw=yaw;cameraPitch=clamp(pitch,-1.15,1.05);}
 function getAimForward(){const cp=Math.cos(cameraPitch);return V(-Math.sin(cameraYaw)*cp,Math.sin(cameraPitch),-Math.cos(cameraYaw)*cp).normalize();}
 function getHorizontalBasis(){const forward=getAimForward();forward.y=0;if(forward.lengthSq()<.001)forward.set(0,0,-1);forward.normalize();return{forward,right:forward.clone().cross(UP).normalize()};}
 function initAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();}
 function tone(freq=440,duration=.12,type='sine',volume=.05){if(!audioCtx)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(volume,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration);}
 function speak(text){if(!('speechSynthesis'in window))return;const u=new SpeechSynthesisUtterance(text),voices=speechSynthesis.getVoices(),cfg=configs[match.selected];if(voices.length)u.voice=voices[match.selected%voices.length];u.pitch=cfg.pitch;u.rate=cfg.rate;u.volume=.9;speechSynthesis.cancel();speechSynthesis.speak(u);}
-function switchCharacter(index){if(index<0||index>2||index===match.selected)return;match.selected=index;player.shield=0;replacePlayerModel();notify(configs[index].name+' · '+configs[index].spell,1.5);tone(330+index*110,.12,'triangle');}
+function switchCharacter(index){if(index<0||index>2||index===match.selected)return;match.selected=index;replacePlayerModel();notify(configs[index].name+' · '+configs[index].spell,1.5);tone(330+index*110,.12,'triangle');}
 function toggleView(){match.firstPerson=!match.firstPerson;player.mesh.visible=!match.firstPerson;}
-function setCarrier(value){carrier=value;quaffleSide='';quaffleTarget=null;quaffleVel.set(0,0,0);pickupDelay=.35;}
-function resetQuaffle(){carrier=null;quaffleSide='';quaffleTarget=null;quaffleVel.set(0,0,0);quaffle.position.set(0,9,0);pickupDelay=.75;}
-function dropQuaffle(){if(!carrier)return;carrier=null;quaffleSide='';quaffleTarget=null;quaffleVel.set((Math.random()-.5)*14,5,(Math.random()-.5)*14);pickupDelay=.8;}
-function closestGoal(goals,from){let best=goals[0],dist=Infinity;for(const g of goals){const d=from.distanceToSquared(g);if(d<dist){dist=d;best=g;}}return best;}
-function throwQuaffle(){if(carrier!=='player'||match.state!=='playing'||match.paused)return;const forward=getAimForward();let best=awayGoals[1],score=-Infinity;for(const g of awayGoals){const offset=g.clone().sub(player.pos),s=offset.clone().normalize().dot(forward)*100-offset.length()*.12;if(s>score){score=s;best=g;}}carrier=null;quaffleTarget=best.clone();quaffleSide='player';quaffleVel.copy(forward).multiplyScalar(12).add(best.clone().sub(quaffle.position).normalize().multiplyScalar(25)).add(V(0,2,0));pickupDelay=.7;match.usedThrow=true;tone(260,.12,'triangle');}
-function rivalThrow(r){if(carrier!==r)return;carrier=null;quaffleTarget=closestGoal(homeGoals,r.mesh.position).clone();quaffleSide='rival';quaffleVel.copy(quaffleTarget).sub(quaffle.position).normalize().multiplyScalar(28).add(V(0,1.5,0));pickupDelay=.7;}
-function scoreGoal(side){if(match.state!=='playing')return;if(side==='player'){match.playerScore+=10;notify('LIONS SCORE! +10',2);tone(660,.25,'triangle',.07);}else{match.rivalScore+=10;notify('RAVENS SCORE',2);tone(180,.25,'sawtooth',.05);}resetQuaffle();match.kickoff=1.25;}
-function rivalTarget(r){if(r.role==='keeper'){const focus=quaffleSide==='player'?quaffleTarget:quaffle.position;return V(clamp(focus.x,-13,13),clamp(focus.y,7,17),-54);}if(r.role==='seeker'){if(match.snitchActive&&match.elapsed>=43)return snitch.position;return V(Math.sin(match.elapsed*.35)*30,24,Math.cos(match.elapsed*.35)*38);}if(match.kickoff>0)return V(r.index*32-16,12,20);if(carrier===r)return closestGoal(homeGoals,r.mesh.position);if(carrier==='player')return player.pos;if(carrier)return V(r.index*8-4,13,18);return quaffle.position;}
-function updatePlayer(dt){const{forward,right}=getHorizontalBasis(),input=V();if(keys.KeyA)input.sub(right);if(keys.KeyD)input.add(right);if(keys.KeyW)input.add(forward);if(keys.KeyS)input.sub(forward);if(input.lengthSq()>0){input.normalize();match.usedMove=true;}const target=input.multiplyScalar(player.baseSpeed*((keys.ShiftLeft||keys.ShiftRight)?2:1)),current=V(player.vel.x,0,player.vel.z),next=moveVec(current,target,(target.lengthSq()>.1?60:60)*dt);player.vel.x=next.x;player.vel.z=next.z;let vi=0;if(keys.KeyE||keys.Space||keys.ArrowUp||keys.PageUp||keys.Numpad8)vi++;if(keys.KeyQ||keys.ArrowDown||keys.PageDown||keys.Numpad2||keys.ControlLeft)vi--;if(vi!==0){match.usedVertical=true;player.vel.y=moveToward(player.vel.y,vi*player.flySpeed,60*dt);}else if(match.gravity)player.vel.y-=40*dt;else player.vel.y=moveToward(player.vel.y,0,25*dt);player.pos.addScaledVector(player.vel,dt);player.pos.y=clamp(player.pos.y,3.5,40);if((player.pos.y<=3.55&&player.vel.y<0)||(player.pos.y>=39.95&&player.vel.y>0))player.vel.y=0;const boundary=(player.pos.x/54)**2+(player.pos.z/73)**2;if(boundary>1){const correction=1/Math.sqrt(boundary);player.pos.x*=correction;player.pos.z*=correction;player.vel.x*=.55;player.vel.z*=.55;if(player.boundaryNotice<=0){notify('AIR WALL · 请返回球场',1.3);player.boundaryNotice=2;}}
- player.speed=Math.hypot(player.vel.x,player.vel.z);const h=player.speed;if(h>.5){const targetYaw=Math.atan2(-player.vel.x,-player.vel.z),dy=angleDelta(player.mesh.rotation.y,targetYaw);player.mesh.rotation.y+=dy*Math.min(1,dt*8);player.mesh.rotation.z=lerp(player.mesh.rotation.z,clamp(dy/dt*.05,-.44,.44),1-Math.exp(-8*dt));}else player.mesh.rotation.z=lerp(player.mesh.rotation.z,0,dt*5);player.mesh.rotation.x=lerp(player.mesh.rotation.x,clamp(Math.atan2(player.vel.y,Math.max(h,.5)),-.65,.65),dt*5);player.mesh.rotation.x+=0;player.mesh.position.y+=Math.sin(match.elapsed*5)*.0001;}
-function updateCamera(dt){const forward=getAimForward();if(match.state==='menu'){camera.position.lerp(V(80,56,112),1-Math.exp(-dt*2));camera.lookAt(0,7,0);return;}if(match.firstPerson){camera.position.copy(player.pos).add(V(0,1.96,0)).addScaledVector(forward,.18);camera.lookAt(camera.position.clone().addScaledVector(forward,35).add(V(0,player.vel.y*.12,0)));}else{const desired=player.pos.clone().addScaledVector(forward,-14).add(V(0,4.8,0));camera.position.lerp(desired,1-Math.exp(-dt*6));camera.lookAt(player.pos.clone().addScaledVector(forward,8).add(V(0,1.1,0)));}camera.fov=lerp(camera.fov,(keys.ShiftLeft||keys.ShiftRight)?70:62,dt*4);camera.updateProjectionMatrix();}
-function updateRivals(dt){for(const r of rivals){r.stun=Math.max(0,r.stun-dt);if(r.stun>0)continue;const target=rivalTarget(r),dir=target.clone().sub(r.mesh.position);if(dir.length()<.4)continue;dir.normalize();r.mesh.position.addScaledVector(dir,(r.speed+(carrier===r?2:0))*dt);r.mesh.position.y=clamp(r.mesh.position.y,4,38);const yaw=Math.atan2(-dir.x,-dir.z),dy=angleDelta(r.mesh.rotation.y,yaw);r.mesh.rotation.y+=dy*Math.min(1,dt*4);r.mesh.rotation.z=lerp(r.mesh.rotation.z,clamp(dy,-.6,.6),dt*4);if(r.role==='chaser'&&carrier===r&&r.mesh.position.distanceTo(closestGoal(homeGoals,r.mesh.position))<27)rivalThrow(r);}}
-function updateQuaffle(dt){if(carrier){const owner=carrier==='player'?player.mesh:carrier.mesh,carry=owner.position.clone().add(V(.95,1.15,-.35).applyQuaternion(owner.quaternion));quaffle.position.lerp(carry,1-Math.exp(-dt*22));quaffle.rotation.y+=dt*2;return;}if(match.kickoff>0)return;if(quaffleTarget){quaffleVel.lerp(quaffleTarget.clone().sub(quaffle.position).normalize().multiplyScalar(34),1-Math.exp(-dt*3.2));}else quaffleVel.y-=4.5*dt;quaffle.position.addScaledVector(quaffleVel,dt);quaffle.rotation.x+=dt*4;if(quaffle.position.y<2){quaffle.position.y=2;quaffleVel.y=Math.abs(quaffleVel.y)*.62;quaffleVel.x*=.84;quaffleVel.z*=.84;}if(quaffleTarget&&quaffle.position.distanceTo(quaffleTarget)<2.05){scoreGoal(quaffleSide);return;}if(quaffleSide==='player'){for(const r of rivals)if(r.role==='keeper'&&r.stun<=0&&r.mesh.position.distanceTo(quaffle.position)<2.35){quaffleSide='';quaffleTarget=null;quaffleVel.set((Math.random()-.5)*20,7,22);pickupDelay=.65;notify('SAVED BY THE RAVEN KEEPER',1.8);return;}}
- if(pickupDelay<=0){if(player.pos.distanceTo(quaffle.position)<2.85){setCarrier('player');notify('QUAFFLE SECURED · F TO THROW',1.7);return;}for(const r of rivals)if(r.role==='chaser'&&r.mesh.position.distanceTo(quaffle.position)<2.55){setCarrier(r);notify('THE RAVENS HAVE THE QUAFFLE',1.4);return;}}}
-function updateSteals(){if(match.stealCooldown>0||!carrier)return;if(carrier==='player'){if(player.shield>0)return;for(const r of rivals)if(r.role==='chaser'&&r.stun<=0&&r.mesh.position.distanceTo(player.pos)<2.35){setCarrier(r);match.stealCooldown=1.4;notify('TACKLED · BOOST INTO THE CARRIER TO STEAL',2);return;}}else if(player.speed>22&&player.pos.distanceTo(carrier.mesh.position)<2.45){setCarrier('player');match.stealCooldown=1.4;notify('CLEAN STEAL! F TO THROW',1.8);}}
+function carryPosition(owner){
+ return owner.position.clone().add(V(.95,1.15,-.35).applyQuaternion(owner.quaternion));
+}
+function setCarrier(value){
+ carrier=value;
+ shot=null;
+ passTarget=null;
+ quaffleVel.set(0,0,0);
+ pickupDelay=.35;
+ if(value)quaffle.position.copy(carryPosition(value==='player'?player.mesh:value.mesh));
+}
+function resetQuaffle(position=V(0,9,0)){
+ setCarrier(null);
+ quaffle.position.copy(position);
+ pickupDelay=training()?0:.75;
+}
+function dropQuaffle(){
+ if(!carrier)return;
+ setCarrier(null);
+ quaffleVel.set((Math.random()-.5)*14,5,(Math.random()-.5)*14);
+ pickupDelay=.8;
+}
+function closestGoal(goals,from){
+ return goals.reduce((nearest,g)=>g.distanceToSquared(from)<nearest.distanceToSquared(from)?g:nearest);
+}
+function positionOnGoalPlane(from,direction,z){
+ if(Math.abs(direction.z)<.001)return null;
+ const t=(z-from.z)/direction.z;
+ return t>=0?from.clone().addScaledVector(direction,t):null;
+}
+function getShotInfo(){
+ const forward=getAimForward();
+ const crossing=forward.z<0?positionOnGoalPlane(camera.position,forward,awayGoals[0].z):null;
+ const goal=closestGoal(awayGoals,crossing||player.pos);
+ const distance=player.pos.distanceTo(goal),release=carryPosition(player.mesh);
+ const assisted=!!crossing&&distance<=shotRange&&crossing.distanceTo(goal)<=4.25&&release.z>goal.z;
+ const direction=forward.clone();
+ if(assisted){
+  const intended=crossing.clone().sub(goal).clampLength(0,goalRadius*.62).add(goal);
+  direction.copy(intended).sub(release).normalize();
+ }
+ return {goal,distance,assisted,direction};
+}
+function launchShot(owner,direction,side,speed,recordMiss=false){
+ const release=carryPosition(owner);
+ carrier=null;
+ passTarget=null;
+ quaffle.position.copy(release);
+ shot={side,age:0,recordMiss};
+ quaffleVel.copy(direction).multiplyScalar(speed);
+ pickupDelay=.7;
+}
+function throwQuaffle(){
+ if(carrier!=='player'||match.state!=='playing'||match.paused)return false;
+ const info=getShotInfo();
+ launchShot(player.mesh,info.direction,'player',39,true);
+ match.usedThrow=true;
+ match.stats.shots++;
+ tone(260,.12,'triangle');
+ return true;
+}
+function teamThrow(unit,goals,side,speed){
+ const goal=closestGoal(goals,unit.mesh.position);
+ launchShot(unit.mesh,goal.clone().sub(carryPosition(unit.mesh)).normalize(),side,speed);
+}
+function passBetween(sender,receiver){
+ const release=carryPosition(sender==='player'?player.mesh:sender.mesh);
+ carrier=null;
+ shot=null;
+ passTarget=receiver;
+ passAge=0;
+ quaffle.position.copy(release);
+ quaffleVel.copy(receiver==='player'?player.pos:receiver.mesh.position).sub(release).normalize().multiplyScalar(34);
+ pickupDelay=.35;
+}
+function getPassReceiver(){
+ return !training()&&allies[0].mesh.position.distanceTo(player.pos)<=passRange?allies[0]:null;
+}
+function passQuaffle(){
+ if(match.state!=='playing'||match.paused)return false;
+ if(carrier!=='player'){
+  notify('持球后可按 T 传给接应队友',1.5);
+  return false;
+ }
+ const receiver=getPassReceiver();
+ if(!receiver){
+  notify('接应队友须在 '+passRange+' 米内',1.5);
+  return false;
+ }
+ passBetween('player',receiver);
+ match.stats.passes++;
+ notify('传给狮队接应手',1.4);
+ tone(330,.1,'triangle');
+ return true;
+}
+function scoreGoal(side){
+ if(match.state!=='playing')return;
+ if(side==='player'){
+  match.playerScore+=10;
+  match.stats.goals++;
+  notify('狮队进球 · +10 分',2);
+  tone(660,.25,'triangle',.07);
+ }else{
+  match.rivalScore+=10;
+  notify('鹰队进球 · +10 分',2);
+  tone(180,.25,'sawtooth',.05);
+ }
+ resetQuaffle();
+ if(training()&&side==='player'&&match.trainingStep===3){
+  match.trainingStep=4;
+  match.cooldowns.fill(0);
+  const delta=getAimForward().multiplyScalar(12);
+  practiceDummy.mesh.position.copy(player.pos).add(delta);
+  constrainPitch(practiceDummy.mesh.position,4,38);
+  practiceDummy.mesh.rotation.y=cameraYaw+Math.PI;
+  practiceDummy.mesh.visible=true;
+  quaffle.visible=false;
+ }else match.kickoff=1.25;
+}
+function constrainPitch(position,low,high){
+ position.y=clamp(position.y,low,high);
+ const boundary=(position.x/54)**2+(position.z/73)**2;
+ if(boundary<=1)return null;
+ const scale=1/Math.sqrt(boundary);
+ position.x*=scale;
+ position.z*=scale;
+ return V(position.x/(54*54),0,position.z/(73*73)).normalize();
+}
+function keeperTarget(goals,side){
+ const sign=Math.sign(goals[0].z),z=sign*53;
+ const projected=shot?.side===side&&shot.age>.15?positionOnGoalPlane(quaffle.position,quaffleVel,z):null;
+ const focus=projected||quaffle.position;
+ return V(clamp(focus.x,projected?-14:-6,projected?14:6),clamp(focus.y,7,16),z);
+}
+function rivalTarget(r){
+ if(r.role==='keeper')return keeperTarget(awayGoals,'player');
+ if(r.role==='seeker'){
+  if(match.snitchActive&&match.elapsed>=match.rules.rivalSnitchAt)return snitch.position;
+  return V(Math.sin(match.elapsed*.35)*30,24,Math.cos(match.elapsed*.35)*38);
+ }
+ if(match.kickoff>0)return V(r.index*32-16,12,20);
+ if(carrier===r)return closestGoal(homeGoals,r.mesh.position);
+ if(carrier==='player')return player.pos;
+ if(allies.includes(carrier))return carrier.mesh.position;
+ if(carrier)return V(r.index*8-4,13,18);
+ return quaffle.position;
+}
+function updatePlayer(dt){
+ const yaw=(Number(!!keys.ArrowLeft)-Number(!!keys.ArrowRight))*1.65*dt;
+ const pitch=(Number(!!keys.KeyI)-Number(!!keys.KeyK))*1.15*dt;
+ setAim(cameraYaw+yaw,cameraPitch+pitch);
+ const{forward,right}=getHorizontalBasis(),input=V(),braking=!!keys.KeyX;
+ if(keys.KeyA)input.sub(right);if(keys.KeyD)input.add(right);if(keys.KeyW)input.add(forward);if(keys.KeyS)input.sub(forward);
+ const moving=input.lengthSq()>0;
+ if(moving)input.normalize();
+ player.boosting=moving&&!braking&&!player.exhausted&&!!(keys.ShiftLeft||keys.ShiftRight);
+ player.stamina=clamp(player.stamina+(player.boosting?-27:21)*dt,0,100);
+ if(player.stamina===0)player.exhausted=true;
+ if(player.stamina>=22)player.exhausted=false;
+ const target=input.multiplyScalar(braking?0:player.boosting?48:player.baseSpeed),current=V(player.vel.x,0,player.vel.z);
+ const opposing=current.dot(target)<0,accel=braking?180:target.lengthSq()<.1?105:opposing?110:72,next=moveVec(current,target,accel*dt);player.vel.x=next.x;player.vel.z=next.z;
+ let vi=0;if(keys.KeyE||keys.Space||keys.ArrowUp||keys.PageUp||keys.Numpad8)vi++;if(keys.KeyQ||keys.ArrowDown||keys.PageDown||keys.Numpad2||keys.ControlLeft||keys.ControlRight)vi--;
+ player.vel.y=moveToward(player.vel.y,braking?0:vi*player.flySpeed,(braking?150:80)*dt);
+ const previous=player.pos.clone();
+ player.pos.addScaledVector(player.vel,dt);
+ const normal=constrainPitch(player.pos,3.5,40);
+ if((player.pos.y<=3.55&&player.vel.y<0)||(player.pos.y>=39.95&&player.vel.y>0))player.vel.y=0;
+ if(normal){
+  const outward=player.vel.dot(normal);
+  if(outward>0)player.vel.addScaledVector(normal,-outward);
+  if(player.boundaryNotice<=0){
+   notify('已到球场边界 · 转向继续飞行',1.3);
+   player.boundaryNotice=2;
+  }
+ }
+ if(moving&&!braking){
+  match.usedMove=true;
+  if(training()&&match.trainingStep===0){
+   match.trainingDistance+=Math.hypot(player.pos.x-previous.x,player.pos.z-previous.z);
+   if(match.trainingDistance>=5)match.trainingStep=1;
+  }
+ }
+ if(vi&&!braking){
+  match.usedVertical=true;
+  if(training()&&match.trainingStep===1){
+   match.trainingHeight+=Math.abs(player.pos.y-previous.y);
+   if(match.trainingHeight>=4)match.trainingStep=2;
+  }
+ }
+ player.speed=Math.hypot(player.vel.x,player.vel.z);const h=player.speed;
+ // Face the camera aim while strafing, so the wand and spell direction remain coherent.
+ const targetYaw=cameraYaw,dy=angleDelta(player.mesh.rotation.y,targetYaw);player.mesh.rotation.y+=dy*Math.min(1,dt*10);
+ const bank=settings.reducedMotion?0:clamp(-player.vel.dot(right)*.009,-.25,.25);player.mesh.rotation.z=lerp(player.mesh.rotation.z,bank,1-Math.exp(-dt*8));
+ player.mesh.rotation.x=lerp(player.mesh.rotation.x,settings.reducedMotion?0:clamp(Math.atan2(player.vel.y,Math.max(h,12))*.45,-.23,.23),1-Math.exp(-dt*5));animateWizard(player.mesh,dt,h,match.elapsed);
+}
+function updateCamera(dt){const forward=getAimForward();if(match.state==='menu'){camera.position.lerp(V(80,56,112),1-Math.exp(-dt*2));camera.lookAt(0,7,0);return;}if(match.paused)return;if(match.firstPerson){camera.position.copy(player.pos).add(V(0,1.96,0)).addScaledVector(forward,.18);camera.lookAt(camera.position.clone().addScaledVector(forward,35));}else{const desired=player.pos.clone().addScaledVector(forward,-11.5).add(V(0,2.8,0));camera.position.lerp(desired,1-Math.exp(-dt*(settings.reducedMotion?12:8)));camera.lookAt(camera.position.clone().addScaledVector(forward,35));}const boost=player.boosting&&player.speed>30;camera.fov=lerp(camera.fov,!settings.reducedMotion&&boost?66:62,1-Math.exp(-dt*4));camera.updateProjectionMatrix();}
+function flyAI(unit,target,speed,dt){
+ const delta=target.clone().sub(unit.mesh.position);
+ const distance=delta.length();
+ animateWizard(unit.mesh,dt,distance>.4?speed:0,match.elapsed+unit.index);
+ if(distance>.4&&speed>0){
+  const direction=delta.divideScalar(distance);
+  unit.mesh.position.addScaledVector(direction,Math.min(distance,speed*dt));
+  const yaw=Math.atan2(-direction.x,-direction.z),dy=angleDelta(unit.mesh.rotation.y,yaw);
+  unit.mesh.rotation.y+=dy*Math.min(1,dt*4);
+  unit.mesh.rotation.z=lerp(unit.mesh.rotation.z,clamp(dy,-.6,.6),dt*4);
+ }
+ constrainPitch(unit.mesh.position,4,38);
+}
+function updateRivals(dt){
+ for(const r of rivals){
+  r.stun=Math.max(0,r.stun-dt);
+  if(r.stun>0){flyAI(r,r.mesh.position,0,dt);continue;}
+  const speed=(r.speed+(carrier===r?2:0))*match.rules.rivalSpeed;
+  flyAI(r,rivalTarget(r),speed,dt);
+  if(r.role==='chaser'&&carrier===r&&r.mesh.position.distanceTo(closestGoal(homeGoals,r.mesh.position))<25){
+   teamThrow(r,homeGoals,'rival',33);
+  }
+ }
+}
+function updateAllies(dt){
+ const [chaser,keeper]=allies;
+ let target;
+ if(carrier===chaser){
+  const goal=closestGoal(awayGoals,chaser.mesh.position);
+  target=goal.clone().add(V(0,0,7));
+  if(chaser.mesh.position.distanceTo(goal)<25)teamThrow(chaser,awayGoals,'player',35);
+ }else if(passTarget===chaser){
+  target=quaffle.position;
+ }else if(carrier==='player'){
+  const lane=player.pos.x>0?-1:1;
+  target=V(clamp(player.pos.x+lane*16,-37,37),clamp(player.pos.y+1,7,22),clamp(player.pos.z-15,-47,48));
+ }else if(carrier&&rivals.includes(carrier)){
+  target=carrier.mesh.position.clone().add(V(4,0,9));
+ }else if(!carrier&&!shot&&!passTarget&&quaffle.position.distanceTo(player.pos)>11){
+  target=quaffle.position;
+ }else{
+  target=V(clamp(player.pos.x+12,-35,35),clamp(player.pos.y,7,20),clamp(player.pos.z-10,-42,40));
+ }
+ flyAI(chaser,target,chaser.speed,dt);
+ flyAI(keeper,keeperTarget(homeGoals,'rival'),keeper.speed,dt);
+ if(carrier===keeper)passBetween(keeper,chaser);
+}
+function segmentDistanceSq(point,from,to){
+ const edge=to.clone().sub(from),length=edge.lengthSq();
+ const t=length>0?clamp(point.clone().sub(from).dot(edge)/length,0,1):0;
+ return point.distanceToSquared(from.clone().addScaledVector(edge,t));
+}
+function endShot(){
+ if(shot?.recordMiss){
+  notify(training()?'未穿过门环 · 鬼飞球即将回到练习点':'射门偏出 · 争抢鬼飞球',1.7);
+  if(training())trainingReset=1.2;
+ }
+ shot=null;
+}
+function updateShot(from,dt){
+ shot.age+=dt;
+ const attacking=shot.side==='player',goals=attacking?awayGoals:homeGoals;
+ const z=goals[0].z,sign=Math.sign(z);
+ const crossing=from.z*sign<z*sign&&quaffle.position.z*sign>=z*sign;
+ const planeHit=crossing?positionOnGoalPlane(from,quaffleVel,z):null;
+ const endpoint=planeHit||quaffle.position;
+ const keeper=attacking?rivals[2]:allies[1];
+ const saveRadius=attacking&&match.mode==='standard'?1.75:2.05;
+ if(!attacking&&segmentDistanceSq(player.pos.clone().add(V(0,.85,0)),from,endpoint)<=2.15**2){
+  setCarrier('player');
+  match.stealCooldown=Math.max(match.stealCooldown,1);
+  notify('截住鹰队射门 · F 射门或 T 传球',1.7);
+  return;
+ }
+ if(!training()&&keeper.stun<=0&&segmentDistanceSq(keeper.mesh.position.clone().add(V(0,.85,0)),from,endpoint)<=saveRadius**2){
+  if(attacking){
+   shot=null;
+   quaffleVel.set((Math.random()-.5)*15,5,18);
+   pickupDelay=.55;
+   notify('鹰队守门员扑出了射门',1.7);
+  }else{
+   setCarrier(keeper);
+   notify('狮队守门员接住了射门',1.7);
+  }
+  return;
+ }
+ if(planeHit&&goals.some(goal=>planeHit.distanceToSquared(goal)<=goalRadius**2)){
+  scoreGoal(shot.side);
+  return;
+ }
+ if(crossing||shot.age>1.8)endShot();
+}
+function updatePass(from,dt){
+ passAge+=dt;
+ const receiver=passTarget==='player'?player.pos:passTarget.mesh.position;
+ if(segmentDistanceSq(receiver,from,quaffle.position)<3.05**2){
+  const received=passTarget;
+  setCarrier(received);
+  match.stealCooldown=Math.max(match.stealCooldown,.6);
+  notify(received==='player'?'接到队友传球 · F 射门':'接应队友接球',1.3);
+  return;
+ }
+ if(passAge>1.25){
+  passTarget=null;
+  notify('传球落空 · 争抢鬼飞球',1.4);
+ }
+}
+function updateQuaffle(dt){
+ if(carrier){
+  const owner=carrier==='player'?player.mesh:carrier.mesh;
+  quaffle.position.lerp(carryPosition(owner),1-Math.exp(-dt*22));
+  quaffle.rotation.y+=dt*2;
+  return;
+ }
+ if(match.kickoff>0||(training()&&match.trainingStep>=4))return;
+ if(trainingReset>0){
+  trainingReset=Math.max(0,trainingReset-dt);
+  if(trainingReset===0)resetQuaffle(V(0,12,-24));
+  return;
+ }
+ if(passTarget){
+  const receiver=passTarget==='player'?player.pos:passTarget.mesh.position;
+  const desired=receiver.clone().sub(quaffle.position).normalize().multiplyScalar(34);
+  quaffleVel.lerp(desired,1-Math.exp(-dt*7));
+ }else if(!shot&&quaffleVel.lengthSq()>.005){
+  quaffleVel.y-=7.5*dt;
+ }
+ const from=quaffle.position.clone();
+ quaffle.position.addScaledVector(quaffleVel,dt);
+ quaffle.rotation.x+=quaffleVel.length()*dt*.12;
+ if(shot){
+  updateShot(from,dt);
+  if(match.kickoff>0||(training()&&match.trainingStep>=4))return;
+ }else if(passTarget){
+  updatePass(from,dt);
+ }
+ if(carrier)return;
+ const low=quaffle.position.y<=2,high=quaffle.position.y>=39;
+ const normal=constrainPitch(quaffle.position,2,39);
+ if(normal){
+  const outward=quaffleVel.dot(normal);
+  if(outward>0)quaffleVel.addScaledVector(normal,-1.78*outward);
+ }
+ if(low&&quaffleVel.y<0){
+  quaffleVel.y=Math.abs(quaffleVel.y)*.53;
+  quaffleVel.x*=.78;
+  quaffleVel.z*=.78;
+  if(quaffleVel.y<.8)quaffleVel.y=0;
+  if(quaffleVel.lengthSq()<.09)quaffleVel.set(0,0,0);
+ }
+ if(high&&quaffleVel.y>0)quaffleVel.y*=-.66;
+ if((normal||low||high)&&shot)endShot();
+ if(shot||passTarget||pickupDelay>0||trainingReset>0)return;
+ if((!training()||match.trainingStep>=2)&&player.pos.distanceTo(quaffle.position)<2.85){
+  setCarrier('player');
+  match.stealCooldown=Math.max(match.stealCooldown,.75);
+  if(training()&&match.trainingStep===2)match.trainingStep=3;
+  notify('拿到鬼飞球 · 瞄准蓝色门环',1.7);
+  return;
+ }
+ if(training())return;
+ const receiver=[...rivals,allies[0]].find(unit=>unit.role==='chaser'&&unit.stun<=0&&unit.mesh.position.distanceTo(quaffle.position)<2.55);
+ if(receiver){
+  setCarrier(receiver);
+  notify(receiver===allies[0]?'狮队接应手拿球':'鹰队拿到鬼飞球',1.4);
+ }
+}
+function updateSteals(){
+ if(match.stealCooldown>0||!carrier)return;
+ if(carrier==='player'||allies.includes(carrier)){
+  if(carrier==='player'&&player.shield>0)return;
+  const position=carrier==='player'?player.pos:carrier.mesh.position;
+  const defender=rivals.find(r=>r.role==='chaser'&&r.stun<=0&&r.mesh.position.distanceTo(position)<2.35);
+  if(defender){
+   setCarrier(defender);
+   match.stealCooldown=1.4;
+   notify('鹰队抢断 · 加速接近持球者夺回',2);
+  }
+ }else if((player.speed>30||carrier.stun>0)&&player.pos.distanceTo(carrier.mesh.position)<2.7){
+  setCarrier('player');
+  match.stealCooldown=1.4;
+  match.stats.steals++;
+  notify('抢断成功 · F 射门或 T 传球',1.8);
+ }
+}
 function chooseSnitchTarget(){const a=Math.random()*TAU,r=Math.sqrt(Math.random());snitchTarget.set(Math.sin(a)*42*r,8+Math.random()*23,Math.cos(a)*56*r);snitchRetarget=1.3+Math.random()*1.2;}
-function catchSnitch(side){if(match.state!=='playing'||!match.snitchActive)return;snitch.visible=false;if(side==='player'){match.playerScore+=150;finishMatch('GOLDEN VICTORY','你抓住了金色飞贼，整座球场为狮队欢呼！');}else{match.rivalScore+=150;finishMatch('RAVENS TAKE THE SNITCH','对方找球手抢先一步。再次起飞，把胜利夺回来。');}tone(880,.5,'triangle',.08);}
-function updateSnitch(dt){if(!match.snitchActive){if(match.elapsed<35)return;match.snitchActive=true;snitch.visible=true;notify('THE GOLDEN SNITCH IS LOOSE · 150 POINTS',3);tone(920,.35,'sine',.06);}snitchTime+=dt;snitchRetarget-=dt;if(snitchRetarget<=0||snitch.position.distanceTo(snitchTarget)<2)chooseSnitchTarget();const dir=snitchTarget.clone().sub(snitch.position).normalize(),wobble=V(Math.sin(snitchTime*7),Math.cos(snitchTime*5)*.6,Math.sin(snitchTime*6)).multiplyScalar(.32);snitch.position.addScaledVector(dir.add(wobble).normalize(),13.5*dt);const flap=Math.sin(snitchTime*24)*.5;snitch.getObjectByName('WingL').rotation.z=-.28+flap;snitch.getObjectByName('WingR').rotation.z=.28-flap;if(player.pos.distanceTo(snitch.position)<2.35){catchSnitch('player');return;}for(const r of rivals)if(r.role==='seeker'&&r.mesh.position.distanceTo(snitch.position)<2.05){catchSnitch('rival');return;}}
-function updateBludgers(dt){for(const b of bludgers){if(b.frozen>0){b.frozen=Math.max(0,b.frozen-dt);b.mesh.rotation.y+=dt*1.5;continue;}b.retarget-=dt;if(b.retarget<=0){let target=player.pos.clone().addScaledVector(getAimForward(),player.speed*.35);if(Math.random()<.28)target=rivals[Math.floor(Math.random()*2)].mesh.position;b.vel.copy(target).sub(b.mesh.position).normalize().multiplyScalar(20);b.retarget=2+Math.random()*1.6;}b.mesh.position.addScaledVector(b.vel,dt);b.mesh.rotation.x+=dt*5;b.mesh.rotation.z+=dt*3;if(b.mesh.position.y<4||b.mesh.position.y>32){b.vel.y*=-1;b.mesh.position.y=clamp(b.mesh.position.y,4,32);}if((b.mesh.position.x/56)**2+(b.mesh.position.z/75)**2>1)b.vel.copy(V(0,14,0)).sub(b.mesh.position).normalize().multiplyScalar(20);if(b.mesh.position.distanceTo(player.pos)<2.25&&player.hitCooldown<=0){if(player.shield>0){b.vel.copy(b.mesh.position).sub(player.pos).normalize().multiplyScalar(26);b.frozen=.35;b.retarget=1;notify('PROTEGO DEFLECTED THE BLUDGER',1.3);}else{if(carrier==='player')dropQuaffle();const dir=player.pos.clone().sub(b.mesh.position).normalize();player.vel.copy(dir).multiplyScalar(22).add(V(0,7,0));player.hitCooldown=1.6;b.vel.copy(dir).multiplyScalar(-19);notify('BLUDGER HIT! RECOVER YOUR LINE',1.8);tone(90,.22,'sawtooth',.08);}}for(const r of rivals)if(b.mesh.position.distanceTo(r.mesh.position)<1.95&&r.stun<=0){if(carrier===r)dropQuaffle();const dir=r.mesh.position.clone().sub(b.mesh.position).normalize();r.stun=1.6;r.mesh.position.addScaledVector(dir,2);b.vel.copy(dir).multiplyScalar(-18);}}}
-function findSpellTarget(includeBludgers){const forward=getAimForward();let best=null,bestScore=Infinity;for(const r of rivals){const offset=r.mesh.position.clone().sub(player.pos),distance=offset.length();if(distance>36||distance<.1)continue;const alignment=offset.normalize().dot(forward);if(alignment<.12)continue;let score=distance-alignment*10;if(carrier===r)score-=18;if(score<bestScore){bestScore=score;best=r;}}if(includeBludgers)for(const b of bludgers){const offset=b.mesh.position.clone().sub(player.pos),distance=offset.length();if(distance<=32&&distance>.1&&offset.normalize().dot(forward)>.2&&distance+5<bestScore){bestScore=distance+5;best=b;}}return best;}
-function castSpell(){if(match.state!=='playing'||match.paused)return;const cfg=configs[match.selected],index=match.selected;if(match.cooldowns[index]>0){notify(cfg.spell+' READY IN '+match.cooldowns[index].toFixed(1)+'s',.9);return;}match.cooldowns[index]=cfg.cooldown;match.usedSpell=true;match.callout=cfg.spell+'!';match.calloutTime=1.45;speak(match.callout);tone(index===2?520:420,.18,'triangle',.06);if(index===2){player.shield=4;notify('PROTEGO · 4 SECOND SHIELD',1.5);return;}const target=findSpellTarget(index===1),mesh=new THREE.Group();sph(mesh,.28,V(),cfg.color,.15,3);const light=new THREE.PointLight(cfg.color,2.2,6);mesh.add(light);mesh.position.copy(player.pos).add(V(0,1.3,0)).addScaledVector(getAimForward(),1.2);scene.add(mesh);const direction=target?target.mesh.position.clone().sub(mesh.position).normalize():getAimForward();projectiles.push({mesh,target,effect:index===0?'expelliarmus':'stupefy',vel:direction.multiplyScalar(46),life:2.2,color:cfg.color});}
-function spellBurst(pos,color){const g=new THREE.Group();g.position.copy(pos);scene.add(g);for(const d of[UP,V(0,-1,0),V(-1,0,0),V(1,0,0),V(0,0,-1),V(0,0,1)])sph(g,.18,d.clone().multiplyScalar(.65),color,0,2.4);setTimeout(()=>scene.remove(g),260);}
-function updateSpells(dt){for(let i=0;i<3;i++)match.cooldowns[i]=Math.max(0,match.cooldowns[i]-dt);for(let i=projectiles.length-1;i>=0;i--){const p=projectiles[i];p.life-=dt;if(p.target)p.vel.lerp(p.target.mesh.position.clone().sub(p.mesh.position).normalize().multiplyScalar(46),1-Math.exp(-dt*5));p.mesh.position.addScaledVector(p.vel,dt);if(p.target&&p.mesh.position.distanceTo(p.target.mesh.position)<2){spellBurst(p.mesh.position,p.color);if(rivals.includes(p.target)){if(carrier===p.target)dropQuaffle();p.target.stun=Math.max(p.target.stun,p.effect==='expelliarmus'?1.5:3.2);notify('SPELL HIT · OPPONENT STUNNED',1.6);}else{p.target.frozen=p.effect==='stupefy'?3.2:1.2;p.target.vel.multiplyScalar(.15);notify('BLUDGER IMMOBILIZED',1.5);}p.life=0;}if(p.life<=0){scene.remove(p.mesh);projectiles.splice(i,1);}}}
-function finishMatch(title,detail){match.state='ended';$('endTitle').textContent=title;$('endScore').textContent=match.playerScore+' — '+match.rivalScore;$('endDetail').textContent=detail;$('ending').classList.remove('hidden');if(document.pointerLockElement)document.exitPointerLock();}
-function finishByTime(){if(match.playerScore>match.rivalScore)finishMatch('LIONS WIN','时间结束。你对球场的掌控决定了比赛。');else if(match.rivalScore>match.playerScore)finishMatch('RAVENS WIN','时间结束。下一场再把胜利夺回来。');else finishMatch('A GOLDEN DRAW','势均力敌。再赛一场，在空中分出胜负。');}
-function update(dt){match.messageTime=Math.max(0,match.messageTime-dt);match.calloutTime=Math.max(0,match.calloutTime-dt);if(match.state==='countdown'){match.countdown-=dt;if(match.countdown<=0){match.state='playing';notify('THE GOLDEN MATCH HAS BEGUN',2.2);}return;}if(match.state!=='playing')return;match.elapsed+=dt;match.timeLeft=Math.max(0,match.timeLeft-dt);if(match.timeLeft<=0){finishByTime();return;}player.hitCooldown=Math.max(0,player.hitCooldown-dt);player.shield=Math.max(0,player.shield-dt);player.boundaryNotice=Math.max(0,player.boundaryNotice-dt);match.kickoff=Math.max(0,match.kickoff-dt);match.stealCooldown=Math.max(0,match.stealCooldown-dt);pickupDelay=Math.max(0,pickupDelay-dt);updatePlayer(dt);updateRivals(dt);updateQuaffle(dt);updateSteals();updateSpells(dt);updateSnitch(dt);updateBludgers(dt);updateWaypoint(dt);updateCoach();shield.visible=player.shield>0;shield.position.copy(player.pos).add(V(0,1,0));shield.rotation.y+=dt*.8;shield.scale.setScalar(1+Math.sin(match.elapsed*6)*.025);for(let i=0;i<flags.length;i++)flags[i].rotation.z=Math.sin(match.elapsed*2+i)*.025;}
-function getObjectiveInfo(){let target=quaffle.position,text='飞向中央橙色鬼飞球并自动拾取';if(match.snitchActive){target=snitch.position;text='追捕金色飞贼 · +150 分并结束比赛';}else if(carrier==='player'){target=closestGoal(awayGoals,player.pos);text='按 F 或左键射入蓝色门环 · +10 分';}else if(carrier){target=carrier.mesh.position;text='加速追上蓝衣对手，靠近即可抢回鬼飞球';}else if(quaffleSide==='player'){target=quaffle.position;text='鬼飞球正在飞向蓝色门环，注意守门员拦截';}else if(quaffleSide==='rival'){target=quaffle.position;text='回防金色门环，阻止对手射门得分';}const delta=target.clone().sub(player.pos),distance=delta.length(),h=V(delta.x,0,delta.z),horizontal=Math.max(h.length(),.01),{forward,right}=getHorizontalBasis(),angle=Math.atan2(delta.dot(right),delta.dot(forward));let arrow='↑';if(angle>2.6||angle< -2.6)arrow='↓';else if(angle>1.85)arrow='↙';else if(angle>.85)arrow='←';else if(angle>.35)arrow='↖';else if(angle< -1.85)arrow='↘';else if(angle< -.85)arrow='→';else if(angle< -.35)arrow='↗';const height=Math.abs(delta.y)>4?(delta.y>0?'，目标在上方':'，目标在下方'):'';return{target,text,direction:arrow+' · '+Math.round(distance)+'m'+height};}
+function catchSnitch(side){if(match.state!=='playing'||!match.snitchActive)return;snitch.visible=false;match.snitchActive=false;if(side==='player')match.playerScore+=150;else match.rivalScore+=150;const caught=side==='player'?'你抓住金色飞贼，狮队 +150 分。':'对方抓住金色飞贼，鹰队 +150 分。';const winner=resultTitle();finishMatch(winner,caught+(match.playerScore>match.rivalScore?'最终总分狮队获胜！':match.rivalScore>match.playerScore?'最终总分鹰队获胜。':'最终总分相同，本场平局。'));tone(880,.5,'triangle',.08);}
+function updateSnitch(dt){if(!match.snitchActive){if(match.elapsed<match.rules.snitchAt)return;match.snitchActive=true;match.trackSnitch=true;snitch.visible=true;notify('金色飞贼出现 · 捕获可得 150 分',3);tone(920,.35,'sine',.06);}snitchTime+=dt;snitchRetarget-=dt;if(snitchRetarget<=0||snitch.position.distanceTo(snitchTarget)<2)chooseSnitchTarget();const dir=snitchTarget.clone().sub(snitch.position).normalize(),wobble=V(Math.sin(snitchTime*7),Math.cos(snitchTime*5)*.6,Math.sin(snitchTime*6)).multiplyScalar(.32);snitch.position.addScaledVector(dir.add(wobble).normalize(),13.5*dt);const flap=Math.sin(snitchTime*24)*.5;snitch.getObjectByName('WingL').rotation.z=-.28+flap;snitch.getObjectByName('WingR').rotation.z=.28-flap;if(player.pos.distanceTo(snitch.position)<2.35){catchSnitch('player');return;}for(const r of rivals)if(match.elapsed>=match.rules.rivalSnitchAt&&r.role==='seeker'&&r.stun<=0&&r.mesh.position.distanceTo(snitch.position)<2.05){catchSnitch('rival');return;}}
+function updateBludgers(dt){for(const b of bludgers){if(b.frozen>0){b.frozen=Math.max(0,b.frozen-dt);b.mesh.rotation.y+=dt*1.5;continue;}b.retarget-=dt;if(b.retarget<=0){let target=player.pos.clone().addScaledVector(getAimForward(),player.speed*.35);if(Math.random()<.28)target=rivals[Math.floor(Math.random()*2)].mesh.position;b.vel.copy(target).sub(b.mesh.position).normalize().multiplyScalar(20);b.retarget=2+Math.random()*1.6;}b.mesh.position.addScaledVector(b.vel,dt);b.mesh.rotation.x+=dt*5;b.mesh.rotation.z+=dt*3;if(b.mesh.position.y<4||b.mesh.position.y>32){b.vel.y*=-1;b.mesh.position.y=clamp(b.mesh.position.y,4,32);}if((b.mesh.position.x/56)**2+(b.mesh.position.z/75)**2>1)b.vel.copy(V(0,14,0)).sub(b.mesh.position).normalize().multiplyScalar(20);if(b.mesh.position.distanceTo(player.pos)<2.25&&player.hitCooldown<=0){if(player.shield>0){b.vel.copy(b.mesh.position).sub(player.pos).normalize().multiplyScalar(26);b.frozen=.35;b.retarget=1;notify('盔甲护身 · 已挡开游走球',1.3);}else{if(carrier==='player')dropQuaffle();const dir=player.pos.clone().sub(b.mesh.position).normalize();player.vel.copy(dir).multiplyScalar(22).add(V(0,7,0));player.hitCooldown=1.6;b.vel.copy(dir).multiplyScalar(-19);notify('遭游走球撞击 · 稳住扫帚',1.8);tone(90,.22,'sawtooth',.08);}}for(const r of rivals)if(b.mesh.position.distanceTo(r.mesh.position)<1.95&&r.stun<=0){if(carrier===r)dropQuaffle();const dir=r.mesh.position.clone().sub(b.mesh.position).normalize();r.stun=1.6;r.mesh.position.addScaledVector(dir,2);b.vel.copy(dir).multiplyScalar(-18);}}}
+function isWizardTarget(target){return rivals.includes(target)||target===practiceDummy;}
+function findSpellTarget(includeBludgers=match.selected===1){const cfg=configs[match.selected];if(cfg.effect==='protego')return null;const forward=camera.getWorldDirection(V()),origin=player.pos.clone().add(V(0,1,0)),cone=Math.cos(22*Math.PI/180);let best=null,bestScore=Infinity;const candidates=training()?(practiceDummy.mesh.visible?[practiceDummy]:[]):includeBludgers?[...rivals,...bludgers]:rivals;for(const target of candidates){const offset=target.mesh.position.clone().add(isWizardTarget(target)?V(0,1,0):V()).sub(origin),distance=offset.length();if(distance>cfg.range||distance<.1||offset.dot(forward)<=0)continue;const alignment=target.mesh.position.clone().add(isWizardTarget(target)?V(0,1,0):V()).sub(camera.position).normalize().dot(forward);if(alignment<cone)continue;const score=(1-alignment)*100+distance*.04;if(score<bestScore){bestScore=score;best=target;}}return best;}
+function castSpell(){if(match.state!=='playing'||match.paused)return false;const cfg=configs[match.selected],index=match.selected;if(match.cooldowns[index]>0){notify(cfg.cn+' · 还需 '+match.cooldowns[index].toFixed(1)+' 秒',1);return false;}const target=index===2?null:findSpellTarget(index===1);if(index!==2&&!target){notify('将准星对准 '+cfg.range+' 米内的'+(index===1?'对手或游走球':'对手')+' · 未消耗冷却',1.6);return false;}match.cooldowns[index]=cfg.cooldown;match.usedSpell=true;match.callout=cfg.cn+' · '+cfg.spell;match.calloutTime=1.45;player.mesh.userData.castTime=.55;speak(cfg.spell);tone(index===2?520:420,.18,'triangle',.06);if(index===2){player.shield=4;notify('盔甲护身 · 4 秒内格挡撞击与抢断',1.8);if(training()&&match.trainingStep===4)finishTraining();return true;}const mesh=new THREE.Group();sph(mesh,.18,V(),cfg.color,.15,3);const light=new THREE.PointLight(cfg.color,1.6,5);mesh.add(light);player.mesh.updateMatrixWorld(true);player.mesh.getObjectByName('SpellSocket').getWorldPosition(mesh.position);scene.add(mesh);const direction=target.mesh.position.clone().add(isWizardTarget(target)?V(0,1,0):V()).sub(mesh.position).normalize();projectiles.push({mesh,target,effect:cfg.effect,vel:direction.multiplyScalar(46),life:2.8,color:cfg.color});return true;}
+function spellBurst(pos,color){const mesh=new THREE.Group();mesh.position.copy(pos);scene.add(mesh);const ring=torus(mesh,.5,.045,V(),color,0,2);ring.quaternion.copy(camera.quaternion);for(const d of[UP,V(0,-1,0),V(-1,0,0),V(1,0,0)])sph(mesh,.1,d.clone().multiplyScalar(.6),color,0,2);spellEffects.push({mesh,life:.28});}
+function updateSpells(dt){for(let i=0;i<3;i++)match.cooldowns[i]=Math.max(0,match.cooldowns[i]-dt);for(let i=spellEffects.length-1;i>=0;i--){const effect=spellEffects[i];effect.life-=dt;effect.mesh.scale.multiplyScalar(1+dt*4);if(effect.life<=0){disposeObject(effect.mesh);spellEffects.splice(i,1);}}for(let i=projectiles.length-1;i>=0;i--){const p=projectiles[i];p.life-=dt;const aim=p.target.mesh.position.clone().add(isWizardTarget(p.target)?V(0,1,0):V());p.vel.copy(aim).sub(p.mesh.position).normalize().multiplyScalar(46);const distance=p.mesh.position.distanceTo(aim);p.mesh.position.addScaledVector(p.vel,dt);if(distance<Math.max(1.25,46*dt)){spellBurst(aim,p.color);if(isWizardTarget(p.target)){if(p.effect==='expelliarmus'){const disarmed=carrier===p.target;if(disarmed)dropQuaffle();p.target.stun=Math.max(p.target.stun,.65);notify(disarmed?'除你武器命中 · 对手已掉球':'除你武器命中 · 对手短暂受击',1.8);}else{p.target.stun=Math.max(p.target.stun,3.2);notify('昏昏倒地命中 · 对手昏迷 3.2 秒，靠近可抢球',1.8);}}else{p.target.frozen=3.2;p.target.vel.multiplyScalar(.15);notify('昏昏倒地命中 · 游走球冻结 3.2 秒',1.8);}if(training()&&p.target===practiceDummy)finishTraining();p.life=0;}if(p.life<=0){disposeObject(p.mesh);projectiles.splice(i,1);}}}
+function resultTitle(){
+ return match.playerScore>match.rivalScore?'狮队获胜':match.rivalScore>match.playerScore?'鹰队获胜':'双方平局';
+}
+function finishMatch(title,detail){
+ clearInput();
+ match.state='ended';
+ const {shots,goals,steals,passes}=match.stats;
+ const mode=match.mode,score=match.playerScore,previous=Number(bestScores[mode])||0;
+ const best=Math.max(previous,score);
+ bestScores[mode]=best;
+ try{localStorage.setItem('broomball-best',JSON.stringify(bestScores));}catch{}
+ $('endTitle').textContent=title;
+ $('endScore').textContent=score+' — '+match.rivalScore;
+ $('endDetail').textContent=detail;
+ $('endStats').textContent='射门 '+shots+' 次 · 狮队进球 '+goals+' 个 · 抢断 '+steals+' 次 · 传球 '+passes+' 次';
+ $('endBest').textContent=match.rules.label+' · 本机最佳 '+best+' 分'+(score>previous?' · 刷新纪录':'');
+ $('ending').classList.remove('hidden');
+ if(document.pointerLockElement===canvas)document.exitPointerLock();
+}
+function finishByTime(){
+ finishMatch(resultTitle(),'时间结束，按双方总分结算。');
+}
+function finishTraining(){
+ if(match.trainingStep!==4)return;
+ match.trainingStep=5;
+ match.state='ended';
+ clearInput();
+ waypoint.visible=false;
+ $('trainingEnd').classList.remove('hidden');
+ if(document.pointerLockElement===canvas)document.exitPointerLock();
+}
+function update(dt){
+ match.messageTime=Math.max(0,match.messageTime-dt);
+ match.calloutTime=Math.max(0,match.calloutTime-dt);
+ if(match.state==='countdown'){
+  match.countdown-=dt;
+  if(match.countdown<=0){
+   match.state='playing';
+   notify('比赛开始 · 争夺鬼飞球',2.2);
+  }
+  return;
+ }
+ if(match.state!=='playing')return;
+ match.elapsed+=dt;
+ if(!training()){
+  match.timeLeft=Math.max(0,match.timeLeft-dt);
+  if(match.timeLeft<=0){finishByTime();return;}
+ }
+ player.hitCooldown=Math.max(0,player.hitCooldown-dt);
+ player.shield=Math.max(0,player.shield-dt);
+ player.boundaryNotice=Math.max(0,player.boundaryNotice-dt);
+ match.kickoff=Math.max(0,match.kickoff-dt);
+ match.stealCooldown=Math.max(0,match.stealCooldown-dt);
+ pickupDelay=Math.max(0,pickupDelay-dt);
+ updatePlayer(dt);
+ if(!training()){
+  updateRivals(dt);
+  updateAllies(dt);
+ }
+ updateQuaffle(dt);
+ if(!training())updateSteals();
+ updateSpells(dt);
+ if(match.state!=='playing')return;
+ if(!training()){
+  updateSnitch(dt);
+  if(match.state!=='playing')return;
+  updateBludgers(dt);
+ }else if(practiceDummy.mesh.visible){
+  animateWizard(practiceDummy.mesh,dt,0,match.elapsed);
+ }
+ updateWaypoint(dt);
+ shield.visible=player.shield>0;
+ shield.position.copy(player.pos).add(V(0,1,0));
+ shield.rotation.y+=dt*.8;
+ shield.scale.setScalar(1+Math.sin(match.elapsed*6)*.025);
+ for(let i=0;i<flags.length;i++)flags[i].rotation.z=Math.sin(match.elapsed*2+i)*.025;
+}
+function getObjectiveInfo(){
+ let target=quaffle.position,text='飞向橙色鬼飞球 · 靠近自动拾取';
+ if(carrier==='player'){
+  const info=getShotInfo();
+  target=info.goal;
+  text=info.assisted?'蓝门已对准 · F / 左键射门':info.distance>shotRange?'带球接近蓝门 · 38 米内可辅助瞄准':'将准星对准蓝色门环';
+ }else if(training()&&match.trainingStep===4){
+  target=practiceDummy.mesh.position;
+  text='瞄准蓝衣练习靶 · R / 右键施法';
+ }else if(carrier&&allies.includes(carrier)){
+  target=carrier.mesh.position;
+  text='狮队持球 · 接应手正在推进';
+ }else if(match.snitchActive&&match.trackSnitch){
+  target=snitch.position;
+  text='追踪金色飞贼 · +150 分并结束比赛';
+ }else if(carrier){
+  target=carrier.mesh.position;
+  text='鹰队持球 · Shift 加速接近或先施法';
+ }else if(shot){
+  text=shot.side==='player'?'狮队射门 · 准备争抢落点':'鹰队射门 · 回防金色门环';
+ }else if(passTarget){
+  text='鬼飞球传递中 · 留意接应位置';
+ }
+ const delta=target.clone().sub(player.pos),distance=delta.length(),{forward,right}=getHorizontalBasis();
+ const angle=Math.atan2(delta.dot(right),delta.dot(forward));
+ let arrow='↑';
+ if(Math.abs(angle)>2.6)arrow='↓';
+ else if(angle>1.85)arrow='↘';
+ else if(angle>.85)arrow='→';
+ else if(angle>.35)arrow='↗';
+ else if(angle<-1.85)arrow='↙';
+ else if(angle<-.85)arrow='←';
+ else if(angle<-.35)arrow='↖';
+ const height=Math.abs(delta.y)>4?(delta.y>0?'，目标在上方':'，目标在下方'):'';
+ return {target,text,direction:arrow+' · '+Math.round(distance)+'m'+height};
+}
 function updateWaypoint(dt){const info=getObjectiveInfo(),active=(match.state==='playing'||match.state==='countdown')&&!match.paused;waypoint.visible=active;if(!active)return;waypoint.position.copy(info.target);waypoint.position.y+=Math.sin(match.elapsed*2.4)*.35+1.4;waypoint.rotation.y+=dt*.75;waypoint.userData.ring.scale.setScalar(1+Math.sin(match.elapsed*3.2)*.08);}
-function updateCoach(){if(match.state!=='playing'||match.paused){$('coach').style.opacity=0;return;}$('coach').style.opacity=1;let step='1/5',text='按住 W 沿镜头方向飞行；A / D 平移，S 制动。';if(match.usedMove&&!match.usedVertical){step='2/5';text='现在练习高度控制：按住 SPACE 或 ↑ 上升，按住 Q 或 ↓ 下降。';}else if(match.usedMove&&match.usedVertical&&!match.usedThrow&&match.elapsed<20){step='3/5';text='飞向中央橙色鬼飞球，靠近会自动拿球；拿球后按 F 或左键射门。';}else if(carrier==='player'){step='4/5';text='你已持球！飞向蓝色门环并按 F / 左键射门；右键可释放咒语。';}else if(match.snitchActive){step='5/5';text='金色飞贼已出现：跟着金色航标和雷达箭头，捕捉它结束比赛。';}else if(carrier){step='4/5';text='对手正带着鬼飞球；Shift 加速追上他，附近接触即可抢断。';}else{text='跟着金色航标：先夺鬼飞球，再射蓝色门环；飞贼将在 35 秒后出现。';}if(match.usedThrow&&!match.usedSpell&&match.elapsed>8){text+=' 对手靠近时，右键可缴械、击晕或护盾。';}$('coachStep').textContent='FLIGHT '+step;$('coachText').textContent=text;}
-function updateHUD(){$('hud').style.opacity=match.state==='menu'?'0':'1';$('playerScore').textContent=match.playerScore;$('rivalScore').textContent=match.rivalScore;const sec=Math.ceil(match.timeLeft);$('clock').textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('speed').textContent='AIRSPEED '+String(Math.round(player.speed)).padStart(2,'0')+' · ALT '+String(Math.round(player.pos.y)).padStart(2,'0');$('speedFill').style.width=clamp(player.speed,0,100)+'%';$('viewMode').textContent=match.firstPerson?'FIRST':'THIRD';$('wizardName').textContent=(match.selected+1)+'  '+configs[match.selected].name;const cd=match.cooldowns[match.selected];$('spellStatus').textContent=player.shield>0?'PROTEGO · '+player.shield.toFixed(1)+'s SHIELD':'RMB '+configs[match.selected].spell+' · '+(cd>0?cd.toFixed(1)+'s':'READY');$('spellStatus').style.color=cd>0?'var(--muted)':'var(--gold)';$('possession').textContent=carrier==='player'?'QUAFFLE · YOU HAVE IT':carrier?'QUAFFLE · RAVENS HAVE IT':'QUAFFLE · IN FLIGHT';$('reticle').textContent=carrier==='player'?'[ Q ]':'+';$('snitchStatus').textContent=match.snitchActive?'SNITCH · IN PLAY':match.state==='playing'?'SNITCH · '+Math.max(0,35-Math.floor(match.elapsed))+'s':'SNITCH · DORMANT';$('message').textContent=match.message;$('message').style.opacity=match.messageTime>0&&match.state==='playing'&&!match.paused?1:0;$('spellCallout').textContent=match.callout;$('spellCallout').style.opacity=match.calloutTime>0&&match.state==='playing'&&!match.paused?1:0;$('countdown').style.display=match.state==='countdown'&&!match.paused?'block':'none';$('countdown').textContent=Math.max(1,Math.ceil(match.countdown));const objective=getObjectiveInfo();$('objectiveText').textContent=objective.text;$('objectiveArrow').textContent=objective.direction;drawRadar();}
-function drawRadar(){const c=$('radar'),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='rgba(5,12,24,.88)';ctx.fillRect(0,0,w,h);const center={x:w/2,y:h/2},map=p=>({x:center.x+p.x/60*w*.37,y:center.y+p.z/80*h*.36});ctx.strokeStyle='#8fa891';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(center.x,center.y,w*.37,h*.36,0,0,TAU);ctx.stroke();ctx.strokeStyle='#536a62';ctx.beginPath();ctx.moveTo(w*.13,center.y);ctx.lineTo(w*.87,center.y);ctx.stroke();ctx.beginPath();ctx.arc(center.x,center.y,20,0,TAU);ctx.stroke();const dot=(p,r,color)=>{const q=map(p);ctx.fillStyle=color;ctx.beginPath();ctx.arc(q.x,q.y,r,0,TAU);ctx.fill();};for(const g of awayGoals)dot(g,3.4,'#81aee3');for(const g of homeGoals)dot(g,3.4,'#e5bd6a');for(const r of rivals)dot(r.mesh.position,5,r.role==='seeker'?'#b18cdb':'#6f9fd4');for(const b of bludgers)dot(b.mesh.position,3.5,'#70788b');if(!carrier)dot(quaffle.position,5,'#df8059');if(match.snitchActive&&match.state==='playing')dot(snitch.position,6,'#ffe181');const p=map(player.pos),f=getAimForward();ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+f.x*16,p.y+f.z*16);ctx.stroke();dot(player.pos,7,'#fff');ctx.fillStyle='#b9c3d4';ctx.font='20px Segoe UI';ctx.fillText('PITCH RADAR',16,30);}
-function frame(now){requestAnimationFrame(frame);const dt=Math.min((now-lastTime)/1000,.05);lastTime=now;if(!match.paused)update(dt);updateCamera(dt);updateHUD();renderer.render(scene,camera);}requestAnimationFrame(frame);
+const trainingHints=[
+ '按住 W 飞行，A / D 平移，S 后退，X 急停。用 ← / → 转向。',
+ '按 Space 上升，Q 下降。高度变化累计 4 米即可继续。',
+ '沿航标飞向橙色鬼飞球，调整高度，靠近自动拾取。',
+ '带球飞到蓝门 38 米内。移动鼠标或按 I / K 微调高度，准星变绿后按 F / 左键射门。',
+ '将准星对准蓝衣练习靶，按 R / 右键施法。也可按 3 选罗恩，再施放护盾。'
+];
+function updateCoach(){
+ const visible=training()&&match.state==='playing'&&!match.paused;
+ $('coach').style.display=visible?'':'none';
+ const step=Math.min(match.trainingStep,4);
+ $('coachStep').textContent='训练 '+(step+1)+'/5';
+ $('coachText').textContent=trainingHints[step];
+}
+function updateHUD(){
+ $('hud').style.opacity=match.state==='menu'?'0':'1';$('hud').inert=match.state==='menu'||match.paused||match.state==='ended';$('playerScore').textContent=match.playerScore;$('rivalScore').textContent=match.rivalScore;
+ $('modeLabel').textContent=match.rules.label;
+ $('staminaFill').style.width=player.stamina+'%';$('staminaValue').textContent=(player.exhausted?'恢复中 · ':'')+Math.round(player.stamina)+'%';
+ const sec=Math.ceil(match.timeLeft);$('clock').textContent=training()?'∞':String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('speed').textContent='速度 '+String(Math.round(player.speed)).padStart(2,'0')+' m/s · 高度 '+Math.round(player.pos.y)+' m';$('speedFill').style.width=clamp(player.speed/48*100,0,100)+'%';$('viewMode').textContent=match.firstPerson?'第一人称':'第三人称';$('wizardName').textContent=(match.selected+1)+'  '+configs[match.selected].name;
+ const cfg=configs[match.selected],cd=match.cooldowns[match.selected];$('spellStatus').textContent=cfg.cn+' · '+(cd>0?'冷却 '+cd.toFixed(1)+' 秒':'R / 右键施放');$('spellStatus').style.color=cd>0?'var(--muted)':'var(--gold)';
+ const live=match.state==='playing'&&!match.paused,holding=carrier==='player';
+ const receiver=holding?getPassReceiver():null;
+ $('possession').textContent=holding?(receiver?'你持球 · F 射门 / T 传球':'你持球 · F / 左键射门'):allies.includes(carrier)?'狮队持球 · 跟进接应':carrier?'鹰队持球 · 加速抢断或施法':'鬼飞球未被持有';
+ const info=live&&holding?getShotInfo():null;
+ const target=live&&!holding?findSpellTarget():null;
+ $('reticle').textContent=info?.assisted?'⊕':'+';
+ $('reticle').classList.toggle('shot-ready',!!info?.assisted);
+ targetMarker.visible=!!target;
+ let hint='';
+ if(info){
+  hint=(info.assisted?'已对准 · F / 左键':info.distance>shotRange?'距离较远 · 无辅助':'准星未对准 · 无辅助')+' · '+Math.round(info.distance)+' 米';
+  if(receiver)hint+=' · T 传球';
+ }else if(target){
+  targetMarker.position.copy(target.mesh.position).add(isWizardTarget(target)?V(0,1,0):V());
+  targetMarker.quaternion.copy(camera.quaternion);
+  const name=target===practiceDummy?'练习靶':rivals.includes(target)?carrier===target?'持球对手':'鹰队球员':'游走球';
+  hint=name+' · '+Math.round(player.pos.distanceTo(target.mesh.position))+' 米 · '+(cd>0?'技能冷却中':'R 施法');
+ }else if(live&&!training()){
+  hint=cfg.effect==='protego'?(player.shield>0?'护盾持续 '+player.shield.toFixed(1)+' 秒':'R / 右键 · 4 秒防护'):'瞄准 '+cfg.range+' 米内'+(match.selected===1?'对手 / 游走球':'对手');
+ }
+ $('targetHint').textContent=hint;
+ for(let i=0;i<configs.length;i++){const slot=$('spellSlot'+i);if(!slot)continue;const remaining=match.cooldowns[i];slot.classList.toggle('active',i===match.selected);slot.classList.toggle('cooling',remaining>0);slot.setAttribute('aria-pressed',String(i===match.selected));slot.querySelector('small').textContent=i===2&&player.shield>0?'护盾 '+player.shield.toFixed(1)+' 秒':remaining>0?'冷却 '+remaining.toFixed(1)+' 秒':'就绪 · '+configs[i].cooldown+' 秒冷却';slot.querySelector('.cooldown-track').style.width=(remaining>0?(1-remaining/configs[i].cooldown)*100:100)+'%';}
+ $('snitchStatus').textContent=training()?'引导训练 · 无倒计时':match.snitchActive?'飞贼已出现 · Tab '+(match.trackSnitch?'取消追踪':'追踪'):match.state==='playing'?'飞贼出现 · '+Math.max(0,Math.ceil(match.rules.snitchAt-match.elapsed))+' 秒':'金色飞贼 · 等待开赛';$('message').textContent=match.message;$('message').style.opacity=match.messageTime>0&&live?1:0;$('spellCallout').textContent=match.callout;$('spellCallout').style.opacity=match.calloutTime>0&&live?1:0;$('countdown').style.display=match.state==='countdown'&&!match.paused?'block':'none';$('countdown').textContent=Math.max(1,Math.ceil(match.countdown));const objective=getObjectiveInfo();$('objectiveText').textContent=objective.text;$('objectiveArrow').textContent=objective.direction;updateCoach();drawRadar();
+}
+function drawRadar(){
+ const c=$('radar'),ctx=c.getContext('2d'),w=c.width,h=c.height;
+ ctx.clearRect(0,0,w,h);
+ ctx.fillStyle='rgba(5,12,24,.88)';
+ ctx.fillRect(0,0,w,h);
+ const center={x:w/2,y:h/2},map=p=>({x:center.x+p.x/60*w*.37,y:center.y+p.z/80*h*.36});
+ ctx.strokeStyle='#8fa891';
+ ctx.lineWidth=2;
+ ctx.beginPath();
+ ctx.ellipse(center.x,center.y,w*.37,h*.36,0,0,TAU);
+ ctx.stroke();
+ ctx.strokeStyle='#536a62';
+ ctx.beginPath();
+ ctx.moveTo(w*.13,center.y);
+ ctx.lineTo(w*.87,center.y);
+ ctx.stroke();
+ ctx.beginPath();
+ ctx.arc(center.x,center.y,20,0,TAU);
+ ctx.stroke();
+ const dot=(p,r,color)=>{const q=map(p);ctx.fillStyle=color;ctx.beginPath();ctx.arc(q.x,q.y,r,0,TAU);ctx.fill();};
+ const mark=(unit,color)=>{
+  const position=unit.mesh.position;
+  if(carrier===unit)dot(position,9,'#f3955f');
+  if(unit.role==='keeper'){
+   const q=map(position);
+   ctx.fillStyle=color;
+   ctx.fillRect(q.x-5,q.y-5,10,10);
+  }else dot(position,5,color);
+ };
+ for(const g of awayGoals)dot(g,3.4,'#81aee3');
+ for(const g of homeGoals)dot(g,3.4,'#e5bd6a');
+ if(!training()){
+  for(const r of rivals)mark(r,r.role==='seeker'?'#b18cdb':'#6f9fd4');
+  for(const a of allies)mark(a,'#f1c17d');
+  for(const b of bludgers)dot(b.mesh.position,3.5,'#70788b');
+ }else if(practiceDummy.mesh.visible)dot(practiceDummy.mesh.position,5,'#6f9fd4');
+ if(!carrier&&quaffle.visible)dot(quaffle.position,5,'#df8059');
+ if(match.snitchActive&&match.state==='playing')dot(snitch.position,6,'#ffe181');
+ const p=map(player.pos),f=getAimForward();
+ ctx.strokeStyle='#fff';
+ ctx.lineWidth=3;
+ ctx.beginPath();
+ ctx.moveTo(p.x,p.y);
+ ctx.lineTo(p.x+f.x*16,p.y+f.z*16);
+ ctx.stroke();
+ if(carrier==='player')dot(player.pos,10,'#f3955f');
+ dot(player.pos,7,'#fff');
+ ctx.font='19px Microsoft YaHei, sans-serif';
+ ctx.fillStyle='#e9bd80';
+ ctx.fillText('金 · 狮队',15,28);
+ ctx.fillStyle='#8ab2e0';
+ ctx.fillText('蓝 · 鹰队',w-105,28);
+ ctx.fillStyle='#b9c3d4';
+ ctx.fillText('方块 · 守门员',15,h-10);
+}
+function frame(now){
+ requestAnimationFrame(frame);
+ const dt=clamp((now-lastTime)/1000,0,.05);
+ lastTime=now;
+ if(!match.paused)update(dt);
+ updateCamera(dt);
+ updateHUD();
+ environment?.update(dt,{player:player.pos,elapsed:match.elapsed,active:match.state==='playing'&&!match.paused,reducedMotion:settings.reducedMotion});
+ renderer.render(scene,camera);
+}
+requestAnimationFrame(frame);
 for(const button of document.querySelectorAll('.character'))button.addEventListener('click',()=>{document.querySelectorAll('.character').forEach(b=>b.classList.remove('selected'));button.classList.add('selected');switchCharacter(configs.findIndex(c=>c.id===button.dataset.id));});
-$('startBtn').addEventListener('click',startMatch);$('resumeBtn').addEventListener('click',resumeMatch);$('restartBtn').addEventListener('click',restartMatch);$('restartPauseBtn').addEventListener('click',restartMatch);$('startHelpBtn').addEventListener('click',()=>openHelp('menu'));$('helpBtnPause').addEventListener('click',()=>openHelp('pause'));$('closeHelpBtn').addEventListener('click',closeHelp);
+for(const button of document.querySelectorAll('.mode-option'))button.addEventListener('click',()=>selectMode(button.dataset.mode));
+$('startBtn').addEventListener('click',()=>startMatch());
+$('trainingPlayBtn').addEventListener('click',()=>startMatch('standard'));
+$('trainingResetBtn').addEventListener('click',restartMatch);
+for(const id of ['menuPauseBtn','menuEndBtn','menuTrainingBtn'])$(id).addEventListener('click',returnToMenu);$('resumeBtn').addEventListener('click',resumeMatch);$('restartBtn').addEventListener('click',restartMatch);$('restartPauseBtn').addEventListener('click',restartMatch);$('startHelpBtn').addEventListener('click',()=>openHelp('menu'));$('helpBtnPause').addEventListener('click',()=>openHelp('pause'));$('closeHelpBtn').addEventListener('click',closeHelp);
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
-addEventListener('keydown',e=>{keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','PageUp','PageDown'].includes(e.code))e.preventDefault();if(e.repeat)return;if(e.code==='KeyV'&&match.state!=='ended')toggleView();if(e.code==='KeyH'&&!$('help').classList.contains('hidden'))closeHelp();else if(e.code==='KeyH')openHelp(match.state==='menu'?'menu':'pause');if(e.code==='Escape'&&!$('help').classList.contains('hidden'))closeHelp();else if(e.code==='Escape'&&(match.state==='playing'||match.state==='countdown')&&!match.paused)pauseMatch();if(e.code==='KeyG'){match.gravity=!match.gravity;notify(match.gravity?'GRAVITY ON · 重力开启':'GRAVITY OFF · 自由飞行',1.5);}if(e.code==='KeyC'){match.collision=!match.collision;notify(match.collision?'COLLISION ON':'COLLISION OFF',1.2);}if(e.code==='KeyF')throwQuaffle();if(['Digit1','Digit2','Digit3'].includes(e.code)&&match.state!=='ended')switchCharacter(Number(e.code.slice(-1))-1);if(e.code==='KeyR'&&(match.state==='ended'||match.paused))restartMatch();});
-addEventListener('keyup',e=>{keys[e.code]=false;if(['KeyQ','KeyE','Space','ArrowUp','ArrowDown','PageUp','PageDown','Numpad8','Numpad2'].includes(e.code)&&!(keys.KeyQ||keys.KeyE||keys.Space||keys.ArrowUp||keys.ArrowDown||keys.PageUp||keys.PageDown||keys.Numpad8||keys.Numpad2||keys.ControlLeft))player.vel.y=0;});
-addEventListener('mousemove',e=>{if(document.pointerLockElement===canvas&&!match.paused){cameraYaw-=e.movementX*.002;cameraPitch=clamp(cameraPitch-e.movementY*.002*1.25,-1.35,1.2);}});
+const gameplayKeys=new Set(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyX','KeyR','KeyF','KeyT','KeyI','KeyK','Tab','ArrowLeft','ArrowRight','Space','ArrowUp','ArrowDown','PageUp','PageDown','Numpad8','Numpad2','ControlLeft','ControlRight','ShiftLeft','ShiftRight']);
+addEventListener('keydown',e=>{
+ const editable=e.target instanceof HTMLElement&&e.target.matches('input,textarea,select');if(editable&&e.code!=='Escape')return;
+ const active=(match.state==='playing'||match.state==='countdown')&&!match.paused;if(active&&gameplayKeys.has(e.code)){keys[e.code]=true;e.preventDefault();}if(e.repeat)return;
+ if(e.code==='KeyH'){if(!$('help').classList.contains('hidden'))closeHelp();else if(match.state!=='ended')openHelp(match.state==='menu'?'menu':'pause');return;}
+ if(e.code==='Escape'){e.preventDefault();if(!$('help').classList.contains('hidden'))closeHelp();else if(match.paused&&(match.state==='playing'||match.state==='countdown'))resumeMatch();else if(active)pauseMatch();return;}
+ if(!active)return;if(e.code==='KeyV')toggleView();if(e.code==='KeyF')throwQuaffle();if(e.code==='KeyR')castSpell();if(e.code==='KeyT')passQuaffle();if(e.code==='Tab'&&match.snitchActive){match.trackSnitch=!match.trackSnitch;notify(match.trackSnitch?'追踪金色飞贼 · 持球时保留球门指引':'已取消飞贼追踪',1.5);}if(['Digit1','Digit2','Digit3'].includes(e.code))switchCharacter(Number(e.code.slice(-1))-1);
+});
+addEventListener('keyup',e=>{delete keys[e.code];});
+addEventListener('mousemove',e=>{if(document.pointerLockElement===canvas&&!match.paused&&(match.state==='playing'||match.state==='countdown')){setAim(cameraYaw-e.movementX*.0016*settings.sensitivity,cameraPitch-e.movementY*.0016*settings.sensitivity);}});
 canvas.addEventListener('mousedown',e=>{if(match.state==='playing'&&!match.paused){if(document.pointerLockElement!==canvas){lockPointer();return;}if(e.button===0)throwQuaffle();if(e.button===2)castSpell();}});
-canvas.addEventListener('contextmenu',e=>e.preventDefault());canvas.addEventListener('wheel',e=>{player.baseSpeed=clamp(player.baseSpeed+(e.deltaY<0?5:-5),5,150);e.preventDefault();},{passive:false});
-document.addEventListener('pointerlockchange',()=>{if(document.pointerLockElement===canvas){if(match.paused){match.paused=false;$('pause').classList.add('hidden');}}else if((match.state==='playing'||match.state==='countdown')&&!match.paused){match.paused=true;$('pause').classList.remove('hidden');}});
-window.__BROOMBALL__={match,player,rivals,quaffle,snitch,waypoint,bludgers,projectiles,startMatch,restartMatch,switchCharacter,castSpell,toggleView,throwQuaffle,scoreGoal,catchSnitch,openHelp,closeHelp,pauseMatch,resumeMatch,getObjectiveInfo,get carrier(){return carrier;},setCarrier};
+canvas.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('pointerlockchange',()=>{if(document.pointerLockElement!==canvas){clearInput();if((match.state==='playing'||match.state==='countdown')&&!match.paused)pauseMatch();}});
+addEventListener('blur',()=>{clearInput();if(!match.paused)pauseMatch();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInput();if(!match.paused)pauseMatch();}});
+$('sensitivity').value=String(settings.sensitivity);$('sensitivityValue').textContent=settings.sensitivity.toFixed(1)+'×';$('reducedMotion').checked=settings.reducedMotion;
+$('sensitivity').addEventListener('input',e=>{settings.sensitivity=clamp(Number(e.target.value),.4,2);$('sensitivityValue').textContent=settings.sensitivity.toFixed(1)+'×';saveSettings();});
+$('reducedMotion').addEventListener('change',e=>{settings.reducedMotion=e.target.checked;saveSettings();});
+$('spellBar').innerHTML=configs.map((cfg,i)=>'<button class="spell-slot" id="spellSlot'+i+'" type="button" aria-pressed="'+(i===match.selected)+'" title="'+cfg.description+'"><span class="spell-key">'+(i+1)+' · '+cfg.name.split(' · ')[0]+'</span><strong>'+cfg.cn+'</strong><small>就绪</small><span class="cooldown-track"></span></button>').join('');
+for(let i=0;i<configs.length;i++)$('spellSlot'+i).addEventListener('click',()=>{if(match.state==='playing'&&!match.paused){switchCharacter(i);canvas.focus();}});
+window.__BROOMBALL__={
+ match,player,rivals,allies,quaffle,quaffleVel,snitch,waypoint,bludgers,projectiles,configs,settings,
+ scene,camera,renderer,environment,homeGoals,awayGoals,findSpellTarget,clearInput,startMatch,restartMatch,returnToMenu,
+ switchCharacter,castSpell,toggleView,throwQuaffle,getShotInfo,passQuaffle,scoreGoal,catchSnitch,
+ openHelp,closeHelp,pauseMatch,resumeMatch,getObjectiveInfo,setAim,updateCamera,updateQuaffle,updateSnitch,
+ get carrier(){return carrier;},setCarrier
+};
 })();
 </script>
 </body>

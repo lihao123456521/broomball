@@ -1,6 +1,7 @@
 extends RefCounted
 
 const Art = preload("res://broomball/scripts/art.gd")
+const WAND_TIP := Vector3(0.62, 1.1, -1.15)
 
 
 # Player rig contract: keep BroomModel, CharacterModel and SpellSocket as separate
@@ -17,7 +18,7 @@ static func build(character_id: String) -> Node3D:
 	root.add_child(character)
 	var socket := Marker3D.new()
 	socket.name = "SpellSocket"
-	socket.position = Vector3(0.62, 1.1, -1.15)
+	socket.position = WAND_TIP
 	root.add_child(socket)
 
 	_build_broom(broom, character_id)
@@ -58,22 +59,54 @@ static func _build_broom(parent: Node3D, character_id: String) -> void:
 static func _build_wizard(parent: Node3D, robe: Color, scarf_color: Color, hair_color: Color) -> void:
 	var skin := Color("e7b78f")
 	var dark := Color("202131")
-	Art.box(parent, Vector3(0.78, 0.92, 0.48), Vector3(0, 1.12, 0.22), robe)
-	var cape := Art.box(parent, Vector3(0.9, 1.25, 0.12), Vector3(0, 1.02, 0.62), robe.darkened(0.28))
-	cape.rotation.x = -0.28
-	Art.beam(parent, Vector3(-0.28, 1.48, 0), Vector3(-0.62, 0.65, -0.72), 0.13, robe)
-	Art.beam(parent, Vector3(0.28, 1.48, 0), Vector3(0.62, 0.65, -0.72), 0.13, robe)
-	Art.sphere(parent, 0.14, Vector3(-0.62, 0.65, -0.72), skin)
-	Art.sphere(parent, 0.14, Vector3(0.62, 0.65, -0.72), skin)
-	Art.beam(parent, Vector3(-0.25, 0.78, 0.2), Vector3(-0.36, 0.18, -0.42), 0.16, dark)
-	Art.beam(parent, Vector3(0.25, 0.78, 0.2), Vector3(0.36, 0.18, -0.42), 0.16, dark)
+	var torso := Art.cylinder(parent, 0.27, 0.84, Vector3(0, 1.15, 0.17), robe, 0.40, 10)
+	torso.scale.z = 0.67
+	torso.rotation.x = -0.28
+	var seat := Art.sphere(parent, 0.28, Vector3(0, 0.63, 0.29), robe.darkened(0.22))
+	seat.scale = Vector3(1.06, 0.75, 1.0)
+	var waist := Art.cylinder(parent, 0.278, 0.1, Vector3(0, 0.77, 0.28), robe.darkened(0.3), 0.278, 10)
+	waist.scale.z = 0.75
+	waist.rotation.x = -0.28
+	var cape := Art.cylinder(parent, 0.57, 1.22, Vector3(0, 1.22, 0.82), robe.darkened(0.34), 0.37, 8)
+	cape.name = "Cape"
+	cape.scale.z = 0.12
+	cape.rotation.x = -1.02
+
+	var broom_hand := Vector3(-0.095, 0.41, -0.84)
+	var wand_hand := Vector3(0.54, 1.0, -0.66)
+	for side in [-1.0, 1.0]:
+		var shoulder := Vector3(side * 0.3, 1.47, 0.06)
+		var elbow := Vector3(side * 0.48, 1.03, -0.24)
+		var hand := broom_hand if side < 0.0 else wand_hand
+		Art.beam(parent, shoulder, elbow, 0.145, robe)
+		Art.sphere(parent, 0.136, elbow, robe)
+		Art.beam(parent, elbow, hand, 0.105, robe.darkened(0.13))
+		Art.sphere(parent, 0.103, hand, skin)
+
+		var hip := Vector3(side * 0.19, 0.63, 0.29)
+		var knee := Vector3(side * 0.43, 0.49, -0.29)
+		var ankle := Vector3(side * 0.4, -0.025, 0.01)
+		Art.beam(parent, hip, knee, 0.155, dark)
+		Art.sphere(parent, 0.143, knee, dark)
+		Art.beam(parent, knee, ankle, 0.113, dark.lightened(0.08))
+		var boot := Art.sphere(parent, 0.15, ankle + Vector3(0, -0.04, -0.1), Color("392822"))
+		boot.scale = Vector3(0.84, 0.69, 1.45)
+
+	var wand := Art.beam(parent, wand_hand, WAND_TIP, 0.027, Color("976342"))
+	wand.name = "Wand"
+	Art.beam(parent, wand_hand, wand_hand.lerp(WAND_TIP, 0.32), 0.041, Color("50342a"))
 	Art.sphere(parent, 0.34, Vector3(0, 1.94, 0.05), skin)
 	var hair := Art.sphere(parent, 0.35, Vector3(0, 2.08, 0.11), hair_color)
 	hair.name = "Hair"
 	hair.scale = Vector3(1.02, 0.62, 1.02)
-	Art.box(parent, Vector3(0.82, 0.13, 0.52), Vector3(0, 1.62, 0.16), scarf_color)
-	var scarf := Art.box(parent, Vector3(0.18, 0.12, 1.25), Vector3(0.28, 1.58, 0.92), scarf_color)
-	scarf.rotation.x = -0.14
+	var collar := Art.cylinder(parent, 0.26, 0.15, Vector3(0, 1.61, 0.05), scarf_color, 0.24, 12)
+	collar.scale.z = 0.86
+	Art.sphere(parent, 0.10, Vector3(0.18, 1.60, 0.19), scarf_color)
+	var scarf := Art.box(parent, Vector3(0.17, 0.065, 1.03), Vector3(0.22, 1.55, 0.72), scarf_color)
+	scarf.name = "ScarfTail"
+	scarf.rotation.x = 0.1
+	Art.box(scarf, Vector3(0.174, 0.071, 0.09), Vector3(0, 0, 0.34), robe)
+	Art.box(scarf, Vector3(0.174, 0.071, 0.06), Vector3(0, 0, 0.46), robe)
 
 
 static func _build_harry(parent: Node3D) -> void:

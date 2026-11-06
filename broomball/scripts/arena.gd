@@ -178,9 +178,11 @@ func _build_goals() -> void:
 				away_goals.append(position)
 			Art.cylinder(self, 0.24, position.y, Vector3(position.x, position.y * 0.5, position.z), Color("caa354"), -1.0, 16, 0.75)
 			Art.cylinder(self, 0.72, 0.35, Vector3(position.x, 0.18, position.z), Color("e2be68"), -1.0, 20, 0.65)
-			var hoop := Art.torus(self, 3.35, 3.72, position, Color("f3ce71"), 0.78, 0.65)
+			var hoop_color := Color("f3ce71") if side > 0.0 else Color("81baff")
+			var halo_color := Color("fff0ac") if side > 0.0 else Color("c4e7ff")
+			var hoop := Art.torus(self, 3.35, 3.72, position, hoop_color, 0.78, 0.65)
 			hoop.rotation.x = PI * 0.5
-			var halo := Art.torus(self, 3.7, 3.79, position, Color("fff0ac"), 0.4, 1.5)
+			var halo := Art.torus(self, 3.7, 3.79, position, halo_color, 0.4, 1.5)
 			halo.rotation.x = PI * 0.5
 
 

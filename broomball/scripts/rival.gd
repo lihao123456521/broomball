@@ -27,10 +27,12 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if game == null or not game.is_playing():
+		return
 	flight_time += delta
 	stun = maxf(0.0, stun - delta)
 	visual.position.y = sin(flight_time * 5.0 + float(index)) * 0.055
-	if game == null or not game.is_playing() or stun > 0.0:
+	if stun > 0.0:
 		return
 	var target: Vector3 = game.get_rival_target(self)
 	var direction := target - global_position
