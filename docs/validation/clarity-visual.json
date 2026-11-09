@@ -1,0 +1,42 @@
+{
+  "diagnostics": {
+    "calls": 192,
+    "triangles": 243587,
+    "batching": {
+      "originalMeshes": 1724,
+      "batches": 37
+    },
+    "staticMeshes": 37
+  },
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 720,
+      "horizontalOverflow": false,
+      "cardFits": true,
+      "scrollable": true
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "horizontalOverflow": false,
+      "cardFits": true,
+      "scrollable": false
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "horizontalOverflow": false,
+      "cardFits": true,
+      "scrollable": true
+    }
+  ],
+  "opening": {
+    "state": "playing",
+    "holding": true,
+    "speed": 6.880000000000003,
+    "marker": "hidden"
+  },
+  "errors": [],
+  "remoteRequests": []
+}

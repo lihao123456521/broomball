@@ -28,6 +28,9 @@
 #trainingEnd .result-detail{margin-bottom:10px}.training-active .coach{display:flex}
 #endStats,#endBest{margin-top:10px;color:var(--pale);font-size:13px;line-height:1.7}
 #reticle.shot-ready{color:#a4e6d3;text-shadow:0 0 9px #82e7cf}
+.house-picker{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}.house-option{display:flex;align-items:center;gap:9px;padding:10px;border:1px solid #46536a;border-radius:10px;background:#101b2c;color:var(--pale);text-align:left;cursor:pointer}.house-option[aria-pressed=true]{border-color:var(--house-color);background:color-mix(in srgb,var(--house-color) 20%,#101b2c);box-shadow:inset 0 -3px var(--house-color)}.house-option svg{width:40px;height:48px;flex-shrink:0}.house-option strong,.house-option small{display:block}.house-option strong{font-size:13px}.house-option small{font-size:10px;color:var(--muted);margin-top:5px}.match-options{display:flex;justify-content:center;align-items:center;gap:22px;margin:10px 0 14px;flex-wrap:wrap;font-size:12px;color:#d8e1ee}.match-options select{background:#101b2c;color:#f6f0e3;border:1px solid #56627b;border-radius:5px;padding:5px}.match-options input{accent-color:var(--gold)}.menu-card .sigil{display:none}.menu-card .character{padding:12px}.menu-card .subtitle{margin:6px 0 12px}.menu-card .rule{margin:12px auto}.menu-card .howto{display:none}.menu-card h1{font-size:44px}.menu-card .choose{margin:8px 0}.menu-actions{position:sticky;bottom:-32px;background:linear-gradient(transparent,#0a1425 22%);padding:5px 0 10px}.menu-actions .primary{margin-top:12px}#assistHint{position:absolute;left:50%;bottom:147px;transform:translateX(-50%);width:min(490px,70vw);padding:8px 12px;text-align:center;color:#d5ebeb;font-size:12px;line-height:1.65;background:rgba(8,20,31,.86);border:1px solid #648084;border-radius:9px}.training-active #assistHint{display:none}.ball-marker{position:absolute;display:none;transform:translate(-50%,-50%);width:42px;height:42px;border:2px solid #ffce6b;border-radius:50%;box-shadow:0 0 14px #efaa4544;color:#ffe3aa}.ball-marker span{position:absolute;left:50%;top:42px;transform:translateX(-50%);white-space:nowrap;font-size:11px;text-shadow:0 2px 4px #000}.team-name{font-size:11px;letter-spacing:1px}
+.ball-marker span{padding:3px 7px;border-radius:5px;background:rgba(11,20,30,.88)}.ball-marker.offscreen{border-color:transparent;box-shadow:none;background:rgba(11,20,30,.7)}#ballMarkerArrow{display:block;text-align:center;font:30px/38px sans-serif;color:#ffcf78}.flight-keys{display:none}#assistHint:empty{display:none}.wizard-switch{display:none}.objective-title{display:none}.objective{background:rgba(9,19,32,.84)}.controls{opacity:.72}#message{top:160px}
+@media(max-width:760px){.house-picker{grid-template-columns:repeat(2,1fr)}.house-option{padding:7px}.house-option svg{width:28px;height:34px}#assistHint{bottom:151px;width:90vw;font-size:11px}.menu-card h1{font-size:32px}.match-options{gap:10px}.menu-actions{bottom:-26px}}
 @media(max-width:1050px){.flight-panel{display:block;width:170px;bottom:62px;padding:9px 12px}.flight-keys{display:none}.objective{display:block}}
 @media(max-width:760px){.flight-panel{width:145px;left:8px;bottom:155px}#possession{display:none}.training-active .flight-panel{bottom:220px}.training-active .coach{bottom:155px}}
 @media(max-height:680px){.mode-picker{margin-top:11px}.training-active .coach{width:min(360px,76vw);bottom:140px}}
@@ -40,9 +43,9 @@
   <div class="brand">B R O O M B A L L<small>THE GOLDEN MATCH</small></div>
   <div id="snitchStatus">SNITCH · DORMANT</div>
   <div class="scoreboard glass">
-    <div class="team lions">LIONS<strong id="playerScore">0</strong></div>
+    <div class="team lions"><span class="team-name" id="homeTeamName">格兰芬多</span><strong id="playerScore">0</strong></div>
     <div class="clock"><div class="label" id="modeLabel">标准赛</div><div id="clock">03:00</div></div>
-    <div class="team ravens">RAVENS<strong id="rivalScore">0</strong></div>
+    <div class="team ravens"><span class="team-name" id="awayTeamName">斯莱特林</span><strong id="rivalScore">0</strong></div>
   </div>
   <div class="objective"><div class="objective-title">CURRENT OBJECTIVE · 当前目标</div><div id="objectiveText">飞向中央橙色鬼飞球</div><div id="objectiveArrow">↑ · 38m</div></div>
   <div class="wizard-panel glass"><div class="wizard-name" id="wizardName">HARRY POTTER</div><div class="wizard-switch">1 HARRY &nbsp; 2 HERMIONE &nbsp; 3 RON</div><div id="spellStatus">R / 右键 · 除你武器</div></div>
@@ -51,12 +54,16 @@
   <div id="message"></div><div id="reticle">+</div><div id="targetHint"></div><div id="spellCallout"></div><div id="countdown">3</div>
   <div class="coach glass" id="coach"><div class="coach-step" id="coachStep">FLIGHT 1/5</div><div id="coachText">按住 W 沿镜头方向飞行；A / D 平移，S 后退。</div></div>
   <div class="spell-bar" id="spellBar" aria-label="选择巫师与技能"></div>
-  <div class="controls"><span class="keycap">WASD</span> 移动 &nbsp;•&nbsp; <span class="keycap">SPACE / ↑</span> 上升 &nbsp;•&nbsp; <span class="keycap">Q / ↓</span> 下降 &nbsp;•&nbsp; <span class="keycap">SHIFT</span> 加速 &nbsp;•&nbsp; <span class="keycap">F / LMB</span> 射门 &nbsp;•&nbsp; <span class="keycap">R / RMB</span> 咒语<br><span>1/2/3 巫师 &nbsp;•&nbsp; V 视角 &nbsp;•&nbsp; T 传球 &nbsp;•&nbsp; Tab 追踪飞贼 &nbsp;•&nbsp; ← / → 转向 &nbsp;•&nbsp; H 玩法说明 &nbsp;•&nbsp; X 急停 &nbsp;•&nbsp; 松键制动 &nbsp;•&nbsp; ESC 暂停</span></div>
+  <div id="assistHint"></div><div class="ball-marker" id="ballMarker" data-location="hidden"><b id="ballMarkerArrow"></b><span id="ballMarkerText"></span></div>
+  <div class="controls"><span class="keycap">WASD</span> 移动 &nbsp;•&nbsp; <span class="keycap">SPACE / ↑</span> 上升 &nbsp;•&nbsp; <span class="keycap">Q / ↓</span> 下降 &nbsp;•&nbsp; <span class="keycap">SHIFT</span> 加速 &nbsp;•&nbsp; <span class="keycap">F / LMB</span> 射门 &nbsp;•&nbsp; <span class="keycap">R / RMB</span> 咒语<br><span>1/2/3 巫师 &nbsp;•&nbsp; V 视角 &nbsp;•&nbsp; T 传球 / 要球 &nbsp;•&nbsp; Tab 追踪飞贼 &nbsp;•&nbsp; ← / → 转向 &nbsp;•&nbsp; H 玩法说明 &nbsp;•&nbsp; X 急停 &nbsp;•&nbsp; 松键制动 &nbsp;•&nbsp; ESC 暂停</span></div>
 </div>
 <div class="overlay" id="menu">
   <div class="menu-card">
     <div class="eyebrow">A QUIDDITCH-INSPIRED AERIAL SPORT</div><h1>BROOMBALL</h1><div class="subtitle">THE GOLDEN MATCH · 金色球场的空中对决</div>
-    <div class="rule"></div><div class="choose">选择你的巫师</div>
+    <div class="rule"></div><div class="choose">选择代表学院 · 学院杯友谊赛</div>
+    <div class="house-picker" id="housePicker" aria-label="选择代表学院"></div>
+    <div class="match-options"><label>对手学院 <select id="opponentHouse" aria-label="对手学院"></select></label><span>标准赛节奏舒缓 · 挑战赛更快</span></div>
+    <div class="choose">选择巫师技能 · 学院外观与技能自由搭配</div>
     <div class="characters">
       <button class="character selected" data-id="harry"><span class="sigil">H</span><strong>HARRY POTTER</strong><div class="cn">哈利·波特 / 全能进攻</div><div class="spell">除你武器 · EXPELLIARMUS</div><p>缴械掉球 + 短暂受击 · 射程 36 米<br>冷却 7 秒 · 无目标不消耗</p></button>
       <button class="character" data-id="hermione"><span class="sigil">H</span><strong>HERMIONE GRANGER</strong><div class="cn">赫敏·格兰杰 / 精准控制</div><div class="spell">昏昏倒地 · STUPEFY</div><p>昏迷 / 冻结 3.2 秒 · 射程 32 米<br>冷却 9 秒 · 控制后靠近抢球</p></button>
@@ -67,15 +74,15 @@
       <button type="button" class="mode-option" data-mode="standard" aria-pressed="true"><strong>标准赛</strong><small>180 秒 · 110 秒出现飞贼</small></button>
       <button type="button" class="mode-option" data-mode="challenge" aria-pressed="false"><strong>挑战赛</strong><small>150 秒 · 更快的对手</small></button>
     </div>
-    <button class="primary" id="startBtn">进入球场</button><button class="secondary" id="startHelpBtn">查看完整玩法</button>
+    <div class="menu-actions"><button class="primary" id="startBtn">进入球场</button><button class="secondary" id="startHelpBtn">查看完整玩法</button></div>
     <div class="howto">
       <div><b>01</b>鼠标转动镜头，WASD 沿镜头方向飞行。</div>
       <div><b>02</b>Space 或 ↑ 上升，Q 或 ↓ 下降，Shift 加速。</div>
-      <div><b>03</b>飞近橙色鬼飞球自动拿球，跟着金色航标走。</div>
+      <div><b>03</b>飞近橙色鬼飞球自动拿球，跟着橙色球标走。</div>
       <div><b>04</b>F 或左键射向蓝色门环，每球 10 分。</div>
       <div><b>05</b>标准赛第 110 秒出现金色飞贼，抓住得 150 分。</div>
     </div>
-    <div class="menu-help">R 或右键释放咒语 · 1/2/3 换角色 · V 第一/第三人称 · H 随时查看玩法</div>
+    <div class="menu-help">橙色标记始终追踪鬼飞球 · T 传球 / 要球 · R 施法<br>金色门为本方，蓝色门为进攻方向；移动鼠标或 ← / → 转向。</div>
   </div>
 </div>
 <div class="overlay hidden" id="pause"><div class="menu-card" style="max-width:560px"><div class="pause-title">比赛已暂停</div><p class="subtitle">调整手感，按 Esc 或点击继续</p><div class="settings"><label for="sensitivity">鼠标灵敏度 <input id="sensitivity" type="range" min="0.4" max="2" step="0.1"><output id="sensitivityValue">1.0×</output></label><label><input type="checkbox" id="reducedMotion"> 减少镜头动态</label><small>关闭加速视野扩张与骑手侧倾。设置自动保存在当前浏览器。</small></div><button class="primary" id="resumeBtn">继续飞行</button><button class="secondary" id="helpBtnPause">玩法说明</button><br><button class="secondary" id="restartPauseBtn">重新开赛</button><button class="secondary" id="menuPauseBtn">返回主菜单</button></div></div>
@@ -96,7 +103,7 @@
         <div class="key-line"><strong>制动 / 其他</strong><span class="keycap">X</span> 急停；松键自动停稳 · <span class="keycap">V</span> 视角 · <span class="keycap">H</span> 本说明 · <span class="keycap">ESC</span> 暂停</div>
       </div>
       <div class="guide-panel"><h3>比赛目标</h3>
-        <div class="score-step"><i>1</i><div>追随场中金色航标，飞近橙色鬼飞球即可自动拿球。</div></div>
+        <div class="score-step"><i>1</i><div>追随屏幕上的橙色球标，飞近橙色鬼飞球即可自动拿球。</div></div>
         <div class="score-step"><i>2</i><div>持球后瞄准蓝色门环，按 F 或左键射门。38 米内且准星对准才有轻度辅助，穿过门环得 <b>10 分</b>。</div></div>
         <div class="score-step"><i>3</i><div>避开黑色游走球；被撞会丢失鬼飞球。R 或右键咒语可缴械、击晕或护盾。</div></div>
         <div class="score-step"><i>4</i><div>标准赛第 110 秒出现飞贼，对手第 130 秒开始追捕。飞贼值 <b>150 分</b>，捕获即结束比赛。</div></div>
@@ -109,6 +116,7 @@
 <div id="fatal">游戏渲染库加载失败，请保留 vendor 文件夹并刷新页面。</div>
 <script src="./vendor/three-0.160.0.min.js"></script>
 <script src="./game-environment.js"></script>
+<script src="./game-houses.js"></script>
 <script>
 (() => {
 'use strict';
@@ -140,15 +148,19 @@ function buildWorld(){
  for(let i=0;i<11;i++){const z=-60+i*12,w=53*Math.sqrt(Math.max(0,1-(z/77)**2));box(scene,V(w*2,.055,12.05),V(0,.025,z),i%2?0x2f7054:0x28644b);}
  lineEllipse(55.5,76.5,.14,0xe7c779);lineEllipse(52.8,73.8,.13,0xdce8d5);const center=torus(scene,10,.1,V(0,.14,0),0xe9ddae);center.rotation.x=Math.PI/2;center.scale.y=1.25;box(scene,V(45,.06,.16),V(0,.13,0),0xe9ddae);const crest=torus(scene,2.8,.14,V(0,.15,0),0xe7c779,.4);crest.rotation.x=Math.PI/2;crest.scale.y=1.25;
  buildStands();buildGoals();buildAirwall();buildHorizon();
- const dustGeo=new THREE.BufferGeometry(),dust=[];for(let i=0;i<420;i++)dust.push((Math.random()-.5)*120,4+Math.random()*38,(Math.random()-.5)*155);dustGeo.setAttribute('position',new THREE.Float32BufferAttribute(dust,3));scene.add(new THREE.Points(dustGeo,new THREE.PointsMaterial({color:0xf5d995,size:.11,transparent:true,opacity:.42,depthWrite:false})));
  sph(scene,9,V(-115,92,-205),0xffe6b0,0,2);
 }
 function buildStands(){const crimson=0x732d3d,navy=0x233c61,stone=0x303849,gold=0xcda85c;for(let s=0;s<28;s++){const a=s/28*TAU,team=s%2?navy:crimson;for(let t=0;t<3;t++){const g=new THREE.Group();g.position.set(Math.sin(a)*(72+t*3),1+t*2.35,Math.cos(a)*(91+t*3));g.rotation.y=a;scene.add(g);box(g,V(17.2,1.55,5.2),V(),stone);box(g,V(16.8,.18,4.6),V(0,.86,0),team);beam(g,V(-8.3,1.25,-2.15),V(8.3,1.25,-2.15),.075,gold);for(let seat=0;seat<5;seat++){const x=-6.4+seat*3.2;box(g,V(.65,.75,.55),V(x,1.35,.25),team);sph(g,.24,V(x,1.96,.25),0xd5a37e);}}if(s%2===0){const root=new THREE.Group();root.position.set(Math.sin(a)*70,7.5,Math.cos(a)*89);root.rotation.y=a;scene.add(root);makeFlag(root,V(),team,5.5,2.6);}}
  for(const x of[-68,68])for(const z of[-76,76]){const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);cyl(g,3,22,V(0,10.5,0),0x3b4052,2.35,12);cyl(g,3.6,.65,V(0,20.8,0),0xd0aa60,3.6,16,.5);cyl(g,4.2,6.5,V(0,25,0),x*z>0?crimson:navy,0,12);cyl(g,.12,6,V(0,30.5,0),0xd6b76f,.12,8,.6);sph(g,.38,V(0,33.6,0),0xffe39a,.4,2);makeFlag(g,V(2.3,30.4,0),x*z>0?crimson:navy,4.6,2.2);}}
 function makeFlag(parent,pos,color,w,h){const m=addMesh(parent,new THREE.PlaneGeometry(w,h,8,2),new THREE.MeshStandardMaterial({color,side:THREE.DoubleSide,roughness:.8}),pos);m.rotation.y=Math.PI/2;flags.push(m);return m;}
 function buildGoals(){for(const side of[-1,1])for(let i=0;i<3;i++){const pos=V((i-1)*12,i===1?15:10,side*61),color=side<0?0x75b9ed:0xf3ce71,glow=side<0?0xb9e5ff:0xfff0ac;(side>0?homeGoals:awayGoals).push(pos);cyl(scene,.24,pos.y,V(pos.x,pos.y/2,pos.z),side<0?0x647f9c:0xcaa354,.24,12,.65);cyl(scene,.72,.35,V(pos.x,.18,pos.z),color,.72,16,.65);torus(scene,3.52,.19,pos,color,.65,.65);torus(scene,3.77,.045,pos,glow,.4,1.5);}}
-function buildAirwall(){const wallMat=new THREE.MeshBasicMaterial({color:0x91c8ef,transparent:true,opacity:.035,side:THREE.DoubleSide,depthWrite:false});const wall=new THREE.Mesh(new THREE.CylinderGeometry(1,1,38,64,1,true),wallMat);wall.position.y=20;wall.scale.set(55.2,1,74.5);scene.add(wall);lineEllipse(55.2,74.5,39.5,0xe7c779,64);for(let i=0;i<16;i++){const a=i/16*TAU;beam(scene,V(Math.sin(a)*55.2,1,Math.cos(a)*74.5),V(Math.sin(a)*55.2,39.5,Math.cos(a)*74.5),.035,new THREE.MeshBasicMaterial({color:0x9ac9e8,transparent:true,opacity:.22}));}}
-function buildHorizon(){for(let i=0;i<24;i++){const a=i/24*TAU,d=270+Math.random()*150,h=34+Math.random()*44,r=24+Math.random()*24;cyl(scene,r,h,V(Math.sin(a)*d,h/2-15,Math.cos(a)*d),0x303c58,0,5);}for(let i=0;i<13;i++){const a=i/13*TAU+.2,g=new THREE.Group();g.position.set(Math.sin(a)*(125+Math.random()*65),42+Math.random()*25,Math.cos(a)*(125+Math.random()*65));scene.add(g);for(let j=0;j<4;j++){const cloud=sph(g,3+Math.random()*2.5,V(j*4.2,Math.random()*2-1,Math.random()*4-2),0xc8c5d3);cloud.scale.set(1.6,.65,1);cloud.material=cloud.material.clone();cloud.material.transparent=true;cloud.material.opacity=.62;}}}
+function buildAirwall(){
+ // The ground line marks the playable boundary without a cage across the view.
+ lineEllipse(55.2,74.5,.3,0x79a5b6,64);
+}
+function buildHorizon(){
+ for(let i=0;i<16;i++){const a=i/16*TAU,d=310+(i%4)*20,h=34+(i%5)*8;cyl(scene,32,h,V(Math.sin(a)*d,h/2-15,Math.cos(a)*d),0x425468,0,5);}
+}
 function createWizard(id='harry',rival=false){
  const root=new THREE.Group(),broom=new THREE.Group(),body=new THREE.Group();root.name='WizardRig';broom.name='BroomModel';body.name='CharacterModel';root.add(broom,body);
  const palette={harry:[0x87374c,0xe9c573,0x21212b],hermione:[0x773a52,0xe9ca8a,0x513427],ron:[0x984c3b,0xe2b969,0xb35e32],rival:[0x315d88,0xa9d4e4,0x292939]},cfg=palette[id]||palette.rival,skin=0xe5b696,leather=0x302a2b;
@@ -193,7 +205,12 @@ function createWizard(id='harry',rival=false){
 }
 function disposeObject(object){object.traverse(child=>{if(child.geometry)child.geometry.dispose();const materials=Array.isArray(child.material)?child.material:[child.material];for(const material of materials)if(material?.userData.owned)material.dispose();});object.removeFromParent();}
 function animateWizard(mesh,dt,speed,time){const rig=mesh.userData.rig;if(!rig)return;const flow=clamp(speed/48,0,1);mesh.userData.castTime=Math.max(0,(mesh.userData.castTime||0)-dt);rig.cape.rotation.x=.1+flow*.28+Math.sin(time*5)*.025;rig.scarfTail.rotation.y=Math.sin(time*6)*(.05+flow*.1);rig.scarfTail.rotation.x=-flow*.18;rig.arm.rotation.x=lerp(rig.arm.rotation.x,mesh.userData.castTime>0?-.35:0,1-Math.exp(-dt*16));}
-function createQuaffle(){const g=new THREE.Group();sph(g,.78,V(),0xb85236,.1);const seam=torus(g,.74,.05,V(),0xe6a06e);seam.rotation.x=Math.PI/2;scene.add(g);return g;}
+function createQuaffle(){
+ const g=new THREE.Group();g.name='Quaffle';
+ sph(g,1.05,V(),0xff741c,.05,.45);
+ for(const angle of [0,Math.PI/2]){const seam=torus(g,1.035,.065,V(),0xfff3d6,0,.15);seam.rotation.x=angle;}
+ scene.add(g);return g;
+}
 function createSnitch(){const g=new THREE.Group();sph(g,.48,V(),0xffd76a,.75,2.2);torus(g,.44,.055,V(),0xfff0a6,.8,1);for(const side of[-1,1]){const w=sph(g,.55,V(side*.88,.08,0),0xeaf5ff,.15,.7);w.name=side<0?'WingL':'WingR';w.scale.set(1.65,.12,.55);w.rotation.z=side*.28;}const light=new THREE.PointLight(0xffd36a,2,8);g.add(light);scene.add(g);return g;}
 function createWaypoint(){const g=new THREE.Group(),ring=torus(g,2.15,.12,V(),0xffe181,0,1.9);ring.rotation.x=Math.PI/2;g.userData.ring=ring;const cone=cyl(g,.72,1.15,V(0,-1.25,0),0xffe181,0,3,0,1.6);cone.rotation.x=Math.PI;const glow=new THREE.MeshBasicMaterial({color:0xffe181,transparent:true,opacity:.11,depthWrite:false});cyl(g,.13,11,V(0,-5.8,0),glow,.13,8);scene.add(g);return g;}
 buildWorld();
@@ -203,24 +220,27 @@ const configs=[
  {id:'hermione',name:'赫敏 · 格兰杰',spell:'STUPEFY',cn:'昏昏倒地',effect:'stupefy',description:'昏迷 / 冻结 3.2 秒',cooldown:9,range:32,color:0xff4f78,pitch:1.08,rate:1.04},
  {id:'ron',name:'罗恩 · 韦斯莱',spell:'PROTEGO',cn:'盔甲护身',effect:'protego',description:'护盾 4 秒 · 防撞 / 防抢断',cooldown:12,range:0,color:0x79bfff,pitch:.82,rate:.9}
 ];
-const settings={sensitivity:1,reducedMotion:false};
-try{const saved=JSON.parse(localStorage.getItem('broomball-comfort')||'{}');if(Number.isFinite(saved.sensitivity))settings.sensitivity=clamp(saved.sensitivity,.4,2);settings.reducedMotion=saved.reducedMotion===true;}catch{}
+const houses=window.BroomHouses.houses;
+const houseById=id=>houses.find(h=>h.id===id)||houses[0];
+const houseDecor=window.BroomHouses.decorate({THREE,scene});
+const settings={sensitivity:1,reducedMotion:false,house:'gryffindor',opponent:'slytherin'};
+try{const saved=JSON.parse(localStorage.getItem('broomball-comfort')||'{}');if(Number.isFinite(saved.sensitivity))settings.sensitivity=clamp(saved.sensitivity,.4,2);settings.reducedMotion=saved.reducedMotion===true;if(houses.some(h=>h.id===saved.house))settings.house=saved.house;if(houses.some(h=>h.id===saved.opponent)&&saved.opponent!==settings.house)settings.opponent=saved.opponent;if(settings.opponent===settings.house)settings.opponent=houses.find(h=>h.id!==settings.house).id;}catch{}
 function saveSettings(){try{localStorage.setItem('broomball-comfort',JSON.stringify(settings));}catch{}}
 const modes={
  training:{label:'引导训练',duration:Infinity,snitchAt:Infinity,rivalSnitchAt:Infinity,rivalSpeed:0},
- standard:{label:'标准赛',duration:180,snitchAt:110,rivalSnitchAt:130,rivalSpeed:1},
- challenge:{label:'挑战赛',duration:150,snitchAt:78,rivalSnitchAt:93,rivalSpeed:1.15}
+ standard:{label:'标准赛',duration:180,snitchAt:110,rivalSnitchAt:130,rivalSpeed:.72},
+ challenge:{label:'挑战赛',duration:150,snitchAt:78,rivalSnitchAt:93,rivalSpeed:1}
 };
 const freshStats=()=>({shots:0,goals:0,steals:0,passes:0});
 let selectedMode='standard',bestScores={};
 try{const saved=JSON.parse(localStorage.getItem('broomball-best')||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))bestScores=saved;}catch{}
-const match={mode:'standard',rules:modes.standard,stats:freshStats(),trainingStep:0,trainingDistance:0,trainingHeight:0,trackSnitch:false,state:'menu',paused:false,countdown:3,elapsed:0,timeLeft:180,playerScore:0,rivalScore:0,message:'',messageTime:0,callout:'',calloutTime:0,snitchActive:false,kickoff:0,stealCooldown:1.5,selected:0,cooldowns:[0,0,0],firstPerson:false,gravity:false,collision:true,usedMove:false,usedVertical:false,usedThrow:false,usedSpell:false};
-const player={mesh:null,pos:V(0,10,38),vel:V(),baseSpeed:28,stamina:100,boosting:false,exhausted:false,flySpeed:15,speed:0,shield:0,hitCooldown:0,boundaryNotice:0};
-const rivals=[],allies=[],bludgers=[],projectiles=[],spellEffects=[];let quaffle,snitch,waypoint,shield,carrier=null,quaffleVel=V(),shot=null,passTarget=null,passAge=0,pickupDelay=0,trainingReset=0,snitchTarget=V(),snitchRetarget=0,snitchTime=0,cameraYaw=0,cameraPitch=-.12,lastTime=performance.now(),audioCtx=null,helpReturn='menu';
+const match={homeHouse:settings.house,awayHouse:settings.opponent,callForPass:0,mode:'standard',rules:modes.standard,stats:freshStats(),trainingStep:0,trainingDistance:0,trainingHeight:0,trackSnitch:false,state:'menu',paused:false,countdown:3,elapsed:0,timeLeft:180,playerScore:0,rivalScore:0,message:'',messageTime:0,callout:'',calloutTime:0,snitchActive:false,kickoff:0,stealCooldown:1.5,selected:0,cooldowns:[0,0,0],firstPerson:false,gravity:false,collision:true,usedMove:false,usedVertical:false,usedThrow:false,usedSpell:false};
+const player={mesh:null,pos:V(0,10,38),vel:V(),baseSpeed:22,stamina:100,boosting:false,exhausted:false,flySpeed:11,previousPos:V(0,10,38),speed:0,shield:0,hitCooldown:0,boundaryNotice:0};
+const rivals=[],allies=[],bludgers=[],projectiles=[],spellEffects=[];let quaffle,snitch,waypoint,shield,carrier=null,quaffleVel=V(),shot=null,passTarget=null,passAge=0,pickupDelay=0,trainingReset=0,snitchTarget=V(),snitchRetarget=0,snitchTime=0,cameraYaw=0,cameraPitch=-.12,targetYaw=0,targetPitch=-.12,lastTime=performance.now(),audioCtx=null,helpReturn='menu';
 const keys={};
 const goalRadius=2.68,shotRange=38,passRange=30;
 const training=()=>match.mode==='training';
-function replacePlayerModel(){const pos=player.pos.clone(),rot=player.mesh?player.mesh.rotation.clone():null;if(player.mesh)disposeObject(player.mesh);player.mesh=createWizard(configs[match.selected].id);scene.add(player.mesh);player.mesh.position.copy(pos);if(rot)player.mesh.rotation.copy(rot);player.pos=player.mesh.position;player.mesh.visible=!match.firstPerson;}
+function replacePlayerModel(){const pos=player.pos.clone(),rot=player.mesh?player.mesh.rotation.clone():null;if(player.mesh)disposeObject(player.mesh);player.mesh=createWizard(configs[match.selected].id);window.BroomHouses.applyUniform(player.mesh,match.homeHouse);scene.add(player.mesh);player.mesh.position.copy(pos);if(rot)player.mesh.rotation.copy(rot);player.pos=player.mesh.position;player.mesh.visible=!match.firstPerson;}
 replacePlayerModel();
 shield=new THREE.Mesh(new THREE.SphereGeometry(2.35,28,16),new THREE.MeshBasicMaterial({color:0x74baff,transparent:true,opacity:.14,side:THREE.DoubleSide,depthWrite:false}));shield.visible=false;scene.add(shield);
 const targetMarker=new THREE.Mesh(new THREE.TorusGeometry(1.6,.045,6,36),new THREE.MeshBasicMaterial({color:0xffd48b,transparent:true,opacity:.9,depthTest:false}));targetMarker.renderOrder=5;targetMarker.visible=false;scene.add(targetMarker);
@@ -249,6 +269,33 @@ function selectMode(mode){
  }
  $('startBtn').textContent=mode==='training'?'开始训练':'进入球场';
 }
+function syncHouseTheme(){
+ const home=houseById(match.homeHouse),away=houseById(match.awayHouse);
+ const accent=h=>h.id==='hufflepuff'?h.color:h.secondary;
+ $('homeTeamName').textContent=home.name;
+ $('awayTeamName').textContent=away.name;
+ $('homeTeamName').style.color=accent(home);
+ $('awayTeamName').style.color=accent(away);
+ for(const button of document.querySelectorAll('.house-option'))button.setAttribute('aria-pressed',String(button.dataset.house===home.id));
+ $('opponentHouse').innerHTML=houses.filter(h=>h.id!==home.id).map(h=>'<option value="'+h.id+'">'+h.name+'</option>').join('');
+ $('opponentHouse').value=away.id;
+ window.BroomHouses.applyUniform(player.mesh,home.id);
+ for(const ally of allies)window.BroomHouses.applyUniform(ally.mesh,home.id);
+ for(const rival of rivals)window.BroomHouses.applyUniform(rival.mesh,away.id);
+ window.BroomHouses.applyUniform(practiceDummy.mesh,away.id);
+ window.BroomHouses.setTeams(home.id,away.id);
+}
+function selectHouse(id){
+ if(match.state!=='menu'||!houses.some(h=>h.id===id))return false;
+ settings.house=match.homeHouse=id;
+ if(match.awayHouse===id)settings.opponent=match.awayHouse=houses.find(h=>h.id!==id).id;
+ syncHouseTheme();saveSettings();return true;
+}
+function selectOpponent(id){
+ if(match.state!=='menu'||id===match.homeHouse||!houses.some(h=>h.id===id))return false;
+ settings.opponent=match.awayHouse=id;
+ syncHouseTheme();saveSettings();return true;
+}
 function resetMatch(mode=selectedMode){
  selectMode(mode);
  clearInput();
@@ -256,7 +303,7 @@ function resetMatch(mode=selectedMode){
   state:selectedMode==='training'?'playing':'countdown',paused:false,countdown:3,
   elapsed:0,timeLeft:modes[selectedMode].duration,playerScore:0,rivalScore:0,message:'',
   messageTime:0,calloutTime:0,snitchActive:false,trackSnitch:false,
-  kickoff:selectedMode==='training'?0:2.4,stealCooldown:1.5,cooldowns:[0,0,0],
+  kickoff:0,callForPass:0,stealCooldown:1.5,cooldowns:[0,0,0],
   firstPerson:false,gravity:false,collision:true,usedMove:false,usedVertical:false,
   usedThrow:false,usedSpell:false,trainingStep:0,trainingDistance:0,trainingHeight:0});
  resetQuaffle();
@@ -267,15 +314,15 @@ function resetMatch(mode=selectedMode){
  snitchRetarget=0;
  snitchTime=0;
  player.pos.set(0,10,38);
- Object.assign(player,{baseSpeed:28,speed:0,stamina:100,boosting:false,exhausted:false,boundaryNotice:0,shield:0,hitCooldown:0});
+ Object.assign(player,{baseSpeed:match.mode==='challenge'?28:22,flySpeed:match.mode==='challenge'?15:11,speed:0,stamina:100,boosting:false,exhausted:false,boundaryNotice:0,shield:0,hitCooldown:0});
  player.mesh.visible=true;
  player.mesh.rotation.set(0,0,0);
  shield.visible=false;
- cameraYaw=0;
- cameraPitch=-.12;
+ setAim(0,-.12);
+ player.previousPos.copy(player.pos);
  camera.position.copy(player.pos).addScaledVector(getAimForward(),-11.5).add(V(0,2.8,0));
  updateCamera(0);
- const starts=[V(-16,12,-12),V(18,9,20),V(0,12,-53),V(25,24,2)];
+ const starts=[V(-16,12,-34),V(18,9,-31),V(0,12,-53),V(25,24,2)];
  for(const r of rivals){
   r.stun=0;
   r.mesh.visible=!training();
@@ -331,13 +378,17 @@ function returnToMenu(){
  if(document.pointerLockElement===canvas)document.exitPointerLock();
 }
 function lockPointer(){if(document.activeElement?.blur)document.activeElement.blur();canvas.focus();try{const attempt=canvas.requestPointerLock?.();if(attempt?.catch)attempt.catch(()=>notify('点击球场以捕获鼠标；也可用键盘继续操作',2));}catch{notify('点击球场以捕获鼠标',2);}}
-function clearInput(){for(const key of Object.keys(keys))delete keys[key];player.vel.set(0,0,0);player.speed=0;}
+function clearInput(){for(const key of Object.keys(keys))delete keys[key];player.vel.set(0,0,0);player.speed=0;targetYaw=cameraYaw;targetPitch=cameraPitch;match.callForPass=0;}
 function pauseMatch(){if(match.state!=='playing'&&match.state!=='countdown')return;clearInput();match.paused=true;$('pause').classList.remove('hidden');if(document.pointerLockElement)document.exitPointerLock();}
 function resumeMatch(){clearInput();match.paused=false;$('pause').classList.add('hidden');lockPointer();}
 function openHelp(source='pause'){clearInput();helpReturn=source;match.paused=true;if(document.pointerLockElement)document.exitPointerLock();$('menu').classList.add('hidden');$('pause').classList.add('hidden');$('help').classList.remove('hidden');}
 function closeHelp(){$('help').classList.add('hidden');if(helpReturn==='menu'){$('menu').classList.remove('hidden');}else{$('pause').classList.remove('hidden');}}
-function notify(text,time=2){match.message=text;match.messageTime=time;}
-function setAim(yaw,pitch){cameraYaw=yaw;cameraPitch=clamp(pitch,-1.15,1.05);}
+function teamText(text){return text.replaceAll('狮队',houseById(match.homeHouse).name).replaceAll('鹰队',houseById(match.awayHouse).name);}
+function notify(text,time=2){match.message=teamText(text);match.messageTime=time;}
+function setAim(yaw,pitch){cameraYaw=targetYaw=yaw;cameraPitch=targetPitch=clamp(pitch,-1.15,1.05);}
+function handleLookInput(dx,dy){targetYaw-=dx*.0021*settings.sensitivity;targetPitch=clamp(targetPitch-dy*.0021*settings.sensitivity,-1.15,1.05);}
+function updateAim(dt){const blend=1-Math.exp(-dt*18);cameraYaw+=angleDelta(cameraYaw,targetYaw)*blend;cameraPitch=lerp(cameraPitch,targetPitch,blend);}
+function getAimState(){return {yaw:cameraYaw,pitch:cameraPitch,targetYaw,targetPitch};}
 function getAimForward(){const cp=Math.cos(cameraPitch);return V(-Math.sin(cameraYaw)*cp,Math.sin(cameraPitch),-Math.cos(cameraYaw)*cp).normalize();}
 function getHorizontalBasis(){const forward=getAimForward();forward.y=0;if(forward.lengthSq()<.001)forward.set(0,0,-1);forward.normalize();return{forward,right:forward.clone().cross(UP).normalize()};}
 function initAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();}
@@ -400,7 +451,7 @@ function launchShot(owner,direction,side,speed,recordMiss=false){
 function throwQuaffle(){
  if(carrier!=='player'||match.state!=='playing'||match.paused)return false;
  const info=getShotInfo();
- launchShot(player.mesh,info.direction,'player',39,true);
+ launchShot(player.mesh,info.direction,'player',match.mode==='challenge'?32:24,true);
  match.usedThrow=true;
  match.stats.shots++;
  tone(260,.12,'triangle');
@@ -417,7 +468,7 @@ function passBetween(sender,receiver){
  passTarget=receiver;
  passAge=0;
  quaffle.position.copy(release);
- quaffleVel.copy(receiver==='player'?player.pos:receiver.mesh.position).sub(release).normalize().multiplyScalar(34);
+ quaffleVel.copy(receiver==='player'?player.pos:receiver.mesh.position).sub(release).normalize().multiplyScalar(22);
  pickupDelay=.35;
 }
 function getPassReceiver(){
@@ -426,7 +477,13 @@ function getPassReceiver(){
 function passQuaffle(){
  if(match.state!=='playing'||match.paused)return false;
  if(carrier!=='player'){
-  notify('持球后可按 T 传给接应队友',1.5);
+  if(allies.includes(carrier)){
+   match.callForPass=6;
+   if(carrier.mesh.position.distanceTo(player.pos)<=38){passBetween(carrier,'player');match.callForPass=0;notify('队友回传 · 按 X 减速接球',1.5);}
+   else notify('已向队友要球 · 减速等候队友靠近',1.8);
+   return true;
+  }
+  notify(passTarget==='player'?'队友回传中 · 按 X 减速接球':'队友持球时按 T 可要球',1.5);
   return false;
  }
  const receiver=getPassReceiver();
@@ -462,7 +519,7 @@ function scoreGoal(side){
   practiceDummy.mesh.rotation.y=cameraYaw+Math.PI;
   practiceDummy.mesh.visible=true;
   quaffle.visible=false;
- }else match.kickoff=1.25;
+ }else match.kickoff=0;
 }
 function constrainPitch(position,low,high){
  position.y=clamp(position.y,low,high);
@@ -485,7 +542,7 @@ function rivalTarget(r){
   if(match.snitchActive&&match.elapsed>=match.rules.rivalSnitchAt)return snitch.position;
   return V(Math.sin(match.elapsed*.35)*30,24,Math.cos(match.elapsed*.35)*38);
  }
- if(match.kickoff>0)return V(r.index*32-16,12,20);
+ if(match.kickoff>0||match.elapsed<2)return V(r.index*32-16,12,-32);
  if(carrier===r)return closestGoal(homeGoals,r.mesh.position);
  if(carrier==='player')return player.pos;
  if(allies.includes(carrier))return carrier.mesh.position;
@@ -493,9 +550,9 @@ function rivalTarget(r){
  return quaffle.position;
 }
 function updatePlayer(dt){
- const yaw=(Number(!!keys.ArrowLeft)-Number(!!keys.ArrowRight))*1.65*dt;
+ const yaw=(Number(!!keys.ArrowLeft)-Number(!!keys.ArrowRight))*2.2*dt;
  const pitch=(Number(!!keys.KeyI)-Number(!!keys.KeyK))*1.15*dt;
- setAim(cameraYaw+yaw,cameraPitch+pitch);
+ targetYaw+=yaw;targetPitch=clamp(targetPitch+pitch,-1.15,1.05);updateAim(dt);
  const{forward,right}=getHorizontalBasis(),input=V(),braking=!!keys.KeyX;
  if(keys.KeyA)input.sub(right);if(keys.KeyD)input.add(right);if(keys.KeyW)input.add(forward);if(keys.KeyS)input.sub(forward);
  const moving=input.lengthSq()>0;
@@ -504,11 +561,11 @@ function updatePlayer(dt){
  player.stamina=clamp(player.stamina+(player.boosting?-27:21)*dt,0,100);
  if(player.stamina===0)player.exhausted=true;
  if(player.stamina>=22)player.exhausted=false;
- const target=input.multiplyScalar(braking?0:player.boosting?48:player.baseSpeed),current=V(player.vel.x,0,player.vel.z);
+ const target=input.multiplyScalar(braking?0:player.boosting?(match.mode==='challenge'?48:36):player.baseSpeed),current=V(player.vel.x,0,player.vel.z);
  const opposing=current.dot(target)<0,accel=braking?180:target.lengthSq()<.1?105:opposing?110:72,next=moveVec(current,target,accel*dt);player.vel.x=next.x;player.vel.z=next.z;
  let vi=0;if(keys.KeyE||keys.Space||keys.ArrowUp||keys.PageUp||keys.Numpad8)vi++;if(keys.KeyQ||keys.ArrowDown||keys.PageDown||keys.Numpad2||keys.ControlLeft||keys.ControlRight)vi--;
  player.vel.y=moveToward(player.vel.y,braking?0:vi*player.flySpeed,(braking?150:80)*dt);
- const previous=player.pos.clone();
+ const previous=player.pos.clone();player.previousPos.copy(previous);
  player.pos.addScaledVector(player.vel,dt);
  const normal=constrainPitch(player.pos,3.5,40);
  if((player.pos.y<=3.55&&player.vel.y<0)||(player.pos.y>=39.95&&player.vel.y>0))player.vel.y=0;
@@ -536,7 +593,7 @@ function updatePlayer(dt){
  }
  player.speed=Math.hypot(player.vel.x,player.vel.z);const h=player.speed;
  // Face the camera aim while strafing, so the wand and spell direction remain coherent.
- const targetYaw=cameraYaw,dy=angleDelta(player.mesh.rotation.y,targetYaw);player.mesh.rotation.y+=dy*Math.min(1,dt*10);
+ const modelYaw=cameraYaw,dy=angleDelta(player.mesh.rotation.y,modelYaw);player.mesh.rotation.y+=dy*Math.min(1,dt*10);
  const bank=settings.reducedMotion?0:clamp(-player.vel.dot(right)*.009,-.25,.25);player.mesh.rotation.z=lerp(player.mesh.rotation.z,bank,1-Math.exp(-dt*8));
  player.mesh.rotation.x=lerp(player.mesh.rotation.x,settings.reducedMotion?0:clamp(Math.atan2(player.vel.y,Math.max(h,12))*.45,-.23,.23),1-Math.exp(-dt*5));animateWizard(player.mesh,dt,h,match.elapsed);
 }
@@ -561,17 +618,23 @@ function updateRivals(dt){
   const speed=(r.speed+(carrier===r?2:0))*match.rules.rivalSpeed;
   flyAI(r,rivalTarget(r),speed,dt);
   if(r.role==='chaser'&&carrier===r&&r.mesh.position.distanceTo(closestGoal(homeGoals,r.mesh.position))<25){
-   teamThrow(r,homeGoals,'rival',33);
+   teamThrow(r,homeGoals,'rival',match.mode==='challenge'?28:20);
   }
  }
 }
 function updateAllies(dt){
  const [chaser,keeper]=allies;
+ if(match.elapsed<2){flyAI(chaser,V(14,11,28),chaser.speed*.65,dt);flyAI(keeper,keeperTarget(homeGoals,'rival'),keeper.speed,dt);return;}
+ if(match.callForPass>0&&allies.includes(carrier)){
+  const sender=carrier;
+  if(sender.mesh.position.distanceTo(player.pos)<=38){passBetween(sender,'player');match.callForPass=0;notify('队友回传 · 按 X 减速接球',1.5);}
+  else{flyAI(sender,player.pos,sender.speed*.8,dt);return;}
+ }
  let target;
  if(carrier===chaser){
   const goal=closestGoal(awayGoals,chaser.mesh.position);
   target=goal.clone().add(V(0,0,7));
-  if(chaser.mesh.position.distanceTo(goal)<25)teamThrow(chaser,awayGoals,'player',35);
+  if(chaser.mesh.position.distanceTo(goal)<25)teamThrow(chaser,awayGoals,'player',match.mode==='challenge'?30:22);
  }else if(passTarget===chaser){
   target=quaffle.position;
  }else if(carrier==='player'){
@@ -584,7 +647,7 @@ function updateAllies(dt){
  }else{
   target=V(clamp(player.pos.x+12,-35,35),clamp(player.pos.y,7,20),clamp(player.pos.z-10,-42,40));
  }
- flyAI(chaser,target,chaser.speed,dt);
+ flyAI(chaser,target,chaser.speed*(match.mode==='challenge'?1:.72),dt);
  flyAI(keeper,keeperTarget(homeGoals,'rival'),keeper.speed,dt);
  if(carrier===keeper)passBetween(keeper,chaser);
 }
@@ -631,7 +694,7 @@ function updateShot(from,dt){
   scoreGoal(shot.side);
   return;
  }
- if(crossing||shot.age>1.8)endShot();
+ if(crossing||shot.age>2.4)endShot();
 }
 function updatePass(from,dt){
  passAge+=dt;
@@ -639,11 +702,11 @@ function updatePass(from,dt){
  if(segmentDistanceSq(receiver,from,quaffle.position)<3.05**2){
   const received=passTarget;
   setCarrier(received);
-  match.stealCooldown=Math.max(match.stealCooldown,.6);
+  match.stealCooldown=Math.max(match.stealCooldown,match.mode==='challenge'?.6:1.8);
   notify(received==='player'?'接到队友传球 · F 射门':'接应队友接球',1.3);
   return;
  }
- if(passAge>1.25){
+ if(passAge>(passTarget==='player'?4:2.6)){
   passTarget=null;
   notify('传球落空 · 争抢鬼飞球',1.4);
  }
@@ -663,7 +726,7 @@ function updateQuaffle(dt){
  }
  if(passTarget){
   const receiver=passTarget==='player'?player.pos:passTarget.mesh.position;
-  const desired=receiver.clone().sub(quaffle.position).normalize().multiplyScalar(34);
+  const desired=receiver.clone().sub(quaffle.position).normalize().multiplyScalar(22);
   quaffleVel.lerp(desired,1-Math.exp(-dt*7));
  }else if(!shot&&quaffleVel.lengthSq()>.005){
   quaffleVel.y-=7.5*dt;
@@ -694,9 +757,12 @@ function updateQuaffle(dt){
  if(high&&quaffleVel.y>0)quaffleVel.y*=-.66;
  if((normal||low||high)&&shot)endShot();
  if(shot||passTarget||pickupDelay>0||trainingReset>0)return;
- if((!training()||match.trainingStep>=2)&&player.pos.distanceTo(quaffle.position)<2.85){
+ const catchRadius=match.mode==='challenge'?2.85:4.2;
+ const oldPlayer=player.previousPos.distanceTo(player.pos)<=Math.max(3,player.speed*dt+1)?player.previousPos:player.pos;
+ const catchDistance=segmentDistanceSq(V(),from.clone().sub(oldPlayer),quaffle.position.clone().sub(player.pos));
+ if((!training()||match.trainingStep>=2)&&catchDistance<catchRadius**2){
   setCarrier('player');
-  match.stealCooldown=Math.max(match.stealCooldown,.75);
+  match.stealCooldown=Math.max(match.stealCooldown,match.mode==='challenge'?.75:1.8);
   if(training()&&match.trainingStep===2)match.trainingStep=3;
   notify('拿到鬼飞球 · 瞄准蓝色门环',1.7);
   return;
@@ -728,15 +794,15 @@ function updateSteals(){
 }
 function chooseSnitchTarget(){const a=Math.random()*TAU,r=Math.sqrt(Math.random());snitchTarget.set(Math.sin(a)*42*r,8+Math.random()*23,Math.cos(a)*56*r);snitchRetarget=1.3+Math.random()*1.2;}
 function catchSnitch(side){if(match.state!=='playing'||!match.snitchActive)return;snitch.visible=false;match.snitchActive=false;if(side==='player')match.playerScore+=150;else match.rivalScore+=150;const caught=side==='player'?'你抓住金色飞贼，狮队 +150 分。':'对方抓住金色飞贼，鹰队 +150 分。';const winner=resultTitle();finishMatch(winner,caught+(match.playerScore>match.rivalScore?'最终总分狮队获胜！':match.rivalScore>match.playerScore?'最终总分鹰队获胜。':'最终总分相同，本场平局。'));tone(880,.5,'triangle',.08);}
-function updateSnitch(dt){if(!match.snitchActive){if(match.elapsed<match.rules.snitchAt)return;match.snitchActive=true;match.trackSnitch=true;snitch.visible=true;notify('金色飞贼出现 · 捕获可得 150 分',3);tone(920,.35,'sine',.06);}snitchTime+=dt;snitchRetarget-=dt;if(snitchRetarget<=0||snitch.position.distanceTo(snitchTarget)<2)chooseSnitchTarget();const dir=snitchTarget.clone().sub(snitch.position).normalize(),wobble=V(Math.sin(snitchTime*7),Math.cos(snitchTime*5)*.6,Math.sin(snitchTime*6)).multiplyScalar(.32);snitch.position.addScaledVector(dir.add(wobble).normalize(),13.5*dt);const flap=Math.sin(snitchTime*24)*.5;snitch.getObjectByName('WingL').rotation.z=-.28+flap;snitch.getObjectByName('WingR').rotation.z=.28-flap;if(player.pos.distanceTo(snitch.position)<2.35){catchSnitch('player');return;}for(const r of rivals)if(match.elapsed>=match.rules.rivalSnitchAt&&r.role==='seeker'&&r.stun<=0&&r.mesh.position.distanceTo(snitch.position)<2.05){catchSnitch('rival');return;}}
-function updateBludgers(dt){for(const b of bludgers){if(b.frozen>0){b.frozen=Math.max(0,b.frozen-dt);b.mesh.rotation.y+=dt*1.5;continue;}b.retarget-=dt;if(b.retarget<=0){let target=player.pos.clone().addScaledVector(getAimForward(),player.speed*.35);if(Math.random()<.28)target=rivals[Math.floor(Math.random()*2)].mesh.position;b.vel.copy(target).sub(b.mesh.position).normalize().multiplyScalar(20);b.retarget=2+Math.random()*1.6;}b.mesh.position.addScaledVector(b.vel,dt);b.mesh.rotation.x+=dt*5;b.mesh.rotation.z+=dt*3;if(b.mesh.position.y<4||b.mesh.position.y>32){b.vel.y*=-1;b.mesh.position.y=clamp(b.mesh.position.y,4,32);}if((b.mesh.position.x/56)**2+(b.mesh.position.z/75)**2>1)b.vel.copy(V(0,14,0)).sub(b.mesh.position).normalize().multiplyScalar(20);if(b.mesh.position.distanceTo(player.pos)<2.25&&player.hitCooldown<=0){if(player.shield>0){b.vel.copy(b.mesh.position).sub(player.pos).normalize().multiplyScalar(26);b.frozen=.35;b.retarget=1;notify('盔甲护身 · 已挡开游走球',1.3);}else{if(carrier==='player')dropQuaffle();const dir=player.pos.clone().sub(b.mesh.position).normalize();player.vel.copy(dir).multiplyScalar(22).add(V(0,7,0));player.hitCooldown=1.6;b.vel.copy(dir).multiplyScalar(-19);notify('遭游走球撞击 · 稳住扫帚',1.8);tone(90,.22,'sawtooth',.08);}}for(const r of rivals)if(b.mesh.position.distanceTo(r.mesh.position)<1.95&&r.stun<=0){if(carrier===r)dropQuaffle();const dir=r.mesh.position.clone().sub(b.mesh.position).normalize();r.stun=1.6;r.mesh.position.addScaledVector(dir,2);b.vel.copy(dir).multiplyScalar(-18);}}}
+function updateSnitch(dt){if(!match.snitchActive){if(match.elapsed<match.rules.snitchAt)return;match.snitchActive=true;match.trackSnitch=true;snitch.visible=true;notify('金色飞贼出现 · 捕获可得 150 分',3);tone(920,.35,'sine',.06);}snitchTime+=dt;snitchRetarget-=dt;if(snitchRetarget<=0||snitch.position.distanceTo(snitchTarget)<2)chooseSnitchTarget();const dir=snitchTarget.clone().sub(snitch.position).normalize(),wobble=V(Math.sin(snitchTime*7),Math.cos(snitchTime*5)*.6,Math.sin(snitchTime*6)).multiplyScalar(.32);snitch.position.addScaledVector(dir.add(wobble).normalize(),(match.mode==='challenge'?12:9)*dt);const flap=Math.sin(snitchTime*24)*.5;snitch.getObjectByName('WingL').rotation.z=-.28+flap;snitch.getObjectByName('WingR').rotation.z=.28-flap;if(player.pos.distanceTo(snitch.position)<2.35){catchSnitch('player');return;}for(const r of rivals)if(match.elapsed>=match.rules.rivalSnitchAt&&r.role==='seeker'&&r.stun<=0&&r.mesh.position.distanceTo(snitch.position)<2.05){catchSnitch('rival');return;}}
+function updateBludgers(dt){for(const b of bludgers){if(b.frozen>0){b.frozen=Math.max(0,b.frozen-dt);b.mesh.rotation.y+=dt*1.5;continue;}b.retarget-=dt;if(b.retarget<=0){let target=player.pos.clone().addScaledVector(getAimForward(),player.speed*.35);if(Math.random()<.28)target=rivals[Math.floor(Math.random()*2)].mesh.position;b.vel.copy(target).sub(b.mesh.position).normalize().multiplyScalar(20);b.retarget=2+Math.random()*1.6;}b.mesh.position.addScaledVector(b.vel,dt*(match.mode==='challenge'?1:.65));b.mesh.rotation.x+=dt*5;b.mesh.rotation.z+=dt*3;if(b.mesh.position.y<4||b.mesh.position.y>32){b.vel.y*=-1;b.mesh.position.y=clamp(b.mesh.position.y,4,32);}if((b.mesh.position.x/56)**2+(b.mesh.position.z/75)**2>1)b.vel.copy(V(0,14,0)).sub(b.mesh.position).normalize().multiplyScalar(20);if(b.mesh.position.distanceTo(player.pos)<2.25&&player.hitCooldown<=0){if(player.shield>0){b.vel.copy(b.mesh.position).sub(player.pos).normalize().multiplyScalar(26);b.frozen=.35;b.retarget=1;notify('盔甲护身 · 已挡开游走球',1.3);}else{if(carrier==='player')dropQuaffle();const dir=player.pos.clone().sub(b.mesh.position).normalize();player.vel.copy(dir).multiplyScalar(22).add(V(0,7,0));player.hitCooldown=1.6;b.vel.copy(dir).multiplyScalar(-19);notify('遭游走球撞击 · 稳住扫帚',1.8);tone(90,.22,'sawtooth',.08);}}for(const r of rivals)if(b.mesh.position.distanceTo(r.mesh.position)<1.95&&r.stun<=0){if(carrier===r)dropQuaffle();const dir=r.mesh.position.clone().sub(b.mesh.position).normalize();r.stun=1.6;r.mesh.position.addScaledVector(dir,2);b.vel.copy(dir).multiplyScalar(-18);}}}
 function isWizardTarget(target){return rivals.includes(target)||target===practiceDummy;}
 function findSpellTarget(includeBludgers=match.selected===1){const cfg=configs[match.selected];if(cfg.effect==='protego')return null;const forward=camera.getWorldDirection(V()),origin=player.pos.clone().add(V(0,1,0)),cone=Math.cos(22*Math.PI/180);let best=null,bestScore=Infinity;const candidates=training()?(practiceDummy.mesh.visible?[practiceDummy]:[]):includeBludgers?[...rivals,...bludgers]:rivals;for(const target of candidates){const offset=target.mesh.position.clone().add(isWizardTarget(target)?V(0,1,0):V()).sub(origin),distance=offset.length();if(distance>cfg.range||distance<.1||offset.dot(forward)<=0)continue;const alignment=target.mesh.position.clone().add(isWizardTarget(target)?V(0,1,0):V()).sub(camera.position).normalize().dot(forward);if(alignment<cone)continue;const score=(1-alignment)*100+distance*.04;if(score<bestScore){bestScore=score;best=target;}}return best;}
 function castSpell(){if(match.state!=='playing'||match.paused)return false;const cfg=configs[match.selected],index=match.selected;if(match.cooldowns[index]>0){notify(cfg.cn+' · 还需 '+match.cooldowns[index].toFixed(1)+' 秒',1);return false;}const target=index===2?null:findSpellTarget(index===1);if(index!==2&&!target){notify('将准星对准 '+cfg.range+' 米内的'+(index===1?'对手或游走球':'对手')+' · 未消耗冷却',1.6);return false;}match.cooldowns[index]=cfg.cooldown;match.usedSpell=true;match.callout=cfg.cn+' · '+cfg.spell;match.calloutTime=1.45;player.mesh.userData.castTime=.55;speak(cfg.spell);tone(index===2?520:420,.18,'triangle',.06);if(index===2){player.shield=4;notify('盔甲护身 · 4 秒内格挡撞击与抢断',1.8);if(training()&&match.trainingStep===4)finishTraining();return true;}const mesh=new THREE.Group();sph(mesh,.18,V(),cfg.color,.15,3);const light=new THREE.PointLight(cfg.color,1.6,5);mesh.add(light);player.mesh.updateMatrixWorld(true);player.mesh.getObjectByName('SpellSocket').getWorldPosition(mesh.position);scene.add(mesh);const direction=target.mesh.position.clone().add(isWizardTarget(target)?V(0,1,0):V()).sub(mesh.position).normalize();projectiles.push({mesh,target,effect:cfg.effect,vel:direction.multiplyScalar(46),life:2.8,color:cfg.color});return true;}
 function spellBurst(pos,color){const mesh=new THREE.Group();mesh.position.copy(pos);scene.add(mesh);const ring=torus(mesh,.5,.045,V(),color,0,2);ring.quaternion.copy(camera.quaternion);for(const d of[UP,V(0,-1,0),V(-1,0,0),V(1,0,0)])sph(mesh,.1,d.clone().multiplyScalar(.6),color,0,2);spellEffects.push({mesh,life:.28});}
 function updateSpells(dt){for(let i=0;i<3;i++)match.cooldowns[i]=Math.max(0,match.cooldowns[i]-dt);for(let i=spellEffects.length-1;i>=0;i--){const effect=spellEffects[i];effect.life-=dt;effect.mesh.scale.multiplyScalar(1+dt*4);if(effect.life<=0){disposeObject(effect.mesh);spellEffects.splice(i,1);}}for(let i=projectiles.length-1;i>=0;i--){const p=projectiles[i];p.life-=dt;const aim=p.target.mesh.position.clone().add(isWizardTarget(p.target)?V(0,1,0):V());p.vel.copy(aim).sub(p.mesh.position).normalize().multiplyScalar(46);const distance=p.mesh.position.distanceTo(aim);p.mesh.position.addScaledVector(p.vel,dt);if(distance<Math.max(1.25,46*dt)){spellBurst(aim,p.color);if(isWizardTarget(p.target)){if(p.effect==='expelliarmus'){const disarmed=carrier===p.target;if(disarmed)dropQuaffle();p.target.stun=Math.max(p.target.stun,.65);notify(disarmed?'除你武器命中 · 对手已掉球':'除你武器命中 · 对手短暂受击',1.8);}else{p.target.stun=Math.max(p.target.stun,3.2);notify('昏昏倒地命中 · 对手昏迷 3.2 秒，靠近可抢球',1.8);}}else{p.target.frozen=3.2;p.target.vel.multiplyScalar(.15);notify('昏昏倒地命中 · 游走球冻结 3.2 秒',1.8);}if(training()&&p.target===practiceDummy)finishTraining();p.life=0;}if(p.life<=0){disposeObject(p.mesh);projectiles.splice(i,1);}}}
 function resultTitle(){
- return match.playerScore>match.rivalScore?'狮队获胜':match.rivalScore>match.playerScore?'鹰队获胜':'双方平局';
+ return match.playerScore>match.rivalScore?houseById(match.homeHouse).name+'获胜':match.rivalScore>match.playerScore?houseById(match.awayHouse).name+'获胜':'双方平局';
 }
 function finishMatch(title,detail){
  clearInput();
@@ -746,10 +812,10 @@ function finishMatch(title,detail){
  const best=Math.max(previous,score);
  bestScores[mode]=best;
  try{localStorage.setItem('broomball-best',JSON.stringify(bestScores));}catch{}
- $('endTitle').textContent=title;
+ $('endTitle').textContent=teamText(title);
  $('endScore').textContent=score+' — '+match.rivalScore;
- $('endDetail').textContent=detail;
- $('endStats').textContent='射门 '+shots+' 次 · 狮队进球 '+goals+' 个 · 抢断 '+steals+' 次 · 传球 '+passes+' 次';
+ $('endDetail').textContent=teamText(detail);
+ $('endStats').textContent='射门 '+shots+' 次 · 本队进球 '+goals+' 个 · 抢断 '+steals+' 次 · 传球 '+passes+' 次';
  $('endBest').textContent=match.rules.label+' · 本机最佳 '+best+' 分'+(score>previous?' · 刷新纪录':'');
  $('ending').classList.remove('hidden');
  if(document.pointerLockElement===canvas)document.exitPointerLock();
@@ -770,6 +836,7 @@ function update(dt){
  match.messageTime=Math.max(0,match.messageTime-dt);
  match.calloutTime=Math.max(0,match.calloutTime-dt);
  if(match.state==='countdown'){
+  updateAim(dt);
   match.countdown-=dt;
   if(match.countdown<=0){
    match.state='playing';
@@ -788,6 +855,7 @@ function update(dt){
  player.boundaryNotice=Math.max(0,player.boundaryNotice-dt);
  match.kickoff=Math.max(0,match.kickoff-dt);
  match.stealCooldown=Math.max(0,match.stealCooldown-dt);
+ match.callForPass=Math.max(0,match.callForPass-dt);
  pickupDelay=Math.max(0,pickupDelay-dt);
  updatePlayer(dt);
  if(!training()){
@@ -820,10 +888,10 @@ function getObjectiveInfo(){
   text=info.assisted?'蓝门已对准 · F / 左键射门':info.distance>shotRange?'带球接近蓝门 · 38 米内可辅助瞄准':'将准星对准蓝色门环';
  }else if(training()&&match.trainingStep===4){
   target=practiceDummy.mesh.position;
-  text='瞄准蓝衣练习靶 · R / 右键施法';
+  text='瞄准场内练习靶 · R / 右键施法';
  }else if(carrier&&allies.includes(carrier)){
   target=carrier.mesh.position;
-  text='狮队持球 · 接应手正在推进';
+  text=match.callForPass>0?'队友正在靠近 · 按 X 减速等候':'队友持球 · 按 T 要球';
  }else if(match.snitchActive&&match.trackSnitch){
   target=snitch.position;
   text='追踪金色飞贼 · +150 分并结束比赛';
@@ -845,16 +913,16 @@ function getObjectiveInfo(){
  else if(angle<-1.85)arrow='↙';
  else if(angle<-.85)arrow='←';
  else if(angle<-.35)arrow='↖';
- const height=Math.abs(delta.y)>4?(delta.y>0?'，目标在上方':'，目标在下方'):'';
- return {target,text,direction:arrow+' · '+Math.round(distance)+'m'+height};
+ const height=Math.abs(delta.y)>1.2?(delta.y>0?' · 上升 '+Math.round(delta.y)+'m':' · 下降 '+Math.round(-delta.y)+'m'):'';
+ return {target,text:teamText(text),direction:arrow+' · '+Math.round(distance)+'m'+height};
 }
-function updateWaypoint(dt){const info=getObjectiveInfo(),active=(match.state==='playing'||match.state==='countdown')&&!match.paused;waypoint.visible=active;if(!active)return;waypoint.position.copy(info.target);waypoint.position.y+=Math.sin(match.elapsed*2.4)*.35+1.4;waypoint.rotation.y+=dt*.75;waypoint.userData.ring.scale.setScalar(1+Math.sin(match.elapsed*3.2)*.08);}
+function updateWaypoint(){waypoint.visible=false;}
 const trainingHints=[
  '按住 W 飞行，A / D 平移，S 后退，X 急停。用 ← / → 转向。',
  '按 Space 上升，Q 下降。高度变化累计 4 米即可继续。',
- '沿航标飞向橙色鬼飞球，调整高度，靠近自动拾取。',
+ '沿橙色球标飞向鬼飞球，调整高度，靠近自动拾取。',
  '带球飞到蓝门 38 米内。移动鼠标或按 I / K 微调高度，准星变绿后按 F / 左键射门。',
- '将准星对准蓝衣练习靶，按 R / 右键施法。也可按 3 选罗恩，再施放护盾。'
+ '将准星对准场内练习靶，按 R / 右键施法。也可按 3 选罗恩，再施放护盾。'
 ];
 function updateCoach(){
  const visible=training()&&match.state==='playing'&&!match.paused;
@@ -863,15 +931,44 @@ function updateCoach(){
  $('coachStep').textContent='训练 '+(step+1)+'/5';
  $('coachText').textContent=trainingHints[step];
 }
+function updateBallMarker(){
+ const element=$('ballMarker');
+ const visible=match.state==='playing'&&!match.paused&&quaffle.visible&&carrier!=='player';
+ element.style.display=visible?'block':'none';
+ element.dataset.location='hidden';
+ if(!visible)return;
+ camera.updateMatrixWorld(true);
+ const local=quaffle.position.clone().applyMatrix4(camera.matrixWorldInverse);
+ const projected=quaffle.position.clone().project(camera);
+ const marginX=Math.min(100,innerWidth*.16),top=190,bottom=innerHeight-235;
+ const minY=Math.min(top,innerHeight*.34),maxY=Math.max(minY+70,bottom);
+ let x=(projected.x*.5+.5)*innerWidth,y=(-projected.y*.5+.5)*innerHeight;
+ const onscreen=local.z<0&&x>=marginX&&x<=innerWidth-marginX&&y>=minY&&y<=maxY;
+ if(!onscreen){
+  let dx=local.x,dy=-local.y;
+  if(Math.abs(dx)+Math.abs(dy)<.01){dx=1;dy=0;}
+  const halfW=innerWidth/2-marginX,halfH=(maxY-minY)/2;
+  const scale=Math.min(halfW/Math.max(.001,Math.abs(dx)),halfH/Math.max(.001,Math.abs(dy)));
+  x=innerWidth/2+dx*scale;y=(minY+maxY)/2+dy*scale;
+  $('ballMarkerArrow').style.transform='rotate('+Math.atan2(dy,dx)+'rad)';
+ }
+ element.dataset.location=onscreen?'onscreen':'offscreen';
+ element.classList.toggle('offscreen',!onscreen);
+ element.style.left=x+'px';element.style.top=y+'px';
+ $('ballMarkerArrow').textContent=onscreen?'':'➜';
+ const label=local.z>=0?'球在身后':allies.includes(carrier)?'队友持球 · T 要球':rivals.includes(carrier)?'对手持球':'鬼飞球';
+ $('ballMarkerText').textContent=label+' · '+Math.round(player.pos.distanceTo(quaffle.position))+'m';
+}
 function updateHUD(){
  $('hud').style.opacity=match.state==='menu'?'0':'1';$('hud').inert=match.state==='menu'||match.paused||match.state==='ended';$('playerScore').textContent=match.playerScore;$('rivalScore').textContent=match.rivalScore;
  $('modeLabel').textContent=match.rules.label;
  $('staminaFill').style.width=player.stamina+'%';$('staminaValue').textContent=(player.exhausted?'恢复中 · ':'')+Math.round(player.stamina)+'%';
- const sec=Math.ceil(match.timeLeft);$('clock').textContent=training()?'∞':String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('speed').textContent='速度 '+String(Math.round(player.speed)).padStart(2,'0')+' m/s · 高度 '+Math.round(player.pos.y)+' m';$('speedFill').style.width=clamp(player.speed/48*100,0,100)+'%';$('viewMode').textContent=match.firstPerson?'第一人称':'第三人称';$('wizardName').textContent=(match.selected+1)+'  '+configs[match.selected].name;
+ const sec=Math.ceil(match.timeLeft);$('clock').textContent=training()?'∞':String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('speed').textContent='速度 '+String(Math.round(player.speed)).padStart(2,'0')+' m/s · 高度 '+Math.round(player.pos.y)+' m';$('speedFill').style.width=clamp(player.speed/(match.mode==='challenge'?48:36)*100,0,100)+'%';$('viewMode').textContent=match.firstPerson?'第一人称':'第三人称';$('wizardName').textContent=(match.selected+1)+'  '+configs[match.selected].name;
  const cfg=configs[match.selected],cd=match.cooldowns[match.selected];$('spellStatus').textContent=cfg.cn+' · '+(cd>0?'冷却 '+cd.toFixed(1)+' 秒':'R / 右键施放');$('spellStatus').style.color=cd>0?'var(--muted)':'var(--gold)';
  const live=match.state==='playing'&&!match.paused,holding=carrier==='player';
  const receiver=holding?getPassReceiver():null;
- $('possession').textContent=holding?(receiver?'你持球 · F 射门 / T 传球':'你持球 · F / 左键射门'):allies.includes(carrier)?'狮队持球 · 跟进接应':carrier?'鹰队持球 · 加速抢断或施法':'鬼飞球未被持有';
+ $('possession').textContent=holding?(receiver?'你持球 · F 射门 / T 传球':'你持球 · F / 左键射门'):allies.includes(carrier)?'队友持球 · T 要球':carrier?'对手持球 · 加速抢断或施法':'鬼飞球未被持有';
+ $('assistHint').textContent=!live||training()?'':holding?'你已拿球 · 瞄准蓝色门环，F 射门':allies.includes(carrier)?(match.callForPass>0?'队友正在靠近 · 按 X 减速等候':'队友持球 · 按 T 要球'):passTarget==='player'?'队友回传中 · 按 X 减速接球':!carrier?'橙色圆环就是鬼飞球 · Space 上升，Q 下降':'';
  const info=live&&holding?getShotInfo():null;
  const target=live&&!holding?findSpellTarget():null;
  $('reticle').textContent=info?.assisted?'⊕':'+';
@@ -884,7 +981,7 @@ function updateHUD(){
  }else if(target){
   targetMarker.position.copy(target.mesh.position).add(isWizardTarget(target)?V(0,1,0):V());
   targetMarker.quaternion.copy(camera.quaternion);
-  const name=target===practiceDummy?'练习靶':rivals.includes(target)?carrier===target?'持球对手':'鹰队球员':'游走球';
+  const name=target===practiceDummy?'练习靶':rivals.includes(target)?carrier===target?'持球对手':'对方球员':'游走球';
   hint=name+' · '+Math.round(player.pos.distanceTo(target.mesh.position))+' 米 · '+(cd>0?'技能冷却中':'R 施法');
  }else if(live&&!training()){
   hint=cfg.effect==='protego'?(player.shield>0?'护盾持续 '+player.shield.toFixed(1)+' 秒':'R / 右键 · 4 秒防护'):'瞄准 '+cfg.range+' 米内'+(match.selected===1?'对手 / 游走球':'对手');
@@ -942,9 +1039,9 @@ function drawRadar(){
  dot(player.pos,7,'#fff');
  ctx.font='19px Microsoft YaHei, sans-serif';
  ctx.fillStyle='#e9bd80';
- ctx.fillText('金 · 狮队',15,28);
+ ctx.fillText(houseById(match.homeHouse).name,15,28);
  ctx.fillStyle='#8ab2e0';
- ctx.fillText('蓝 · 鹰队',w-105,28);
+ ctx.fillText(houseById(match.awayHouse).name,w-105,28);
  ctx.fillStyle='#b9c3d4';
  ctx.fillText('方块 · 守门员',15,h-10);
 }
@@ -955,11 +1052,16 @@ function frame(now){
  if(!match.paused)update(dt);
  updateCamera(dt);
  updateHUD();
+ updateBallMarker();
  environment?.update(dt,{player:player.pos,elapsed:match.elapsed,active:match.state==='playing'&&!match.paused,reducedMotion:settings.reducedMotion});
  renderer.render(scene,camera);
 }
 requestAnimationFrame(frame);
 for(const button of document.querySelectorAll('.character'))button.addEventListener('click',()=>{document.querySelectorAll('.character').forEach(b=>b.classList.remove('selected'));button.classList.add('selected');switchCharacter(configs.findIndex(c=>c.id===button.dataset.id));});
+$('housePicker').innerHTML=houses.map(h=>'<button type="button" class="house-option" data-house="'+h.id+'" style="--house-color:'+h.color+'" aria-pressed="false">'+window.BroomHouses.crestSVG(h.id)+'<span><strong>'+h.name+'</strong><small>'+h.animal+' · '+h.motto.split(' · ')[0]+'</small></span></button>').join('');
+for(const button of document.querySelectorAll('.house-option'))button.addEventListener('click',()=>selectHouse(button.dataset.house));
+$('opponentHouse').addEventListener('change',event=>selectOpponent(event.target.value));
+syncHouseTheme();
 for(const button of document.querySelectorAll('.mode-option'))button.addEventListener('click',()=>selectMode(button.dataset.mode));
 $('startBtn').addEventListener('click',()=>startMatch());
 $('trainingPlayBtn').addEventListener('click',()=>startMatch('standard'));
@@ -975,7 +1077,7 @@ addEventListener('keydown',e=>{
  if(!active)return;if(e.code==='KeyV')toggleView();if(e.code==='KeyF')throwQuaffle();if(e.code==='KeyR')castSpell();if(e.code==='KeyT')passQuaffle();if(e.code==='Tab'&&match.snitchActive){match.trackSnitch=!match.trackSnitch;notify(match.trackSnitch?'追踪金色飞贼 · 持球时保留球门指引':'已取消飞贼追踪',1.5);}if(['Digit1','Digit2','Digit3'].includes(e.code))switchCharacter(Number(e.code.slice(-1))-1);
 });
 addEventListener('keyup',e=>{delete keys[e.code];});
-addEventListener('mousemove',e=>{if(document.pointerLockElement===canvas&&!match.paused&&(match.state==='playing'||match.state==='countdown')){setAim(cameraYaw-e.movementX*.0016*settings.sensitivity,cameraPitch-e.movementY*.0016*settings.sensitivity);}});
+addEventListener('mousemove',e=>{if(document.pointerLockElement===canvas&&!match.paused&&(match.state==='playing'||match.state==='countdown')){handleLookInput(e.movementX,e.movementY);}});
 canvas.addEventListener('mousedown',e=>{if(match.state==='playing'&&!match.paused){if(document.pointerLockElement!==canvas){lockPointer();return;}if(e.button===0)throwQuaffle();if(e.button===2)castSpell();}});
 canvas.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('pointerlockchange',()=>{if(document.pointerLockElement!==canvas){clearInput();if((match.state==='playing'||match.state==='countdown')&&!match.paused)pauseMatch();}});
@@ -991,6 +1093,7 @@ window.__BROOMBALL__={
  scene,camera,renderer,environment,homeGoals,awayGoals,findSpellTarget,clearInput,startMatch,restartMatch,returnToMenu,
  switchCharacter,castSpell,toggleView,throwQuaffle,getShotInfo,passQuaffle,scoreGoal,catchSnitch,
  openHelp,closeHelp,pauseMatch,resumeMatch,getObjectiveInfo,setAim,updateCamera,updateQuaffle,updateSnitch,
+ houses,houseDecor,selectHouse,selectOpponent,handleLookInput,getAimState,updatePlayer,
  get carrier(){return carrier;},setCarrier
 };
 })();

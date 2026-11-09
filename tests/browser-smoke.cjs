@@ -150,7 +150,8 @@ const server = http.createServer((req, res) => {
       assert.deepEqual(await page.evaluate(()=>{const g=window.__BROOMBALL__;return[g.player.shield,g.match.cooldowns[2],g.match.timeLeft]}),timers,'Pause freezes all gameplay timers');
       passed.push('Shield and cooldown freeze on pause');
       await stage(); await page.evaluate(()=>{const g=window.__BROOMBALL__;g.match.playerScore=200;g.match.rivalScore=0;g.match.snitchActive=true;g.catchSnitch('rival');});
-      assert.match(await page.textContent('#endTitle'),/LIONS|狮/i,'Snitch winner is decided by final score'); passed.push('Snitch final score settlement');
+      const winningHouse = await page.evaluate(()=>{const g=window.__BROOMBALL__;return g.houses.find(house=>house.id===g.match.homeHouse).name;});
+      assert.equal(await page.textContent('#endTitle'),winningHouse+'获胜','Snitch winner is decided by final score and uses the selected house'); passed.push('Snitch final score settlement');
       await stage();
       await page.evaluate(()=>{const g=window.__BROOMBALL__;g.switchCharacter(0);g.player.pos.set(0,10,38);});
       await page.clock.runFor(100);

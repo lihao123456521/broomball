@@ -1,0 +1,573 @@
+{
+  "baseline": true,
+  "baselineRevision": "031de47c31901ffd58f5fd92955b9681135a802e",
+  "url": "file:///G:/broomball/broomball/.houses-novice-baseline-30072.html",
+  "passed": [],
+  "failed": [
+    {
+      "name": "Standard kickoff lets W reach and collect the contested ball",
+      "error": "AssertionError [ERR_ASSERTION]: W reaches and picks up the opening ball on the first crossing\n    at G:\\broomball\\broomball\\tests\\browser-houses-novice.cjs:127:14\n    at async check (G:\\broomball\\broomball\\tests\\browser-houses-novice.cjs:49:9)\n    at async G:\\broomball\\broomball\\tests\\browser-houses-novice.cjs:112:5"
+    },
+    {
+      "name": "A manual shot has a slower measurable flight",
+      "error": "AssertionError [ERR_ASSERTION]: Manual shots are slower than the 39 m/s baseline\n    at G:\\broomball\\broomball\\tests\\browser-houses-novice.cjs:144:14\n    at async check (G:\\broomball\\broomball\\tests\\browser-houses-novice.cjs:49:9)\n    at async G:\\broomball\\broomball\\tests\\browser-houses-novice.cjs:131:5"
+    },
+    {
+      "name": "Keyboard turning ramps in and settles promptly after release",
+      "error": "AssertionError [ERR_ASSERTION]: Turn starts below its sustained rate\n    at G:\\broomball\\broomball\\tests\\browser-houses-novice.cjs:310:14\n    at async check (G:\\broomball\\broomball\\tests\\browser-houses-novice.cjs:49:9)\n    at async G:\\broomball\\broomball\\tests\\browser-houses-novice.cjs:284:5"
+    },
+    {
+      "name": "Four house choices appear in the main menu",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 4\n\n    at G:\\broomball\\broomball\\tests\\browser-houses-novice.cjs:319:14\n    at async check (G:\\broomball\\broomball\\tests\\browser-houses-novice.cjs:49:9)\n    at async G:\\broomball\\broomball\\tests\\browser-houses-novice.cjs:315:5"
+    }
+  ],
+  "evidence": {
+    "kickoffW": {
+      "opening": {
+        "carrier": null,
+        "player": [
+          0,
+          10,
+          38
+        ],
+        "ball": [
+          0,
+          9,
+          0
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "distance": 38.01315561749642,
+        "kickoff": 2.352,
+        "protection": 1.452,
+        "stats": {
+          "shots": 0,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      },
+      "crossing": [
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            36.783488000000006
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 36.797078544989745,
+          "kickoff": 2.1759999999999997,
+          "protection": 1.2759999999999998,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            32.912768
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 32.92795616830513,
+          "kickoff": 1.9839999999999995,
+          "protection": 1.0839999999999996,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            27.990399999999994
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 28.00825757093789,
+          "kickoff": 1.8079999999999994,
+          "protection": 0.9079999999999995,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            23.06239999999999
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 23.084070129853608,
+          "kickoff": 1.6319999999999992,
+          "protection": 0.7319999999999993,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            18.134399999999985
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 18.1619509789009,
+          "kickoff": 1.455999999999999,
+          "protection": 0.5559999999999992,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            12.75839999999998
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 12.797529861656878,
+          "kickoff": 1.263999999999999,
+          "protection": 0.363999999999999,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            7.830399999999976
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 7.893995449707305,
+          "kickoff": 1.0879999999999987,
+          "protection": 0.18799999999999883,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            2.902399999999973
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 3.0698413248895853,
+          "kickoff": 0.9119999999999986,
+          "protection": 0.01199999999999879,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -2.025600000000027
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 2.258994324915428,
+          "kickoff": 0.7359999999999984,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -7.4016000000000295
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 7.468847471999976,
+          "kickoff": 0.5439999999999983,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -12.329600000000033
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 12.370086344080255,
+          "kickoff": 0.3679999999999981,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -17.257600000000036
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 17.28654846289453,
+          "kickoff": 0.19199999999999795,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "shot": {
+      "held": {
+        "carrier": "player",
+        "player": [
+          0,
+          10,
+          0
+        ],
+        "ball": [
+          -0.9595214800921948,
+          11.15,
+          0.3228850194207435
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "distance": 1.5321345262491315,
+        "kickoff": 0,
+        "protection": 0.6859999999999999,
+        "stats": {
+          "shots": 0,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      },
+      "release": {
+        "carrier": null,
+        "player": [
+          0,
+          10,
+          0
+        ],
+        "ball": [
+          -0.9568128806526117,
+          11.15,
+          0.33092160917239993
+        ],
+        "velocity": [
+          -4.776122516674678e-15,
+          0,
+          39
+        ],
+        "distance": 1.5321553446044565,
+        "kickoff": 0,
+        "protection": 0.6859999999999999,
+        "stats": {
+          "shots": 1,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      },
+      "flight": {
+        "carrier": null,
+        "player": [
+          0,
+          10,
+          0
+        ],
+        "ball": [
+          -0.9568128806526133,
+          11.15,
+          9.066921609172399
+        ],
+        "velocity": [
+          -4.776122516674678e-15,
+          0,
+          39
+        ],
+        "distance": 9.189508058403353,
+        "kickoff": 0,
+        "protection": 0.46199999999999974,
+        "stats": {
+          "shots": 1,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      },
+      "speed": 39
+    },
+    "keyboardTurn": {
+      "samples": [
+        -3.141592653589793,
+        -3.0359926535897923,
+        -2.9567926535897917,
+        -2.851192653589791,
+        -2.74559265358979,
+        -2.6399926535897893,
+        -2.5607926535897887,
+        -2.455192653589788,
+        -2.349592653589787
+      ],
+      "steps": [
+        0.10560000000000079,
+        0.0792000000000006,
+        0.10560000000000079,
+        0.10560000000000079,
+        0.10560000000000079,
+        0.0792000000000006,
+        0.10560000000000079,
+        0.10560000000000079
+      ],
+      "released": -2.349592653589787,
+      "settled": -2.349592653589787,
+      "stable": -2.349592653589787
+    }
+  },
+  "pageErrors": [],
+  "blockedRequests": []
+}

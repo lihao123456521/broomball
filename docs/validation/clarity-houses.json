@@ -1,0 +1,2453 @@
+{
+  "baseline": false,
+  "baselineRevision": null,
+  "url": "file:///G:/broomball/broomball/index.html",
+  "passed": [
+    "Standard kickoff lets W reach and collect the contested ball",
+    "A manual shot has a slower measurable flight",
+    "T requests a nearby allied ball through a real return flight and catch",
+    "T asks a distant carrier to approach before returning the ball",
+    "A moving player can request a return, brake after reacting, and catch it",
+    "Continuing to fly away from a return gives guidance and an explicit miss",
+    "Keyboard turning ramps in and settles promptly after release",
+    "Four house choices appear in the main menu",
+    "Countdown mouse look eases while the player remains still",
+    "Mouse look input eases toward the requested direction",
+    "The ball marker identifies the visible ball and points toward an offscreen ball",
+    "House selection persists and synchronizes teams, uniforms and map",
+    "The end screen uses the selected teams and avoids legacy hardcoded labels",
+    "The file build runs without requests or page exceptions"
+  ],
+  "failed": [],
+  "evidence": {
+    "kickoffW": {
+      "opening": {
+        "carrier": null,
+        "player": [
+          0,
+          10,
+          38
+        ],
+        "ball": [
+          0,
+          9,
+          0
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "distance": 38.01315561749642,
+        "kickoff": 0,
+        "protection": 1.436,
+        "stats": {
+          "shots": 0,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      },
+      "crossing": [
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            36.783488000000006
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 36.797078544989745,
+          "kickoff": 0,
+          "protection": 1.2599999999999998,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            33.44192000000001
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 33.4568679539254,
+          "kickoff": 0,
+          "protection": 1.0839999999999996,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            29.56992000000002
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 29.58682424334185,
+          "kickoff": 0,
+          "protection": 0.9079999999999995,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            25.345920000000017
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 25.365639369950856,
+          "kickoff": 0,
+          "protection": 0.7159999999999993,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            21.473920000000014
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 21.497191448335773,
+          "kickoff": 0,
+          "protection": 0.5399999999999991,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            17.60192000000001
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 17.630303108182808,
+          "kickoff": 0,
+          "protection": 0.363999999999999,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            13.729920000000007
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 13.766288650409747,
+          "kickoff": 0,
+          "protection": 0.18799999999999883,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            9.505920000000003
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 9.558374079643466,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            5.63392
+          ],
+          "ball": [
+            0,
+            9,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 5.721979951590183,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": "player",
+          "player": [
+            0,
+            10,
+            1.7619199999999995
+          ],
+          "ball": [
+            0.95,
+            11.15,
+            2.145276840772304
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 1.540117679713769,
+          "kickoff": 0,
+          "protection": 1.704,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": "player",
+          "player": [
+            0,
+            10,
+            -2.11008
+          ],
+          "ball": [
+            0.95,
+            11.15,
+            -1.6278773141517617
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 1.5676477379307048,
+          "kickoff": 0,
+          "protection": 1.5279999999999998,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": "player",
+          "player": [
+            0,
+            10,
+            -6.334080000000001
+          ],
+          "ball": [
+            0.95,
+            11.15,
+            -5.849806690706416
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 1.5682858916964602,
+          "kickoff": 0,
+          "protection": 1.3359999999999996,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "shot": {
+      "held": {
+        "carrier": "player",
+        "player": [
+          0,
+          10,
+          0
+        ],
+        "ball": [
+          -0.9595214800921948,
+          11.15,
+          0.3228850194207435
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "distance": 1.5321345262491315,
+        "kickoff": 0,
+        "protection": 1.736,
+        "stats": {
+          "shots": 0,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      },
+      "release": {
+        "carrier": null,
+        "player": [
+          0,
+          10,
+          0
+        ],
+        "ball": [
+          -0.9568128806526117,
+          11.15,
+          0.33092160917239993
+        ],
+        "velocity": [
+          -2.9391523179536475e-15,
+          0,
+          24
+        ],
+        "distance": 1.5321553446044565,
+        "kickoff": 0,
+        "protection": 1.736,
+        "stats": {
+          "shots": 1,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      },
+      "flight": {
+        "carrier": null,
+        "player": [
+          0,
+          10,
+          0
+        ],
+        "ball": [
+          -0.9568128806526117,
+          11.15,
+          5.3229216091724005
+        ],
+        "velocity": [
+          -2.9391523179536475e-15,
+          0,
+          24
+        ],
+        "distance": 5.529148699933584,
+        "kickoff": 0,
+        "protection": 1.5279999999999998,
+        "stats": {
+          "shots": 1,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      },
+      "speed": 24
+    },
+    "nearbyReturnPass": {
+      "release": {
+        "carrier": null,
+        "player": [
+          0,
+          10,
+          0
+        ],
+        "ball": [
+          0.695198728042335,
+          11.245117091103644,
+          25.560251870117288
+        ],
+        "velocity": [
+          -0.5974363642906833,
+          -1.0700224238325322,
+          -21.965839883854173
+        ],
+        "distance": 25.60000182628635,
+        "kickoff": 0,
+        "protection": 0,
+        "stats": {
+          "shots": 0,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      },
+      "flight": {
+        "carrier": null,
+        "player": [
+          0,
+          10,
+          0
+        ],
+        "ball": [
+          0.5804909460985243,
+          11.039672785727788,
+          21.34281061241727
+        ],
+        "velocity": [
+          -0.5974363642906837,
+          -1.0700224238325284,
+          -21.965839883854173
+        ],
+        "distance": 21.37600182628633,
+        "kickoff": 0,
+        "protection": 0,
+        "stats": {
+          "shots": 0,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      },
+      "caught": {
+        "carrier": "player",
+        "player": [
+          0,
+          10,
+          0
+        ],
+        "ball": [
+          -0.9500000032889061,
+          11.15,
+          0.34999999107296864
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "distance": 1.5321553446044565,
+        "kickoff": 0,
+        "protection": 1.3519999999999996,
+        "stats": {
+          "shots": 0,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "distantReturnPass": {
+      "requested": {
+        "carrier": "ally",
+        "player": [
+          0,
+          10,
+          0
+        ],
+        "ball": [
+          45.695198728042335,
+          11.245117091103644,
+          0.5602518701172868
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "distance": 45,
+        "kickoff": 0,
+        "protection": 0,
+        "stats": {
+          "shots": 0,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ],
+        "request": 6
+      },
+      "approaching": {
+        "carrier": "ally",
+        "player": [
+          0,
+          10,
+          0
+        ],
+        "ball": [
+          43.00360270534764,
+          11.419872156285852,
+          -0.4691796477399273
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "distance": 42.311999999999976,
+        "kickoff": 0,
+        "protection": 0,
+        "stats": {
+          "shots": 0,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ],
+        "request": 5.76
+      },
+      "samples": [
+        {
+          "carrier": "ally",
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            41.66524816396128,
+            11.449122775010022,
+            -0.4799396701833012
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 41.693203324625316,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 41.23679999999997,
+            "request": 5.664
+          }
+        },
+        {
+          "carrier": "ally",
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            40.43527994910653,
+            11.46241054753378,
+            -0.42370580473709113
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 40.463935001197335,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 40.16159999999996,
+            "request": 5.568
+          }
+        },
+        {
+          "carrier": "ally",
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            39.10919150639956,
+            11.454216431177237,
+            -0.42646109302459223
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 39.138542062483694,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 38.907199999999946,
+            "request": 5.4559999999999995
+          }
+        },
+        {
+          "carrier": "ally",
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            38.007242413435506,
+            11.430935386970438,
+            -0.48624575383811924
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 38.03727759564899,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 37.83199999999994,
+            "request": 5.359999999999999
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            35.463476610945804,
+            11.340005922245444,
+            -0.48600130184772267
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738557021,
+            0.30125084577698996
+          ],
+          "distance": 35.4921116090907,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 36.931230871937245,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            33.35318057031422,
+            11.260267287955296,
+            -0.45708122065313167
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738557021,
+            0.30125084577698996
+          ],
+          "distance": 33.380111609090676,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 36.03393140634901,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            30.891168522910725,
+            11.167238881283456,
+            -0.42334112592610884
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738557021,
+            0.3012508457769902
+          ],
+          "distance": 30.916111609090663,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 34.99182333993458,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            28.780872482279165,
+            11.087500246993308,
+            -0.39442104473151784
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738557016,
+            0.30125084577699024
+          ],
+          "distance": 28.804111609090665,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 34.10298891189342,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            26.670576441647604,
+            11.00776161270316,
+            -0.36550096353692685
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738557009,
+            0.30125084577699035
+          ],
+          "distance": 26.692111609090666,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 33.2185612867424,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            24.560280401016044,
+            10.928022978413011,
+            -0.33658088234233585
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738557003,
+            0.30125084577699035
+          ],
+          "distance": 24.580111609090665,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 32.33890202777757,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            22.098268353612557,
+            10.834994571741172,
+            -0.302840787615313
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738556994,
+            0.3012508457769905
+          ],
+          "distance": 22.116111609090666,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 31.319195485483352,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            19.987972312980997,
+            10.755255937451023,
+            -0.273920706420722
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738556981,
+            0.3012508457769906
+          ],
+          "distance": 20.004111609090664,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 30.451297664458508,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            17.877676272349436,
+            10.675517303160875,
+            -0.24500062522613097
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738556968,
+            0.3012508457769907
+          ],
+          "distance": 17.892111609090666,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 29.58959043660104,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            15.767380231717876,
+            10.595778668870727,
+            -0.2160805440315398
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738556953,
+            0.3012508457769907
+          ],
+          "distance": 15.780111609090666,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 28.73463074631249,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            13.30536818431439,
+            10.502750262198887,
+            -0.1823404493045168
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738556928,
+            0.3012508457769907
+          ],
+          "distance": 13.316111609090665,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 27.74653778514811,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            11.195072143682829,
+            10.423011627908739,
+            -0.15342036810992563
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738556899,
+            0.3012508457769907
+          ],
+          "distance": 11.204111609090665,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 26.90842347991029,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            9.084776103051269,
+            10.34327299361859,
+            -0.12450028691533448
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.830610773855686,
+            0.3012508457769907
+          ],
+          "distance": 9.092111609090667,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 26.079282169003864,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            6.974480062419708,
+            10.263534359328442,
+            -0.0955802057207434
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738556803,
+            0.3012508457769907
+          ],
+          "distance": 6.980111609090667,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 25.259997464205306,
+            "request": 0
+          }
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            4.512468015016221,
+            10.170505952656603,
+            -0.061840110993720464
+          ],
+          "velocity": [
+            -21.98225042324542,
+            -0.8306107738556686,
+            0.3012508457769907
+          ],
+          "distance": 4.516111609090666,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 24.317951399478194,
+            "request": 0
+          }
+        },
+        {
+          "carrier": "player",
+          "player": [
+            0,
+            10,
+            0
+          ],
+          "ball": [
+            -0.9500000000004761,
+            11.15,
+            0.3499999999987075
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 1.5321553446044565,
+          "kickoff": 0,
+          "protection": 1.784,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ],
+          "sender": {
+            "distance": 23.59321713630619,
+            "request": 0
+          }
+        }
+      ]
+    },
+    "movingReturnPass": {
+      "release": {
+        "carrier": null,
+        "player": [
+          0,
+          10,
+          -4.558080000000001
+        ],
+        "ball": [
+          -0.3073912015304652,
+          11.220366853188304,
+          24.126091885344383
+        ],
+        "velocity": [
+          0.23553432610736952,
+          -0.9350894981325311,
+          -21.978856458235207
+        ],
+        "distance": 28.711765904505423,
+        "kickoff": 0,
+        "protection": 0,
+        "stats": {
+          "shots": 0,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      },
+      "reacting": {
+        "carrier": null,
+        "player": [
+          0,
+          10,
+          -18.638080000000013
+        ],
+        "ball": [
+          -0.18002464461305517,
+          10.714711767769982,
+          10.055966163091124
+        ],
+        "velocity": [
+          0.15596048981843724,
+          -0.6191752113717222,
+          -21.990585736667803
+        ],
+        "distance": 28.703510360115576,
+        "kickoff": 0,
+        "protection": 0,
+        "stats": {
+          "shots": 0,
+          "goals": 0,
+          "steals": 0,
+          "passes": 0
+        },
+        "spells": [
+          0,
+          0,
+          0
+        ]
+      },
+      "samples": [
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            -0.16340300061062585,
+            10.648722555049947,
+            7.59292145566235
+          ],
+          "velocity": [
+            0.14346589239768984,
+            -0.5695706928939835,
+            -21.99204040986746
+          ],
+          "distance": 27.412925636199372,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            -0.15000641426084788,
+            10.595537070736324,
+            5.481642734219984
+          ],
+          "velocity": [
+            0.13725699676422537,
+            -0.5449208968417215,
+            -21.992746727075502
+          ],
+          "distance": 25.30093743625374,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            -0.1370382063131322,
+            10.544052281822882,
+            3.370315539828268
+          ],
+          "velocity": [
+            0.13381292050933605,
+            -0.5312476476387723,
+            -21.993134617071608
+          ],
+          "distance": 23.188943654857106,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            -0.1243085469638098,
+            10.493514549301764,
+            1.2589616273009572
+          ],
+          "velocity": [
+            0.13188817673990275,
+            -0.5236062659550992,
+            -21.993349151660997
+          ],
+          "distance": 21.07694689565569,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            -0.10962203415335092,
+            10.435207957136559,
+            -1.2043028555189643
+          ],
+          "velocity": [
+            0.13067442368667687,
+            -0.5187875724247115,
+            -21.99348290449036
+          ],
+          "distance": 18.61294875992434,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            -0.09711129273899635,
+            10.385539345755124,
+            -3.3156809217708005
+          ],
+          "velocity": [
+            0.13011032664351493,
+            -0.5165480635187022,
+            -21.993544322415204
+          ],
+          "distance": 16.500949534028248,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            -0.08464036338589005,
+            10.336028791337139,
+            -5.427063296741728
+          ],
+          "velocity": [
+            0.12978347587817013,
+            -0.5152504406915674,
+            -21.99357951399211
+          ],
+          "distance": 14.388949931886067,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            -0.0721927219840046,
+            10.286610691887311,
+            -7.53844816377697
+          ],
+          "velocity": [
+            0.12959058511630037,
+            -0.5144846494428272,
+            -21.99360004752368
+          ],
+          "distance": 12.276950136058963,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            -0.05768765001131299,
+            10.229024433886268,
+            -10.001732324815583
+          ],
+          "velocity": [
+            0.12945934189590333,
+            -0.513963603703456,
+            -21.993613846933716
+          ],
+          "distance": 9.812950252344772,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            -0.045263584557371256,
+            10.179699932773865,
+            -12.113119673195527
+          ],
+          "velocity": [
+            0.1293914480867774,
+            -0.5136940600282255,
+            -21.99362089389156
+          ],
+          "distance": 7.700950300338171,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            -0.03284467401465215,
+            10.130395897057857,
+            -14.224507553111682
+          ],
+          "velocity": [
+            0.1293460729637994,
+            -0.5135139172792934,
+            -21.99362554740514
+          ],
+          "distance": 5.588950324938651,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            -0.020429390235465313,
+            10.081106259873675,
+            -16.335895802444938
+          ],
+          "velocity": [
+            0.1293124721328969,
+            -0.5133805193808888,
+            -21.9936289514124
+          ],
+          "distance": 3.4769503375649355,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": "player",
+          "player": [
+            0,
+            10,
+            -19.811840000000018
+          ],
+          "ball": [
+            0.9499999999799398,
+            11.15,
+            -20.161840000054468
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "distance": 1.532155344604457,
+          "kickoff": 0,
+          "protection": 1.72,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "unreceivedMovingReturn": {
+      "guidance": "队友回传中 · 按 X 减速接球",
+      "samples": [
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            6.857919999999979
+          ],
+          "ball": [
+            -0.12402246777305714,
+            10.492378792780295,
+            35.55481367739551
+          ],
+          "velocity": [
+            0.10784395179436336,
+            -0.42814883259967196,
+            -21.995482884878694
+          ],
+          "distance": 28.701385422655747,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -15.318080000000032
+          ],
+          "ball": [
+            -0.05191739260087395,
+            10.206116065517223,
+            13.38094279799308
+          ],
+          "velocity": [
+            0.04516743557293634,
+            -0.17931821386653374,
+            -21.99920712294813
+          ],
+          "distance": 28.69980990891485,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -37.14208
+          ],
+          "ball": [
+            -0.02203359344394996,
+            10.087475070729896,
+            -8.442686172423254
+          ],
+          "velocity": [
+            0.019169280174363396,
+            -0.07610352543534131,
+            -21.999857188260712
+          ],
+          "distance": 28.699535596200672,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "carrier": null,
+          "player": [
+            0,
+            10,
+            -59.318079999999796
+          ],
+          "ball": [
+            -0.009194735491196013,
+            10.007703811304363,
+            -30.618618763039404
+          ],
+          "velocity": [
+            0.008597881133225913,
+            -0.6341342533241047,
+            -21.999971270095184
+          ],
+          "distance": 28.699463743834333,
+          "kickoff": 0,
+          "protection": 0,
+          "stats": {
+            "shots": 0,
+            "goals": 0,
+            "steals": 0,
+            "passes": 0
+          },
+          "spells": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "miss": "传球落空 · 争抢鬼飞球"
+    },
+    "keyboardTurn": {
+      "samples": [
+        -3.141592653589793,
+        -3.0970075187876476,
+        -2.9866118134317,
+        -2.8554196960691844,
+        -2.717655826650616,
+        -2.612867317252105,
+        -2.472471690830061,
+        -2.3317994745502277,
+        -2.19103985473338
+      ],
+      "steps": [
+        0.04458513480214554,
+        0.11039570535594745,
+        0.1311921173625157,
+        0.13776386941856833,
+        0.10478850939851102,
+        0.14039562642204428,
+        0.1406722162798331,
+        0.1407596198168477
+      ],
+      "released": -2.19103985473338,
+      "settled": -2.0900306826145747,
+      "stable": -2.0857794399758784
+    },
+    "houseOptions": [
+      "gryffindor",
+      "slytherin",
+      "ravenclaw",
+      "hufflepuff"
+    ],
+    "countdownLook": {
+      "before": {
+        "state": "countdown",
+        "position": [
+          0,
+          10,
+          38
+        ],
+        "aim": {
+          "yaw": 0,
+          "pitch": 0,
+          "targetYaw": 0,
+          "targetPitch": 0
+        }
+      },
+      "during": {
+        "state": "countdown",
+        "position": [
+          0,
+          10,
+          38
+        ],
+        "aim": {
+          "yaw": -0.2551304886838203,
+          "pitch": 0.09719256711764584,
+          "targetYaw": -0.44099999999999995,
+          "targetPitch": 0.16799999999999998
+        }
+      }
+    },
+    "mouseLook": {
+      "initial": {
+        "yaw": 0,
+        "pitch": 0,
+        "targetYaw": 0,
+        "targetPitch": 0
+      },
+      "queued": {
+        "yaw": 0,
+        "pitch": 0,
+        "targetYaw": -0.44099999999999995,
+        "targetPitch": 0.16799999999999998
+      },
+      "moving": {
+        "yaw": -0.2551304886838203,
+        "pitch": 0.09719256711764584,
+        "targetYaw": -0.44099999999999995,
+        "targetPitch": 0.16799999999999998
+      },
+      "settled": {
+        "yaw": -0.4402188242516444,
+        "pitch": 0.16770240923872165,
+        "targetYaw": -0.44099999999999995,
+        "targetPitch": 0.16799999999999998
+      }
+    },
+    "ballMarker": {
+      "visible": {
+        "location": "onscreen",
+        "text": "鬼飞球 · 27m",
+        "center": [
+          591.890625,
+          447.125
+        ],
+        "projected": [
+          591.8927361020588,
+          447.1390204530919
+        ],
+        "viewport": [
+          1440,
+          900
+        ]
+      },
+      "offscreen": {
+        "location": "offscreen",
+        "text": "球在身后 · 41m",
+        "center": [
+          100,
+          382.390625
+        ],
+        "projected": [
+          2019.8665060062904,
+          544.5551847568296
+        ],
+        "viewport": [
+          1440,
+          900
+        ]
+      }
+    },
+    "houses": {
+      "changes": [
+        {
+          "home": "gryffindor",
+          "away": "slytherin",
+          "uniforms": [
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            },
+            {
+              "id": "slytherin",
+              "coat": "#205b48",
+              "scarf": "#d1e2df"
+            },
+            {
+              "id": "slytherin",
+              "coat": "#205b48",
+              "scarf": "#d1e2df"
+            },
+            {
+              "id": "slytherin",
+              "coat": "#205b48",
+              "scarf": "#d1e2df"
+            },
+            {
+              "id": "slytherin",
+              "coat": "#205b48",
+              "scarf": "#d1e2df"
+            }
+          ],
+          "decor": {
+            "home": "gryffindor",
+            "away": "slytherin",
+            "stands": [
+              "gryffindor",
+              "slytherin",
+              "ravenclaw",
+              "hufflepuff"
+            ]
+          },
+          "homeScore": "格兰芬多0",
+          "awayScore": "斯莱特林0",
+          "homeGoal": 61,
+          "awayGoal": -61
+        },
+        {
+          "home": "slytherin",
+          "away": "gryffindor",
+          "uniforms": [
+            {
+              "id": "slytherin",
+              "coat": "#205b48",
+              "scarf": "#d1e2df"
+            },
+            {
+              "id": "slytherin",
+              "coat": "#205b48",
+              "scarf": "#d1e2df"
+            },
+            {
+              "id": "slytherin",
+              "coat": "#205b48",
+              "scarf": "#d1e2df"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            }
+          ],
+          "decor": {
+            "home": "slytherin",
+            "away": "gryffindor",
+            "stands": [
+              "gryffindor",
+              "slytherin",
+              "ravenclaw",
+              "hufflepuff"
+            ]
+          },
+          "homeScore": "斯莱特林0",
+          "awayScore": "格兰芬多0",
+          "homeGoal": 61,
+          "awayGoal": -61
+        },
+        {
+          "home": "ravenclaw",
+          "away": "gryffindor",
+          "uniforms": [
+            {
+              "id": "ravenclaw",
+              "coat": "#244d85",
+              "scarf": "#e0a36c"
+            },
+            {
+              "id": "ravenclaw",
+              "coat": "#244d85",
+              "scarf": "#e0a36c"
+            },
+            {
+              "id": "ravenclaw",
+              "coat": "#244d85",
+              "scarf": "#e0a36c"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            }
+          ],
+          "decor": {
+            "home": "ravenclaw",
+            "away": "gryffindor",
+            "stands": [
+              "gryffindor",
+              "slytherin",
+              "ravenclaw",
+              "hufflepuff"
+            ]
+          },
+          "homeScore": "拉文克劳0",
+          "awayScore": "格兰芬多0",
+          "homeGoal": 61,
+          "awayGoal": -61
+        },
+        {
+          "home": "hufflepuff",
+          "away": "gryffindor",
+          "uniforms": [
+            {
+              "id": "hufflepuff",
+              "coat": "#e2ac35",
+              "scarf": "#29211a"
+            },
+            {
+              "id": "hufflepuff",
+              "coat": "#e2ac35",
+              "scarf": "#29211a"
+            },
+            {
+              "id": "hufflepuff",
+              "coat": "#e2ac35",
+              "scarf": "#29211a"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            },
+            {
+              "id": "gryffindor",
+              "coat": "#8e243b",
+              "scarf": "#f3cb70"
+            }
+          ],
+          "decor": {
+            "home": "hufflepuff",
+            "away": "gryffindor",
+            "stands": [
+              "gryffindor",
+              "slytherin",
+              "ravenclaw",
+              "hufflepuff"
+            ]
+          },
+          "homeScore": "赫奇帕奇0",
+          "awayScore": "格兰芬多0",
+          "homeGoal": 61,
+          "awayGoal": -61
+        }
+      ],
+      "match": {
+        "home": "hufflepuff",
+        "away": "gryffindor",
+        "uniforms": [
+          {
+            "id": "hufflepuff",
+            "coat": "#e2ac35",
+            "scarf": "#29211a"
+          },
+          {
+            "id": "hufflepuff",
+            "coat": "#e2ac35",
+            "scarf": "#29211a"
+          },
+          {
+            "id": "hufflepuff",
+            "coat": "#e2ac35",
+            "scarf": "#29211a"
+          },
+          {
+            "id": "gryffindor",
+            "coat": "#8e243b",
+            "scarf": "#f3cb70"
+          },
+          {
+            "id": "gryffindor",
+            "coat": "#8e243b",
+            "scarf": "#f3cb70"
+          },
+          {
+            "id": "gryffindor",
+            "coat": "#8e243b",
+            "scarf": "#f3cb70"
+          },
+          {
+            "id": "gryffindor",
+            "coat": "#8e243b",
+            "scarf": "#f3cb70"
+          }
+        ],
+        "decor": {
+          "home": "hufflepuff",
+          "away": "gryffindor",
+          "stands": [
+            "gryffindor",
+            "slytherin",
+            "ravenclaw",
+            "hufflepuff"
+          ]
+        },
+        "homeScore": "赫奇帕奇0",
+        "awayScore": "格兰芬多0",
+        "homeGoal": 61,
+        "awayGoal": -61
+      }
+    },
+    "result": "比赛结束\n赫奇帕奇获胜\n150 — 0\n\n你抓住金色飞贼，赫奇帕奇 +150 分。最终总分赫奇帕奇获胜！\n\n射门 0 次 · 本队进球 0 个 · 抢断 0 次 · 传球 0 次\n标准赛 · 本机最佳 150 分 · 刷新纪录\n再赛一场返回主菜单"
+  },
+  "pageErrors": [],
+  "blockedRequests": []
+}

@@ -57,6 +57,28 @@ const out = path.join(__dirname, 'artifacts');
       await page.clock.runFor(100);
     }
     await page.setViewportSize({ width: 1440, height: 900 });
+    await page.locator('#menuPauseBtn').click();
+    await page.locator('.mode-option[data-mode="standard"]').click();
+    await page.locator('#startBtn').click();
+    await page.clock.runFor(3200);
+    await page.screenshot({ path: path.join(out, 'review-standard.png') });
+    await page.keyboard.down('w');
+    await page.clock.runFor(1850);
+    await page.keyboard.up('w');
+    await page.clock.runFor(150);
+    const opening = await page.evaluate(() => {
+      const g = window.__BROOMBALL__;
+      return { state: g.match.state, holding: g.carrier === 'player', speed: g.player.speed, marker: document.getElementById('ballMarker').dataset.location };
+    });
+    assert.equal(opening.holding, true, 'A new player can reach the opening ball by holding W');
+    await page.screenshot({ path: path.join(out, 'review-standard-possession.png') });
+    await page.keyboard.down('ArrowRight');
+    await page.clock.runFor(700);
+    await page.keyboard.up('ArrowRight');
+    await page.clock.runFor(180);
+    await page.keyboard.press('f');
+    await page.clock.runFor(400);
+    await page.screenshot({ path: path.join(out, 'review-standard-flight.png') });
     await page.evaluate(() => {
       const g = window.__BROOMBALL__;
       document.querySelectorAll('.overlay,.hud,#vignette').forEach(element => element.style.display = 'none');
@@ -70,7 +92,7 @@ const out = path.join(__dirname, 'artifacts');
     await page.screenshot({ path: path.join(out, 'review-environment.png') });
     assert.deepEqual(errors, []);
     assert.deepEqual(remoteRequests, [], 'Local entry must not even request CDN resources');
-    const report = { diagnostics, viewports, errors, remoteRequests };
+    const report = { diagnostics, viewports, opening, errors, remoteRequests };
     fs.writeFileSync(path.join(out, 'visual-review.json'), JSON.stringify(report, null, 2));
     console.log(JSON.stringify(report, null, 2));
     console.log('VISUAL_REVIEW_CAPTURE_PASS');

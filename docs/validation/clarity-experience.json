@@ -1,0 +1,62 @@
+{
+  "passed": [
+    "Three selectable modes with separate rules",
+    "Movement training progresses only after real movement and height change",
+    "Training can be completed through real keyboard input without resetting task flags",
+    "Facing away never receives assisted shooting or a reversing homing shot",
+    "Shot range gate and genuine goal-plane scoring",
+    "The player can intercept a live enemy shot before it crosses the goal",
+    "Out-of-bounds free ball is recovered into reachable space",
+    "Snitch release and rival grace period are enforced for both pursuit and capture",
+    "T passes to a nearby ally and offensive spells exclude friendly targets",
+    "Boost spends stamina, recovers at rest, and brake overrides boost",
+    "Keyboard turning and Tab objective selection work without mouse lock",
+    "Pause freezes new state and menu/restart clears match statistics",
+    "A full standard match naturally reaches settlement, persists records, and can restart"
+  ],
+  "evidence": {
+    "standardRules": {
+      "label": "标准赛",
+      "duration": 180,
+      "snitchAt": 110,
+      "rivalSnitchAt": 130,
+      "rivalSpeed": 0.72
+    },
+    "challengeRules": {
+      "label": "挑战赛",
+      "duration": 150,
+      "snitchAt": 78,
+      "rivalSnitchAt": 93,
+      "rivalSpeed": 1
+    },
+    "backwardShot": {
+      "release": -29.653961122601764,
+      "z": -21.205961122601757,
+      "score": 0
+    },
+    "shot": {
+      "distance": 31.126194756185665,
+      "assisted": true
+    },
+    "recoveredBall": {
+      "x": 53.20017573463795,
+      "y": 10,
+      "z": 12.517688408150107,
+      "boundary": 0.9999999999999997
+    },
+    "staminaSpent": 77.10399999999989,
+    "naturalMatch": {
+      "elapsed": 132.5120000000136,
+      "score": [
+        0,
+        150
+      ],
+      "record": "{\"standard\":0}"
+    },
+    "network": {
+      "offline": true,
+      "blockedRequests": []
+    }
+  },
+  "errors": []
+}
