@@ -65,6 +65,7 @@ const server = http.createServer((req, res) => {
       const stage = async () => {
         await page.evaluate(() => {
           const g = window.__BROOMBALL__;
+          g.schoolSpells?.reset();
           g.match.state = 'playing'; g.match.paused = false; g.match.elapsed = 0;
           g.match.snitchActive = false; g.match.cooldowns = [0, 0, 0];
           g.player.pos.set(0, 10, 0); g.player.vel.set(0, 0, 0); g.player.shield = 0;
@@ -110,12 +111,12 @@ const server = http.createServer((req, res) => {
         await page.keyboard.press('r');
         assert.ok(await page.evaluate(index => window.__BROOMBALL__.match.cooldowns[index]>0,index), 'R casts selected spell');
         await page.clock.runFor(400);
-        const hit=await page.evaluate(()=>{const g=window.__BROOMBALL__;return{stun:g.rivals[0].stun,carrying:g.carrier===g.rivals[0],projectiles:g.projectiles.length};});
-        assert.ok(hit.stun>0, 'Projectile actually hits target');
+        const hit=await page.evaluate(()=>{const g=window.__BROOMBALL__;return{stun:g.rivals[0].stun,slow:g.schoolSpells.state(g.rivals[0]).slow,carrying:g.carrier===g.rivals[0],projectiles:g.projectiles.length};});
+        assert.ok(index===0?hit.stun>0:hit.slow>0, 'Projectile actually applies the selected spell');
         assert.equal(hit.carrying,index===1,'Only disarming spell releases the ball');
-        assert.ok(index===0?hit.stun<=.65:hit.stun>2.5,'Distinct effect duration');
+        assert.ok(index===0?hit.stun<=.65:hit.slow>2.5,'Distinct disarm and slow durations');
       }
-      passed.push('No-target cooldown and keyboard disarm/stun effects');
+      passed.push('No-target cooldown and keyboard disarm/slow effects');
       await stage();
       await page.evaluate(()=>{const g=window.__BROOMBALL__;g.match.kickoff=0;g.rivals[0].mesh.position.set(0,10,-15);g.rivals[0].stun=3.2;g.quaffle.position.copy(g.rivals[0].mesh.position);});
       await page.clock.runFor(400);

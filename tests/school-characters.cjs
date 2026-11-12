@@ -1,0 +1,38 @@
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');const assert=require('node:assert/strict');const path=require('node:path');require('node:fs').mkdirSync(path.join(__dirname,'artifacts'),{recursive:true});
+(async()=>{const browser=await chromium.launch({headless:true,executablePath:process.env.BROWSER_EXECUTABLE||undefined,args:['--enable-unsafe-swiftshader']});const context=await browser.newContext({viewport:{width:1440,height:1000}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.addInitScript(()=>HTMLCanvasElement.prototype.requestPointerLock=()=>Promise.resolve());
+try{
+ await page.goto(process.env.BROOM_GAME_URL||'http://127.0.0.1:8765/',{waitUntil:'networkidle'});
+ const expected={gryffindor:['harry','hermione','ron'],slytherin:['draco','pansy','blaise'],ravenclaw:['luna','cho','padma'],hufflepuff:['cedric','hannah','ernie']};
+ for(const [house,ids]of Object.entries(expected)){await page.locator('[data-house="'+house+'"]').click();assert.deepEqual(await page.locator('.character').evaluateAll(es=>es.map(e=>e.dataset.id)),ids);await page.locator('.character').nth(1).click();assert.equal(await page.evaluate(()=>__BROOMBALL__.player.mesh.userData.characterId),ids[1]);}
+ await page.reload({waitUntil:'networkidle'});assert.equal(await page.evaluate(()=>__BROOMBALL__.player.mesh.userData.characterId),'hannah');await page.locator('[data-house="slytherin"]').click();assert.equal(await page.evaluate(()=>__BROOMBALL__.player.mesh.userData.characterId),'pansy');
+ const evidence=await page.evaluate(()=>{
+ const g=__BROOMBALL__,V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z),result={};
+ function prep(house,index){g.returnToMenu();g.selectHouse(house);g.switchCharacter(index);g.startMatch('standard');g.match.state='playing';g.match.paused=false;g.match.elapsed=5;g.player.pos.set(0,12,20);g.player.vel.set(0,0,0);g.player.previousPos.copy(g.player.pos);g.setAim(0,0);g.camera.position.set(0,13,31.5);g.camera.lookAt(0,13,-20);g.camera.updateMatrixWorld(true);g.rivals.forEach((r,i)=>{r.mesh.position.set(i===0?0:35,12,i===0?0:-30-i*5);r.stun=0;r.mesh.rotation.set(0,Math.PI,0);});g.allies[0].mesh.position.set(4,12,19);g.allies[1].mesh.position.set(-6,12,20);return g.rivals[0];}
+ function impact(){for(let i=0;i<12;i++)g.schoolSpells.update(.05);}
+ let t=prep('gryffindor',0);g.setCarrier(t);result.harryCast=g.castSpell();impact();result.disarmed=g.carrier===null;result.harryCooldown=g.match.cooldowns[0]>0;const cd=g.match.cooldowns[0];g.switchCharacter(2);g.switchCharacter(0);result.switchKeepsCooldown=g.match.cooldowns[0]===cd;
+ t=prep('gryffindor',1);g.castSpell();impact();result.slow=g.schoolSpells.state(t).slow>0;result.slowMultiplier=g.schoolSpells.speed(t);const before=t.mesh.position.clone();g.updateRivals(.1);result.slowMovement=before.distanceTo(t.mesh.position);g.schoolSpells.update(3.5);result.slowExpired=g.schoolSpells.speed(t)===1;
+ t=prep('gryffindor',1);t.mesh.position.set(35,12,-30);g.bludgers[0].mesh.position.set(0,12,0);g.castSpell();impact();result.bludgerFrozen=g.bludgers[0].frozen>0;
+ t=prep('gryffindor',2);result.ron=g.castSpell()&&g.player.shield===4&&g.schoolSpells.state(g.allies[0]).shield===4;g.schoolSpells.applyHit('obscuro',g.player,t);result.shieldCounter=g.schoolSpells.state(g.player).blind===0;
+ t=prep('slytherin',0);const at=t.mesh.position.clone();g.castSpell();impact();result.serpentDeflection=t.mesh.position.distanceTo(at)>2;
+ t=prep('slytherin',1);g.castSpell();impact();result.blind=g.schoolSpells.state(t).blind>0;
+ t=prep('slytherin',2);g.castSpell();impact();const normal=V(0,12,50),fake=g.schoolSpells.aiTarget(t,normal);result.confusion=g.schoolSpells.state(t).confused>0&&fake.distanceTo(normal)>1&&g.schoolSpells.decoys.length===1;
+ t=prep('ravenclaw',0);result.patronus=g.castSpell()&&g.schoolSpells.guardians.length===1&&g.match.cooldowns[0]===16;result.patronusLimit=g.schoolSpells.guardians[0].blocks===2;
+ t=prep('ravenclaw',1);g.setCarrier(null);g.quaffle.visible=true;g.quaffle.position.set(0,12,5);const distance=g.quaffle.position.distanceTo(g.player.pos);result.accio=g.castSpell();g.updateQuaffle(.1);result.ballApproaches=g.quaffle.position.distanceTo(g.player.pos)<distance;
+ t=prep('ravenclaw',1);g.setCarrier(t);result.noTheft=!g.castSpell()&&g.carrier===t&&g.match.cooldowns[1]===0;
+ t=prep('ravenclaw',2);g.castSpell();const z=g.schoolSpells.zones[0];t.mesh.position.copy(z.center);g.schoolSpells.update(.05);result.obstacle=z.kind==='slow'&&g.schoolSpells.speed(t)<1;
+ t=prep('hufflepuff',0);g.schoolSpells.applyHit('obscuro',g.player,t);g.schoolSpells.applyHit('arresto',g.allies[0],t);g.castSpell();result.finite=g.schoolSpells.state(g.player).blind===0&&g.schoolSpells.state(g.allies[0]).slow===0;
+ t=prep('hufflepuff',1);g.allies[0].stun=3;g.castSpell();result.healAlly=g.allies[0].stun===0&&g.schoolSpells.state(g.allies[0]).haste>0;
+ t=prep('hufflepuff',1);g.allies.forEach(a=>a.mesh.position.set(45,12,-35));g.player.stamina=40;g.schoolSpells.applyHit('arresto',g.player,t);g.castSpell();result.healSelf=g.player.stamina===65&&g.schoolSpells.state(g.player).slow===0;
+ t=prep('hufflepuff',2);g.castSpell();g.schoolSpells.applyHit('obscuro',g.player,t);const protectedOnce=g.schoolSpells.state(g.player).blind===0;g.schoolSpells.applyHit('obscuro',g.player,t);result.ward=protectedOnce&&g.schoolSpells.state(g.player).blind>0;
+ t=prep('gryffindor',0);g.rivals.forEach(r=>r.mesh.position.set(40,12,40));result.noTarget=!g.castSpell()&&g.match.cooldowns[0]===0;
+ // Enemy casters use the selected opposing school's repertoire and can hit first-person player.
+ t=prep('gryffindor',0);g.selectOpponent('slytherin');g.match.awayHouse='slytherin';g.toggleView();const enemy=g.rivals[1];enemy.mesh.position.set(0,12,0);enemy.mesh.rotation.set(0,Math.PI,0);result.firstPersonTarget=g.schoolSpells.target(SchoolMagic.rosters.slytherin[1],enemy)===g.player;g.schoolSpells.cast(SchoolMagic.rosters.slytherin[1],enemy);impact();result.enemyBlind=g.schoolSpells.state(g.player).blind>0;
+ t=prep('gryffindor',0);for(const u of [...g.rivals,...g.allies])u.spellTimer=100;g.allies[1].mesh.position.set(2,12,20);g.allies[1].spellTimer=0;g.schoolSpells.update(.01);result.allyAutoShield=g.player.shield>0&&g.allies[1].spellTimer>10;
+ g.returnToMenu();g.switchCharacter(1);result.uniqueAllies=new Set([g.player.mesh.userData.characterId,...g.allies.map(a=>a.mesh.userData.characterId)]).size===3;
+ g.returnToMenu();return result;
+ });
+ for(const [key,value]of Object.entries(evidence)){if(typeof value==='boolean')assert(value,key+' failed');}assert.equal(evidence.slowMultiplier,.48);assert(evidence.slowMovement>0&&evidence.slowMovement<1);
+ // Pause really freezes both spell timers and effects in the animation loop.
+ await page.evaluate(()=>{const g=__BROOMBALL__;g.selectHouse('gryffindor');g.switchCharacter(2);g.startMatch('training');g.castSpell();g.pauseMatch();});const paused=await page.evaluate(()=>({cd:__BROOMBALL__.match.cooldowns[2],shield:__BROOMBALL__.player.shield}));await page.waitForTimeout(180);assert.deepEqual(await page.evaluate(()=>({cd:__BROOMBALL__.match.cooldowns[2],shield:__BROOMBALL__.player.shield})),paused);
+ await page.evaluate(()=>__BROOMBALL__.returnToMenu());await page.locator('[data-house="ravenclaw"]').click();await page.screenshot({path:path.join(__dirname,'artifacts','school-characters-preview.png')});assert.deepEqual(errors,[]);console.log(JSON.stringify({passed:true,evidence,errors},null,2));
+}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});
