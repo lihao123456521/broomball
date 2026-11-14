@@ -127,6 +127,7 @@ window.BroomEnvironment = (() => {
       box(15.9, 2.2, .3, 0, 8.2, -4, color, stand);
     }
 
+    const signs = [];
     const label = (text, sub, color, x, y, z, scale = 1) => {
       const c = document.createElement('canvas'); c.width = 640; c.height = 160;
       const ctx = c.getContext('2d');
@@ -139,6 +140,7 @@ window.BroomEnvironment = (() => {
       const sprite = new T.Sprite(new T.SpriteMaterial({ map: texture, depthWrite: false, transparent: true }));
       sprite.position.set(x, y, z); sprite.scale.set(25 * scale, 6.25 * scale, 1);
       root.add(sprite);
+      signs.push(sprite);
       return sprite;
     };
     label('蓝色门环 · 进攻', '瞄准门环  /  F 射门  /  +10', '#a5d9ff', 0, 26, -65);
@@ -177,7 +179,8 @@ window.BroomEnvironment = (() => {
     const batchStats = batchStaticMeshes(T, scene);
     return {
       root, batchStats,
-      update(dt, { player, elapsed, active, reducedMotion }) {
+      update(dt, { player, elapsed, active, reducedMotion, cameraMode }) {
+        for (const sign of signs) sign.visible = cameraMode !== 'broadcast';
         playerShadow.visible = marker.visible = active;
         if (active) {
           playerShadow.position.set(player.x, .21, player.z);

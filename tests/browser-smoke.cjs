@@ -65,9 +65,9 @@ const server = http.createServer((req, res) => {
       const stage = async () => {
         await page.evaluate(() => {
           const g = window.__BROOMBALL__;
-          g.match.state = 'playing'; g.match.paused = false; g.match.elapsed = 0;
+          g.match.state = 'playing'; g.match.paused = false; g.match.elapsed = 0; g.match.timeLeft = 180;
           g.match.snitchActive = false; g.match.cooldowns = [0, 0, 0];
-          g.player.pos.set(0, 10, 0); g.player.vel.set(0, 0, 0); g.player.shield = 0;
+          g.player.pos.set(0, 10, 0); g.setAim(0,0); g.player.vel.set(0, 0, 0); g.player.shield = 0;
           g.setCarrier(null); g.quaffle.position.set(0, 30, -65);
           for (const r of g.rivals) { r.mesh.position.set(45, 35, 60); r.speed = 0; r.stun = 0; }
           for (const a of g.allies || []) { a.mesh.position.set(-40,35,55); a.speed=0; a.stun=100; }
@@ -121,13 +121,13 @@ const server = http.createServer((req, res) => {
       await page.clock.runFor(400);
       const stunnedPickup = await page.evaluate(()=>window.__BROOMBALL__.carrier===window.__BROOMBALL__.rivals[0]);
       await stage();
-      await page.evaluate(()=>{const g=window.__BROOMBALL__;g.match.snitchActive=true;const seeker=g.rivals.find(r=>r.role==='seeker');seeker.mesh.position.set(0,18,-20);seeker.stun=3.2;g.snitch.position.copy(seeker.mesh.position);});
+      await page.evaluate(()=>{const g=window.__BROOMBALL__;const target=g.rivals[0];target.mesh.position.set(0,12,50);target.stun=3.2;g.setCarrier(target);});
       await page.clock.runFor(32);
-      const stunnedCatch = await page.evaluate(()=>window.__BROOMBALL__.match.state==='ended');
-      console.log('Stun interaction evidence', {stunnedPickup,stunnedCatch});
+      const stunnedShot = await page.evaluate(()=>window.__BROOMBALL__.carrier!==window.__BROOMBALL__.rivals[0]);
+      console.log('Stun interaction evidence', {stunnedPickup,stunnedShot});
       await stage();
       await page.clock.runFor(1000);
-      const closeTarget = await page.evaluate(()=>{const g=window.__BROOMBALL__;g.switchCharacter(0);g.rivals[0].mesh.position.set(0,11.317,-4);return g.findSpellTarget()===g.rivals[0];});
+      const closeTarget = await page.evaluate(()=>{const g=window.__BROOMBALL__;g.switchCharacter(0);g.setAim(0,0);g.rivals[0].mesh.position.set(0,10,-4);return g.findSpellTarget()===g.rivals[0];});
       await stage();
       await page.clock.runFor(300);
       await page.evaluate(()=>{
@@ -138,20 +138,20 @@ const server = http.createServer((req, res) => {
       await page.keyboard.press('r');await page.clock.runFor(1700);
       const distantHit = await page.evaluate(()=>window.__BROOMBALL__.rivals[0].stun>0);
       console.log('Aiming evidence', {closeTarget,distantHit});
-      assert.ok(!stunnedPickup&&!stunnedCatch,'Stunned rivals cannot collect a free ball or catch the Snitch');
-      assert.ok(closeTarget,'A nearby opponent centered on the screen reticle can be locked');
+      assert.ok(!stunnedPickup&&!stunnedShot,'Stunned rivals cannot collect a free ball or shoot');
+      assert.ok(closeTarget,'A nearby opponent aligned with player aim can be locked in broadcast view');
       assert.ok(distantHit,'A locked fleeing opponent inside spell range is reached by the projectile');
-      passed.push('Stun blocks automatic collection and Snitch capture');
-      passed.push('Screen-centered close aim and distant moving spell target');
+      passed.push('Stun blocks automatic collection and shooting');
+      passed.push('Broadcast close aim and distant moving spell target');
       await stage(); await page.evaluate(()=>window.__BROOMBALL__.switchCharacter(2)); await page.keyboard.press('r');
       await page.evaluate(()=>window.__BROOMBALL__.pauseMatch());
       const timers=await page.evaluate(()=>{const g=window.__BROOMBALL__;return[g.player.shield,g.match.cooldowns[2],g.match.timeLeft]});
       await page.clock.runFor(1500);
       assert.deepEqual(await page.evaluate(()=>{const g=window.__BROOMBALL__;return[g.player.shield,g.match.cooldowns[2],g.match.timeLeft]}),timers,'Pause freezes all gameplay timers');
       passed.push('Shield and cooldown freeze on pause');
-      await stage(); await page.evaluate(()=>{const g=window.__BROOMBALL__;g.match.playerScore=200;g.match.rivalScore=0;g.match.snitchActive=true;g.catchSnitch('rival');});
+      await stage(); await page.evaluate(()=>{const g=window.__BROOMBALL__;g.match.playerScore=20;g.match.rivalScore=10;g.match.timeLeft=.01;});await page.clock.runFor(100);
       const winningHouse = await page.evaluate(()=>{const g=window.__BROOMBALL__;return g.houses.find(house=>house.id===g.match.homeHouse).name;});
-      assert.equal(await page.textContent('#endTitle'),winningHouse+'获胜','Snitch winner is decided by final score and uses the selected house'); passed.push('Snitch final score settlement');
+      assert.equal(await page.textContent('#endTitle'),winningHouse+'获胜','Timed match winner is decided by final score and uses the selected house'); passed.push('Timed final score settlement');
       await stage();
       await page.evaluate(()=>{const g=window.__BROOMBALL__;g.switchCharacter(0);g.player.pos.set(0,10,38);});
       await page.clock.runFor(100);
