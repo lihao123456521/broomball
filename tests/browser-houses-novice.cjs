@@ -191,10 +191,18 @@ const report = { baseline, baselineRevision, url, passed: [], failed: [], eviden
       const requested = { ...await status(), ...await senderDistance() };
       assert.equal(requested.carrier, 'ally', 'Out-of-range request keeps the ball with its carrier');
       assert.ok(requested.request > 0 && requested.distance > 38);
-      await advance(240);
-      const approaching = { ...await status(), ...await senderDistance() };
+      // The teammate must turn and accelerate before it can close the gap.
+      // Observe that approach without assuming an immediate sideways velocity.
+      const approachSamples = [];
+      let approaching;
+      for (let i = 0; i < 20; i++) {
+        await advance(100);
+        approaching = { ...await status(), ...await senderDistance() };
+        approachSamples.push(approaching);
+        if (approaching.distance < requested.distance - 1) break;
+      }
       assert.equal(approaching.carrier, 'ally');
-      assert.ok(approaching.distance < requested.distance - 1, 'The carrier flies toward the player');
+      assert.ok(approaching.distance < requested.distance - 1, 'The carrier turns and accelerates toward the player');
       const samples = [];
       for (let i = 0; i < 35; i++) {
         await advance(100);
@@ -207,7 +215,7 @@ const report = { baseline, baselineRevision, url, passed: [], failed: [], eviden
       assert.ok(flight[0].sender.distance <= 38.1, 'Return starts after entering request range');
       assert.ok(flight.at(-1).distance < flight[0].distance - 5);
       assert.equal(samples.at(-1).carrier, 'player', 'The approaching teammate completes the return and catch');
-      report.evidence.distantReturnPass = { requested, approaching, samples };
+      report.evidence.distantReturnPass = { requested, approaching, approachSamples, samples };
     });
 
     await check('A moving player can request a return, brake after reacting, and catch it', async () => {

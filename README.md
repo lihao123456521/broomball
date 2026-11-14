@@ -29,6 +29,18 @@ python -m http.server 8765 --bind 127.0.0.1
 
 当前商店有两款可用扫帚，高级扫帚模型可继续加入装备库。进度保存在当前浏览器；本轮更新作用于浏览器版。完整更新与验证说明见 [CHANGELOG.md](CHANGELOG.md)。
 
+## 比赛解说与球员转向
+
+新增英文赛事解说：采用英式赛场声线，65 条整句预录涵盖四院对阵和 12 名角色，随开场、球权变化、传球、射门、进球、剩余时间、飞贼与结算播报。人名和学院名使用重音、稍慢语速和轻微音量提升；每条录音整句生成，运行时不拼接单词。画面显示英文解说字幕，比分由实时记分牌显示。
+
+本地音频随游戏预加载并缓存，普通球权、传球和射门事件不会打断当前句子，重复播报限频，旧事件不排队；重要比赛事件才可抢占。播报录音期间施法保留魔法音效，避免念咒打断解说。
+
+主菜单、暂停菜单或 **N** 键均可开关解说，暂停菜单可调音量，调节时连续播放；设置自动保存。关闭后立即停止解说，角色念咒与比赛音效独立保留。暂停、查看说明、返回菜单和重新开赛会清理旧播报。音频文件无法使用时整句回退到固定英文系统语音；语音不可用时保留字幕。预录来源和重建方式见 `assets/commentary/README.md`。
+
+除玩家外，双方追球手、守门员、找球手的实际飞行方向都受转向速度限制：标准赛最多约 66°/秒，挑战赛约 86°/秒。大幅转弯先减速，恢复直飞后再加速，靠近目标时制动，模型朝向与飞行轨迹一致。玩家转向和操作保持原有手感，扫帚加成与咒语减速仍生效。
+
+本次将 `codex/gameplay-logic-fixes` 与 `update1` 合入 `main`，保留低帧率计时、真实穿门和接球修复，以及学院角色、专属咒语、扫帚成长、模型和鼠标兼容改动。同时修复队友受击后的恢复与健康队友附近的自我治疗。
+
 ## 从这里开始
 
 - **引导训练**：无计时、无敌方干扰，实际完成飞行、升降、拾球、射门得分与施法后进入标准赛；射偏可重新拾球继续练习。
@@ -68,6 +80,7 @@ python -m http.server 8765 --bind 127.0.0.1
 | 切换本院三名角色 | 1 / 2 / 3 |
 | 第一、第三人称切换 | V |
 | 暂停 / 继续 | Esc |
+| 开关比赛解说 | N |
 | 完整玩法说明（浏览器版） | H |
 | 键盘转向 / 镜头俯仰 | ← → / I K |
 | 切换飞贼追踪（出现后） | Tab |
@@ -122,13 +135,17 @@ node tests/browser-smoke.cjs --file
 node tests/browser-experience.cjs
 node tests/browser-experience.cjs --file
 node tests/browser-houses-novice.cjs --file
+node tests/commentary-engine.cjs
+node tests/browser-commentary.cjs
+node tests/browser-commentary-audio.cjs
+node tests/browser-ai-turning.cjs
 node tests/browser-runtime.cjs
 node tests/browser-rules.cjs
 node tests/visual-review.cjs
 godot --headless --path . --rendering-method gl_compatibility --audio-driver Dummy --log-file tests/godot-final.log --script res://tests/smoke_test.gd
 ```
 
-基础浏览器测试覆盖实际键盘事件、飞行与制动、失焦、咒语命中、近距离瞄准、昏迷交互、暂停、重开和设置持久化。体验测试覆盖训练链、模式规则、真实穿门、边界、传球、体力、追踪与比赛结算，并生成实际渲染截图。学院与追球专项覆盖四院切换、队服和结算同步、球速、转向平滑、开场拾球、球标及 T 要球。运行与判定专项覆盖低帧率计时、卡顿恢复、远射、门环边缘和球权重置。最新验收见 `docs/validation/2026-11-14-gameplay-logic.md`；此前记录见 `docs/validation/2026-11-09-houses-clarity.md`、`docs/validation/2026-11-06.md` 和 `docs/validation/2026-11-06-experience.md`。
+基础浏览器测试覆盖实际键盘事件、飞行与制动、失焦、咒语命中、近距离瞄准、昏迷交互、暂停、重开和设置持久化。体验测试覆盖训练链、模式规则、真实穿门、边界、传球、体力、追踪与比赛结算，并生成实际渲染截图。学院与追球专项覆盖四院切换、队服和结算同步、球速、转向平滑、开场拾球、球标及 T 要球。运行与判定专项覆盖低帧率计时、卡顿恢复、远射、门环边缘和球权重置。最新验收见 `docs/validation/2026-11-14-commentary-turning-merge.md` 和 `docs/validation/2026-11-14-gameplay-logic.md`；此前记录见 `docs/validation/2026-11-09-houses-clarity.md`、`docs/validation/2026-11-06.md` 和 `docs/validation/2026-11-06-experience.md`。
 
 Three.js 使用 MIT 许可证，保留于 `vendor/THREE-LICENSE.txt`。
 

@@ -136,7 +136,7 @@ window.createSchoolSpellEngine=function(api){
   else if(cfg.effect==='accio'){api.summonBall(caster);feedback.tether(caster);}
   else if(cfg.effect==='impedimenta'){const forward=isSelf?api.camera.getWorldDirection(V()):V(0,0,-1).applyQuaternion(caster.mesh.quaternion);const center=pos(caster).clone().addScaledVector(forward,12);api.constrainPitch(center,4,38);makeZone('slow',caster,center,6,5,cfg.color);}
   else if(cfg.effect==='finite'){clear(caster);for(const u of near)clear(u);}
-  else if(cfg.effect==='rennervate'){const hurt=near.filter(u=>u.stun>0||state(u).stun>0||state(u).slow>0||state(u).blind>0||state(u).confused>0)[0]||near[0]||caster;clear(hurt,true);if(hurt===player){player.stamina=Math.min(100,player.stamina+25);player.exhausted=false;}else state(hurt).haste=3;/* AI has no stamina meter: a short recovery boost is equivalent. */feedback.heal(hurt);}
+  else if(cfg.effect==='rennervate'){const hurt=near.find(u=>u.stun>0||state(u).stun>0||state(u).slow>0||state(u).blind>0||state(u).confused>0)||caster;clear(hurt,true);if(hurt===player){player.stamina=Math.min(100,player.stamina+25);player.exhausted=false;}else state(hurt).haste=3;/* AI has no stamina meter: a short recovery boost is equivalent. */feedback.heal(hurt);}
   else if(cfg.effect==='ward')makeZone('ward',caster,pos(caster),7,6,cfg.color);
   caster.mesh.userData.castTime=.55;
   if(isSelf){match.usedSpell=true;match.callout=cfg.cn+' · '+cfg.spell;match.calloutTime=1.45;notify(cfg.cn+' · '+cfg.description,2);api.speak(cfg.spell);api.tone(520,.18,'triangle',.06);if(api.training()&&match.trainingStep===4&&!aimed)api.finishTraining();}

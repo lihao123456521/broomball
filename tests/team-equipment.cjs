@@ -21,9 +21,15 @@ const output=process.env.BROOM_OUTPUT||path.join(__dirname,'artifacts');fs.mkdir
   await page.evaluate(()=>{__BROOMBALL__.returnToMenu();__BROOMBALL__.startMatch('standard');__BROOMBALL__.match.paused=true;});await loaded();
   assert.equal(await page.evaluate(()=>__BROOMBALL__.rivals.find(r=>r.role==='seeker').mesh.userData.broomMultiplier),1.03);
   await page.evaluate(()=>{const g=__BROOMBALL__;Object.assign(g.match,{state:'playing',paused:true,elapsed:140});g.snitch.position.set(-30,20,-30);g.updateSnitch(.01);});
-  // Verify equipment affects the actual AI movement distance.
-  const motion=await page.evaluate(()=>{const g=__BROOMBALL__,r=g.rivals.find(x=>x.role==='seeker');r.mesh.position.set(0,14,0);const before=r.mesh.position.clone();g.updateRivals(.1);return {distance:r.mesh.position.distanceTo(before),expected:r.speed*g.match.rules.rivalSpeed*1.03*.1};});
-  assert(Math.abs(motion.distance-motion.expected)<.001);
+  // Compare steady straight flight after acceleration; upgraded brooms retain their speed benefit.
+  const motion=await page.evaluate(()=>{const g=__BROOMBALL__,r=g.rivals.find(x=>x.role==='seeker'),distances={};
+   for(const multiplier of [1,1.03]){r.mesh.userData.broomMultiplier=multiplier;r.mesh.position.set(0,18,40);r.mesh.rotation.set(0,0,0);g.resetAIFlight(r);
+    const target=new THREE.Vector3(0,18,-60),speed=r.speed*g.match.rules.rivalSpeed;
+    for(let i=0;i<90;i++)g.flyAI(r,target,speed,1/60);
+    const before=r.mesh.position.clone();for(let i=0;i<12;i++)g.flyAI(r,target,speed,1/60);
+    distances[multiplier]=r.mesh.position.distanceTo(before);
+   }return distances;});
+  assert(motion[1]>0);assert(Math.abs(motion[1.03]/motion[1]-1.03)<.001);
   // Read update output through the match frame: resume long enough for real AI to move.
   await page.evaluate(()=>{const g=__BROOMBALL__;g.returnToMenu();g.startMatch('training');g.match.paused=true;g.match.state='playing';g.match.elapsed=111;g.match.snitchActive=true;g.snitch.visible=true;g.snitch.position.set(3,13,32);g.updateSnitch(.02);g.updateCamera(1);});
   const flap=await page.evaluate(()=>{const g=__BROOMBALL__,wing=g.snitch.getObjectByName('WingL'),before=wing.rotation.z;g.updateSnitch(.02);return {imported:g.snitch.userData.imported,before,after:wing.rotation.z,parts:g.snitch.getObjectByName('Lux3DGoldenSnitch').children.map(x=>x.name)};});assert(flap.imported);assert.notEqual(flap.before,flap.after);
