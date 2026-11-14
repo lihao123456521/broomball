@@ -5,3 +5,6 @@
 # Reproducible local verification output
 /tests/artifacts/
 /tests/*.log
+
+# Finder metadata
+.DS_Store

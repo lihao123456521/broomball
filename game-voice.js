@@ -1,4 +1,4 @@
-/* One female announcer for every character. No arbitrary system-voice fallback. */
+/* One female English announcer for every character. No arbitrary system-voice fallback. */
 (() => {
   'use strict';
 
@@ -8,14 +8,18 @@
   const scriptURL = window.document?.currentScript?.src;
   const clipCache = new Map();
   const clipKey = text => String(text).replace(/[\s，,。.!！?？]/g, '').toUpperCase();
-  const clips = new Map([
-    ['EXPELLIARMUS', 'disarm.wav'], ['除你武器', 'disarm.wav'],
-    ['STUPEFY', 'stun.wav'], ['昏昏倒地', 'stun.wav'],
-    ['PROTEGO', 'shield.wav'], ['盔甲护身', 'shield.wav'],
-    ['比赛开始寻找队友传切配合', 'kickoff.wav'],
-    ['漂亮的进球', 'goal-home.wav'],
-    ['对方进球重新组织进攻', 'goal-away.wav']
-  ]);
+  const cueDefinitions = [
+    { file: 'disarm.wav', text: 'Expelliarmus!', aliases: ['EXPELLIARMUS', '除你武器'] },
+    { file: 'stun.wav', text: 'Stupefy!', aliases: ['STUPEFY', '昏昏倒地'] },
+    { file: 'shield.wav', text: 'Protego!', aliases: ['PROTEGO', '盔甲护身'] },
+    { file: 'kickoff.wav', text: 'Kickoff! Find your teammates and move the ball.', aliases: ['比赛开始，寻找队友，传切配合。'] },
+    { file: 'goal-home.wav', text: 'What a goal!', aliases: ['漂亮的进球！'] },
+    { file: 'goal-away.wav', text: 'They score. Regroup and build the next attack.', aliases: ['对方进球，重新组织进攻。'] }
+  ];
+  const clips = new Map();
+  for (const cue of cueDefinitions) {
+    for (const key of [cue.text, ...cue.aliases]) clips.set(clipKey(key), cue);
+  }
   let currentClip = null;
   let generation = 0;
   let clipsWarmed = false;
@@ -26,16 +30,16 @@
   // SpeechSynthesisVoice has no gender field. These are known female voice
   // names on macOS/iOS and Windows/Edge; an unknown voice stays silent rather
   // than unexpectedly changing the announcer to a male system default.
-  const femaleNames = /(?:^|\b)(?:ting[\s-]?ting|mei[\s-]?jia|sin[\s-]?ji|samantha|victoria|karen|moira|tessa|fiona|veena|sangeeta|serena|kyoko|zira|hazel|susan|heera|aria|jenny|libby|sonia|natasha|clara|michelle|neerja|huihui|yaoyao|hanhan|xiaoxiao|xiaoyi|xiaohan|xiaomeng|xiaomo|xiaoqiu|xiaorui|xiaoshuang|xiaoxuan|xiaoyan|xiaoyou|xiaozhen|hiugaai|hiumaan|hsiaochen|hsiaoyu)(?:\b|neural)/i;
+  const femaleNames = /(?:^|\b)(?:samantha|victoria|karen|moira|tessa|fiona|veena|sangeeta|serena|zira|hazel|susan|heera|aria|jenny|libby|sonia|natasha|clara|michelle|neerja)(?:\b|neural)/i;
   const explicitFemale = /(?:^|[\s,;()_-])female(?:$|[\s,;()_-])|女声|女性/i;
   const explicitMale = /(?:^|[\s,;()_-])male(?:$|[\s,;()_-])|男声|男性/i;
   const normalizeLang = value => String(value || '').replace(/_/g, '-').toLowerCase();
   const clamp = (value, minimum, maximum, fallback) => Number.isFinite(value) ? Math.min(maximum, Math.max(minimum, value)) : fallback;
-  const languageFor = (text, options = {}) => options.lang || (/[\u3400-\u9fff]/.test(text) ? 'zh-CN' : 'en-US');
+  const languageFor = (text, options = {}) => normalizeLang(options.lang).startsWith('en') ? options.lang : 'en-US';
   const isFemale = voice => !explicitMale.test(voice.name) && (femaleNames.test(voice.name) || explicitFemale.test(voice.name));
 
   function chooseVoice(lang) {
-    const requested = normalizeLang(lang);
+    const requested = normalizeLang(lang).startsWith('en') ? normalizeLang(lang) : 'en-us';
     const family = requested.split('-')[0];
     return voices
       .filter(voice => isFemale(voice) && normalizeLang(voice.lang).split('-')[0] === family)
@@ -52,16 +56,16 @@
     try { voices = synth.getVoices() || []; } catch { voices = []; }
   }
 
-  function getStatus(lang = 'zh-CN') {
+  function getStatus(lang = 'en-US') {
     refreshVoices();
     const voice = chooseVoice(lang);
     return {
       supported: audioSupported || supported,
       available: audioSupported || !!voice,
-      voice: audioSupported ? 'Tingting · 离线女声' : voice?.name || null,
-      lang: audioSupported ? 'zh-CN' : voice?.lang || lang,
+      voice: audioSupported ? 'Samantha · Female English (offline)' : voice?.name || null,
+      lang: audioSupported ? 'en-US' : voice?.lang || 'en-US',
       local: audioSupported || voice?.localService === true,
-      clips: audioSupported ? 6 : 0,
+      clips: audioSupported ? cueDefinitions.length : 0,
       synthesisAvailable: !!voice,
       reason: audioSupported ? 'ready-clips' : !supported ? 'unsupported' : voice ? 'ready' : voices.length ? 'female-voice-unavailable' : 'voices-loading'
     };
@@ -137,18 +141,20 @@
     });
   }
 
-  // The six core cues are bundled recordings of the same local female voice,
+  // The six core cues are bundled recordings of Samantha, the same female English voice,
   // so they work offline even when the browser exposes no synthesis voices.
-  // Arbitrary new text uses only a recognized female synthesis voice.
+  // Chinese event aliases resolve to English; new English text uses only a female English synthesis voice.
   async function speak(text, options = {}) {
     stop();
     text = String(text || '').trim();
     if (!text) return false;
     const requestGeneration = generation;
-    const file = clips.get(clipKey(text));
-    if (file && audioSupported) {
+    const cue = clips.get(clipKey(text));
+    const english = cue?.text || text;
+    if (/[\u3400-\u9fff]/.test(english)) return false;
+    if (cue && audioSupported) {
       try {
-        const audio = getClip(file);
+        const audio = getClip(cue.file);
         currentClip = audio;
         audio.currentTime = 0;
         audio.volume = clamp(options.volume, 0, 1, .9);
@@ -159,15 +165,15 @@
         currentClip = null;
       }
     }
-    return synthesize(text, options);
+    return synthesize(english, options);
   }
 
   function warmup() {
     refreshVoices();
     if (audioSupported && !clipsWarmed) {
       clipsWarmed = true;
-      for (const file of new Set(clips.values())) {
-        try { getClip(file).load(); } catch { /* Synthesis remains available. */ }
+      for (const cue of cueDefinitions) {
+        try { getClip(cue.file).load(); } catch { /* Synthesis remains available. */ }
       }
     }
     if (pending) flush();

@@ -1,17 +1,38 @@
-# 离线女声
+# Offline female English voice
 
-这六段中文语音使用本机 macOS 的 **Tingting（婷婷）女声**离线合成，未调用外部服务。
-音频格式为单声道、22,050 Hz、16-bit PCM WAV，播放无需网络或系统语音包。
+Every active voice recording uses the locally installed macOS **Samantha (en-US, female)** voice. No external speech service was used. These recordings replace the previous Chinese cues and the merged branch's male English commentary in active gameplay.
 
-| 文件 | 语音 |
+Audio format: mono, 22,050 Hz, 16-bit PCM WAV. Playback works offline without browser speech-synthesis voices.
+
+## Complete commentary
+
+`commentary/` contains 65 uninterrupted English sentences covering all four houses, the 12 named players, matchups, possession, shots, passes, goals, match results, time reminders, training, and retained legacy Snitch events. `game-commentary-lines.js` points exclusively to these female recordings. `commentary/manifest.json` records each sentence, Samantha voice provenance, language, duration, sample rate, file size, peak, and RMS.
+
+The single-channel controller in `game-commentary.js` preserves the merged branch's event priorities, cooldowns, volume, captions, stale-callback protection, pause/reset behavior, and critical result announcements. Known incantations use local female English recordings too. If a recording fails, speech synthesis requires a recognized female English voice; male, unknown, Chinese, or absent system voices produce captions instead of an unintended narrator.
+
+## Spell calls and compatibility cues
+
+| File | Spoken English |
 | --- | --- |
-| disarm.wav | 除你武器！ |
-| stun.wav | 昏昏倒地！ |
-| shield.wav | 盔甲护身！ |
-| kickoff.wav | 比赛开始，寻找队友，传切配合。 |
-| goal-home.wav | 漂亮的进球！ |
-| goal-away.wav | 对方进球，重新组织进攻。 |
+| disarm.wav | Expelliarmus! |
+| stun.wav | Stupefy! |
+| shield.wav | Protego! |
+| arresto.wav | Arresto Momentum! |
+| serpent.wav | Serpensortia! |
+| obscuro.wav | Obscuro! |
+| confundus.wav | Confundus! |
+| patronus.wav | Expecto Patronum! |
+| accio.wav | Accio! |
+| impedimenta.wav | Impedimenta! |
+| finite.wav | Finite Incantatem! |
+| rennervate.wav | Rennervate! |
+| ward.wav | Protego Totalum! |
+| kickoff.wav | Kickoff! Find your teammates and move the ball. |
+| goal-home.wav | What a goal! |
+| goal-away.wav | They score. Regroup and build the next attack. |
 
-`game-voice.js` 优先播放这些音频，其他文本仅使用已知的系统女声，不回退到男声。
+The 13 incantations include the complete 12-character school roster plus the original Stupefy call. The three short event cues preserve the earlier `BroomVoice` API; current integrated narration uses the full commentary controller so two narrators do not overlap. There are 81 WAV files in total.
 
-生成命令：`say -v Tingting -r 190 -o cue.aiff '语音文本'`，然后使用 `afconvert -f WAVE -d LEI16@22050 -c 1 cue.aiff cue.wav`。
+`game-voice.js` also maps the existing Chinese event strings to their English counterparts and never chooses a male or Chinese fallback voice. Unknown Chinese text stays silent instead of being spoken in the wrong language.
+
+Generation: `say -v Samantha -r 185 -o cue.aiff 'English text'`, followed by `afconvert -f WAVE -d LEI16@22050 -c 1 cue.aiff cue.wav`.

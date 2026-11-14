@@ -1,0 +1,163 @@
+[
+  {
+    "id": "academy-hall",
+    "source": "textured.glb",
+    "sha256": "15892be1014d20c3b652cfbe01d2798fe3bcf75a298d9fd26d0d1dcfcd5bb277",
+    "sourceBytes": 27697864,
+    "sourceTriangles": 335658,
+    "runtimeBytes": 3313124,
+    "runtimeTriangles": 59974,
+    "vertices": 73018,
+    "texture": 1024,
+    "bounds": {
+      "min": [
+        -27.962039947509766,
+        -27.493209838867188,
+        -21.13648796081543
+      ],
+      "max": [
+        27.94891929626465,
+        27.5,
+        21.143325805664062
+      ]
+    }
+  },
+  {
+    "id": "academy-tower",
+    "source": "textured (1).glb",
+    "sha256": "658e26d6caea5b26e015d31ae244cf657469e42d8bab1e76dd9f5aac2bf381bd",
+    "sourceBytes": 24018012,
+    "sourceTriangles": 345794,
+    "runtimeBytes": 2439740,
+    "runtimeTriangles": 49998,
+    "vertices": 47559,
+    "texture": 1024,
+    "bounds": {
+      "min": [
+        -3.7074811458587646,
+        -9.0,
+        -3.877539873123169
+      ],
+      "max": [
+        3.702049493789673,
+        9.0,
+        3.877539873123169
+      ]
+    }
+  },
+  {
+    "id": "gatehouse",
+    "source": "textured (2).glb",
+    "sha256": "99db1f8831feb0cfb75449b63401562fa3b57bbe64bbdb444f9ff12728578310",
+    "sourceBytes": 25677196,
+    "sourceTriangles": 292632,
+    "runtimeBytes": 3277044,
+    "runtimeTriangles": 59982,
+    "vertices": 69831,
+    "texture": 1024,
+    "bounds": {
+      "min": [
+        -12.5,
+        -10.729362487792969,
+        -11.286405563354492
+      ],
+      "max": [
+        12.5,
+        10.726807594299316,
+        11.289521217346191
+      ]
+    }
+  },
+  {
+    "id": "rampart",
+    "source": "textured (3).glb",
+    "sha256": "bf9c2737748848e750828aac74f34c152f601fe284a9ff8d936e084965ed4141",
+    "sourceBytes": 21191484,
+    "sourceTriangles": 282570,
+    "runtimeBytes": 2770656,
+    "runtimeTriangles": 49912,
+    "vertices": 58353,
+    "texture": 1024,
+    "bounds": {
+      "min": [
+        -7.653600215911865,
+        -7.5,
+        -7.031528472900391
+      ],
+      "max": [
+        7.657757759094238,
+        7.498489856719971,
+        7.035947322845459
+      ]
+    }
+  },
+  {
+    "id": "broom",
+    "source": "textured(1).glb",
+    "sha256": "ec0a0b67d17a471d8bd1aa19a0f9e695d3a19bb1160ca8973d98aab11e3a10a7",
+    "sourceBytes": 18650080,
+    "sourceTriangles": 156740,
+    "runtimeBytes": 1853768,
+    "runtimeTriangles": 27886,
+    "vertices": 35039,
+    "texture": 1024,
+    "bounds": {
+      "min": [
+        -0.14000000059604645,
+        -0.034058474004268646,
+        -0.03262404352426529
+      ],
+      "max": [
+        0.14000000059604645,
+        0.0338888019323349,
+        0.03262404352426529
+      ]
+    }
+  },
+  {
+    "id": "snitch",
+    "source": "textured (1)(1).glb",
+    "sha256": "5a6da53f3e6ec291a036a82e61572102d33e366b6c6d33f54f7b6c95842fde26",
+    "sourceBytes": 9315076,
+    "sourceTriangles": 61232,
+    "runtimeBytes": 1556076,
+    "runtimeTriangles": 29998,
+    "vertices": 27563,
+    "texture": 1024,
+    "bounds": {
+      "min": [
+        -0.09000000357627869,
+        -0.05393616110086441,
+        -0.08987417072057724
+      ],
+      "max": [
+        0.08999615162611008,
+        0.05393616110086441,
+        0.08987417072057724
+      ]
+    }
+  },
+  {
+    "id": "harry-rider",
+    "source": "textured (2)(1).glb",
+    "sha256": "48051e37eb703e6d2f28a346ffa327606602b307c49f87905aaee678d9ba5ca8",
+    "sourceBytes": 24881184,
+    "sourceTriangles": 270426,
+    "runtimeBytes": 4120692,
+    "runtimeTriangles": 64934,
+    "vertices": 76148,
+    "texture": 2048,
+    "bounds": {
+      "min": [
+        -0.7250000238418579,
+        -1.1282607316970825,
+        -1.127543330192566
+      ],
+      "max": [
+        0.7250000238418579,
+        1.1282607316970825,
+        1.1269409656524658
+      ]
+    }
+  }
+]

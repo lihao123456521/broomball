@@ -35,11 +35,22 @@
 @media(max-width:760px){.flight-panel{width:145px;left:8px;bottom:155px}#possession{display:none}.training-active .flight-panel{bottom:220px}.training-active .coach{bottom:155px}}
 @media(max-height:680px){.mode-picker{margin-top:11px}.training-active .coach{width:min(360px,76vw);bottom:140px}}
 </style>
+<style>
+.broom-summary{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:14px 0;color:var(--gold);font-size:13px}
+.broom-shop{text-align:left;margin:12px 0 20px;padding:18px;border:1px solid var(--line);border-radius:12px;background:rgba(7,15,29,.7)}
+.broom-shop[hidden]{display:none}.broom-shop h2{font:24px Georgia,serif;letter-spacing:1px;margin:0 0 8px}.broom-shop p{line-height:1.7;font-size:12px;color:var(--muted)}
+.broom-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.broom-card{padding:14px;border:1px solid var(--line);border-radius:9px}.broom-card.equipped{border-color:var(--gold)}.broom-card h3{margin:0;font-size:15px;color:var(--pale)}.broom-card .secondary{padding:8px 10px;margin:5px 5px 0 0;font-size:12px}.broom-card button:disabled{cursor:default;opacity:.5}#broomNotice{min-height:2em}#broomReward{color:var(--gold);margin:14px 0;line-height:1.7}@media(max-width:560px){.broom-cards{grid-template-columns:1fr}}
+</style>
+<style>.broom-product-image{width:100%;height:135px;object-fit:contain;border-radius:7px;background:linear-gradient(145deg,#e7e0d0,#f7f4ec);margin-bottom:12px}.team-equipment,.opponent-equipment{padding:16px 0;border-top:1px solid var(--line);margin-top:16px}.team-equipment h3,.opponent-equipment h3{color:var(--gold);font-size:16px;margin:0 0 12px}#teamLoadouts{display:grid;gap:10px}#teamLoadouts label{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:12px}#teamLoadouts select{max-width:70%;padding:8px;border-radius:6px;background:#162339;color:var(--pale);border:1px solid #58657c}#opponentLoadouts{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}@media(max-width:560px){#opponentLoadouts{grid-template-columns:1fr}}
+</style>
+
+<style>#commentaryCaption{position:fixed;z-index:5;top:218px;left:50%;transform:translateX(-50%);max-width:min(560px,86vw);padding:8px 14px;border:1px solid #78d8f34d;border-radius:5px;background:#071421e8;color:#eaf8ff;text-align:center;font:12px/1.6 Inter,"PingFang SC",sans-serif;pointer-events:none}#commentaryCaption[hidden]{display:none}.broom-summary{justify-content:space-between}.broom-summary .secondary{padding:7px 12px;font-size:11px}@media(max-height:680px){#commentaryCaption{top:174px;font-size:11px}}</style>
 <link rel="stylesheet" href="./game-presentation.css">
 </head>
 <body>
 <canvas id="world" tabindex="0"></canvas>
 <div id="vignette"></div>
+<div id="commentaryCaption" hidden role="status" aria-live="off"></div>
 <div class="hud" id="hud">
   <div class="brand">B R O O M B A L L<small>THE GOLDEN MATCH</small></div>
   <div id="snitchStatus">SNITCH · DORMANT</div>
@@ -72,11 +83,14 @@
       <button class="character" data-id="hermione"><span class="sigil">H</span><strong>HERMIONE GRANGER</strong><div class="cn">赫敏·格兰杰 / 精准控制</div><div class="spell">昏昏倒地 · STUPEFY</div><p>昏迷 / 冻结 3.2 秒 · 射程 32 米<br>冷却 9 秒 · 控制后靠近抢球</p></button>
       <button class="character" data-id="ron"><span class="sigil">R</span><strong>RON WEASLEY</strong><div class="cn">罗恩·韦斯莱 / 防守反击</div><div class="spell">盔甲护身 · PROTEGO</div><p>4 秒护盾，格挡撞击与抢断<br>冷却 12 秒 · 切换角色保留护盾</p></button>
     </div>
+    <div class="broom-summary"><span>当前扫帚：<strong id="equippedBroom"></strong></span><button class="secondary" type="button" id="broomShopToggle" aria-expanded="false" aria-controls="broomShop">扫帚商店与装备</button></div>
+    <section class="broom-shop" id="broomShop" hidden aria-label="扫帚商店"><h2>扫帚工坊 · 学院装备库</h2><strong id="broomBalance"></strong><p id="broomNotice" role="status"></p><div class="broom-cards" id="broomCards"></div><div class="team-equipment"><h3 id="teamEquipmentTitle"></h3><div id="teamLoadouts"></div><p>已拥有的扫帚可分配给队员；同款扫帚共用升级等级。</p></div><div class="opponent-equipment"><h3 id="opponentEquipmentTitle"></h3><p id="opponentBudget"></p><div id="opponentLoadouts"></div><p>对手按比赛结果领取奖金，赛后自动购买或升级，下场比赛使用新装备。</p></div><p>每级增加 3% 巡航与冲刺速度，最多 3 级；升级费用依次为 100、200、300 金币。新款扫帚后续上架。进度保存在当前浏览器。</p></section>
     <div class="mode-picker" role="group" aria-label="选择游戏模式">
       <button type="button" class="mode-option" data-mode="training" aria-pressed="false"><strong>引导训练</strong><small>无计时 · 六步练习</small></button>
       <button type="button" class="mode-option" data-mode="standard" aria-pressed="true"><strong>标准赛</strong><small>180 秒 · 球队配合</small></button>
       <button type="button" class="mode-option" data-mode="challenge" aria-pressed="false"><strong>挑战赛</strong><small>150 秒 · 高压逼抢</small></button>
     </div>
+    <div class="match-options"><label><input type="checkbox" id="commentaryEnabledMenu" checked> 女性英语解说（N）</label><span>英文咒语与赛事播报 · 离线语音</span></div>
     <div class="menu-actions"><button class="primary" id="startBtn">进入球场</button><button class="secondary" id="startHelpBtn">查看完整玩法</button></div>
     <div class="howto">
       <div><b>01</b>W 前进，A / D 横移；鼠标选择进攻方向。</div>
@@ -85,11 +99,11 @@
       <div><b>04</b>按住 F 蓄力，松开射向蓝色门环，每球 10 分。</div>
       <div><b>05</b>S 短传，Z 直塞；接球后自动切换控制。</div>
     </div>
-    <div class="menu-help"><b>S</b> 短传　<b>Z</b> 直塞　<b>C</b> 切人　<b>F</b> 蓄力射门<br>W 前进 · A / D 横移 · ← / → 转向 · 无后退操作 · 女声解说</div>
+    <div class="menu-help"><b>S</b> 短传　<b>Z</b> 直塞　<b>C</b> 切人　<b>F</b> 蓄力射门<br>W 前进 · A / D 横移 · ← / → 转向 · 无后退操作 · Female English commentary</div>
   </div>
 </div>
-<div class="overlay hidden" id="pause"><div class="menu-card" style="max-width:560px"><div class="pause-title">比赛已暂停</div><p class="subtitle">调整手感，按 Esc 或点击继续</p><div class="settings"><label for="sensitivity">鼠标灵敏度 <input id="sensitivity" type="range" min="0.4" max="2" step="0.1"><output id="sensitivityValue">1.0×</output></label><label><input type="checkbox" id="reducedMotion"> 减少镜头动态</label><small>关闭加速视野扩张与骑手侧倾。设置自动保存在当前浏览器。</small></div><button class="primary" id="resumeBtn">继续飞行</button><button class="secondary" id="helpBtnPause">玩法说明</button><br><button class="secondary" id="restartPauseBtn">重新开赛</button><button class="secondary" id="menuPauseBtn">返回主菜单</button></div></div>
-<div class="overlay hidden" id="ending"><div class="menu-card" style="max-width:650px"><div class="eyebrow">比赛结束</div><h2 id="endTitle">狮队获胜</h2><div class="result-score" id="endScore">150 — 0</div><p class="result-detail" id="endDetail"></p><div id="endStats"></div><div id="endBest"></div><button class="primary" id="restartBtn">再赛一场</button><button class="secondary" id="menuEndBtn">返回主菜单</button></div></div>
+<div class="overlay hidden" id="pause"><div class="menu-card" style="max-width:560px"><div class="pause-title">比赛已暂停</div><p class="subtitle">调整手感，按 Esc 或点击继续</p><div class="settings"><label for="sensitivity">鼠标灵敏度 <input id="sensitivity" type="range" min="0.4" max="2" step="0.1"><output id="sensitivityValue">1.0×</output></label><label><input type="checkbox" id="reducedMotion"> 减少镜头动态</label><small>关闭加速视野扩张与骑手侧倾。设置自动保存在当前浏览器。</small><label><input type="checkbox" id="commentaryEnabled" checked> 女性英语解说（N）</label><label for="commentaryVolume">语音音量 <input id="commentaryVolume" type="range" min="0" max="1" step="0.05"><output id="commentaryVolumeValue">85%</output></label></div><button class="primary" id="resumeBtn">继续飞行</button><button class="secondary" id="helpBtnPause">玩法说明</button><br><button class="secondary" id="restartPauseBtn">重新开赛</button><button class="secondary" id="menuPauseBtn">返回主菜单</button></div></div>
+<div class="overlay hidden" id="ending"><div class="menu-card" style="max-width:650px"><div class="eyebrow">比赛结束</div><h2 id="endTitle">狮队获胜</h2><div class="result-score" id="endScore">150 — 0</div><p class="result-detail" id="endDetail"></p><div id="endStats"></div><div id="endBest"></div><div id="broomReward" role="status"></div><button class="primary" id="restartBtn">再赛一场</button><button class="secondary" id="menuEndBtn">返回主菜单</button></div></div>
 <div class="overlay hidden" id="trainingEnd"><div class="menu-card" style="max-width:560px"><div class="eyebrow">引导训练</div><h2>训练完成</h2><p class="result-detail">已完成飞行、升降、拾球、短传配合、射门得分与施法。</p><button class="primary" id="trainingPlayBtn">开始标准赛</button><button class="secondary" id="trainingResetBtn">再练一次</button><button class="secondary" id="menuTrainingBtn">返回主菜单</button></div></div>
 <div class="overlay hidden" id="help">
   <div class="guide-card">
@@ -118,9 +132,17 @@
 </div>
 <div id="fatal">游戏渲染库加载失败，请保留 vendor 文件夹并刷新页面。</div>
 <script src="./vendor/three-0.160.0.min.js"></script>
+<script src="./vendor/gltf-loader-r160.js"></script>
+<script src="./game-models.js"></script>
+<script src="./assets/brooms/model-data.js"></script>
+<script src="./game-brooms.js"></script>
+<script src="./game-school-magic.js"></script>
 <script src="./game-environment.js"></script>
 <script src="./game-houses.js"></script>
 <script src="./game-voice.js"></script>
+<script src="./game-passing.js"></script>
+<script src="./game-commentary-lines.js"></script>
+<script src="./game-commentary.js"></script>
 <script>
 (() => {
 'use strict';
@@ -170,7 +192,7 @@ function buildHorizon(){
 }
 function createWizard(id='harry',rival=false){
  const root=new THREE.Group(),broom=new THREE.Group(),body=new THREE.Group();root.name='WizardRig';broom.name='BroomModel';body.name='CharacterModel';root.add(broom,body);
- const palette={harry:[0x87374c,0xe9c573,0x21212b],hermione:[0x773a52,0xe9ca8a,0x513427],ron:[0x984c3b,0xe2b969,0xb35e32],rival:[0x315d88,0xa9d4e4,0x292939]},cfg=palette[id]||palette.rival,skin=0xe5b696,leather=0x302a2b;
+ const profile=window.SchoolMagic?.byId(id),cfg=[0x87374c,0xe9c573,profile?.hair??0x292939],skin=profile?.skin??0xe5b696,leather=0x302a2b;root.userData.characterId=id;
  // A curved handle, wrapped grip and layered bristles keep the broom readable in flight.
  const handle=new THREE.CatmullRomCurve3([V(0,.38,1.9),V(0,.38,.4),V(0,.48,-1.5),V(0,.64,-2.3)]);
  addMesh(broom,new THREE.TubeGeometry(handle,12,.065,7,false),0x95643c,V());
@@ -201,16 +223,17 @@ function createWizard(id='harry',rival=false){
  const hair=sph(head,.32,V(0,.14,.04),cfg[2]);hair.scale.set(.98,.72,1.03);
  for(let i=0;i<5;i++){const lock=sph(head,.11,V((i-2)*.095,.21,-.18+(i%2)*.035),cfg[2]);lock.scale.set(.8,1.1+(i%2)*.3,1.1);}
  if(id==='harry'){for(const side of[-1,1])torus(head,.11,.017,V(side*.12,.04,-.29),0x272837,.4);beam(head,V(-.025,.04,-.3),V(.025,.04,-.3),.014,0x272837);beam(head,V(.05,.22,-.245),V(.085,.16,-.278),.01,0xa06353);}
- if(id==='hermione'){for(const side of[-1,1])for(let i=0;i<3;i++){const curl=sph(head,.145,V(side*(.24+(i%2)*.03),.06-i*.15,.08),cfg[2]);curl.scale.set(.8,1.25,.95);}}
+ if(profile?.longHair){for(const side of[-1,1])for(let i=0;i<3;i++){const curl=sph(head,.145,V(side*(.24+(i%2)*.03),.06-i*.15,.08),cfg[2]);curl.scale.set(.8,1.25,.95);}}
+ if(profile?.bob){for(const side of[-1,1])box(head,V(.13,.34,.32),V(side*.26,.03,.045),cfg[2]);}
  if(id==='ron'){for(const side of[-1,1])for(let i=0;i<3;i++)sph(head,.009,V(side*(.11+i*.033),-.045,-.269+i*.01),0xa96443);}
  const scarf=torus(body,.29,.065,V(0,1.59,0),cfg[1]);scarf.rotation.x=Math.PI/2;scarf.scale.y=.7;
  const scarfTail=new THREE.Group();scarfTail.name='ScarfTail';scarfTail.position.set(-.19,1.57,.25);body.add(scarfTail);const fabric=box(scarfTail,V(.17,.055,.92),V(0,-.04,.45),cfg[1]);fabric.rotation.x=.12;
  const cape=new THREE.Group();cape.name='Cape';cape.position.set(0,1.48,.3);body.add(cape);
  const vertices=new Float32Array([-.37,0,0,.37,0,0,-.5,-.63,.42,.5,-.63,.42,-.62,-1.03,.9,.62,-1.03,.9]);
  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(vertices,3));geo.setIndex([0,2,1,1,2,3,2,4,3,3,4,5]);geo.computeVertexNormals();const capeMat=mat(cfg[0]).clone();capeMat.side=THREE.DoubleSide;capeMat.userData.owned=true;addMesh(cape,geo,capeMat,V());
- root.userData.replaceable={broom,body,spellSocket};root.userData.rig={cape,scarfTail,arm,body};root.userData.castTime=0;return root;
+ root.userData.replaceable={broom,body,spellSocket};root.userData.rig={cape,scarfTail,arm,body};root.userData.castTime=0;window.BroomModels?.mountWizard(root,{characterId:id});return root;
 }
-function disposeObject(object){object.traverse(child=>{if(child.geometry)child.geometry.dispose();const materials=Array.isArray(child.material)?child.material:[child.material];for(const material of materials)if(material?.userData.owned)material.dispose();});object.removeFromParent();}
+function disposeObject(object){object.userData.disposed=true;object.traverse(child=>{for(const fallback of child.userData?.fallback||[])fallback.traverse(p=>{if(p.geometry&&!p.geometry.userData.sharedModel)p.geometry.dispose();});if(child.geometry&&!child.geometry.userData.sharedModel)child.geometry.dispose();const materials=Array.isArray(child.material)?child.material:[child.material];for(const material of materials)if(material?.userData.owned&&!material.userData.sharedModel)material.dispose();});object.removeFromParent();}
 function animateWizard(mesh,dt,speed,time){const rig=mesh.userData.rig;if(!rig)return;const flow=clamp(speed/48,0,1);mesh.userData.castTime=Math.max(0,(mesh.userData.castTime||0)-dt);rig.cape.rotation.x=.1+flow*.28+Math.sin(time*5)*.025;rig.scarfTail.rotation.y=Math.sin(time*6)*(.05+flow*.1);rig.scarfTail.rotation.x=-flow*.18;rig.arm.rotation.x=lerp(rig.arm.rotation.x,mesh.userData.castTime>0?-.35:0,1-Math.exp(-dt*16));}
 function createQuaffle(){
  const g=new THREE.Group();g.name='Quaffle';
@@ -227,11 +250,17 @@ const configs=[
  {id:'hermione',name:'赫敏 · 格兰杰',spell:'STUPEFY',cn:'昏昏倒地',effect:'stupefy',description:'昏迷 / 冻结 3.2 秒',cooldown:9,range:32,color:0xff4f78,pitch:1.08,rate:1.04},
  {id:'ron',name:'罗恩 · 韦斯莱',spell:'PROTEGO',cn:'盔甲护身',effect:'protego',description:'护盾 4 秒 · 防撞 / 防抢断',cooldown:12,range:0,color:0x79bfff,pitch:.82,rate:.9}
 ];
+const coreSpells=configs.map(c=>({...c}));
 const houses=window.BroomHouses.houses;
 const houseById=id=>houses.find(h=>h.id===id)||houses[0];
 const houseDecor=window.BroomHouses.decorate({THREE,scene});
-const settings={sensitivity:1,reducedMotion:false,house:'gryffindor',opponent:'slytherin'};
-try{const saved=JSON.parse(localStorage.getItem('broomball-comfort')||'{}');if(Number.isFinite(saved.sensitivity))settings.sensitivity=clamp(saved.sensitivity,.4,2);settings.reducedMotion=saved.reducedMotion===true;if(houses.some(h=>h.id===saved.house))settings.house=saved.house;if(houses.some(h=>h.id===saved.opponent)&&saved.opponent!==settings.house)settings.opponent=saved.opponent;if(settings.opponent===settings.house)settings.opponent=houses.find(h=>h.id!==settings.house).id;}catch{}
+const settings={sensitivity:1,reducedMotion:false,house:'gryffindor',opponent:'slytherin',commentary:true,commentaryVolume:.85};
+try{const saved=JSON.parse(localStorage.getItem('broomball-comfort')||'{}');if(Number.isFinite(saved.sensitivity))settings.sensitivity=clamp(saved.sensitivity,.4,2);settings.reducedMotion=saved.reducedMotion===true;settings.commentary=saved.commentary!==false;if(Number.isFinite(saved.commentaryVolume))settings.commentaryVolume=clamp(saved.commentaryVolume,0,1);if(houses.some(h=>h.id===saved.house))settings.house=saved.house;if(houses.some(h=>h.id===saved.opponent)&&saved.opponent!==settings.house)settings.opponent=saved.opponent;if(settings.opponent===settings.house)settings.opponent=houses.find(h=>h.id!==settings.house).id;}catch{}
+function configureAcademy(house){
+ const roster=window.SchoolMagic.rosters[house];
+ configs.splice(0,3,...coreSpells.map((c,i)=>({...c,id:roster[i].id,name:roster[i].name,en:roster[i].en})));
+}
+configureAcademy(settings.house);
 function saveSettings(){try{localStorage.setItem('broomball-comfort',JSON.stringify(settings));}catch{}}
 const modes={
  training:{label:'引导训练',duration:Infinity,snitchAt:Infinity,rivalSnitchAt:Infinity,rivalSpeed:0},
@@ -242,12 +271,14 @@ const freshStats=()=>({shots:0,goals:0,steals:0,passes:0,completedPasses:0,homeP
 let selectedMode='standard',bestScores={};
 try{const saved=JSON.parse(localStorage.getItem('broomball-best')||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))bestScores=saved;}catch{}
 const match={cameraMode:'broadcast',autoSwitch:true,shotCharge:0,charging:false,tackle:0,pendingRestart:null,homeHouse:settings.house,awayHouse:settings.opponent,callForPass:0,mode:'standard',rules:modes.standard,stats:freshStats(),trainingStep:0,trainingDistance:0,trainingHeight:0,trackSnitch:false,state:'menu',paused:false,countdown:3,elapsed:0,timeLeft:180,playerScore:0,rivalScore:0,message:'',messageTime:0,callout:'',calloutTime:0,snitchActive:false,kickoff:0,stealCooldown:1.5,selected:0,cooldowns:[0,0,0],firstPerson:false,gravity:false,collision:true,usedMove:false,usedVertical:false,usedThrow:false,usedSpell:false};
+const commentary=window.createMatchCommentary({enabled:settings.commentary,volume:settings.commentaryVolume,canSpeak:()=>match.state!=='menu'&&!match.paused&&!document.hidden,onCaption:text=>{$('commentaryCaption').textContent=text;$('commentaryCaption').hidden=!text;}});
+function announceClip(key,clip,priority=1,cooldown=8){const line=window.BroomCommentaryClips[clip];if(!line)return false;if(settings.commentary&&priority>=4&&commentary.state.activeKey==='spell')commentary.stop();return commentary.announce(key,line.text,{priority,cooldown,clip});}
 const player={mesh:null,pos:V(0,10,38),vel:V(),baseSpeed:22,stamina:100,boosting:false,exhausted:false,flySpeed:11,previousPos:V(0,10,38),speed:0,shield:0,hitCooldown:0,boundaryNotice:0};
-const rivals=[],allies=[],bludgers=[],projectiles=[],spellEffects=[];let quaffle,snitch,waypoint,shield,carrier=null,quaffleVel=V(),shot=null,passTarget=null,passSender=null,passAge=0,passDestination=null,passMode='short',pickupDelay=0,trainingReset=0,snitchTarget=V(),snitchRetarget=0,snitchTime=0,cameraYaw=0,cameraPitch=-.12,targetYaw=0,targetPitch=-.12,lastTime=performance.now(),audioCtx=null,helpReturn='menu';
+const rivals=[],allies=[],bludgers=[],projectiles=[],spellEffects=[];let quaffle,snitch,waypoint,shield,carrier=null,quaffleVel=V(),shot=null,passTarget=null,passSender=null,passAge=0,passFlight=null,passDestination=null,passMode='short',pickupDelay=0,trainingReset=0,snitchTarget=V(),snitchRetarget=0,snitchTime=0,cameraYaw=0,cameraPitch=-.12,targetYaw=0,targetPitch=-.12,lastTime=performance.now(),audioCtx=null,helpReturn='menu';
 const keys={};
 const shotRange=38,passRange=46;
 const training=()=>match.mode==='training';
-function replacePlayerModel(){const pos=player.pos.clone(),rot=player.mesh?player.mesh.rotation.clone():null;if(player.mesh)disposeObject(player.mesh);player.mesh=createWizard(configs[match.selected].id);window.BroomHouses.applyUniform(player.mesh,match.homeHouse);scene.add(player.mesh);player.mesh.position.copy(pos);if(rot)player.mesh.rotation.copy(rot);player.pos=player.mesh.position;player.mesh.visible=!match.firstPerson;}
+function replacePlayerModel(){const pos=player.pos.clone(),rot=player.mesh?player.mesh.rotation.clone():null;if(player.mesh)disposeObject(player.mesh);player.mesh=createWizard(configs[match.selected].id);window.BroomHouses.applyUniform(player.mesh,match.homeHouse);scene.add(player.mesh);player.mesh.position.copy(pos);if(rot)player.mesh.rotation.copy(rot);player.pos=player.mesh.position;player.mesh.visible=!match.firstPerson;window.BroomGarage.mount(player.mesh);}
 replacePlayerModel();
 shield=new THREE.Mesh(new THREE.SphereGeometry(2.35,28,16),new THREE.MeshBasicMaterial({color:0x74baff,transparent:true,opacity:.14,side:THREE.DoubleSide,depthWrite:false}));shield.visible=false;scene.add(shield);
 const targetMarker=new THREE.Mesh(new THREE.TorusGeometry(1.6,.045,6,36),new THREE.MeshBasicMaterial({color:0xffd48b,transparent:true,opacity:.9,depthTest:false}));targetMarker.renderOrder=5;targetMarker.visible=false;scene.add(targetMarker);
@@ -268,7 +299,40 @@ const practiceDummy={mesh:createWizard('rival'),stun:0};
 practiceDummy.mesh.visible=false;
 scene.add(practiceDummy.mesh);
 quaffle=createQuaffle();snitch=createSnitch();snitch.visible=false;waypoint=createWaypoint();waypoint.visible=false;
+const modelScenery=window.BroomModels?.mountScene({THREE,scene,snitch});
+$('startBtn').disabled=true;$('startBtn').textContent='正在准备球场…';
+Promise.all([modelScenery,window.BroomModels?.ready]).then(()=>{$('startBtn').disabled=false;if(match.state==='menu')selectMode(selectedMode);});
 for(const [pos,vel] of[[V(-28,15,-4),V(12,0,16)],[V(27,18,12),V(-14,-2,-14)]]){const g=new THREE.Group();sph(g,.92,V(),0x202636,.7);const band=torus(g,.86,.075,V(),0x576078,.65);band.rotation.x=Math.PI/2;g.position.copy(pos);scene.add(g);bludgers.push({mesh:g,vel:vel.clone(),initialPos:pos.clone(),initialVel:vel.clone(),retarget:7+Math.random()*3,frozen:0});}
+function renderAcademyChoices(){
+ const box=document.querySelector('.characters');box.replaceChildren();
+ for(const [i,cfg] of configs.entries()){
+  const button=document.createElement('button');button.className='character'+(i===match.selected?' selected':'');button.dataset.id=cfg.id;button.setAttribute('aria-pressed',String(i===match.selected));
+  button.innerHTML='<strong>'+cfg.en+'</strong><div class="cn">'+cfg.name+'</div><div class="spell">'+cfg.cn+' · '+cfg.spell+'</div><p>'+cfg.description+'<br>冷却 '+cfg.cooldown+' 秒</p>';button.onclick=()=>switchCharacter(i);box.append(button);
+ }
+ $('spellBar').innerHTML=configs.map((cfg,i)=>'<button class="spell-slot" id="spellSlot'+i+'" type="button" aria-pressed="'+(i===match.selected)+'"><span class="spell-key">'+(i+1)+' · '+cfg.name.split(' · ')[0]+'</span><strong>'+cfg.cn+'</strong><small>就绪</small><span class="cooldown-track"></span></button>').join('');
+ for(let i=0;i<configs.length;i++)$('spellSlot'+i).onclick=()=>{if(match.state==='playing'&&!match.paused){switchCharacter(i);canvas.focus();}};
+}
+function refreshSquadAppearance(){
+ for(const [i,unit] of [...allies,...rivals].entries()){
+  const friendly=allies.includes(unit),roster=window.SchoolMagic.rosters[friendly?match.homeHouse:match.awayHouse];
+  const profile=roster[friendly?(unit.role==='keeper'?2:unit.index===0?1:0):unit.index%3];
+  if(unit.mesh.userData.characterId===profile.id)continue;
+  const old=unit.mesh,mesh=createWizard(profile.id,!friendly);mesh.position.copy(old.position);mesh.rotation.copy(old.rotation);mesh.visible=old.visible;disposeObject(old);unit.mesh=mesh;scene.add(mesh);resetAIFlight(unit);
+ }
+}
+function applyTeamEquipment(){
+ const garage=window.BroomGarage,lineup=garage.lineup(match.homeHouse),opponent=garage.opponent(match.awayHouse);
+ garage.mount(player.mesh);
+ for(const ally of allies){const id=lineup[ally.role]||'lux-basic';garage.mount(ally.mesh,id,garage.level(id));}
+ for(const rival of rivals){const slot=rival.role==='keeper'?'keeper':rival.index===3?'chaser2':'chaser'+rival.index,item=opponent.members[slot];garage.mount(rival.mesh,item.id,item.level);}
+ garage.mount(practiceDummy.mesh,'lux-basic',0);
+}
+function syncVoiceSettings(){
+ for(const id of ['commentaryEnabled','commentaryEnabledMenu'])$(id).checked=settings.commentary;
+ $('commentaryVolume').value=String(settings.commentaryVolume);$('commentaryVolumeValue').textContent=Math.round(settings.commentaryVolume*100)+'%';
+}
+function setCommentaryEnabled(enabled){settings.commentary=enabled!==false;commentary.setEnabled(settings.commentary);if(!settings.commentary){commentary.stop();window.BroomVoice?.stop();}syncVoiceSettings();saveSettings();}
+
 function selectMode(mode){
  if(!Object.hasOwn(modes,mode))return;
  selectedMode=mode;
@@ -295,16 +359,17 @@ function syncHouseTheme(){
 }
 function selectHouse(id){
  if(match.state!=='menu'||!houses.some(h=>h.id===id))return false;
- settings.house=match.homeHouse=id;
+ settings.house=match.homeHouse=id;configureAcademy(id);match.selected=0;match.cooldowns.fill(0);replacePlayerModel();renderAcademyChoices();
  if(match.awayHouse===id)settings.opponent=match.awayHouse=houses.find(h=>h.id!==id).id;
- syncHouseTheme();saveSettings();return true;
+ refreshSquadAppearance();syncHouseTheme();applyTeamEquipment();window.dispatchEvent(new Event('broom-career-updated'));saveSettings();return true;
 }
 function selectOpponent(id){
  if(match.state!=='menu'||id===match.homeHouse||!houses.some(h=>h.id===id))return false;
  settings.opponent=match.awayHouse=id;
- syncHouseTheme();saveSettings();return true;
+ refreshSquadAppearance();syncHouseTheme();applyTeamEquipment();window.dispatchEvent(new Event('broom-career-updated'));saveSettings();return true;
 }
 function resetMatch(mode=selectedMode){
+ commentary.reset();
  selectMode(mode);
  clearInput();
  lastTime=performance.now();
@@ -316,6 +381,7 @@ function resetMatch(mode=selectedMode){
   kickoff:0,callForPass:0,stealCooldown:1.5,cooldowns:[0,0,0],
   firstPerson:false,gravity:false,collision:true,usedMove:false,usedVertical:false,
   usedThrow:false,usedSpell:false,trainingStep:0,trainingDistance:0,trainingHeight:0});
+ applyTeamEquipment();
  resetQuaffle();
  quaffle.visible=true;
  trainingReset=0;
@@ -336,13 +402,13 @@ function resetMatch(mode=selectedMode){
  for(const r of rivals){
   r.stun=0;
   r.mesh.visible=!training();
-  r.mesh.position.copy(starts[r.index]);
+  r.mesh.position.copy(starts[r.index]);resetAIFlight(r);
  }
  for(const a of allies){
   a.mesh.position.copy(a.initialPosition);
   a.mesh.visible=!training();
   a.stun=0;
-  a.velocity.set(0,0,0);
+  a.velocity.set(0,0,0);resetAIFlight(a);
  }
  practiceDummy.mesh.visible=false;
  practiceDummy.stun=0;
@@ -370,6 +436,7 @@ function startMatch(mode=selectedMode){
  window.BroomVoice?.warmup();
  resetMatch(mode);
  $('menu').classList.add('hidden');
+ commentary.unlock();if(training())announceClip('training','training',2,0);
  lockPointer();
 }
 function restartMatch(){
@@ -377,6 +444,7 @@ function restartMatch(){
  lockPointer();
 }
 function returnToMenu(){
+ commentary.stop();
  window.BroomVoice?.stop();
  clearInput();
  match.state='menu';
@@ -392,9 +460,9 @@ function returnToMenu(){
 }
 function lockPointer(){if(match.cameraMode==='broadcast'){canvas.focus();return;}if(document.activeElement?.blur)document.activeElement.blur();canvas.focus();try{const attempt=canvas.requestPointerLock?.();if(attempt?.catch)attempt.catch(()=>notify('点击球场以捕获鼠标；也可用键盘继续操作',2));}catch{notify('点击球场以捕获鼠标',2);}}
 function clearInput(){match.charging=false;match.shotCharge=0;for(const key of Object.keys(keys))delete keys[key];player.vel.set(0,0,0);player.speed=0;targetYaw=cameraYaw;targetPitch=cameraPitch;match.callForPass=0;}
-function pauseMatch(){window.BroomVoice?.stop();if(match.state!=='playing'&&match.state!=='countdown')return;clearInput();match.paused=true;$('pause').classList.remove('hidden');if(document.pointerLockElement)document.exitPointerLock();}
-function resumeMatch(){clearInput();lastTime=performance.now();match.paused=false;$('pause').classList.add('hidden');lockPointer();}
-function openHelp(source='pause'){clearInput();helpReturn=source;match.paused=true;if(document.pointerLockElement)document.exitPointerLock();$('menu').classList.add('hidden');$('pause').classList.add('hidden');$('help').classList.remove('hidden');}
+function pauseMatch(){commentary.stop();window.BroomVoice?.stop();if(match.state!=='playing'&&match.state!=='countdown')return;clearInput();match.paused=true;$('pause').classList.remove('hidden');if(document.pointerLockElement)document.exitPointerLock();}
+function resumeMatch(){commentary.unlock();clearInput();lastTime=performance.now();match.paused=false;$('pause').classList.add('hidden');lockPointer();}
+function openHelp(source='pause'){commentary.stop();clearInput();helpReturn=source;match.paused=true;if(document.pointerLockElement)document.exitPointerLock();$('menu').classList.add('hidden');$('pause').classList.add('hidden');$('help').classList.remove('hidden');}
 function closeHelp(){$('help').classList.add('hidden');if(helpReturn==='menu'){$('menu').classList.remove('hidden');}else{$('pause').classList.remove('hidden');}}
 function teamText(text){return text.replaceAll('狮队',houseById(match.homeHouse).name).replaceAll('鹰队',houseById(match.awayHouse).name);}
 function notify(text,time=2){match.message=teamText(text);match.messageTime=time;}
@@ -411,8 +479,8 @@ function getAimForward(){const cp=Math.cos(cameraPitch);return V(-Math.sin(camer
 function getHorizontalBasis(){const forward=getAimForward();forward.y=0;if(forward.lengthSq()<.001)forward.set(0,0,-1);forward.normalize();return{forward,right:forward.clone().cross(UP).normalize()};}
 function initAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();}
 function tone(freq=440,duration=.12,type='sine',volume=.05){if(!audioCtx)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(volume,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration);}
-function speak(text){window.BroomVoice?.speak(text);}
-function switchCharacter(index){if(index<0||index>2||index===match.selected)return;match.selected=index;replacePlayerModel();notify(configs[index].name+' · '+configs[index].spell,1.5);tone(330+index*110,.12,'triangle');}
+function speak(text){if(settings.commentary)commentary.spell(text,configs[match.selected]);}
+function switchCharacter(index){if(index<0||index>2||index===match.selected)return;match.selected=index;replacePlayerModel();renderAcademyChoices();notify(configs[index].name+' · '+configs[index].spell,1.5);tone(330+index*110,.12,'triangle');}
 function toggleView(){
  match.cameraMode=match.cameraMode==='broadcast'?'chase':'broadcast';match.firstPerson=false;player.mesh.visible=true;
  if(match.cameraMode==='broadcast'){if(document.pointerLockElement)document.exitPointerLock();}
@@ -425,7 +493,7 @@ function switchControl(unit=null){
  unit=unit||field.reduce((a,b)=>b.mesh.position.distanceToSquared(quaffle.position)<a.mesh.position.distanceToSquared(quaffle.position)?b:a,field[0]);
  if(!unit||!field.includes(unit))return false;
  const oldMesh=player.mesh;player.mesh=unit.mesh;unit.mesh=oldMesh;player.pos=player.mesh.position;
- player.previousPos.copy(player.pos);player.vel.copy(unit.velocity||V());unit.velocity=V();player.speed=player.vel.length();
+ player.previousPos.copy(player.pos);player.vel.copy(unit.velocity||V());unit.velocity=V();resetAIFlight(unit);player.speed=player.vel.length();
  if(carrier===unit)carrier='player';else if(carrier==='player')carrier=unit;
  if(passTarget===unit)passTarget='player';else if(passTarget==='player')passTarget=unit;
  if(passSender===unit)passSender='player';else if(passSender==='player')passSender=unit;
@@ -438,12 +506,15 @@ function carryPosition(owner){
  return owner.position.clone().add(V(.95,1.15,-.35).applyQuaternion(owner.quaternion));
 }
 function setCarrier(value){
+ const previous=carrier,friendly=value==='player'||allies.includes(value),wasFriendly=previous==='player'||allies.includes(previous);
+ if(value&&match.state==='playing'&&(!previous||friendly!==wasFriendly))announceClip(friendly?'home-possession':'away-possession',value==='player'?'player-possession-'+(player.mesh.userData.characterId||configs[match.selected].id):'possession-'+(friendly?match.homeHouse:match.awayHouse),1,9);
  if(value!=='player'){match.charging=false;match.shotCharge=0;}
  carrier=value;
  shot=null;
  passTarget=null;
  passSender=null;
  passDestination=null;
+ passFlight=null;
  quaffleVel.set(0,0,0);
  pickupDelay=.35;
  if(value)quaffle.position.copy(carryPosition(value==='player'?player.mesh:value.mesh));
@@ -497,11 +568,13 @@ function getShotInfo(){
  return {goal,distance,assisted,direction};
 }
 function launchShot(owner,direction,side,speed,recordMiss=false){
+ announceClip('shot-'+side,owner===player.mesh?'player-shot-'+(player.mesh.userData.characterId||configs[match.selected].id):'shot-'+(side==='player'?match.homeHouse:match.awayHouse),2,6);
  const release=carryPosition(owner);
  carrier=null;
  passTarget=null;
  passSender=null;
  passDestination=null;
+ passFlight=null;
  quaffle.position.copy(release);
  shot={side,age:0,recordMiss};
  quaffleVel.copy(direction).multiplyScalar(speed);
@@ -522,6 +595,7 @@ function teamThrow(unit,goals,side,speed){
  launchShot(unit.mesh,goal.clone().sub(carryPosition(unit.mesh)).normalize(),side,speed);
 }
 function passBetween(sender,receiver,kind='short'){
+ announceClip('pass',receiver==='player'?'return-pass':'pass',1,10);
  if(sender==='player'||allies.includes(sender))match.stats.passes++;
  const release=carryPosition(sender==='player'?player.mesh:sender.mesh);
  const pos=receiver==='player'?player.pos:receiver.mesh.position;
@@ -532,7 +606,8 @@ function passBetween(sender,receiver,kind='short'){
  match.charging=false;match.shotCharge=0;
  carrier=null;shot=null;passTarget=receiver;passSender=sender;passMode=kind;passAge=0;
  quaffle.position.copy(release);
- quaffleVel.copy(passDestination).sub(release).normalize().multiplyScalar(kind==='through'?40:34);
+ passFlight=window.BroomPassing.create(THREE,{start:release,end:passDestination,kind});
+ quaffleVel.copy(passFlight.velocityAt(0));
  pickupDelay=.28;
 }
 function getPassReceiver(){
@@ -586,7 +661,7 @@ function scoreGoal(side){
  }else if(!training()){
   match.kickoff=2;match.pendingRestart=side==='player'?'rival':'home';
   player.vel.set(0,0,0);
-  speak(side==='player'?'漂亮的进球！':'对方进球，重新组织进攻。');
+  announceClip('goal-'+side,'goal-'+(side==='player'?match.homeHouse:match.awayHouse),4,0);
  }else match.kickoff=0;
 }
 function constrainPitch(position,low,high){
@@ -630,7 +705,7 @@ function updatePlayer(dt){
  player.stamina=clamp(player.stamina+(player.boosting?-27:21)*dt,0,100);
  if(player.stamina===0)player.exhausted=true;
  if(player.stamina>=22)player.exhausted=false;
- const target=input.multiplyScalar(braking?0:player.boosting?(match.mode==='challenge'?48:36):player.baseSpeed),current=V(player.vel.x,0,player.vel.z);
+ const target=input.multiplyScalar((braking?0:player.boosting?(match.mode==='challenge'?48:36):player.baseSpeed)*(player.mesh.userData.broomMultiplier||1)),current=V(player.vel.x,0,player.vel.z);
  const opposing=current.dot(target)<0,accel=braking?180:target.lengthSq()<.1?105:opposing?110:72,next=moveVec(current,target,accel*dt);player.vel.x=next.x;player.vel.z=next.z;
  let vi=0;if(keys.KeyE||keys.Space||keys.ArrowUp||keys.PageUp||keys.Numpad8)vi++;if(keys.KeyQ||keys.ArrowDown||keys.PageDown||keys.Numpad2||keys.ControlLeft||keys.ControlRight)vi--;
  player.vel.y=moveToward(player.vel.y,braking?0:vi*player.flySpeed,(braking?150:80)*dt);
@@ -672,7 +747,7 @@ function updateCamera(dt){
  if(match.paused)return;
  if(match.cameraMode==='broadcast'){
   const focus=player.pos.clone().lerp(quaffle.position,.24);focus.x=clamp(focus.x,-28,28);focus.z=clamp(focus.z,-40,40);
-  const desired=focus.clone().add(V(46,58,43));
+  const desired=focus.clone().add(V(38,49,36));
   camera.position.lerp(desired,1-Math.exp(-dt*4));camera.lookAt(focus.clone().add(V(0,-3,-7)));
   camera.fov=lerp(camera.fov,57,1-Math.exp(-dt*4));
  }else{
@@ -684,20 +759,47 @@ function updateCamera(dt){
  camera.updateProjectionMatrix();
 }
 
+function resetAIFlight(unit){
+ unit.flightDirection=V(0,0,-1).applyEuler(unit.mesh.rotation).normalize();
+ unit.flightSpeed=0;
+}
 function flyAI(unit,target,speed,dt){
+ if(!unit.flightDirection)resetAIFlight(unit);
  const before=unit.mesh.position.clone();
- const delta=target.clone().sub(unit.mesh.position);
- const distance=delta.length();
- animateWizard(unit.mesh,dt,distance>.4?speed:0,match.elapsed+unit.index);
- if(distance>.4&&speed>0){
-  const direction=delta.divideScalar(distance);
-  unit.mesh.position.addScaledVector(direction,Math.min(distance,speed*dt));
-  const yaw=Math.atan2(-direction.x,-direction.z),dy=angleDelta(unit.mesh.rotation.y,yaw);
-  unit.mesh.rotation.y+=dy*Math.min(1,dt*4);
-  unit.mesh.rotation.z=lerp(unit.mesh.rotation.z,clamp(dy,-.6,.6),dt*4);
+ speed*=unit.mesh.userData.broomMultiplier||1;
+ const destination=target.clone();
+ constrainPitch(destination,4,38);
+ const delta=destination.sub(unit.mesh.position),distance=delta.length();
+ // A hit stops flight immediately, including any acceleration saved before the hit.
+ if(unit.stun>0||speed<=0||distance<=.4){
+  unit.flightSpeed=0;unit.velocity=V();
+  unit.mesh.rotation.z=lerp(unit.mesh.rotation.z,0,1-Math.exp(-dt*5));
+  animateWizard(unit.mesh,dt,0,match.elapsed+unit.index);
+  return;
  }
- constrainPitch(unit.mesh.position,4,38);
+ const desired=delta.divideScalar(distance),direction=unit.flightDirection;
+ const dot=clamp(direction.dot(desired),-1,1),angle=Math.acos(dot);
+ const turnRate=match.mode==='challenge'?1.5:1.15;
+ if(angle>1e-6){
+  const axis=direction.clone().cross(desired);
+  // Opposite headings have no unique cross product; choose a stable turning side.
+  if(axis.lengthSq()<1e-10){axis.copy(UP).addScaledVector(direction,-direction.y);if(axis.lengthSq()<1e-10)axis.set(1,0,0);}
+  direction.applyAxisAngle(axis.normalize(),Math.min(angle,turnRate*dt)).normalize();
+ }
+ // Brake into a bend and on arrival. The actual path follows the same bounded
+ // heading as the rider, instead of changing course instantly under a turning model.
+ const desiredSpeed=Math.min(speed*Math.max(0,dot)**2,distance*2.5,Math.sqrt(36*distance));
+ unit.flightSpeed=moveToward(unit.flightSpeed,desiredSpeed,(desiredSpeed<unit.flightSpeed?30:18)*dt);
+ unit.mesh.position.addScaledVector(direction,Math.min(distance,unit.flightSpeed*dt));
+ const boundary=constrainPitch(unit.mesh.position,4,38);
+ if(boundary||unit.mesh.position.y<=4&&direction.y<0||unit.mesh.position.y>=38&&direction.y>0)unit.flightSpeed=0;
+ const yaw=Math.atan2(-direction.x,-direction.z),targetYaw=Math.atan2(-desired.x,-desired.z);
+ unit.mesh.rotation.y=yaw;
+ unit.mesh.rotation.x=Math.atan2(direction.y,Math.hypot(direction.x,direction.z))*.45;
+ const bank=settings.reducedMotion?0:clamp(angleDelta(yaw,targetYaw)*.3,-.35,.35);
+ unit.mesh.rotation.z=lerp(unit.mesh.rotation.z,bank,1-Math.exp(-dt*5));
  unit.velocity=unit.mesh.position.clone().sub(before).divideScalar(Math.max(dt,.001));
+ animateWizard(unit.mesh,dt,unit.flightSpeed,match.elapsed+unit.index);
 }
 function updateRivals(dt){
  for(const r of rivals){
@@ -791,7 +893,7 @@ function catchLooseBall(from,crossing,dt){
  if(type==='keeper'&&target===rivals[2]){
   quaffle.position.lerpVectors(from,quaffle.position,t);
   passTarget=null;
-  passSender=null;
+  passSender=null;passDestination=null;passFlight=null;
   quaffleVel.set((Math.random()-.5)*15,5,18);
   pickupDelay=.55;
   notify('鹰队守门员扑出了鬼飞球',1.7);
@@ -854,10 +956,11 @@ function updateShot(from,dt){
 }
 function updatePass(dt){
  passAge+=dt;
- if(passAge>(passTarget==='player'?4:2.6)){
+ if(passAge>(passFlight?.duration??(passTarget==='player'?4:2.6))+.04){
   passTarget=null;
   passSender=null;
   passDestination=null;
+  passFlight=null;
   notify('传球落空 · 争抢鬼飞球',1.4);
  }
 }
@@ -878,7 +981,8 @@ function updateQuaffle(dt){
   quaffleVel.y-=7.5*dt;
  }
  const from=quaffle.position.clone();
- quaffle.position.addScaledVector(quaffleVel,dt);
+ if(passFlight&&passTarget){quaffle.position.copy(passFlight.positionAt(passAge+dt));quaffleVel.copy(passFlight.velocityAt(passAge+dt));}
+ else quaffle.position.addScaledVector(quaffleVel,dt);
  quaffle.rotation.x+=quaffleVel.length()*dt*.12;
  if(shot){
   if(updateShot(from,dt))return;
@@ -937,8 +1041,13 @@ function resultTitle(){
  return match.playerScore>match.rivalScore?houseById(match.homeHouse).name+'获胜':match.rivalScore>match.playerScore?houseById(match.awayHouse).name+'获胜':'双方平局';
 }
 function finishMatch(title,detail){
+ if(match.state!=='playing')return;
+ const bonus=window.BroomGarage.reward(match.mode,match.playerScore,match.rivalScore),rivalBudget=window.BroomGarage.settleOpponent(match.awayHouse,match.mode,match.playerScore,match.rivalScore);
+ $('broomReward').textContent=bonus?'比赛奖金 +'+bonus+' 金币 · 余额 '+window.BroomGarage.state.coins+' 金币 · 对手奖金 +'+rivalBudget.reward+' 金币':'训练模式无奖金';
+ window.dispatchEvent(new Event('broom-career-updated'));
  clearInput();
  match.state='ended';
+ announceClip('result',match.playerScore===match.rivalScore?'result-draw':'result-'+(match.playerScore>match.rivalScore?match.homeHouse:match.awayHouse),5,0);
  const {shots,goals,steals,passes}=match.stats;
  const mode=match.mode,score=match.playerScore,previous=Number(bestScores[mode])||0;
  const best=Math.max(previous,score);
@@ -959,6 +1068,7 @@ function finishTraining(){
  if(match.trainingStep!==5)return;
  match.trainingStep=6;
  match.state='ended';
+ announceClip('training-end','training-end',4,0);
  clearInput();
  waypoint.visible=false;
  $('trainingEnd').classList.remove('hidden');
@@ -972,15 +1082,18 @@ function update(dt){
   match.countdown-=dt;
   if(match.countdown<=0){
    match.state='playing';
+   announceClip('kickoff','kickoff-'+match.homeHouse+'-'+match.awayHouse,3,0);
    setCarrier('player');setAim(0,0);match.stealCooldown=2.5;
-   notify('比赛开始 · S 短传，Z 直塞，F 射门',2.2);speak('比赛开始，寻找队友，传切配合。');
+   notify('比赛开始 · S 短传，Z 直塞，F 射门',2.2);
   }
   return;
  }
  if(match.state!=='playing')return;
  match.elapsed+=dt;
  if(!training()){
+  const timeBefore=match.timeLeft;
   match.timeLeft=Math.max(0,match.timeLeft-dt);
+  for(const seconds of [60,30,10])if(timeBefore>seconds&&match.timeLeft<=seconds)announceClip('time-'+seconds,'time-'+seconds,3,0);
   if(match.timeLeft<=0){finishByTime();return;}
  }
  player.hitCooldown=Math.max(0,player.hitCooldown-dt);
@@ -995,8 +1108,8 @@ function update(dt){
  if(match.pendingRestart&&match.kickoff===0){
   const home=match.pendingRestart==='home';match.pendingRestart=null;
   player.pos.set(0,10,home?3:27);player.previousPos.copy(player.pos);player.vel.set(0,0,0);setAim(0,0);
-  for(const a of allies)a.mesh.position.copy(a.initialPosition);
-  for(const r of rivals)r.mesh.position.set(r.index===0?0:r.index===1?-18:18,12,r.role==='keeper'?-53:home?-24:-3);
+  for(const a of allies){a.mesh.position.copy(a.initialPosition);resetAIFlight(a);}
+  for(const r of rivals){r.mesh.position.set(r.index===0?0:r.index===1?-18:18,12,r.role==='keeper'?-53:home?-24:-3);resetAIFlight(r);}
   setCarrier(home?'player':rivals[0]);match.stealCooldown=2;notify(home?'我方开球 · S 短传组织进攻':'对方开球 · C 切人，B 逼抢',2);
  }
  updatePlayer(dt);
@@ -1135,14 +1248,18 @@ function updateHUD(){
 }
 const controlMarker=new THREE.Mesh(new THREE.ConeGeometry(.65,1.2,3),new THREE.MeshBasicMaterial({color:0xc8ff69,depthTest:false}));controlMarker.rotation.z=Math.PI;controlMarker.renderOrder=8;scene.add(controlMarker);
 const aimLine=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.65}));scene.add(aimLine);
-const passLine=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineDashedMaterial({color:0xc8ff69,dashSize:1.2,gapSize:.7,transparent:true,opacity:.7,depthTest:false}));passLine.renderOrder=7;scene.add(passLine);
+const passLine=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineDashedMaterial({color:0xbbe5cf,dashSize:.65,gapSize:.95,transparent:true,opacity:.34,depthTest:false}));passLine.name='PassArcPreview';passLine.renderOrder=7;scene.add(passLine);
 function updateTeamHUD(){
  const live=match.state==='playing'&&!match.paused;
  controlMarker.visible=live;controlMarker.position.copy(player.pos).add(V(0,4.8,0));
  aimLine.visible=live;aimLine.geometry.dispose();aimLine.geometry=new THREE.BufferGeometry().setFromPoints([player.pos.clone(),player.pos.clone().addScaledVector(getAimForward(),7)]);
  const receiver=live&&carrier==='player'?getPassReceiver():null;
  passLine.visible=!!receiver;
- if(receiver){passLine.geometry.dispose();passLine.geometry=new THREE.BufferGeometry().setFromPoints([player.pos.clone().add(V(0,.5,0)),receiver.mesh.position.clone().add(V(0,.5,0))]);passLine.computeLineDistances();}
+ if(receiver){
+  const path=window.BroomPassing.create(THREE,{start:carryPosition(player.mesh),end:receiver.mesh.position,kind:'short'}),points=[];
+  for(let i=0;i<=28;i++)points.push(path.positionAt(path.duration*i/28));
+  passLine.geometry.dispose();passLine.geometry=new THREE.BufferGeometry().setFromPoints(points);passLine.computeLineDistances();
+ }
  $('teamStatus').textContent=training()?'训练场 · 六步熟悉球队操作':match.kickoff>0?'进球 · 准备重新开球':carrier==='player'||allies.includes(carrier)?'我方控球 · 进攻组织':carrier?'对方控球 · 回防逼抢':'自由球 · 争夺球权';
  $('passHint').textContent=receiver?'S 短传  /  Z 直塞 → '+receiver.number+' 号 · '+Math.round(receiver.mesh.position.distanceTo(player.pos))+'m':'';
  const meter=$('chargeMeter');meter.style.display=match.charging?'block':'none';meter.firstElementChild.style.width=(match.shotCharge*100)+'%';
@@ -1227,10 +1344,12 @@ function frame(now){
    }
   }else update(dt);
  }
+ commentary.tick(Math.min(elapsed,.5));
  updateCamera(dt);
  updateHUD();
  updateBallMarker();
  updateTeamHUD();
+ window.BroomModels?.update(dt,match.elapsed);
  environment?.update(dt,{player:player.pos,elapsed:match.elapsed,active:match.state==='playing'&&!match.paused,reducedMotion:settings.reducedMotion,cameraMode:match.cameraMode});
  renderer.render(scene,camera);
 }
@@ -1251,6 +1370,7 @@ const gameplayKeys=new Set(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyX','Ke
 addEventListener('keydown',e=>{
  const editable=e.target instanceof HTMLElement&&e.target.matches('input,textarea,select');if(editable&&e.code!=='Escape')return;
  const active=(match.state==='playing'||match.state==='countdown')&&!match.paused;if(active&&gameplayKeys.has(e.code)){keys[e.code]=true;e.preventDefault();}if(e.repeat)return;
+ if(e.code==='KeyN'){e.preventDefault();setCommentaryEnabled(!settings.commentary);return;}
  if(e.code==='KeyH'){if(!$('help').classList.contains('hidden'))closeHelp();else if(match.state!=='ended')openHelp(match.state==='menu'?'menu':'pause');return;}
  if(e.code==='Escape'){e.preventDefault();if(!$('help').classList.contains('hidden'))closeHelp();else if(match.paused&&(match.state==='playing'||match.state==='countdown'))resumeMatch();else if(active)pauseMatch();return;}
  if(!active)return;if(e.code==='KeyV')toggleView();if(e.code==='KeyF'&&carrier==='player'){match.charging=true;match.shotCharge=0;}if(e.code==='KeyR')castSpell();if(e.code==='KeyT'||e.code==='KeyS')passQuaffle();if(e.code==='KeyZ')passQuaffle('through');if(e.code==='KeyC')switchControl();if(e.code==='Tab'&&match.snitchActive){match.trackSnitch=!match.trackSnitch;notify(match.trackSnitch?'追踪金色飞贼 · 持球时保留球门指引':'已取消飞贼追踪',1.5);}if(['Digit1','Digit2','Digit3'].includes(e.code))switchCharacter(Number(e.code.slice(-1))-1);
@@ -1265,15 +1385,17 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInput
 $('sensitivity').value=String(settings.sensitivity);$('sensitivityValue').textContent=settings.sensitivity.toFixed(1)+'×';$('reducedMotion').checked=settings.reducedMotion;
 $('sensitivity').addEventListener('input',e=>{settings.sensitivity=clamp(Number(e.target.value),.4,2);$('sensitivityValue').textContent=settings.sensitivity.toFixed(1)+'×';saveSettings();});
 $('reducedMotion').addEventListener('change',e=>{settings.reducedMotion=e.target.checked;saveSettings();});
-$('spellBar').innerHTML=configs.map((cfg,i)=>'<button class="spell-slot" id="spellSlot'+i+'" type="button" aria-pressed="'+(i===match.selected)+'" title="'+cfg.description+'"><span class="spell-key">'+(i+1)+' · '+cfg.name.split(' · ')[0]+'</span><strong>'+cfg.cn+'</strong><small>就绪</small><span class="cooldown-track"></span></button>').join('');
-for(let i=0;i<configs.length;i++)$('spellSlot'+i).addEventListener('click',()=>{if(match.state==='playing'&&!match.paused){switchCharacter(i);canvas.focus();}});
+renderAcademyChoices();refreshSquadAppearance();syncHouseTheme();applyTeamEquipment();syncVoiceSettings();commentary.prepare();
+window.initBroomShop({replacePlayerModel,applyTeamEquipment,match,houses});
+for(const id of ['commentaryEnabled','commentaryEnabledMenu'])$(id).addEventListener('change',e=>setCommentaryEnabled(e.target.checked));
+$('commentaryVolume').addEventListener('input',e=>{settings.commentaryVolume=clamp(Number(e.target.value),0,1);commentary.setVolume(settings.commentaryVolume);syncVoiceSettings();saveSettings();});
 window.__BROOMBALL__={
- match,player,rivals,allies,quaffle,quaffleVel,snitch,waypoint,bludgers,projectiles,configs,settings,
+ match,player,rivals,allies,modelScenery,commentary,announceClip,applyTeamEquipment,setCommentaryEnabled,quaffle,quaffleVel,snitch,waypoint,bludgers,projectiles,configs,settings,
  scene,camera,renderer,environment,homeGoals,awayGoals,findSpellTarget,clearInput,startMatch,restartMatch,returnToMenu,
  switchCharacter,castSpell,toggleView,throwQuaffle,getShotInfo,passQuaffle,scoreGoal,catchSnitch,
  openHelp,closeHelp,pauseMatch,resumeMatch,getObjectiveInfo,setAim,updateCamera,updateQuaffle,updateSnitch,
- houses,houseDecor,selectHouse,selectOpponent,handleLookInput,getAimState,updatePlayer,switchControl,getPassReceiver,
- get passTarget(){return passTarget;},get passDestination(){return passDestination;},get passMode(){return passMode;},
+ houses,houseDecor,selectHouse,selectOpponent,handleLookInput,getAimState,updatePlayer,switchControl,getPassReceiver,flyAI,resetAIFlight,updateRivals,updateAllies,
+ get passFlight(){return passFlight;},get passTarget(){return passTarget;},get passDestination(){return passDestination;},get passMode(){return passMode;},
  get carrier(){return carrier;},setCarrier
 };
 })();

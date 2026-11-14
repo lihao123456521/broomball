@@ -1,0 +1,1036 @@
+[
+  {
+    "id": "kickoff-gryffindor-slytherin",
+    "text": "Gryffindor against Slytherin. Brooms up!",
+    "emphasis": [
+      "Gryffindor",
+      "Slytherin"
+    ],
+    "file": "kickoff-gryffindor-slytherin.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.3732,
+    "bytes": 108752,
+    "sampleRate": 22050,
+    "peak": 25505,
+    "rms": 4970.65
+  },
+  {
+    "id": "kickoff-gryffindor-ravenclaw",
+    "text": "Gryffindor against Ravenclaw. Brooms up!",
+    "emphasis": [
+      "Gryffindor",
+      "Ravenclaw"
+    ],
+    "file": "kickoff-gryffindor-ravenclaw.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.5937,
+    "bytes": 118480,
+    "sampleRate": 22050,
+    "peak": 28649,
+    "rms": 5080.83
+  },
+  {
+    "id": "kickoff-gryffindor-hufflepuff",
+    "text": "Gryffindor against Hufflepuff. Brooms up!",
+    "emphasis": [
+      "Gryffindor",
+      "Hufflepuff"
+    ],
+    "file": "kickoff-gryffindor-hufflepuff.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.5705,
+    "bytes": 117456,
+    "sampleRate": 22050,
+    "peak": 28184,
+    "rms": 4808.18
+  },
+  {
+    "id": "possession-gryffindor",
+    "text": "Gryffindor take possession!",
+    "emphasis": [
+      "Gryffindor"
+    ],
+    "file": "possession-gryffindor.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.595,
+    "bytes": 74436,
+    "sampleRate": 22050,
+    "peak": 23288,
+    "rms": 4682.38
+  },
+  {
+    "id": "shot-gryffindor",
+    "text": "Gryffindor line up the hoops. Shot away!",
+    "emphasis": [
+      "Gryffindor"
+    ],
+    "file": "shot-gryffindor.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.6631,
+    "bytes": 121540,
+    "sampleRate": 22050,
+    "peak": 23949,
+    "rms": 4905.28
+  },
+  {
+    "id": "goal-gryffindor",
+    "text": "Goal for Gryffindor! Ten points on the board!",
+    "emphasis": [
+      "Gryffindor"
+    ],
+    "file": "goal-gryffindor.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.6053,
+    "bytes": 118988,
+    "sampleRate": 22050,
+    "peak": 25201,
+    "rms": 4983.37
+  },
+  {
+    "id": "result-gryffindor",
+    "text": "Gryffindor win it! What a finish!",
+    "emphasis": [
+      "Gryffindor"
+    ],
+    "file": "result-gryffindor.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.0362,
+    "bytes": 93892,
+    "sampleRate": 22050,
+    "peak": 25492,
+    "rms": 4858.88
+  },
+  {
+    "id": "snitch-catch-gryffindor",
+    "text": "Gryffindor catch the Snitch! One hundred and fifty points!",
+    "emphasis": [
+      "Gryffindor"
+    ],
+    "file": "snitch-catch-gryffindor.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 3.4874,
+    "bytes": 157892,
+    "sampleRate": 22050,
+    "peak": 23733,
+    "rms": 4767.32
+  },
+  {
+    "id": "kickoff-slytherin-gryffindor",
+    "text": "Slytherin against Gryffindor. Brooms up!",
+    "emphasis": [
+      "Gryffindor",
+      "Slytherin"
+    ],
+    "file": "kickoff-slytherin-gryffindor.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.4419,
+    "bytes": 111782,
+    "sampleRate": 22050,
+    "peak": 25849,
+    "rms": 4995.27
+  },
+  {
+    "id": "kickoff-slytherin-ravenclaw",
+    "text": "Slytherin against Ravenclaw. Brooms up!",
+    "emphasis": [
+      "Slytherin",
+      "Ravenclaw"
+    ],
+    "file": "kickoff-slytherin-ravenclaw.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.5347,
+    "bytes": 115878,
+    "sampleRate": 22050,
+    "peak": 28061,
+    "rms": 5018.92
+  },
+  {
+    "id": "kickoff-slytherin-hufflepuff",
+    "text": "Slytherin against Hufflepuff. Brooms up!",
+    "emphasis": [
+      "Slytherin",
+      "Hufflepuff"
+    ],
+    "file": "kickoff-slytherin-hufflepuff.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.5231,
+    "bytes": 115366,
+    "sampleRate": 22050,
+    "peak": 27784,
+    "rms": 4718.52
+  },
+  {
+    "id": "possession-slytherin",
+    "text": "Slytherin take possession!",
+    "emphasis": [
+      "Slytherin"
+    ],
+    "file": "possession-slytherin.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.5479,
+    "bytes": 72358,
+    "sampleRate": 22050,
+    "peak": 21250,
+    "rms": 4624.0
+  },
+  {
+    "id": "shot-slytherin",
+    "text": "Slytherin line up the hoops. Shot away!",
+    "emphasis": [
+      "Slytherin"
+    ],
+    "file": "shot-slytherin.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.6392,
+    "bytes": 120486,
+    "sampleRate": 22050,
+    "peak": 24379,
+    "rms": 4886.39
+  },
+  {
+    "id": "goal-slytherin",
+    "text": "Goal for Slytherin! Ten points on the board!",
+    "emphasis": [
+      "Slytherin"
+    ],
+    "file": "goal-slytherin.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.5124,
+    "bytes": 114892,
+    "sampleRate": 22050,
+    "peak": 24484,
+    "rms": 4870.0
+  },
+  {
+    "id": "result-slytherin",
+    "text": "Slytherin win it! What a finish!",
+    "emphasis": [
+      "Slytherin"
+    ],
+    "file": "result-slytherin.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.9891,
+    "bytes": 91814,
+    "sampleRate": 22050,
+    "peak": 25575,
+    "rms": 4819.06
+  },
+  {
+    "id": "snitch-catch-slytherin",
+    "text": "Slytherin catch the Snitch! One hundred and fifty points!",
+    "emphasis": [
+      "Slytherin"
+    ],
+    "file": "snitch-catch-slytherin.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 3.4519,
+    "bytes": 156326,
+    "sampleRate": 22050,
+    "peak": 23906,
+    "rms": 4728.05
+  },
+  {
+    "id": "kickoff-ravenclaw-gryffindor",
+    "text": "Ravenclaw against Gryffindor. Brooms up!",
+    "emphasis": [
+      "Gryffindor",
+      "Ravenclaw"
+    ],
+    "file": "kickoff-ravenclaw-gryffindor.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.5272,
+    "bytes": 115544,
+    "sampleRate": 22050,
+    "peak": 25681,
+    "rms": 5053.49
+  },
+  {
+    "id": "kickoff-ravenclaw-slytherin",
+    "text": "Ravenclaw against Slytherin. Brooms up!",
+    "emphasis": [
+      "Slytherin",
+      "Ravenclaw"
+    ],
+    "file": "kickoff-ravenclaw-slytherin.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.3995,
+    "bytes": 109912,
+    "sampleRate": 22050,
+    "peak": 25913,
+    "rms": 4963.8
+  },
+  {
+    "id": "kickoff-ravenclaw-hufflepuff",
+    "text": "Ravenclaw against Hufflepuff. Brooms up!",
+    "emphasis": [
+      "Ravenclaw",
+      "Hufflepuff"
+    ],
+    "file": "kickoff-ravenclaw-hufflepuff.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.6084,
+    "bytes": 119128,
+    "sampleRate": 22050,
+    "peak": 27952,
+    "rms": 4789.16
+  },
+  {
+    "id": "possession-ravenclaw",
+    "text": "Ravenclaw take possession!",
+    "emphasis": [
+      "Ravenclaw"
+    ],
+    "file": "possession-ravenclaw.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.6564,
+    "bytes": 77144,
+    "sampleRate": 22050,
+    "peak": 21314,
+    "rms": 4704.42
+  },
+  {
+    "id": "shot-ravenclaw",
+    "text": "Ravenclaw line up the hoops. Shot away!",
+    "emphasis": [
+      "Ravenclaw"
+    ],
+    "file": "shot-ravenclaw.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.7245,
+    "bytes": 124248,
+    "sampleRate": 22050,
+    "peak": 25115,
+    "rms": 4908.85
+  },
+  {
+    "id": "goal-ravenclaw",
+    "text": "Goal for Ravenclaw! Ten points on the board!",
+    "emphasis": [
+      "Ravenclaw"
+    ],
+    "file": "goal-ravenclaw.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.6865,
+    "bytes": 122572,
+    "sampleRate": 22050,
+    "peak": 28111,
+    "rms": 5054.52
+  },
+  {
+    "id": "result-ravenclaw",
+    "text": "Ravenclaw win it! What a finish!",
+    "emphasis": [
+      "Ravenclaw"
+    ],
+    "file": "result-ravenclaw.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.0744,
+    "bytes": 95576,
+    "sampleRate": 22050,
+    "peak": 25357,
+    "rms": 4823.72
+  },
+  {
+    "id": "snitch-catch-ravenclaw",
+    "text": "Ravenclaw catch the Snitch! One hundred and fifty points!",
+    "emphasis": [
+      "Ravenclaw"
+    ],
+    "file": "snitch-catch-ravenclaw.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 3.5488,
+    "bytes": 160600,
+    "sampleRate": 22050,
+    "peak": 23698,
+    "rms": 4780.87
+  },
+  {
+    "id": "kickoff-hufflepuff-gryffindor",
+    "text": "Hufflepuff against Gryffindor. Brooms up!",
+    "emphasis": [
+      "Gryffindor",
+      "Hufflepuff"
+    ],
+    "file": "kickoff-hufflepuff-gryffindor.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.5173,
+    "bytes": 115108,
+    "sampleRate": 22050,
+    "peak": 25529,
+    "rms": 4740.69
+  },
+  {
+    "id": "kickoff-hufflepuff-slytherin",
+    "text": "Hufflepuff against Slytherin. Brooms up!",
+    "emphasis": [
+      "Slytherin",
+      "Hufflepuff"
+    ],
+    "file": "kickoff-hufflepuff-slytherin.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.3896,
+    "bytes": 109476,
+    "sampleRate": 22050,
+    "peak": 25921,
+    "rms": 4623.21
+  },
+  {
+    "id": "kickoff-hufflepuff-ravenclaw",
+    "text": "Hufflepuff against Ravenclaw. Brooms up!",
+    "emphasis": [
+      "Ravenclaw",
+      "Hufflepuff"
+    ],
+    "file": "kickoff-hufflepuff-ravenclaw.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.6102,
+    "bytes": 119204,
+    "sampleRate": 22050,
+    "peak": 28269,
+    "rms": 4772.31
+  },
+  {
+    "id": "possession-hufflepuff",
+    "text": "Hufflepuff take possession!",
+    "emphasis": [
+      "Hufflepuff"
+    ],
+    "file": "possession-hufflepuff.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.6233,
+    "bytes": 75684,
+    "sampleRate": 22050,
+    "peak": 22697,
+    "rms": 4206.31
+  },
+  {
+    "id": "shot-hufflepuff",
+    "text": "Hufflepuff line up the hoops. Shot away!",
+    "emphasis": [
+      "Hufflepuff"
+    ],
+    "file": "shot-hufflepuff.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.7263,
+    "bytes": 124324,
+    "sampleRate": 22050,
+    "peak": 24525,
+    "rms": 4579.81
+  },
+  {
+    "id": "goal-hufflepuff",
+    "text": "Goal for Hufflepuff! Ten points on the board!",
+    "emphasis": [
+      "Hufflepuff"
+    ],
+    "file": "goal-hufflepuff.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.6749,
+    "bytes": 122060,
+    "sampleRate": 22050,
+    "peak": 28040,
+    "rms": 4750.0
+  },
+  {
+    "id": "result-hufflepuff",
+    "text": "Hufflepuff win it! What a finish!",
+    "emphasis": [
+      "Hufflepuff"
+    ],
+    "file": "result-hufflepuff.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.0645,
+    "bytes": 95140,
+    "sampleRate": 22050,
+    "peak": 25565,
+    "rms": 4396.98
+  },
+  {
+    "id": "snitch-catch-hufflepuff",
+    "text": "Hufflepuff catch the Snitch! One hundred and fifty points!",
+    "emphasis": [
+      "Hufflepuff"
+    ],
+    "file": "snitch-catch-hufflepuff.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 3.5622,
+    "bytes": 161188,
+    "sampleRate": 22050,
+    "peak": 23989,
+    "rms": 4536.78
+  },
+  {
+    "id": "training",
+    "text": "Training begins. Take flight, then collect the Quaffle.",
+    "emphasis": [],
+    "file": "training.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 3.357,
+    "bytes": 152138,
+    "sampleRate": 22050,
+    "peak": 25810,
+    "rms": 4500.14
+  },
+  {
+    "id": "training-end",
+    "text": "Training complete. You're ready for the match!",
+    "emphasis": [],
+    "file": "training-end.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.4746,
+    "bytes": 113226,
+    "sampleRate": 22050,
+    "peak": 23497,
+    "rms": 5067.33
+  },
+  {
+    "id": "pass",
+    "text": "A quick pass to a teammate!",
+    "emphasis": [],
+    "file": "pass.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.6576,
+    "bytes": 77196,
+    "sampleRate": 22050,
+    "peak": 22397,
+    "rms": 4827.91
+  },
+  {
+    "id": "return-pass",
+    "text": "The return pass is on its way!",
+    "emphasis": [],
+    "file": "return-pass.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.8361,
+    "bytes": 85066,
+    "sampleRate": 22050,
+    "peak": 21965,
+    "rms": 5125.8
+  },
+  {
+    "id": "time-60",
+    "text": "One minute to play!",
+    "emphasis": [],
+    "file": "time-60.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.2568,
+    "bytes": 59520,
+    "sampleRate": 22050,
+    "peak": 24099,
+    "rms": 5278.55
+  },
+  {
+    "id": "time-30",
+    "text": "Thirty seconds left. Every play counts!",
+    "emphasis": [],
+    "file": "time-30.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.661,
+    "bytes": 121448,
+    "sampleRate": 22050,
+    "peak": 25259,
+    "rms": 4592.93
+  },
+  {
+    "id": "time-10",
+    "text": "Ten seconds left! One last chance!",
+    "emphasis": [],
+    "file": "time-10.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.5788,
+    "bytes": 117820,
+    "sampleRate": 22050,
+    "peak": 25456,
+    "rms": 4740.61
+  },
+  {
+    "id": "snitch",
+    "text": "The Golden Snitch is out! Keep your eyes on it!",
+    "emphasis": [],
+    "file": "snitch.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.6371,
+    "bytes": 120394,
+    "sampleRate": 22050,
+    "peak": 23512,
+    "rms": 4884.1
+  },
+  {
+    "id": "result-draw",
+    "text": "All square. The match ends in a draw!",
+    "emphasis": [],
+    "file": "result-draw.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.2448,
+    "bytes": 103092,
+    "sampleRate": 22050,
+    "peak": 27407,
+    "rms": 5073.46
+  },
+  {
+    "id": "player-possession-harry",
+    "text": "Harry Potter has the Quaffle!",
+    "emphasis": [
+      "Harry Potter"
+    ],
+    "file": "player-possession-harry.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.6698,
+    "bytes": 77732,
+    "sampleRate": 22050,
+    "peak": 27122,
+    "rms": 4757.2
+  },
+  {
+    "id": "player-shot-harry",
+    "text": "Harry Potter shoots for the hoops!",
+    "emphasis": [
+      "Harry Potter"
+    ],
+    "file": "player-shot-harry.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.9136,
+    "bytes": 88484,
+    "sampleRate": 22050,
+    "peak": 24031,
+    "rms": 4846.63
+  },
+  {
+    "id": "player-possession-hermione",
+    "text": "Hermione Granger has the Quaffle!",
+    "emphasis": [
+      "Hermione Granger"
+    ],
+    "file": "player-possession-hermione.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.9934,
+    "bytes": 92006,
+    "sampleRate": 22050,
+    "peak": 26385,
+    "rms": 5459.5
+  },
+  {
+    "id": "player-shot-hermione",
+    "text": "Hermione Granger shoots for the hoops!",
+    "emphasis": [
+      "Hermione Granger"
+    ],
+    "file": "player-shot-hermione.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.2372,
+    "bytes": 102758,
+    "sampleRate": 22050,
+    "peak": 23094,
+    "rms": 5443.02
+  },
+  {
+    "id": "player-possession-ron",
+    "text": "Ron Weasley has the Quaffle!",
+    "emphasis": [
+      "Ron Weasley"
+    ],
+    "file": "player-possession-ron.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.7145,
+    "bytes": 79704,
+    "sampleRate": 22050,
+    "peak": 26930,
+    "rms": 5409.15
+  },
+  {
+    "id": "player-shot-ron",
+    "text": "Ron Weasley shoots for the hoops!",
+    "emphasis": [
+      "Ron Weasley"
+    ],
+    "file": "player-shot-ron.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.9699,
+    "bytes": 90968,
+    "sampleRate": 22050,
+    "peak": 23896,
+    "rms": 5387.11
+  },
+  {
+    "id": "player-possession-draco",
+    "text": "Draco Malfoy has the Quaffle!",
+    "emphasis": [
+      "Draco Malfoy"
+    ],
+    "file": "player-possession-draco.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.9217,
+    "bytes": 88842,
+    "sampleRate": 22050,
+    "peak": 26745,
+    "rms": 5064.89
+  },
+  {
+    "id": "player-shot-draco",
+    "text": "Draco Malfoy shoots for the hoops!",
+    "emphasis": [
+      "Draco Malfoy"
+    ],
+    "file": "player-shot-draco.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.1771,
+    "bytes": 100106,
+    "sampleRate": 22050,
+    "peak": 23060,
+    "rms": 5090.31
+  },
+  {
+    "id": "player-possession-pansy",
+    "text": "Pansy Parkinson has the Quaffle!",
+    "emphasis": [
+      "Pansy Parkinson"
+    ],
+    "file": "player-possession-pansy.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.0213,
+    "bytes": 93236,
+    "sampleRate": 22050,
+    "peak": 27330,
+    "rms": 4819.58
+  },
+  {
+    "id": "player-shot-pansy",
+    "text": "Pansy Parkinson shoots for the hoops!",
+    "emphasis": [
+      "Pansy Parkinson"
+    ],
+    "file": "player-shot-pansy.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.2767,
+    "bytes": 104500,
+    "sampleRate": 22050,
+    "peak": 24605,
+    "rms": 4860.04
+  },
+  {
+    "id": "player-possession-blaise",
+    "text": "Blaise Zabini has the Quaffle!",
+    "emphasis": [
+      "Blaise Zabini"
+    ],
+    "file": "player-possession-blaise.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.7005,
+    "bytes": 79090,
+    "sampleRate": 22050,
+    "peak": 26471,
+    "rms": 4960.82
+  },
+  {
+    "id": "player-shot-blaise",
+    "text": "Blaise Zabini shoots for the hoops!",
+    "emphasis": [
+      "Blaise Zabini"
+    ],
+    "file": "player-shot-blaise.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.9095,
+    "bytes": 88306,
+    "sampleRate": 22050,
+    "peak": 20482,
+    "rms": 4953.18
+  },
+  {
+    "id": "player-possession-luna",
+    "text": "Luna Lovegood has the Quaffle!",
+    "emphasis": [
+      "Luna Lovegood"
+    ],
+    "file": "player-possession-luna.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.735,
+    "bytes": 80608,
+    "sampleRate": 22050,
+    "peak": 26729,
+    "rms": 4944.86
+  },
+  {
+    "id": "player-shot-luna",
+    "text": "Luna Lovegood shoots for the hoops!",
+    "emphasis": [
+      "Luna Lovegood"
+    ],
+    "file": "player-shot-luna.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.9672,
+    "bytes": 90848,
+    "sampleRate": 22050,
+    "peak": 25848,
+    "rms": 5024.52
+  },
+  {
+    "id": "player-possession-cho",
+    "text": "Cho Chang has the Quaffle!",
+    "emphasis": [
+      "Cho Chang"
+    ],
+    "file": "player-possession-cho.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.554,
+    "bytes": 72626,
+    "sampleRate": 22050,
+    "peak": 25746,
+    "rms": 4701.9
+  },
+  {
+    "id": "player-shot-cho",
+    "text": "Cho Chang shoots for the hoops!",
+    "emphasis": [
+      "Cho Chang"
+    ],
+    "file": "player-shot-cho.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.8094,
+    "bytes": 83890,
+    "sampleRate": 22050,
+    "peak": 24308,
+    "rms": 4746.16
+  },
+  {
+    "id": "player-possession-padma",
+    "text": "Padma Patil has the Quaffle!",
+    "emphasis": [
+      "Padma Patil"
+    ],
+    "file": "player-possession-padma.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.7311,
+    "bytes": 80436,
+    "sampleRate": 22050,
+    "peak": 26754,
+    "rms": 4536.08
+  },
+  {
+    "id": "player-shot-padma",
+    "text": "Padma Patil shoots for the hoops!",
+    "emphasis": [
+      "Padma Patil"
+    ],
+    "file": "player-shot-padma.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.9865,
+    "bytes": 91700,
+    "sampleRate": 22050,
+    "peak": 20333,
+    "rms": 4638.51
+  },
+  {
+    "id": "player-possession-cedric",
+    "text": "Cedric Diggory has the Quaffle!",
+    "emphasis": [
+      "Cedric Diggory"
+    ],
+    "file": "player-possession-cedric.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.8498,
+    "bytes": 85670,
+    "sampleRate": 22050,
+    "peak": 26521,
+    "rms": 4699.26
+  },
+  {
+    "id": "player-shot-cedric",
+    "text": "Cedric Diggory shoots for the hoops!",
+    "emphasis": [
+      "Cedric Diggory"
+    ],
+    "file": "player-shot-cedric.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 2.0703,
+    "bytes": 95398,
+    "sampleRate": 22050,
+    "peak": 20703,
+    "rms": 4768.53
+  },
+  {
+    "id": "player-possession-hannah",
+    "text": "Hannah Abbott has the Quaffle!",
+    "emphasis": [
+      "Hannah Abbott"
+    ],
+    "file": "player-possession-hannah.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.6233,
+    "bytes": 75682,
+    "sampleRate": 22050,
+    "peak": 26905,
+    "rms": 4762.17
+  },
+  {
+    "id": "player-shot-hannah",
+    "text": "Hannah Abbott shoots for the hoops!",
+    "emphasis": [
+      "Hannah Abbott"
+    ],
+    "file": "player-shot-hannah.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.8787,
+    "bytes": 86946,
+    "sampleRate": 22050,
+    "peak": 20338,
+    "rms": 4850.07
+  },
+  {
+    "id": "player-possession-ernie",
+    "text": "Ernie Macmillan has the Quaffle!",
+    "emphasis": [
+      "Ernie Macmillan"
+    ],
+    "file": "player-possession-ernie.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.7355,
+    "bytes": 80632,
+    "sampleRate": 22050,
+    "peak": 27186,
+    "rms": 5451.89
+  },
+  {
+    "id": "player-shot-ernie",
+    "text": "Ernie Macmillan shoots for the hoops!",
+    "emphasis": [
+      "Ernie Macmillan"
+    ],
+    "file": "player-shot-ernie.wav",
+    "language": "en-US",
+    "voice": "Samantha",
+    "gender": "female",
+    "duration": 1.9909,
+    "bytes": 91896,
+    "sampleRate": 22050,
+    "peak": 22690,
+    "rms": 5412.61
+  }
+]
