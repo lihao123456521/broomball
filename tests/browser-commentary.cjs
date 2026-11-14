@@ -117,6 +117,12 @@ fs.mkdirSync(out, { recursive: true });
       await page.evaluate(() => { const g = __BROOMBALL__; g.commentary.stop(); g.throwQuaffle(); });
       assert.equal((await events()).at(-1).text, 'Luna Lovegood shoots for the hoops!');
     });
+    await check('Training completion is announced after the final spell call', async () => {
+      await page.evaluate(() => { const g = __BROOMBALL__; g.returnToMenu(); g.selectHouse('gryffindor'); g.switchCharacter(2); g.startMatch('training'); g.match.trainingStep = 4; g.commentary.stop(); g.castSpell(); });
+      assert.equal(await page.evaluate(() => __BROOMBALL__.match.state), 'ended');
+      assert.equal((await events()).at(-1).text, "Training complete. You're ready for the match!");
+      assert.equal((await events()).at(-1).backend, 'audio');
+    });
     assert.deepEqual(errors, []);
     fs.writeFileSync(path.join(out, 'commentary.json'), JSON.stringify({ passed, errors, events: await events() }, null, 2));
   } finally { await browser.close(); }

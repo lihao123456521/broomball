@@ -268,7 +268,7 @@ const match={homeHouse:settings.house,awayHouse:settings.opponent,callForPass:0,
 const commentary=window.createMatchCommentary({enabled:settings.commentary,volume:settings.commentaryVolume,
  canSpeak:()=>match.state!=='menu'&&!match.paused&&!document.hidden,
  onCaption:text=>{$('commentaryCaption').textContent=text;$('commentaryCaption').hidden=!text;}});
-function announceClip(key,clip,priority=1,cooldown=8){const line=window.BroomCommentaryClips[clip];return line?commentary.announce(key,line.text,{priority,cooldown,clip}):false;}
+function announceClip(key,clip,priority=1,cooldown=8){const line=window.BroomCommentaryClips[clip];if(!line)return false;if(settings.commentary&&priority>=4&&commentary.state.activeKey==='spell')commentary.stop();return commentary.announce(key,line.text,{priority,cooldown,clip});}
 function syncCommentarySettings(){
  for(const id of ['commentaryEnabled','commentaryEnabledMenu'])$(id).checked=settings.commentary;
  $('commentaryToggle').textContent='解说 '+(settings.commentary?'开':'关')+' · N';
