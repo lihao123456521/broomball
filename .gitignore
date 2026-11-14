@@ -8,3 +8,7 @@
 
 # Finder metadata
 .DS_Store
+
+# Python build caches
+__pycache__/
+*.pyc
