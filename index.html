@@ -127,6 +127,9 @@ renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.setSize(innerWi
 const scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x66738e,.00125);
 const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.15,1000);
 const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z), UP=V(0,1,0), TAU=Math.PI*2;
+// Use the rendered dimensions for scoring, including the raised ball seams.
+const hoopRadius=3.52,hoopTubeRadius=.19,quaffleRadius=1.05,quaffleSeamRadius=1.035,quaffleSeamTube=.065;
+const goalRadius=hoopRadius-hoopTubeRadius-Math.max(quaffleRadius,quaffleSeamRadius+quaffleSeamTube);
 const clamp=THREE.MathUtils.clamp, lerp=THREE.MathUtils.lerp;
 const angleDelta=(a,b)=>Math.atan2(Math.sin(b-a),Math.cos(b-a));
 const moveToward=(a,b,d)=>a<b?Math.min(a+d,b):Math.max(a-d,b);
@@ -153,7 +156,7 @@ function buildWorld(){
 function buildStands(){const crimson=0x732d3d,navy=0x233c61,stone=0x303849,gold=0xcda85c;for(let s=0;s<28;s++){const a=s/28*TAU,team=s%2?navy:crimson;for(let t=0;t<3;t++){const g=new THREE.Group();g.position.set(Math.sin(a)*(72+t*3),1+t*2.35,Math.cos(a)*(91+t*3));g.rotation.y=a;scene.add(g);box(g,V(17.2,1.55,5.2),V(),stone);box(g,V(16.8,.18,4.6),V(0,.86,0),team);beam(g,V(-8.3,1.25,-2.15),V(8.3,1.25,-2.15),.075,gold);for(let seat=0;seat<5;seat++){const x=-6.4+seat*3.2;box(g,V(.65,.75,.55),V(x,1.35,.25),team);sph(g,.24,V(x,1.96,.25),0xd5a37e);}}if(s%2===0){const root=new THREE.Group();root.position.set(Math.sin(a)*70,7.5,Math.cos(a)*89);root.rotation.y=a;scene.add(root);makeFlag(root,V(),team,5.5,2.6);}}
  for(const x of[-68,68])for(const z of[-76,76]){const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);cyl(g,3,22,V(0,10.5,0),0x3b4052,2.35,12);cyl(g,3.6,.65,V(0,20.8,0),0xd0aa60,3.6,16,.5);cyl(g,4.2,6.5,V(0,25,0),x*z>0?crimson:navy,0,12);cyl(g,.12,6,V(0,30.5,0),0xd6b76f,.12,8,.6);sph(g,.38,V(0,33.6,0),0xffe39a,.4,2);makeFlag(g,V(2.3,30.4,0),x*z>0?crimson:navy,4.6,2.2);}}
 function makeFlag(parent,pos,color,w,h){const m=addMesh(parent,new THREE.PlaneGeometry(w,h,8,2),new THREE.MeshStandardMaterial({color,side:THREE.DoubleSide,roughness:.8}),pos);m.rotation.y=Math.PI/2;flags.push(m);return m;}
-function buildGoals(){for(const side of[-1,1])for(let i=0;i<3;i++){const pos=V((i-1)*12,i===1?15:10,side*61),color=side<0?0x75b9ed:0xf3ce71,glow=side<0?0xb9e5ff:0xfff0ac;(side>0?homeGoals:awayGoals).push(pos);cyl(scene,.24,pos.y,V(pos.x,pos.y/2,pos.z),side<0?0x647f9c:0xcaa354,.24,12,.65);cyl(scene,.72,.35,V(pos.x,.18,pos.z),color,.72,16,.65);torus(scene,3.52,.19,pos,color,.65,.65);torus(scene,3.77,.045,pos,glow,.4,1.5);}}
+function buildGoals(){for(const side of[-1,1])for(let i=0;i<3;i++){const pos=V((i-1)*12,i===1?15:10,side*61),color=side<0?0x75b9ed:0xf3ce71,glow=side<0?0xb9e5ff:0xfff0ac;(side>0?homeGoals:awayGoals).push(pos);cyl(scene,.24,pos.y,V(pos.x,pos.y/2,pos.z),side<0?0x647f9c:0xcaa354,.24,12,.65);cyl(scene,.72,.35,V(pos.x,.18,pos.z),color,.72,16,.65);torus(scene,hoopRadius,hoopTubeRadius,pos,color,.65,.65);torus(scene,3.77,.045,pos,glow,.4,1.5);}}
 function buildAirwall(){
  // The ground line marks the playable boundary without a cage across the view.
  lineEllipse(55.2,74.5,.3,0x79a5b6,64);
@@ -207,8 +210,8 @@ function disposeObject(object){object.traverse(child=>{if(child.geometry)child.g
 function animateWizard(mesh,dt,speed,time){const rig=mesh.userData.rig;if(!rig)return;const flow=clamp(speed/48,0,1);mesh.userData.castTime=Math.max(0,(mesh.userData.castTime||0)-dt);rig.cape.rotation.x=.1+flow*.28+Math.sin(time*5)*.025;rig.scarfTail.rotation.y=Math.sin(time*6)*(.05+flow*.1);rig.scarfTail.rotation.x=-flow*.18;rig.arm.rotation.x=lerp(rig.arm.rotation.x,mesh.userData.castTime>0?-.35:0,1-Math.exp(-dt*16));}
 function createQuaffle(){
  const g=new THREE.Group();g.name='Quaffle';
- sph(g,1.05,V(),0xff741c,.05,.45);
- for(const angle of [0,Math.PI/2]){const seam=torus(g,1.035,.065,V(),0xfff3d6,0,.15);seam.rotation.x=angle;}
+ sph(g,quaffleRadius,V(),0xff741c,.05,.45);
+ for(const angle of [0,Math.PI/2]){const seam=torus(g,quaffleSeamRadius,quaffleSeamTube,V(),0xfff3d6,0,.15);seam.rotation.x=angle;}
  scene.add(g);return g;
 }
 function createSnitch(){const g=new THREE.Group();sph(g,.48,V(),0xffd76a,.75,2.2);torus(g,.44,.055,V(),0xfff0a6,.8,1);for(const side of[-1,1]){const w=sph(g,.55,V(side*.88,.08,0),0xeaf5ff,.15,.7);w.name=side<0?'WingL':'WingR';w.scale.set(1.65,.12,.55);w.rotation.z=side*.28;}const light=new THREE.PointLight(0xffd36a,2,8);g.add(light);scene.add(g);return g;}
@@ -236,9 +239,9 @@ let selectedMode='standard',bestScores={};
 try{const saved=JSON.parse(localStorage.getItem('broomball-best')||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))bestScores=saved;}catch{}
 const match={homeHouse:settings.house,awayHouse:settings.opponent,callForPass:0,mode:'standard',rules:modes.standard,stats:freshStats(),trainingStep:0,trainingDistance:0,trainingHeight:0,trackSnitch:false,state:'menu',paused:false,countdown:3,elapsed:0,timeLeft:180,playerScore:0,rivalScore:0,message:'',messageTime:0,callout:'',calloutTime:0,snitchActive:false,kickoff:0,stealCooldown:1.5,selected:0,cooldowns:[0,0,0],firstPerson:false,gravity:false,collision:true,usedMove:false,usedVertical:false,usedThrow:false,usedSpell:false};
 const player={mesh:null,pos:V(0,10,38),vel:V(),baseSpeed:22,stamina:100,boosting:false,exhausted:false,flySpeed:11,previousPos:V(0,10,38),speed:0,shield:0,hitCooldown:0,boundaryNotice:0};
-const rivals=[],allies=[],bludgers=[],projectiles=[],spellEffects=[];let quaffle,snitch,waypoint,shield,carrier=null,quaffleVel=V(),shot=null,passTarget=null,passAge=0,pickupDelay=0,trainingReset=0,snitchTarget=V(),snitchRetarget=0,snitchTime=0,cameraYaw=0,cameraPitch=-.12,targetYaw=0,targetPitch=-.12,lastTime=performance.now(),audioCtx=null,helpReturn='menu';
+const rivals=[],allies=[],bludgers=[],projectiles=[],spellEffects=[];let quaffle,snitch,waypoint,shield,carrier=null,quaffleVel=V(),shot=null,passTarget=null,passSender=null,passAge=0,pickupDelay=0,trainingReset=0,snitchTarget=V(),snitchRetarget=0,snitchTime=0,cameraYaw=0,cameraPitch=-.12,targetYaw=0,targetPitch=-.12,lastTime=performance.now(),audioCtx=null,helpReturn='menu';
 const keys={};
-const goalRadius=2.68,shotRange=38,passRange=30;
+const shotRange=38,passRange=30;
 const training=()=>match.mode==='training';
 function replacePlayerModel(){const pos=player.pos.clone(),rot=player.mesh?player.mesh.rotation.clone():null;if(player.mesh)disposeObject(player.mesh);player.mesh=createWizard(configs[match.selected].id);window.BroomHouses.applyUniform(player.mesh,match.homeHouse);scene.add(player.mesh);player.mesh.position.copy(pos);if(rot)player.mesh.rotation.copy(rot);player.pos=player.mesh.position;player.mesh.visible=!match.firstPerson;}
 replacePlayerModel();
@@ -299,6 +302,7 @@ function selectOpponent(id){
 function resetMatch(mode=selectedMode){
  selectMode(mode);
  clearInput();
+ lastTime=performance.now();
  Object.assign(match,{mode:selectedMode,rules:modes[selectedMode],stats:freshStats(),
   state:selectedMode==='training'?'playing':'countdown',paused:false,countdown:3,
   elapsed:0,timeLeft:modes[selectedMode].duration,playerScore:0,rivalScore:0,message:'',
@@ -380,7 +384,7 @@ function returnToMenu(){
 function lockPointer(){if(document.activeElement?.blur)document.activeElement.blur();canvas.focus();try{const attempt=canvas.requestPointerLock?.();if(attempt?.catch)attempt.catch(()=>notify('点击球场以捕获鼠标；也可用键盘继续操作',2));}catch{notify('点击球场以捕获鼠标',2);}}
 function clearInput(){for(const key of Object.keys(keys))delete keys[key];player.vel.set(0,0,0);player.speed=0;targetYaw=cameraYaw;targetPitch=cameraPitch;match.callForPass=0;}
 function pauseMatch(){if(match.state!=='playing'&&match.state!=='countdown')return;clearInput();match.paused=true;$('pause').classList.remove('hidden');if(document.pointerLockElement)document.exitPointerLock();}
-function resumeMatch(){clearInput();match.paused=false;$('pause').classList.add('hidden');lockPointer();}
+function resumeMatch(){clearInput();lastTime=performance.now();match.paused=false;$('pause').classList.add('hidden');lockPointer();}
 function openHelp(source='pause'){clearInput();helpReturn=source;match.paused=true;if(document.pointerLockElement)document.exitPointerLock();$('menu').classList.add('hidden');$('pause').classList.add('hidden');$('help').classList.remove('hidden');}
 function closeHelp(){$('help').classList.add('hidden');if(helpReturn==='menu'){$('menu').classList.remove('hidden');}else{$('pause').classList.remove('hidden');}}
 function teamText(text){return text.replaceAll('狮队',houseById(match.homeHouse).name).replaceAll('鹰队',houseById(match.awayHouse).name);}
@@ -388,6 +392,11 @@ function notify(text,time=2){match.message=teamText(text);match.messageTime=time
 function setAim(yaw,pitch){cameraYaw=targetYaw=yaw;cameraPitch=targetPitch=clamp(pitch,-1.15,1.05);}
 function handleLookInput(dx,dy){targetYaw-=dx*.0021*settings.sensitivity;targetPitch=clamp(targetPitch-dy*.0021*settings.sensitivity,-1.15,1.05);}
 function updateAim(dt){const blend=1-Math.exp(-dt*18);cameraYaw+=angleDelta(cameraYaw,targetYaw)*blend;cameraPitch=lerp(cameraPitch,targetPitch,blend);}
+function updateLook(dt){
+ targetYaw+=(Number(!!keys.ArrowLeft)-Number(!!keys.ArrowRight))*2.2*dt;
+ targetPitch=clamp(targetPitch+(Number(!!keys.KeyI)-Number(!!keys.KeyK))*1.15*dt,-1.15,1.05);
+ updateAim(dt);
+}
 function getAimState(){return {yaw:cameraYaw,pitch:cameraPitch,targetYaw,targetPitch};}
 function getAimForward(){const cp=Math.cos(cameraPitch);return V(-Math.sin(cameraYaw)*cp,Math.sin(cameraPitch),-Math.cos(cameraYaw)*cp).normalize();}
 function getHorizontalBasis(){const forward=getAimForward();forward.y=0;if(forward.lengthSq()<.001)forward.set(0,0,-1);forward.normalize();return{forward,right:forward.clone().cross(UP).normalize()};}
@@ -403,6 +412,7 @@ function setCarrier(value){
  carrier=value;
  shot=null;
  passTarget=null;
+ passSender=null;
  quaffleVel.set(0,0,0);
  pickupDelay=.35;
  if(value)quaffle.position.copy(carryPosition(value==='player'?player.mesh:value.mesh));
@@ -426,6 +436,16 @@ function positionOnGoalPlane(from,direction,z){
  const t=(z-from.z)/direction.z;
  return t>=0?from.clone().addScaledVector(direction,t):null;
 }
+function goalCrossing(from,to){
+ // Check the swept segment, and only count travel out through the front of a goal.
+ for(const [side,goals] of [['player',awayGoals],['rival',homeGoals]]){
+  const z=goals[0].z,sign=Math.sign(z);
+  if(from.z*sign>=z*sign||to.z*sign<z*sign)continue;
+  const t=(z-from.z)/(to.z-from.z),point=from.clone().lerp(to,t);
+  return {side,point,t,scored:goals.some(goal=>point.distanceToSquared(goal)<=goalRadius**2)};
+ }
+ return null;
+}
 function getShotInfo(){
  const forward=getAimForward();
  const crossing=forward.z<0?positionOnGoalPlane(camera.position,forward,awayGoals[0].z):null;
@@ -443,6 +463,7 @@ function launchShot(owner,direction,side,speed,recordMiss=false){
  const release=carryPosition(owner);
  carrier=null;
  passTarget=null;
+ passSender=null;
  quaffle.position.copy(release);
  shot={side,age:0,recordMiss};
  quaffleVel.copy(direction).multiplyScalar(speed);
@@ -466,6 +487,7 @@ function passBetween(sender,receiver){
  carrier=null;
  shot=null;
  passTarget=receiver;
+ passSender=sender;
  passAge=0;
  quaffle.position.copy(release);
  quaffleVel.copy(receiver==='player'?player.pos:receiver.mesh.position).sub(release).normalize().multiplyScalar(22);
@@ -550,9 +572,7 @@ function rivalTarget(r){
  return quaffle.position;
 }
 function updatePlayer(dt){
- const yaw=(Number(!!keys.ArrowLeft)-Number(!!keys.ArrowRight))*2.2*dt;
- const pitch=(Number(!!keys.KeyI)-Number(!!keys.KeyK))*1.15*dt;
- targetYaw+=yaw;targetPitch=clamp(targetPitch+pitch,-1.15,1.05);updateAim(dt);
+ updateLook(dt);
  const{forward,right}=getHorizontalBasis(),input=V(),braking=!!keys.KeyX;
  if(keys.KeyA)input.sub(right);if(keys.KeyD)input.add(right);if(keys.KeyW)input.add(forward);if(keys.KeyS)input.sub(forward);
  const moving=input.lengthSq()>0;
@@ -656,6 +676,61 @@ function segmentDistanceSq(point,from,to){
  const t=length>0?clamp(point.clone().sub(from).dot(edge)/length,0,1):0;
  return point.distanceToSquared(from.clone().addScaledVector(edge,t));
 }
+function segmentSphereTime(point,from,to,radius){
+ const offset=from.clone().sub(point),edge=to.clone().sub(from);
+ const c=offset.lengthSq()-radius*radius;
+ if(c<=0)return 0;
+ const a=edge.lengthSq(),b=offset.dot(edge),discriminant=b*b-a*c;
+ if(a===0||b>=0||discriminant<0)return null;
+ const t=(-b-Math.sqrt(discriminant))/a;
+ return t<=1?t:null;
+}
+function catchLooseBall(from,crossing,dt){
+ let first=null;
+ const consider=(target,type,point,radius,relative=false)=>{
+  let start=from,end=quaffle.position;
+  if(relative){
+   const previous=player.previousPos.distanceTo(player.pos)<=Math.max(3,player.speed*dt+1)?player.previousPos:player.pos;
+   start=from.clone().sub(previous);end=end.clone().sub(player.pos);point=V();
+  }
+  const t=segmentSphereTime(point,start,end,radius);
+  if(t!==null&&t<=(crossing?.scored?crossing.t:1)&&(!first||t<first.t))first={target,type,t};
+ };
+ if(passTarget){
+  if(passTarget==='player')consider('player','pass',player.pos,3.05,true);
+  else if(passTarget.stun<=0)consider(passTarget,'pass',passTarget.mesh.position,3.05);
+ }else if(pickupDelay<=0){
+  if(!training()||match.trainingStep>=2)consider('player','pickup',player.pos,match.mode==='challenge'?2.85:4.2,true);
+  if(!training())for(const unit of [...rivals,allies[0]]){
+   if(unit.role==='chaser'&&unit.stun<=0)consider(unit,'pickup',unit.mesh.position,2.55);
+  }
+ }
+ if(!training()&&Math.abs(quaffleVel.z)>.001){
+  const attacking=quaffleVel.z<0,keeper=attacking?rivals[2]:allies[1];
+  if(keeper.stun<=0&&keeper!==passSender)consider(keeper,'keeper',keeper.mesh.position.clone().add(V(0,.85,0)),attacking&&match.mode==='standard'?1.75:2.05);
+ }
+ if(!first)return false;
+ const {target,type,t}=first;
+ if(type==='keeper'&&target===rivals[2]){
+  quaffle.position.lerpVectors(from,quaffle.position,t);
+  passTarget=null;
+  passSender=null;
+  quaffleVel.set((Math.random()-.5)*15,5,18);
+  pickupDelay=.55;
+  notify('鹰队守门员扑出了鬼飞球',1.7);
+ }else{
+  setCarrier(target);
+  if(type==='pass'||target==='player'){
+   const protection=match.mode==='challenge'?(type==='pass'?.6:.75):1.8;
+   match.stealCooldown=Math.max(match.stealCooldown,protection);
+  }
+  if(training()&&match.trainingStep===2&&target==='player')match.trainingStep=3;
+  notify(type==='pass'?(target==='player'?'接到队友传球 · F 射门':'接应队友接球'):
+   target==='player'?'拿到鬼飞球 · 瞄准蓝色门环':
+   type==='keeper'?'狮队守门员接住了鬼飞球':target===allies[0]?'狮队接应手拿球':'鹰队拿到鬼飞球',1.7);
+ }
+ return true;
+}
 function endShot(){
  if(shot?.recordMiss){
   notify(training()?'未穿过门环 · 鬼飞球即将回到练习点':'射门偏出 · 争抢鬼飞球',1.7);
@@ -665,18 +740,15 @@ function endShot(){
 }
 function updateShot(from,dt){
  shot.age+=dt;
- const attacking=shot.side==='player',goals=attacking?awayGoals:homeGoals;
- const z=goals[0].z,sign=Math.sign(z);
- const crossing=from.z*sign<z*sign&&quaffle.position.z*sign>=z*sign;
- const planeHit=crossing?positionOnGoalPlane(from,quaffleVel,z):null;
- const endpoint=planeHit||quaffle.position;
+ const attacking=quaffleVel.z<0,crossing=goalCrossing(from,quaffle.position);
+ const endpoint=crossing?.point||quaffle.position;
  const keeper=attacking?rivals[2]:allies[1];
  const saveRadius=attacking&&match.mode==='standard'?1.75:2.05;
- if(!attacking&&segmentDistanceSq(player.pos.clone().add(V(0,.85,0)),from,endpoint)<=2.15**2){
+ if(shot.side==='rival'&&segmentDistanceSq(player.pos.clone().add(V(0,.85,0)),from,endpoint)<=2.15**2){
   setCarrier('player');
   match.stealCooldown=Math.max(match.stealCooldown,1);
   notify('截住鹰队射门 · F 射门或 T 传球',1.7);
-  return;
+  return true;
  }
  if(!training()&&keeper.stun<=0&&segmentDistanceSq(keeper.mesh.position.clone().add(V(0,.85,0)),from,endpoint)<=saveRadius**2){
   if(attacking){
@@ -688,26 +760,21 @@ function updateShot(from,dt){
    setCarrier(keeper);
    notify('狮队守门员接住了射门',1.7);
   }
-  return;
+  return true;
  }
- if(planeHit&&goals.some(goal=>planeHit.distanceToSquared(goal)<=goalRadius**2)){
-  scoreGoal(shot.side);
-  return;
+ if(crossing?.scored){
+  scoreGoal(crossing.side);
+  return true;
  }
- if(crossing||shot.age>2.4)endShot();
+ // A slow or distant shot stays a shot until it crosses the end line, hits a
+ // boundary or is saved; a fixed lifetime incorrectly expires before the goal.
+ if(crossing)endShot();
 }
-function updatePass(from,dt){
+function updatePass(dt){
  passAge+=dt;
- const receiver=passTarget==='player'?player.pos:passTarget.mesh.position;
- if(segmentDistanceSq(receiver,from,quaffle.position)<3.05**2){
-  const received=passTarget;
-  setCarrier(received);
-  match.stealCooldown=Math.max(match.stealCooldown,match.mode==='challenge'?.6:1.8);
-  notify(received==='player'?'接到队友传球 · F 射门':'接应队友接球',1.3);
-  return;
- }
  if(passAge>(passTarget==='player'?4:2.6)){
   passTarget=null;
+  passSender=null;
   notify('传球落空 · 争抢鬼飞球',1.4);
  }
 }
@@ -735,10 +802,13 @@ function updateQuaffle(dt){
  quaffle.position.addScaledVector(quaffleVel,dt);
  quaffle.rotation.x+=quaffleVel.length()*dt*.12;
  if(shot){
-  updateShot(from,dt);
-  if(match.kickoff>0||(training()&&match.trainingStep>=4))return;
- }else if(passTarget){
-  updatePass(from,dt);
+  if(updateShot(from,dt))return;
+ }else{
+  const crossing=goalCrossing(from,quaffle.position);
+  // Resolve the earliest catch or save before the ball reaches the scoring plane.
+  if(catchLooseBall(from,crossing,dt))return;
+  if(crossing?.scored){scoreGoal(crossing.side);return;}
+  if(passTarget)updatePass(dt);
  }
  if(carrier)return;
  const low=quaffle.position.y<=2,high=quaffle.position.y>=39;
@@ -756,23 +826,6 @@ function updateQuaffle(dt){
  }
  if(high&&quaffleVel.y>0)quaffleVel.y*=-.66;
  if((normal||low||high)&&shot)endShot();
- if(shot||passTarget||pickupDelay>0||trainingReset>0)return;
- const catchRadius=match.mode==='challenge'?2.85:4.2;
- const oldPlayer=player.previousPos.distanceTo(player.pos)<=Math.max(3,player.speed*dt+1)?player.previousPos:player.pos;
- const catchDistance=segmentDistanceSq(V(),from.clone().sub(oldPlayer),quaffle.position.clone().sub(player.pos));
- if((!training()||match.trainingStep>=2)&&catchDistance<catchRadius**2){
-  setCarrier('player');
-  match.stealCooldown=Math.max(match.stealCooldown,match.mode==='challenge'?.75:1.8);
-  if(training()&&match.trainingStep===2)match.trainingStep=3;
-  notify('拿到鬼飞球 · 瞄准蓝色门环',1.7);
-  return;
- }
- if(training())return;
- const receiver=[...rivals,allies[0]].find(unit=>unit.role==='chaser'&&unit.stun<=0&&unit.mesh.position.distanceTo(quaffle.position)<2.55);
- if(receiver){
-  setCarrier(receiver);
-  notify(receiver===allies[0]?'狮队接应手拿球':'鹰队拿到鬼飞球',1.4);
- }
 }
 function updateSteals(){
  if(match.stealCooldown>0||!carrier)return;
@@ -836,7 +889,7 @@ function update(dt){
  match.messageTime=Math.max(0,match.messageTime-dt);
  match.calloutTime=Math.max(0,match.calloutTime-dt);
  if(match.state==='countdown'){
-  updateAim(dt);
+  updateLook(dt);
   match.countdown-=dt;
   if(match.countdown<=0){
    match.state='playing';
@@ -1047,9 +1100,22 @@ function drawRadar(){
 }
 function frame(now){
  requestAnimationFrame(frame);
- const dt=clamp((now-lastTime)/1000,0,.05);
+ const elapsed=Math.max(0,(now-lastTime)/1000),dt=Math.min(elapsed,.05);
  lastTime=now;
- if(!match.paused)update(dt);
+ if(!match.paused){
+  const active=match.state==='playing'||match.state==='countdown';
+  if(active&&elapsed>.5){
+   pauseMatch();
+   notify('画面停顿过久 · 比赛已暂停，继续后再出发',3);
+  }else if(active){
+   // Consume the whole frame in small steps, keeping clocks and collisions consistent at low FPS.
+   for(let remaining=elapsed;remaining>0&&!match.paused&&match.state!=='ended';){
+    const step=Math.min(remaining,1/60);
+    update(step);
+    remaining-=step;
+   }
+  }else update(dt);
+ }
  updateCamera(dt);
  updateHUD();
  updateBallMarker();
