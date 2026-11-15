@@ -27,9 +27,9 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    await page.screenshot({path:path.join(out,'refinements-menu.png')});
   });
   await page.locator('#startBtn').click();await page.clock.runFor(4200);
-  await check('The default camera keeps the flying rider in a close match view',async()=>{
-   const state=await page.evaluate(()=>{const g=window.__BROOMBALL__,f=g.player.pos.clone().add(new THREE.Vector3(0,1.15,0));return {mode:g.match.cameraMode,distance:g.camera.position.distanceTo(f),rise:g.camera.position.y-f.y,fov:g.camera.fov};});
-   assert.equal(state.mode,'broadcast');assert.ok(state.distance>15&&state.distance<22);assert.ok(state.rise>7&&state.rise<10);assert.ok(state.fov>=50&&state.fov<=54);report.evidence.camera=state;
+  await check('The default tactical camera keeps both passing teammates visible',async()=>{
+   const state=await page.evaluate(()=>{const g=window.__BROOMBALL__;g.camera.updateMatrixWorld(true);return {mode:g.match.cameraMode,actors:[g.player,...g.allies.filter(a=>a.role==='chaser')].map(u=>{const p=(u===g.player?g.player.pos:u.mesh.position).clone().add(new THREE.Vector3(0,1.4,0)).project(g.camera);return{x:(p.x*.5+.5)*innerWidth,y:(1-p.y)*.5*innerHeight,z:p.z};})};});
+   assert.equal(state.mode,'broadcast');for(const actor of state.actors){assert.ok(actor.z<1);assert.ok(actor.x>0&&actor.x<1440);assert.ok(actor.y>60&&actor.y<820);}report.evidence.camera=state;
    await page.screenshot({path:path.join(out,'refinements-match-1440.png')});
   });
   const stage=async()=>page.evaluate(()=>{
@@ -40,7 +40,7 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    for(const b of g.bludgers){b.frozen=100;b.mesh.position.set(40,35,40);}
   });
   await check('A pass rises and falls on a gentle arc without chasing a moved receiver',async()=>{
-   await stage();await page.keyboard.press('s');
+   await stage();await page.keyboard.press('j');
    const release=await page.evaluate(()=>{const g=window.__BROOMBALL__;return {destination:g.passDestination.toArray(),duration:g.passFlight.duration,start:g.quaffle.position.toArray(),velocity:g.quaffleVel.toArray()};});
    await page.clock.runFor(release.duration*500);
    const middle=await page.evaluate(()=>{const g=window.__BROOMBALL__;const s={position:g.quaffle.position.toArray(),velocity:g.quaffleVel.toArray()};g.allies[0].mesh.position.set(20,10,-28);return s;});
@@ -54,7 +54,7 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    await stage();await page.clock.runFor(100);
    const preview=await page.evaluate(()=>{const p=window.__BROOMBALL__.scene.getObjectByName('PassArcPreview');return {points:p.geometry.getAttribute('position').count,opacity:p.material.opacity};});
    assert.ok(preview.points>8);assert.ok(preview.opacity<=.45);
-   await page.keyboard.press('s');await page.clock.runFor(1250);
+   await page.keyboard.press('j');await page.clock.runFor(1250);
    assert.equal(await page.evaluate(()=>window.__BROOMBALL__.carrier==='player'&&window.__BROOMBALL__.match.stats.completedPasses===1),true);report.evidence.preview=preview;
   });
   await check('All active commentary and local spells use female English recordings',async()=>{
