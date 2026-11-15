@@ -1,38 +1,19 @@
-# Offline female English voice
+# Natural female English game audio
 
-Every active voice recording uses the locally installed macOS **Samantha (en-US, female)** voice. No external speech service was used. These recordings replace the previous Chinese cues and the merged branch's male English commentary in active gameplay.
+The active recordings use **Joanna – Warm & Conversational**, a public, ACTIVE female British-English voice from **HeyGen Voice** (`776f9d2ff401499a8f1f2bcb4ca46004`, locale `en-GB`). These are neural speech recordings, not a human recording or a voice clone.
 
-Audio format: mono, 22,050 Hz, 16-bit PCM WAV. Playback works offline without browser speech-synthesis voices.
+There are 81 locally playable WAV files: 65 complete commentary cues, 13 incantations, and 3 compatibility cues. The same voice is used throughout. The runtime does not call the speech service. The original recordings are retained unchanged under `natural/originals/`; `natural/generation.json` keeps the returned audio references, duration and word/character timestamps. `natural/plan.json` records the exact submitted English copy and destination of every cue.
 
-## Complete commentary
+The active commentary copy uses short spoken sentences and natural contractions. Routine possession/pass/shot narration is spaced by at least twelve seconds; goals, time reminders and match results keep their higher priority. Playback remains at original pitch and speed, without heavy processing. WAV format is mono, 44.1 kHz, 16-bit PCM.
 
-`commentary/` contains 65 uninterrupted English sentences covering all four houses, the 12 named players, matchups, possession, shots, passes, goals, match results, time reminders, training, and retained legacy Snitch events. `game-commentary-lines.js` points exclusively to these female recordings. `commentary/manifest.json` records each sentence, Samantha voice provenance, language, duration, sample rate, file size, peak, and RMS.
+`natural/catalog.js` supplies the accepted spoken copy and voice identity. `commentary/manifest.json` records the 65 active commentary files, and `natural/manifest.json` records all 81 files with source, text, duration, sample rate, peak and RMS. The `emphasis` field lists names present in the text for compatibility; it is not evidence of an auditory stress or SSML review.
 
-The single-channel controller in `game-commentary.js` preserves the merged branch's event priorities, cooldowns, volume, captions, stale-callback protection, pause/reset behavior, and critical result announcements. Known incantations use local female English recordings too. If a recording fails, speech synthesis requires a recognized female English voice; male, unknown, Chinese, or absent system voices produce captions instead of an unintended narrator.
+To re-import already generated audio, run:
 
-## Spell calls and compatibility cues
+```text
+python3 tools/import-natural-voice.py assets/voice/natural/plan.json assets/voice/natural/generation.json
+```
 
-| File | Spoken English |
-| --- | --- |
-| disarm.wav | Expelliarmus! |
-| stun.wav | Stupefy! |
-| shield.wav | Protego! |
-| arresto.wav | Arresto Momentum! |
-| serpent.wav | Serpensortia! |
-| obscuro.wav | Obscuro! |
-| confundus.wav | Confundus! |
-| patronus.wav | Expecto Patronum! |
-| accio.wav | Accio! |
-| impedimenta.wav | Impedimenta! |
-| finite.wav | Finite Incantatem! |
-| rennervate.wav | Rennervate! |
-| ward.wav | Protego Totalum! |
-| kickoff.wav | Kickoff! Find your teammates and move the ball. |
-| goal-home.wav | What a goal! |
-| goal-away.wav | They score. Regroup and build the next attack. |
+This tool validates and copies saved recordings. It never creates or retries a speech generation. A new service generation remains a separate authorized action. One provider 502 occurred during this batch; subsequent generation resumed only after the user's explicit approval, and all 81 planned recordings were then completed.
 
-The 13 incantations include the complete 12-character school roster plus the original Stupefy call. The three short event cues preserve the earlier `BroomVoice` API; current integrated narration uses the full commentary controller so two narrators do not overlap. There are 81 WAV files in total.
-
-`game-voice.js` also maps the existing Chinese event strings to their English counterparts and never chooses a male or Chinese fallback voice. Unknown Chinese text stays silent instead of being spoken in the wrong language.
-
-Generation: `say -v Samantha -r 185 -o cue.aiff 'English text'`, followed by `afconvert -f WAVE -d LEI16@22050 -c 1 cue.aiff cue.wav`.
+The older Samantha system-voice builder is retained as a legacy development tool and is not the source of current recordings. `assets/commentary/` is an archived male-voice set and is not referenced by the game.

@@ -180,7 +180,7 @@ window.BroomEnvironment = (() => {
     return {
       root, batchStats,
       update(dt, { player, elapsed, active, reducedMotion, cameraMode }) {
-        for (const sign of signs) sign.visible = cameraMode !== 'broadcast';
+        for (const sign of signs) sign.visible = cameraMode === 'chase';
         playerShadow.visible = marker.visible = active;
         if (active) {
           playerShadow.position.set(player.x, .21, player.z);

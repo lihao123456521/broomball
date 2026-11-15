@@ -22,7 +22,7 @@
   ernie:'Ernie Macmillan'
  });
  const clips={};
- const add=(id,text)=>{clips[id]=Object.freeze({text,src:'./assets/voice/commentary/'+id+'.wav'});};
+ const add=(id,text)=>{text=window.BroomNaturalVoice?.commentaryTexts[id]||text;clips[id]=Object.freeze({text,src:'./assets/voice/commentary/'+id+'.wav'});};
  for(const [home,homeName] of Object.entries(houseNames)){
   for(const [away,awayName] of Object.entries(houseNames)){
    if(home!==away)add('kickoff-'+home+'-'+away,homeName+' against '+awayName+'. Brooms up!');

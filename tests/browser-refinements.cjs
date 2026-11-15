@@ -27,9 +27,9 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    await page.screenshot({path:path.join(out,'refinements-menu.png')});
   });
   await page.locator('#startBtn').click();await page.clock.runFor(4200);
-  await check('The broadcast camera is modestly closer and keeps its elevated match view',async()=>{
-   const state=await page.evaluate(()=>{const g=window.__BROOMBALL__,f=g.player.pos.clone().lerp(g.quaffle.position,.24);f.x=Math.max(-28,Math.min(28,f.x));f.z=Math.max(-40,Math.min(40,f.z));return {mode:g.match.cameraMode,distance:g.camera.position.distanceTo(f),rise:g.camera.position.y-f.y,fov:g.camera.fov};});
-   assert.equal(state.mode,'broadcast');assert.ok(state.distance>62&&state.distance<79);assert.ok(state.rise>40&&state.rise<54);report.evidence.camera=state;
+  await check('The default camera keeps the flying rider in a close match view',async()=>{
+   const state=await page.evaluate(()=>{const g=window.__BROOMBALL__,f=g.player.pos.clone().add(new THREE.Vector3(0,1.15,0));return {mode:g.match.cameraMode,distance:g.camera.position.distanceTo(f),rise:g.camera.position.y-f.y,fov:g.camera.fov};});
+   assert.equal(state.mode,'broadcast');assert.ok(state.distance>15&&state.distance<22);assert.ok(state.rise>7&&state.rise<10);assert.ok(state.fov>=50&&state.fov<=54);report.evidence.camera=state;
    await page.screenshot({path:path.join(out,'refinements-match-1440.png')});
   });
   const stage=async()=>page.evaluate(()=>{
@@ -59,7 +59,7 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
   });
   await check('All active commentary and local spells use female English recordings',async()=>{
    const state=await page.evaluate(()=>({voice:window.BroomVoice.getStatus(),clips:Object.entries(window.BroomCommentaryClips).map(([id,c])=>({id,src:c.src,text:c.text}))}));
-   assert.match(state.voice.lang,/^en/);assert.match(state.voice.voice,/Samantha/);assert.ok(state.clips.length>=65);
+   assert.match(state.voice.lang,/^en/);assert.match(state.voice.voice,/Joanna/);assert.ok(state.clips.length>=65);
    for(const cue of state.clips){assert.match(cue.src,/assets\/voice\//);assert.ok(fs.statSync(path.resolve(root,cue.src)).size>1000);assert.doesNotMatch(cue.text,/[\u3400-\u9fff]/);}
    report.evidence.voice={...state.voice,commentaryClips:state.clips.length};
   });

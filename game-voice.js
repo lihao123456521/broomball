@@ -62,10 +62,10 @@
     return {
       supported: audioSupported || supported,
       available: audioSupported || !!voice,
-      voice: audioSupported ? 'Samantha · Female English (offline)' : voice?.name || null,
-      lang: audioSupported ? 'en-US' : voice?.lang || 'en-US',
+      voice: audioSupported ? (window.BroomNaturalVoice?.voiceName||'Samantha')+' · Female English (offline)' : voice?.name || null,
+      lang: audioSupported ? (window.BroomNaturalVoice?.locale||'en-US') : voice?.lang || 'en-US',
       local: audioSupported || voice?.localService === true,
-      clips: audioSupported ? cueDefinitions.length : 0,
+      clips: audioSupported ? (window.BroomNaturalVoice?.clips||cueDefinitions.length) : 0,
       synthesisAvailable: !!voice,
       reason: audioSupported ? 'ready-clips' : !supported ? 'unsupported' : voice ? 'ready' : voices.length ? 'female-voice-unavailable' : 'voices-loading'
     };
@@ -141,7 +141,7 @@
     });
   }
 
-  // The six core cues are bundled recordings of Samantha, the same female English voice,
+  // The six compatibility cues use the same Joanna female English recordings,
   // so they work offline even when the browser exposes no synthesis voices.
   // Chinese event aliases resolve to English; new English text uses only a female English synthesis voice.
   async function speak(text, options = {}) {

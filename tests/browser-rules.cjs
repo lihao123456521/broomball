@@ -133,7 +133,8 @@ const server = http.createServer((req, res) => {
       return { hoopInnerRadius, ballRadius, clearance: hoopInnerRadius - ballRadius };
     });
     report.evidence.geometry = geometry;
-    assert.ok(geometry.clearance > 2 && geometry.clearance < 2.5);
+    assert.ok(geometry.ballRadius > .6 && geometry.ballRadius < .7, 'Reduced visible ball radius stays consistent with the readable character view');
+    assert.ok(geometry.clearance > 2.6 && geometry.clearance < 2.8);
 
     for (const sign of [-1, 1]) {
       const expected = sign < 0 ? [10, 0] : [0, 10];

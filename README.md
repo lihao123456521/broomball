@@ -8,11 +8,11 @@
 
 - **4 对 4**：每队三名追球手、一名守门员。己方队友向两侧拉开接应，对手会逼抢和传球。
 - **球队控制**：S / T 向高亮队友短传，Z 向队友前方送直塞。短传与直塞沿出手时确定的轻微抛物弧线飞行，能被拦截；接球后自动控制接球队员。C 可手动切换到最接近球的己方追球手。
-- **进攻选择**：低亮度点状弧线和球员标签标明接应目标，选择同时考虑方向、距离与对手封堵。鼠标在转播镜头中选择进攻方向，← / → 也可转向。白色短线显示当前方向。
-- **射门**：按住 F 蓄力，松开出手；鼠标左键或屏幕按钮快速射门。转播镜头中朝向蓝门且在 38 米内时辅助瞄准；跟随镜头需准星对准门环。实际穿过门环得 10 分。
+- **进攻选择**：低亮度点状弧线和球员标签标明接应目标，选择同时考虑方向、距离与对手封堵。鼠标在近景或全场镜头中选择进攻方向，← / → 也可转向。白色短线显示当前方向。
+- **射门**：按住 F 蓄力，松开出手；鼠标左键或屏幕按钮快速射门。近景或全场镜头中朝向蓝门且在 38 米内时辅助瞄准；训练跟随镜头需准星对准门环。实际穿过门环得 10 分。
 - **攻防转换**：B 逼近持球对手，接近后抢断；Shift 冲刺、魔法控制和守门员扑救仍可使用。进球后短暂停顿，由失球方重新开球。
-- **清晰的球权信息**：保留全队视野、稍微拉近的转播镜头，显示控球状态、接应队员、传球路线、蓄力和战术雷达。V 切换跟随镜头。转播时隐藏遮挡球场的大型教学标牌。
-- **女性英语**：65 段完整赛事解说、13 段咒语使用本地 Samantha 英语女声；另有 3 段兼容提示，共 81 个 WAV。开场、控球、传球、射门、进球、倒计时、结算和训练共用一个播报通道，避免互相打断。N 切换语音，暂停面板可调音量；回退合成也只允许女性英语。来源见 `assets/voice/VOICE.md`。
+- **清晰的球权信息**：默认近距离骑手镜头，保持角色在画面中清晰可见；传球飞远时不拉远镜头。V 切换全场战术视角并返回近景。显示控球状态、接应队员、传球路线、蓄力和雷达。球场有 756 名带头、身体、手脚和围巾的观众，用 12 组实例绘制。
+- **女性英语**：65 段完整赛事解说、13 段咒语使用 HeyGen Voice 的 Joanna 自然英式女声录音；另有 3 段兼容提示，共 81 个 WAV，全部在本地离线播放，保留原始录音与字词时间戳。开场、控球、传球、射门、进球、倒计时、结算和训练共用一个播报通道，避免互相打断。N 切换语音，暂停面板可调音量；回退合成也只允许女性英语。来源见 `assets/voice/VOICE.md`。
 
 标准赛 180 秒，挑战赛 150 秒，按终场分数决胜；此次球队玩法不使用飞贼提前终结比赛。训练无计时、无对手干扰，依次完成飞行、升降、拾球、短传、射门和施法六步；实际接球和进球才推进训练。
 
@@ -21,7 +21,7 @@
 | 操作 | 按键 |
 | --- | --- |
 | 前进 / 左右横移 | W / A、D |
-| 选择方向 | 转播时移动鼠标；← / → 转向 |
+| 选择方向 | 近景或全场时移动鼠标；← / → 转向 |
 | 短传 / 向持球队友要球 | S 或 T |
 | 直塞 | Z |
 | 切换控制队员 | C |
@@ -32,7 +32,7 @@
 | 上升 / 下降 | Space 或 E / Q 或 Ctrl |
 | 咒语 | R 或鼠标右键 |
 | 切换战术技能 | 1 / 2 / 3 |
-| 转播 / 跟随镜头 | V |
+| 近景 / 全场战术镜头 | V |
 | 暂停 / 说明 | Esc / H |
 
 **没有后退按键。S 已改为短传。** 松开移动键自动制动，转向后前进可返回防守区域。传球、射门、切人也有可点击按钮。训练与标准赛巡航速度 22、冲刺 36；挑战赛为 28 / 48。冲刺消耗体力，X 急停优先于冲刺。暂停时可调整鼠标灵敏度和减少镜头动态，设置保存在本机。
@@ -76,6 +76,7 @@
 当前球队玩法验收：
 
 ```text
+node tests/browser-character-presence.cjs
 node tests/passing-trajectory.cjs
 node tests/browser-refinements.cjs
 node tests/browser-branch-integration.cjs
@@ -90,8 +91,8 @@ node tests/browser-rules.cjs --file
 
 需要 Node.js、Playwright 和 Chromium。可通过 `PLAYWRIGHT_MODULE` 指定 Playwright 模块路径，通过 `BROWSER_EXECUTABLE` 指定浏览器。测试先安装统一虚拟时钟再加载游戏，覆盖真实键盘输入、接球、拦截、进球、训练全流程、暂停、低帧率及离线运行。
 
-`tests/browser-experience.cjs`、`tests/browser-houses-novice.cjs` 是此前单人追球版的体验脚本，包含旧飞贼和回传预期；当前以球队验收脚本为准。历史验证保存在 `docs/validation/`。本轮整合记录见 `docs/validation/2026-11-14-final-integration.md`；前轮球队重设计见 `docs/validation/2026-11-14-teamplay-redesign.md`。
+`tests/browser-experience.cjs`、`tests/browser-houses-novice.cjs` 是此前单人追球版的体验脚本，包含旧飞贼和回传预期；当前以球队验收脚本为准。历史验证保存在 `docs/validation/`。最新近景与自然配音验收见 `docs/validation/rider-presence-and-natural-voice.md`；分支整合记录见 `docs/validation/2026-11-14-final-integration.md`；前轮球队重设计见 `docs/validation/2026-11-14-teamplay-redesign.md`。
 
-请保留 `index.html`、`game-environment.js`、`game-houses.js`、`game-presentation.css`、`game-voice.js`、`game-passing.js`、`game-models.js`、`game-brooms.js`、`game-school-magic.js`、`game-commentary*.js`、`assets/` 和 `vendor/` 的相对位置。
+请保留 `index.html`、`game-environment.js`、`game-houses.js`、`game-presentation.css`、`game-voice.js`、`game-passing.js`、`game-crowd.js`、`game-models.js`、`game-brooms.js`、`game-school-magic.js`、`game-commentary*.js`、`assets/` 和 `vendor/` 的相对位置。
 
 Three.js 使用 MIT 许可证，见 `vendor/THREE-LICENSE.txt`。

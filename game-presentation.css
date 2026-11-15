@@ -541,3 +541,7 @@ h2, .pause-title {
   button, .house-option, .spell-slot, .hud, #message, #speedFill, #staminaFill { transition: none; }
   .house-option:hover, .character:hover, .primary:hover { transform: none; }
 }
+/* Keep diagnostics away from the close-up rider's face and torso. */
+#hud[data-camera-mode="broadcast"] #targetHint{top:auto;bottom:238px;max-width:70vw;white-space:normal;text-align:center;font-size:10px;opacity:.8}
+#hud[data-camera-mode="broadcast"] .ball-marker span{font-size:10px}
+@media(max-height:760px){#hud[data-camera-mode="broadcast"] #targetHint{bottom:206px}}

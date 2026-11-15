@@ -55,9 +55,10 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/voice/commen
       const names = [...Object.values(lines.names.houseNames), ...Object.values(lines.names.nameById)];
       let emphasizedNames = 0;
       for (const line of manifest) {
-        assert.equal(line.language, 'en-US');
-        assert.equal(line.voice, 'Samantha');
-        assert.equal(line.gender, 'female');assert.equal(line.sampleRate,22050);assert(line.peak>1000&&line.rms>50);
+        assert.equal(line.language, 'en-GB');
+        assert.equal(line.voice, 'Joanna - Warm & Conversational');
+        assert.equal(line.provider, 'HeyGen Voice');
+        assert.equal(line.gender, 'female');assert.equal(line.sampleRate,44100);assert(line.peak>1000&&line.rms>50);
         assert.equal(line.text, lines.catalog[line.id].text);
         assert.match(lines.catalog[line.id].src, new RegExp('/' + line.id + '\\.wav$'));
         assert.doesNotMatch(line.text, /[\u3400-\u9fff]/);
@@ -67,7 +68,7 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/voice/commen
           emphasizedNames++;
         }
       }
-      evidence.catalog = { clips: manifest.length, emphasizedNames };
+      evidence.catalog = { clips: manifest.length, emphasizedNames, voice: manifest[0].voice, provider: manifest[0].provider, language: manifest[0].language };
     });
 
     await check('Every real female WAV file decodes to finite, non-silent browser PCM', async () => {
@@ -94,8 +95,8 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/voice/commen
         return results;
       }, manifest);
       for (const [index, clip] of decoded.entries()) {
-        assert.equal(clip.bytes, manifest[index].bytes, clip.id + ' bytes');
-        assert(clip.duration > .5 && clip.duration <= 10, clip.id + ' duration');
+        assert.equal(clip.bytes, fs.statSync(path.join(root,'assets/voice/commentary',clip.id+'.wav')).size, clip.id + ' bytes match the actual local recording');
+        assert(clip.duration > .5 && clip.duration <= 20, clip.id + ' duration');
         assert(Math.abs(clip.duration - manifest[index].duration) < .15, clip.id + ' duration matches manifest');
         assert(clip.finite && clip.channels >= 1 && clip.peak > .01 && clip.rms > .001, clip.id + ' audible PCM');
       }

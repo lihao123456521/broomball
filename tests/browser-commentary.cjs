@@ -22,7 +22,7 @@ fs.mkdirSync(out, { recursive: true });
       play() {
         this.paused = false;
         const line = [...Object.values(window.BroomCommentaryClips || {}),...Object.values(window.BroomSpellClips || {})].find(line => line.src === this.src);
-        if (line) window.__speechLog.push({ text: line.text, src: this.src, volume: this.volume, backend: 'audio', lang: 'en-US', voice: 'Samantha' });
+        if (line) window.__speechLog.push({ text: line.text, src: this.src, volume: this.volume, backend: 'audio', lang: window.BroomNaturalVoice?.locale || 'en-GB', voice: window.BroomNaturalVoice?.voiceName || 'Joanna - Warm & Conversational' });
         return Promise.resolve();
       }
     };
@@ -63,16 +63,16 @@ fs.mkdirSync(out, { recursive: true });
       await page.evaluate(() => { const g = __BROOMBALL__; g.selectHouse('ravenclaw'); g.selectOpponent('hufflepuff'); });
       await page.locator('#startBtn').click();
       await page.clock.runFor(3100);
-      const kickoff = (await events()).find(u => u.text.includes('Brooms up!'));
+      const kickoff = (await events()).find(u => u.src?.endsWith('/kickoff-ravenclaw-hufflepuff.wav'));
       assert(kickoff); assert(kickoff.text.includes('Ravenclaw')); assert(kickoff.text.includes('Hufflepuff'));
       assert.equal(kickoff.backend, 'audio'); assert.match(kickoff.src, /kickoff-ravenclaw-hufflepuff/); assert.equal(kickoff.volume, .4);
     });
     await check('Goals preempt routine speech with the correct English house call', async () => {
       await page.evaluate(() => { const g = __BROOMBALL__; g.scoreGoal('player'); g.scoreGoal('rival'); });
       const log = await events();
-      assert(log.some(u => u.text.includes('Goal for Ravenclaw!')));
-      assert(log.some(u => u.text.includes('Goal for Hufflepuff!')));
-      assert.match(await page.locator('#commentaryCaption').innerText(), /Goal for Hufflepuff!/);
+      assert(log.some(u => u.src?.endsWith('/goal-ravenclaw.wav') && u.text.includes('Ravenclaw')));
+      assert(log.some(u => u.src?.endsWith('/goal-hufflepuff.wav') && u.text.includes('Hufflepuff')));
+      assert.equal(await page.locator('#commentaryCaption').innerText(), await page.evaluate(()=>BroomCommentaryClips['goal-hufflepuff'].text));
       await page.screenshot({ path: path.join(out, 'commentary-goal.png') });
     });
     await check('Pause, help and menu stop immediately without replaying stale lines', async () => {
@@ -100,28 +100,31 @@ fs.mkdirSync(out, { recursive: true });
       assert.equal((await events()).length, before);
       await page.evaluate(()=>{const g=__BROOMBALL__;g.setCommentaryEnabled(true);g.match.cooldowns.fill(0);g.castSpell();});
       assert.equal((await events()).length,before+1);
-      assert.equal((await events()).at(-1).lang, 'en-US');assert.equal((await events()).at(-1).voice,'Samantha');assert.equal((await events()).at(-1).backend,'audio');
+      assert.equal((await events()).at(-1).lang, 'en-GB');assert.equal((await events()).at(-1).voice,'Joanna - Warm & Conversational');assert.equal((await events()).at(-1).backend,'audio');
     });
     await check('Timed results are announced and restart clears the prior match', async () => {
       await stage();
       await page.evaluate(() => { const g=__BROOMBALL__;g.setCommentaryEnabled(true);g.match.playerScore=20;g.match.rivalScore=10;g.match.timeLeft=.01; });
       await page.clock.runFor(50);
-      assert((await events()).at(-1).text.includes('Ravenclaw win it!'));
+      assert.equal((await events()).at(-1).text, await page.evaluate(()=>BroomCommentaryClips['result-ravenclaw'].text));
       assert.equal(await page.evaluate(() => __BROOMBALL__.match.state), 'ended');
       await page.evaluate(() => __BROOMBALL__.restartMatch());
       assert.equal(await page.evaluate(() => __BROOMBALL__.commentary.state.activeKey), null);
     });
-    await check('Current player names are spoken as whole English recordings', async () => {
+    await check('Whole player-name recordings leave a twelve-second gap between routine calls', async () => {
       await stage();
       await page.evaluate(() => { const g = __BROOMBALL__; g.switchCharacter(0); g.setCarrier('player'); });
-      assert.equal((await events()).at(-1).text, 'Luna Lovegood has the Quaffle!');
-      await page.evaluate(() => { const g = __BROOMBALL__; g.commentary.stop(); g.throwQuaffle(); });
-      assert.equal((await events()).at(-1).text, 'Luna Lovegood shoots for the hoops!');
+      assert.equal((await events()).at(-1).text, await page.evaluate(()=>BroomCommentaryClips['player-possession-luna'].text));
+      const before=(await events()).length;
+      const suppressed=await page.evaluate(()=>{const g=__BROOMBALL__;g.commentary.stop();return g.announceClip('spacing-check','pass',1,0);});
+      assert.equal(suppressed,false);assert.equal((await events()).length,before);
+      await page.evaluate(() => { const g = __BROOMBALL__; g.match.elapsed+=13;g.commentary.stop();g.throwQuaffle(); });
+      assert.equal((await events()).at(-1).text, await page.evaluate(()=>BroomCommentaryClips['player-shot-luna'].text));
     });
     await check('Training completion is announced after the final spell call', async () => {
       await page.evaluate(() => { const g = __BROOMBALL__; g.returnToMenu(); g.selectHouse('gryffindor'); g.switchCharacter(2); g.startMatch('training'); g.match.trainingStep = 5; g.commentary.stop(); g.castSpell(); });
       assert.equal(await page.evaluate(() => __BROOMBALL__.match.state), 'ended');
-      assert.equal((await events()).at(-1).text, "Training complete. You're ready for the match!");
+      assert.equal((await events()).at(-1).text, await page.evaluate(()=>BroomCommentaryClips['training-end'].text));
       assert.equal((await events()).at(-1).backend, 'audio');
     });
     assert.deepEqual(errors, []);

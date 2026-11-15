@@ -1,3 +1,4 @@
+// Legacy system-voice generator. Current natural clips are imported with import-natural-voice.py.
 // Rebuild the active female English WAV commentary with installed Samantha.
 // Usage: swift tools/build-commentary.swift <catalog.json> assets/voice/commentary
 import Foundation
