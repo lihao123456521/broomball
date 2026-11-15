@@ -550,3 +550,13 @@ h2, .pause-title {
 #hud[data-camera-mode="broadcast"] #targetHint,
 #hud[data-camera-mode="close"] #assistHint,
 #hud[data-camera-mode="close"] #targetHint{display:none}
+/* Skills report the current play; the view remains centred on the ball. */
+#hud[data-camera-mode="broadcast"] #targetHint,#hud[data-camera-mode="close"] #targetHint{display:block;top:auto;bottom:206px;left:50%;transform:translateX(-50%);width:max-content;max-width:420px;white-space:normal;text-align:center;padding:5px 10px;background:#071421bd;border-radius:3px;color:#d5e4ef;font-size:10px}
+#hud #targetHint:empty{display:none}
+#controlLocator{position:absolute;left:50%;bottom:174px;transform:translateX(-50%);padding:5px 10px;background:#071421e0;border:1px solid #c6ff5855;border-radius:3px;color:#d4efad;font-size:10px;white-space:nowrap}
+#controlLocator[hidden]{display:none}
+@media(max-width:900px) and (min-width:681px){#radar{display:block;top:112px;bottom:auto;right:14px;width:130px;height:112px}#hud[data-camera-mode="broadcast"] #targetHint,#hud[data-camera-mode="close"] #targetHint{bottom:173px;max-width:350px}#controlLocator{bottom:147px}}
+@media(max-width:680px){#radar{display:block;top:151px;bottom:auto;right:10px;width:104px;height:90px}#hud[data-camera-mode="broadcast"] #targetHint,#hud[data-camera-mode="close"] #targetHint{bottom:176px;max-width:88vw}#controlLocator{bottom:204px;max-width:88vw;font-size:9px}}
+.player-label.opponent{color:#ffd4b0;border-bottom:2px solid #ef9b69}
+/* Keep the full-pitch map readable when a world-space name passes behind it. */
+#radar{z-index:4}

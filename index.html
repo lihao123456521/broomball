@@ -61,28 +61,30 @@
     <div class="team ravens"><span class="team-name" id="awayTeamName">斯莱特林</span><strong id="rivalScore">0</strong></div>
   </div>
   <div class="objective"><div class="objective-title">CURRENT OBJECTIVE · 当前目标</div><div id="objectiveText">飞向中央橙色鬼飞球</div><div id="objectiveArrow">↑ · 38m</div></div>
-  <div class="wizard-panel glass"><div class="wizard-name" id="wizardName">HARRY POTTER</div><div class="wizard-switch">1 HARRY &nbsp; 2 HERMIONE &nbsp; 3 RON</div><div id="spellStatus">R / 右键 · 除你武器</div></div>
+  <div class="wizard-panel glass"><div class="wizard-name" id="wizardName">HARRY POTTER</div><div class="wizard-switch">1 夺回球权 &nbsp; 2 打开传球线 &nbsp; 3 保护队友</div><div id="spellStatus">R / 右键 · 除你武器</div></div>
+  <section id="playerPortraits" class="player-portraits" aria-label="当前比赛球员面容"></section>
   <div class="flight-panel glass"><div id="speed">AIRSPEED 00 · ALT 10</div><div class="speed-track"><div id="speedFill"></div></div><div class="stamina-label"><span>冲刺体力</span><span id="staminaValue">100%</span></div><div class="speed-track"><div id="staminaFill"></div></div><div class="flight-keys"><div><span><kbd>W A S D</kbd> 镜头方向移动</span><span id="viewMode">第三人称</span></div><div><span><kbd>SPACE / ↑</kbd> 上升</span><span><kbd>Q / ↓</kbd> 下降</span></div><div><span><kbd>SHIFT</kbd> 加速</span><span><kbd>V</kbd> 视角</span></div></div><div id="possession">QUAFFLE · IN FLIGHT</div></div>
   <canvas id="radar" width="336" height="288"></canvas>
   <div id="message"></div><div id="reticle">+</div><div id="targetHint"></div><div id="spellCallout"></div><div id="countdown">3</div>
   <div class="coach glass" id="coach"><div class="coach-step" id="coachStep">FLIGHT 1/6</div><div id="coachText">W 前进，A / D 横移；← / → 转向，J 短传。</div></div>
   <div class="spell-bar" id="spellBar" aria-label="选择巫师与技能"></div>
   <div id="teamStatus" class="team-status"></div><div id="passHint" class="pass-hint"></div><div id="chargeMeter" class="charge-meter"><span></span></div><div id="playerLabels"></div>
+  <div id="controlLocator" hidden></div>
   <div class="action-bar"><button id="shortPassBtn"><kbd>J</kbd>短传</button><button id="throughPassBtn"><kbd>K</kbd>直塞</button><button id="shootBtn"><kbd>F</kbd>射门</button><button id="switchPlayerBtn"><kbd>C</kbd>切人</button></div>
   <div id="assistHint"></div><div class="ball-marker" id="ballMarker" data-location="hidden"><b id="ballMarkerArrow"></b><span id="ballMarkerText"></span></div>
-  <div class="controls"><span class="keycap">W A S D</span> 移动 &nbsp;•&nbsp; <span class="keycap">SPACE / ↑</span> 上升 &nbsp;•&nbsp; <span class="keycap">Q / ↓</span> 下降 &nbsp;•&nbsp; <span class="keycap">SHIFT</span> 加速 &nbsp;•&nbsp; <span class="keycap">F / LMB</span> 射门 &nbsp;•&nbsp; <span class="keycap">R / RMB</span> 咒语<br><span>1/2/3 巫师 &nbsp;•&nbsp; V 战术 / 近景 &nbsp;•&nbsp; J / T 短传 &nbsp;•&nbsp; K / Z 直塞 &nbsp;•&nbsp; C 切人 &nbsp;•&nbsp; 鼠标选择方向 &nbsp;•&nbsp; ← / → 转向 &nbsp;•&nbsp; H 玩法说明 &nbsp;•&nbsp; X 急停 &nbsp;•&nbsp; 松键制动 &nbsp;•&nbsp; ESC 暂停</span></div>
+  <div class="controls"><span class="keycap">W A S D</span> 移动 &nbsp;•&nbsp; <span class="keycap">SPACE / ↑</span> 上升 &nbsp;•&nbsp; <span class="keycap">Q / ↓</span> 下降 &nbsp;•&nbsp; <span class="keycap">SHIFT</span> 加速 &nbsp;•&nbsp; <span class="keycap">F / LMB</span> 射门 &nbsp;•&nbsp; <span class="keycap">R / RMB</span> 咒语<br><span>1/2/3 战术技能 &nbsp;•&nbsp; V 战术 / 近景 &nbsp;•&nbsp; J / T 短传 &nbsp;•&nbsp; K / Z 直塞 &nbsp;•&nbsp; C 切人 &nbsp;•&nbsp; 鼠标选择方向 &nbsp;•&nbsp; ← / → 转向 &nbsp;•&nbsp; H 玩法说明 &nbsp;•&nbsp; X 急停 &nbsp;•&nbsp; 松键制动 &nbsp;•&nbsp; ESC 暂停</span></div>
 </div>
 <div class="overlay" id="menu">
   <div class="menu-card"><div class="menu-controls">
     <div class="eyebrow">MATCHDAY / 2026 · 学院联赛</div><h1>BROOMBALL</h1><div class="subtitle">学院冠军赛 · 用传切，打开下一次进攻</div>
     <div class="rule"></div><div class="choose">选择代表学院 · 学院杯友谊赛</div>
     <div class="house-picker" id="housePicker" aria-label="选择代表学院"></div>
-    <div class="match-options"><label>对手学院 <select id="opponentHouse" aria-label="对手学院"></select></label><span>4 对 4 · 战术转播 · 传切配合</span></div>
+    <div class="match-options"><label>对手学院 <select id="opponentHouse" aria-label="对手学院"></select></label><span>4 对 4 · 随球转播 · 传切配合</span></div>
     <div class="choose">你的战术技能 · 随时按 1 / 2 / 3 切换</div>
     <div class="characters">
       <button class="character selected" data-id="harry"><span class="sigil">H</span><strong>HARRY POTTER</strong><div class="cn">哈利·波特 / 全能进攻</div><div class="spell">除你武器 · EXPELLIARMUS</div><p>缴械掉球 + 短暂受击 · 射程 36 米<br>冷却 7 秒 · 无目标不消耗</p></button>
       <button class="character" data-id="hermione"><span class="sigil">H</span><strong>HERMIONE GRANGER</strong><div class="cn">赫敏·格兰杰 / 精准控制</div><div class="spell">昏昏倒地 · STUPEFY</div><p>昏迷 / 冻结 3.2 秒 · 射程 32 米<br>冷却 9 秒 · 控制后靠近抢球</p></button>
-      <button class="character" data-id="ron"><span class="sigil">R</span><strong>RON WEASLEY</strong><div class="cn">罗恩·韦斯莱 / 防守反击</div><div class="spell">盔甲护身 · PROTEGO</div><p>4 秒护盾，格挡撞击与抢断<br>冷却 12 秒 · 切换角色保留护盾</p></button>
+      <button class="character" data-id="ron"><span class="sigil">R</span><strong>RON WEASLEY</strong><div class="cn">罗恩·韦斯莱 / 防守反击</div><div class="spell">盔甲护身 · PROTEGO</div><p>4 秒护盾，格挡撞击与抢断<br>冷却 12 秒 · 护盾随受保护球员保留</p></button>
     </div>
     <div class="broom-summary"><span>当前扫帚：<strong id="equippedBroom"></strong></span><button class="secondary" type="button" id="broomShopToggle" aria-expanded="false" aria-controls="broomShop">扫帚商店与装备</button></div>
     <section class="broom-shop" id="broomShop" hidden aria-label="扫帚商店"><h2>扫帚工坊 · 学院装备库</h2><strong id="broomBalance"></strong><p id="broomNotice" role="status"></p><div class="broom-cards" id="broomCards"></div><div class="team-equipment"><h3 id="teamEquipmentTitle"></h3><div id="teamLoadouts"></div><p>已拥有的扫帚可分配给队员；同款扫帚共用升级等级。</p></div><div class="opponent-equipment"><h3 id="opponentEquipmentTitle"></h3><p id="opponentBudget"></p><div id="opponentLoadouts"></div><p>对手按比赛结果领取奖金，赛后自动购买或升级，下场比赛使用新装备。</p></div><p>每级增加 3% 巡航与冲刺速度，最多 3 级；升级费用依次为 100、200、300 金币。新款扫帚后续上架。进度保存在当前浏览器。</p></section>
@@ -117,7 +119,7 @@
         <div class="key-line"><strong>瞄准镜头</strong>← / → 转向；跟随视角中用鼠标瞄准，I / O 调整高度</div>
         <div class="key-line"><strong>射门</strong><span class="keycap">F</span> 按住蓄力、松开射门；鼠标左键快速射门</div>
         <div class="key-line"><strong>传球 / 切人</strong><span class="keycap">J / T</span> 短传 / 要球；K / Z 直塞；C 切人</div>
-        <div class="key-line"><strong>咒语</strong><span class="keycap">R / 右键</span>；1/2/3 切换角色</div>
+        <div class="key-line"><strong>咒语</strong><span class="keycap">R / 右键</span>；1/2/3 选择技能 · C 切换球员</div>
         <div class="key-line"><strong>制动 / 其他</strong><span class="keycap">X</span> 急停；松键自动停稳 · <span class="keycap">V</span> 战术 / 近景 · <span class="keycap">H</span> 本说明 · <span class="keycap">ESC</span> 暂停</div>
       </div>
       <div class="guide-panel"><h3>比赛目标</h3>
@@ -137,6 +139,7 @@
 <script src="./game-character-art.js"></script>
 <script src="./game-models.js"></script>
 <script src="./game-character-preview.js"></script>
+<script src="./game-player-portraits.js"></script>
 <script src="./assets/brooms/model-data.js"></script>
 <script src="./game-brooms.js"></script>
 <script src="./game-school-magic.js"></script>
@@ -146,6 +149,7 @@
 <script src="./assets/voice/natural/catalog.js"></script>
 <script src="./game-voice.js"></script>
 <script src="./game-passing.js"></script>
+<script src="./game-match-skills.js"></script>
 <script src="./game-commentary-lines.js"></script>
 <script src="./game-commentary.js"></script>
 <script>
@@ -254,9 +258,9 @@ buildWorld();
 const environment=window.BroomEnvironment?.build({THREE,scene,renderer});
 const crowd=window.BroomCrowd?.build({THREE,scene});
 const configs=[
- {id:'harry',name:'哈利 · 波特',spell:'EXPELLIARMUS',cn:'除你武器',effect:'expelliarmus',description:'缴械掉球 · 短暂受击',cooldown:7,range:36,color:0xff8266,pitch:.9,rate:.92},
- {id:'hermione',name:'赫敏 · 格兰杰',spell:'STUPEFY',cn:'昏昏倒地',effect:'stupefy',description:'昏迷 / 冻结 3.2 秒',cooldown:9,range:32,color:0xff4f78,pitch:1.08,rate:1.04},
- {id:'ron',name:'罗恩 · 韦斯莱',spell:'PROTEGO',cn:'盔甲护身',effect:'protego',description:'护盾 4 秒 · 防撞 / 防抢断',cooldown:12,range:0,color:0x79bfff,pitch:.82,rate:.9}
+ {id:'harry',name:'哈利 · 波特',spell:'EXPELLIARMUS',cn:'除你武器',effect:'expelliarmus',description:'防守锁定持球者 · 进攻化解逼抢',cooldown:7,range:36,color:0xff8266,pitch:.9,rate:.92},
+ {id:'hermione',name:'赫敏 · 格兰杰',spell:'STUPEFY',cn:'昏昏倒地',effect:'stupefy',description:'压制拦截者 · 创造传球空当',cooldown:9,range:32,color:0xff4f78,pitch:1.08,rate:1.04},
+ {id:'ron',name:'罗恩 · 韦斯莱',spell:'PROTEGO',cn:'盔甲护身',effect:'protego',description:'保护持球 / 接球队友 · 持续 4 秒',cooldown:12,range:0,protectRange:36,color:0x79bfff,pitch:.82,rate:.9}
 ];
 const coreSpells=configs.map(c=>({...c}));
 const houses=window.BroomHouses.houses;
@@ -276,7 +280,7 @@ const modes={
  challenge:{label:'高压挑战',duration:150,snitchAt:Infinity,rivalSnitchAt:Infinity,rivalSpeed:1}
 };
 const freshStats=()=>({shots:0,goals:0,steals:0,passes:0,completedPasses:0,homePossession:0,awayPossession:0});
-let selectedMode='standard',bestScores={};
+let selectedMode='standard',startingCharacter=0,bestScores={};
 try{const saved=JSON.parse(localStorage.getItem('broomball-best')||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))bestScores=saved;}catch{}
 const match={cameraMode:'broadcast',autoSwitch:true,shotCharge:0,charging:false,tackle:0,pendingRestart:null,homeHouse:settings.house,awayHouse:settings.opponent,callForPass:0,mode:'standard',rules:modes.standard,stats:freshStats(),trainingStep:0,trainingDistance:0,trainingHeight:0,trackSnitch:false,state:'menu',paused:false,countdown:3,elapsed:0,timeLeft:180,playerScore:0,rivalScore:0,message:'',messageTime:0,callout:'',calloutTime:0,snitchActive:false,kickoff:0,stealCooldown:1.5,selected:0,cooldowns:[0,0,0],firstPerson:false,gravity:false,collision:true,usedMove:false,usedVertical:false,usedThrow:false,usedSpell:false};
 let lastQuietCommentary=-Infinity;
@@ -289,8 +293,11 @@ const shotRange=38,passRange=46;
 const training=()=>match.mode==='training';
 function replacePlayerModel(){const pos=player.pos.clone(),rot=player.mesh?player.mesh.rotation.clone():null;if(player.mesh)disposeObject(player.mesh);player.mesh=createWizard(configs[match.selected].id);window.BroomHouses.applyUniform(player.mesh,match.homeHouse);scene.add(player.mesh);player.mesh.position.copy(pos);if(rot)player.mesh.rotation.copy(rot);player.pos=player.mesh.position;player.mesh.visible=!match.firstPerson;window.BroomGarage.mount(player.mesh);}
 replacePlayerModel();
+// Protection belongs to the rider's body, so passing or switching control never moves it to somebody else.
+Object.defineProperty(player,'shield',{get(){return player.mesh?.userData.matchShield||0;},set(value){if(player.mesh)player.mesh.userData.matchShield=value;}});
 shield=new THREE.Mesh(new THREE.SphereGeometry(2.35,28,16),new THREE.MeshBasicMaterial({color:0x74baff,transparent:true,opacity:.14,side:THREE.DoubleSide,depthWrite:false}));shield.visible=false;scene.add(shield);
-const targetMarker=new THREE.Mesh(new THREE.TorusGeometry(1.6,.045,6,36),new THREE.MeshBasicMaterial({color:0xffd48b,transparent:true,opacity:.9,depthTest:false}));targetMarker.renderOrder=5;targetMarker.visible=false;scene.add(targetMarker);
+const allyShields=Array.from({length:3},()=>{const bubble=new THREE.Mesh(shield.geometry,shield.material);bubble.visible=false;scene.add(bubble);return bubble;});
+const targetMarker=new THREE.Mesh(new THREE.TorusGeometry(1.6,.045,6,36),new THREE.MeshBasicMaterial({color:0xffd48b,transparent:true,opacity:.9,depthTest:false}));targetMarker.name='SkillTargetMarker';targetMarker.renderOrder=5;targetMarker.visible=false;scene.add(targetMarker);
 function addRival(role,pos,index){const mesh=createWizard('rival',true);mesh.position.copy(pos);scene.add(mesh);rivals.push({role,index,mesh,speed:role==='keeper'?24:role==='seeker'?23:22,stun:0,phase:index});}
 addRival('chaser',V(-16,12,-12),0);addRival('chaser',V(18,9,20),1);addRival('keeper',V(0,12,-53),2);addRival('chaser',V(25,14,-10),3);
 function addAlly(role,position,index){
@@ -318,7 +325,7 @@ function renderAcademyChoices(){
   const button=document.createElement('button');button.className='character'+(i===match.selected?' selected':'');button.dataset.id=cfg.id;button.setAttribute('aria-pressed',String(i===match.selected));
   button.innerHTML='<strong>'+cfg.en+'</strong><div class="cn">'+cfg.name+'</div><div class="spell">'+cfg.cn+' · '+cfg.spell+'</div><p>'+cfg.description+'<br>冷却 '+cfg.cooldown+' 秒</p>';button.onclick=()=>switchCharacter(i);box.append(button);
  }
- $('spellBar').innerHTML=configs.map((cfg,i)=>'<button class="spell-slot" id="spellSlot'+i+'" type="button" aria-pressed="'+(i===match.selected)+'"><span class="spell-key">'+(i+1)+' · '+cfg.name.split(' · ')[0]+'</span><strong>'+cfg.cn+'</strong><small>就绪</small><span class="cooldown-track"></span></button>').join('');
+ $('spellBar').innerHTML=configs.map((cfg,i)=>'<button class="spell-slot" id="spellSlot'+i+'" type="button" aria-pressed="'+(i===match.selected)+'"><span class="spell-key">'+(i+1)+' · '+['夺回球权','打开传球线','保护队友'][i]+'</span><strong>'+cfg.cn+'</strong><small>就绪</small><span class="cooldown-track"></span></button>').join('');
  for(let i=0;i<configs.length;i++)$('spellSlot'+i).onclick=()=>{if(match.state==='playing'&&!match.paused){switchCharacter(i);canvas.focus();}};
 }
 function refreshSquadAppearance(){
@@ -368,7 +375,7 @@ function syncHouseTheme(){
 }
 function selectHouse(id){
  if(match.state!=='menu'||!houses.some(h=>h.id===id))return false;
- settings.house=match.homeHouse=id;configureAcademy(id);match.selected=0;match.cooldowns.fill(0);replacePlayerModel();renderAcademyChoices();
+ settings.house=match.homeHouse=id;configureAcademy(id);startingCharacter=match.selected=0;match.cooldowns.fill(0);replacePlayerModel();renderAcademyChoices();
  if(match.awayHouse===id)settings.opponent=match.awayHouse=houses.find(h=>h.id!==id).id;
  refreshSquadAppearance();syncHouseTheme();applyTeamEquipment();window.dispatchEvent(new Event('broom-career-updated'));saveSettings();return true;
 }
@@ -382,7 +389,7 @@ function resetMatch(mode=selectedMode){
  selectMode(mode);
  clearInput();
  lastTime=performance.now();
- Object.assign(match,{mode:selectedMode,rules:modes[selectedMode],stats:freshStats(),
+ Object.assign(match,{mode:selectedMode,selected:startingCharacter,rules:modes[selectedMode],stats:freshStats(),
   state:selectedMode==='training'?'playing':'countdown',paused:false,countdown:3,
   cameraMode:selectedMode==='training'?'chase':'broadcast',shotCharge:0,charging:false,tackle:0,pendingRestart:null,
   elapsed:0,timeLeft:modes[selectedMode].duration,playerScore:0,rivalScore:0,message:'',
@@ -390,6 +397,7 @@ function resetMatch(mode=selectedMode){
   kickoff:0,callForPass:0,stealCooldown:1.5,cooldowns:[0,0,0],
   firstPerson:false,gravity:false,collision:true,usedMove:false,usedVertical:false,
   usedThrow:false,usedSpell:false,trainingStep:0,trainingDistance:0,trainingHeight:0});
+ if(player.mesh.userData.characterId!==configs[startingCharacter].id)replacePlayerModel();renderAcademyChoices();
  applyTeamEquipment();
  resetQuaffle();
  quaffle.visible=true;
@@ -402,21 +410,21 @@ function resetMatch(mode=selectedMode){
  Object.assign(player,{baseSpeed:match.mode==='challenge'?28:22,flySpeed:match.mode==='challenge'?15:11,speed:0,stamina:100,boosting:false,exhausted:false,boundaryNotice:0,shield:0,hitCooldown:0});
  player.mesh.visible=true;
  player.mesh.rotation.set(0,0,0);
- shield.visible=false;
+ shield.visible=false;for(const bubble of allyShields)bubble.visible=false;
  setAim(0,-.12);
  player.previousPos.copy(player.pos);
  camera.position.copy(player.pos).addScaledVector(getAimForward(),-11.5).add(V(0,2.8,0));
  updateCamera(0);
  const starts=[V(-16,12,-34),V(18,9,-31),V(0,12,-53),V(25,24,2)];
  for(const r of rivals){
-  r.stun=0;
+  r.stun=0;r.mesh.userData.matchShield=0;
   r.mesh.visible=!training();
   r.mesh.position.copy(starts[r.index]);resetAIFlight(r);
  }
  for(const a of allies){
   a.mesh.position.copy(a.initialPosition);
   a.mesh.visible=!training();
-  a.stun=0;
+  a.stun=0;a.mesh.userData.matchShield=0;
   a.velocity.set(0,0,0);resetAIFlight(a);
  }
  practiceDummy.mesh.visible=false;
@@ -458,6 +466,7 @@ function returnToMenu(){
  clearInput();
  match.state='menu';
  match.paused=false;
+ match.selected=startingCharacter;if(player.mesh.userData.characterId!==configs[startingCharacter].id)replacePlayerModel();renderAcademyChoices();
  for(const id of ['ending','pause','help','trainingEnd'])$(id).classList.add('hidden');
  $('menu').classList.remove('hidden');
  for(const button of document.querySelectorAll('.character'))button.classList.toggle('selected',button.dataset.id===configs[match.selected].id);
@@ -489,11 +498,11 @@ function getHorizontalBasis(){const forward=getAimForward();forward.y=0;if(forwa
 function initAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();}
 function tone(freq=440,duration=.12,type='sine',volume=.05){if(!audioCtx)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(volume,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration);}
 function speak(text){if(settings.commentary)commentary.spell(text,configs[match.selected]);}
-function switchCharacter(index){if(index<0||index>2||index===match.selected)return;match.selected=index;replacePlayerModel();renderAcademyChoices();notify(configs[index].name+' · '+configs[index].spell,1.5);tone(330+index*110,.12,'triangle');}
+function switchCharacter(index){if(index<0||index>2)return;const menu=match.state==='menu';if(index===match.selected&&(!menu||player.mesh.userData.characterId===configs[index].id))return;match.selected=index;if(menu){startingCharacter=index;replacePlayerModel();}renderAcademyChoices();notify(configs[index].cn+' · R / 右键使用',1.5);tone(330+index*110,.12,'triangle');}
 function toggleView(){
  match.cameraMode=match.cameraMode==='broadcast'?'close':'broadcast';match.firstPerson=false;player.mesh.visible=true;
  if(document.pointerLockElement)document.exitPointerLock();
- notify(match.cameraMode==='broadcast'?'战术转播 · 两侧接应尽在视野':'骑手近景 · V 返回战术镜头，按住 Tab 看全场',1.5);
+ notify(match.cameraMode==='broadcast'?'随球转播 · 持球者居中，按住 Tab 看全场':'持球者近景 · V 返回随球转播，按住 Tab 看全场',1.5);
 }
 function switchControl(unit=null){
  if(training()||match.state!=='playing'||match.paused)return false;
@@ -750,10 +759,21 @@ function updatePlayer(dt){
  const bank=settings.reducedMotion?0:clamp(-player.vel.dot(right)*.009,-.25,.25);player.mesh.rotation.z=lerp(player.mesh.rotation.z,bank,1-Math.exp(-dt*8));
  player.mesh.rotation.x=lerp(player.mesh.rotation.x,settings.reducedMotion?0:clamp(Math.atan2(player.vel.y,Math.max(h,12))*.45,-.23,.23),1-Math.exp(-dt*5));animateWizard(player.mesh,dt,h,match.elapsed);
 }
-const cameraFraming={distance:34,targets:[],mode:'broadcast'};
-function getTacticalTargets(){
- const out=[player.pos.clone().add(V(0,1.4,0))];
- for(const a of allies)if(a.role!=='keeper'&&a.mesh.visible&&a.stun<=0&&a.mesh.position.distanceTo(player.pos)<=54)out.push(a.mesh.position.clone().add(V(0,1.4,0)));
+const cameraFraming={distance:30,targets:[],mode:'broadcast',phase:'loose',subject:'ball',focus:[0,10,0],elevation:31};
+const broadcastFocus=V(0,11.4,0);
+function getMatchFocus(){
+ const owner=carrier==='player'?player:carrier;
+ const position=(owner?(owner===player?player.pos:owner.mesh.position):quaffle.position).clone();
+ const velocity=(owner?(owner===player?player.vel:owner.velocity||owner.flightDirection?.clone().multiplyScalar(owner.flightSpeed||0)):quaffleVel)||V();
+ return {owner,position,velocity,phase:carrier==='player'||allies.includes(carrier)?'attack':rivals.includes(carrier)?'defend':passTarget?'pass':shot?'shot':'loose',subject:owner?owner.mesh.uuid:'ball'};
+}
+function getTacticalTargets(activity=getMatchFocus()){
+ // Keep the ball in the centre. Nearby options may widen the view, but distant riders cannot pull it away.
+ const out=[activity.position.clone().add(V(0,1.2,0))],friends=activity.phase==='defend'?rivals:allies;
+ const candidates=friends.filter(a=>a!==activity.owner&&a.role!=='keeper'&&a.mesh.visible&&a.stun<=0&&a.mesh.position.distanceTo(activity.position)<=36);
+ if(activity.owner!==player&&player.pos.distanceTo(activity.position)<=30)candidates.unshift(player);
+ for(const a of candidates.slice(0,3))out.push((a===player?player.pos:a.mesh.position).clone().add(V(0,1.4,0)));
+ if(!activity.owner&&passTarget){const receiver=passTarget==='player'?player:passTarget;if((receiver===player?player.pos:receiver.mesh.position).distanceTo(activity.position)<30)out.push((receiver===player?player.pos:receiver.mesh.position).clone().add(V(0,1.4,0)));}
  return out;
 }
 function updateCamera(dt){
@@ -764,17 +784,20 @@ function updateCamera(dt){
   const focus=V(0,10,0);camera.position.lerp(focus.clone().add(V(72,96,103)),1-Math.exp(-dt*7));camera.lookAt(focus);
   camera.fov=lerp(camera.fov,52,1-Math.exp(-dt*7));cameraFraming.mode='overview';
  }else if(match.cameraMode==='broadcast'){
-  const points=getTacticalTargets(),bounds=new THREE.Box3().setFromPoints(points),focus=bounds.getCenter(V());
-  const direction=V(.42,.68,.60).normalize(),right=UP.clone().cross(direction).normalize(),screenUp=direction.clone().cross(right).normalize();
+  const activity=getMatchFocus(),points=getTacticalTargets(activity),desired=activity.position.clone().add(V(0,1.2,0));
+  const lead=activity.velocity.clone().multiplyScalar(activity.owner ? .10 : .065);lead.clampLength(0,3);desired.add(lead);
+  const follow=1-Math.exp(-dt*(broadcastFocus.distanceTo(desired)>35?12:8));broadcastFocus.lerp(desired,follow);
+  const focus=broadcastFocus,direction=V(.36,.52,.77).normalize(),right=UP.clone().cross(direction).normalize(),screenUp=direction.clone().cross(right).normalize();
   const tan=Math.tan(THREE.MathUtils.degToRad(50)/2),aspect=camera.aspect;
-  let distance=27;
-  for(const p of points){const d=p.clone().sub(focus);distance=Math.max(distance,d.dot(direction)+Math.max((Math.abs(d.dot(right))+4)/(tan*aspect*.77),(Math.abs(d.dot(screenUp))+3.5)/(tan*.62)));}
-  distance=clamp(distance,27,60);
-  cameraFraming.distance=distance;cameraFraming.targets=points.map(p=>p.toArray());cameraFraming.mode='broadcast';
-  camera.position.lerp(focus.clone().addScaledVector(direction,distance),1-Math.exp(-dt*6));camera.lookAt(focus);
+  let distance=26;
+  for(const p of points){const d=p.clone().sub(desired);distance=Math.max(distance,d.dot(direction)+Math.max((Math.abs(d.dot(right))+3)/(tan*aspect*.82),(Math.abs(d.dot(screenUp))+2.5)/(tan*.70)));}
+  distance=clamp(distance,26,52);
+  cameraFraming.distance=lerp(cameraFraming.distance,distance,1-Math.exp(-dt*5));cameraFraming.targets=points.map(p=>p.toArray());cameraFraming.mode='broadcast';cameraFraming.phase=activity.phase;cameraFraming.subject=activity.subject;cameraFraming.focus=focus.toArray();
+  camera.position.copy(focus).addScaledVector(direction,cameraFraming.distance);camera.lookAt(focus);
   camera.fov=lerp(camera.fov,50,1-Math.exp(-dt*6));
  }else if(match.cameraMode==='close'){
-  const focus=player.pos.clone().add(V(0,1.15,0));camera.position.lerp(focus.clone().add(V(8,8.5,14)),1-Math.exp(-dt*7));camera.lookAt(focus.clone().add(V(0,.15,-5.5)));
+  const activity=getMatchFocus(),focus=activity.position.clone().add(V(0,1.15,0));camera.position.lerp(focus.clone().add(V(7,8,15)),1-Math.exp(-dt*8));camera.lookAt(focus);
+  cameraFraming.phase=activity.phase;cameraFraming.subject=activity.subject;cameraFraming.focus=focus.toArray();
   camera.fov=lerp(camera.fov,52,1-Math.exp(-dt*7));cameraFraming.mode='close';
  }else{
   camera.position.lerp(player.pos.clone().addScaledVector(forward,-11).add(V(0,2.8,0)),1-Math.exp(-dt*(settings.reducedMotion?12:8)));camera.lookAt(camera.position.clone().addScaledVector(forward,35));
@@ -1037,7 +1060,7 @@ function updateQuaffle(dt){
 function updateSteals(){
  if(match.stealCooldown>0||!carrier)return;
  if(carrier==='player'||allies.includes(carrier)){
-  if(carrier==='player'&&player.shield>0)return;
+  if((carrier==='player'?player.mesh:carrier.mesh).userData.matchShield>0)return;
   const position=carrier==='player'?player.pos:carrier.mesh.position;
   const defender=rivals.find(r=>r.role==='chaser'&&r.stun<=0&&r.mesh.position.distanceTo(position)<2.35);
   if(defender){
@@ -1055,10 +1078,31 @@ function updateSteals(){
 function chooseSnitchTarget(){const a=Math.random()*TAU,r=Math.sqrt(Math.random());snitchTarget.set(Math.sin(a)*42*r,8+Math.random()*23,Math.cos(a)*56*r);snitchRetarget=1.3+Math.random()*1.2;}
 function catchSnitch(side){if(match.state!=='playing'||!match.snitchActive)return;snitch.visible=false;match.snitchActive=false;if(side==='player')match.playerScore+=150;else match.rivalScore+=150;const caught=side==='player'?'你抓住金色飞贼，狮队 +150 分。':'对方抓住金色飞贼，鹰队 +150 分。';const winner=resultTitle();finishMatch(winner,caught+(match.playerScore>match.rivalScore?'最终总分狮队获胜！':match.rivalScore>match.playerScore?'最终总分鹰队获胜。':'最终总分相同，本场平局。'));tone(880,.5,'triangle',.08);}
 function updateSnitch(dt){if(!match.snitchActive){if(match.elapsed<match.rules.snitchAt)return;match.snitchActive=true;match.trackSnitch=true;snitch.visible=true;notify('金色飞贼出现 · 捕获可得 150 分',3);tone(920,.35,'sine',.06);}snitchTime+=dt;snitchRetarget-=dt;if(snitchRetarget<=0||snitch.position.distanceTo(snitchTarget)<2)chooseSnitchTarget();const dir=snitchTarget.clone().sub(snitch.position).normalize(),wobble=V(Math.sin(snitchTime*7),Math.cos(snitchTime*5)*.6,Math.sin(snitchTime*6)).multiplyScalar(.32);snitch.position.addScaledVector(dir.add(wobble).normalize(),(match.mode==='challenge'?12:9)*dt);const flap=Math.sin(snitchTime*24)*.5;snitch.getObjectByName('WingL').rotation.z=-.28+flap;snitch.getObjectByName('WingR').rotation.z=.28-flap;if(player.pos.distanceTo(snitch.position)<2.35){catchSnitch('player');return;}for(const r of rivals)if(match.elapsed>=match.rules.rivalSnitchAt&&r.role==='seeker'&&r.stun<=0&&r.mesh.position.distanceTo(snitch.position)<2.05){catchSnitch('rival');return;}}
-function updateBludgers(dt){for(const b of bludgers){if(b.frozen>0){b.frozen=Math.max(0,b.frozen-dt);b.mesh.rotation.y+=dt*1.5;continue;}b.retarget-=dt;if(b.retarget<=0){let target=player.pos.clone().addScaledVector(getAimForward(),player.speed*.35);if(Math.random()<.28)target=rivals[Math.floor(Math.random()*2)].mesh.position;b.vel.copy(target).sub(b.mesh.position).normalize().multiplyScalar(20);b.retarget=2+Math.random()*1.6;}b.mesh.position.addScaledVector(b.vel,dt*(match.mode==='challenge'?1:.65));b.mesh.rotation.x+=dt*5;b.mesh.rotation.z+=dt*3;if(b.mesh.position.y<4||b.mesh.position.y>32){b.vel.y*=-1;b.mesh.position.y=clamp(b.mesh.position.y,4,32);}if((b.mesh.position.x/56)**2+(b.mesh.position.z/75)**2>1)b.vel.copy(V(0,14,0)).sub(b.mesh.position).normalize().multiplyScalar(20);if(b.mesh.position.distanceTo(player.pos)<2.25&&player.hitCooldown<=0){if(player.shield>0){b.vel.copy(b.mesh.position).sub(player.pos).normalize().multiplyScalar(26);b.frozen=.35;b.retarget=1;notify('盔甲护身 · 已挡开游走球',1.3);}else{if(carrier==='player')dropQuaffle();const dir=player.pos.clone().sub(b.mesh.position).normalize();player.vel.copy(dir).multiplyScalar(22).add(V(0,7,0));player.hitCooldown=1.6;b.vel.copy(dir).multiplyScalar(-19);notify('遭游走球撞击 · 稳住扫帚',1.8);tone(90,.22,'sawtooth',.08);}}for(const r of rivals)if(b.mesh.position.distanceTo(r.mesh.position)<1.95&&r.stun<=0){if(carrier===r)dropQuaffle();const dir=r.mesh.position.clone().sub(b.mesh.position).normalize();r.stun=1.6;r.mesh.position.addScaledVector(dir,2);b.vel.copy(dir).multiplyScalar(-18);}}}
+function updateBludgers(dt){for(const b of bludgers){if(b.frozen>0){b.frozen=Math.max(0,b.frozen-dt);b.mesh.rotation.y+=dt*1.5;continue;}b.retarget-=dt;if(b.retarget<=0){let target=player.pos.clone().addScaledVector(getAimForward(),player.speed*.35);if(Math.random()<.28)target=rivals[Math.floor(Math.random()*2)].mesh.position;b.vel.copy(target).sub(b.mesh.position).normalize().multiplyScalar(20);b.retarget=2+Math.random()*1.6;}b.mesh.position.addScaledVector(b.vel,dt*(match.mode==='challenge'?1:.65));b.mesh.rotation.x+=dt*5;b.mesh.rotation.z+=dt*3;if(b.mesh.position.y<4||b.mesh.position.y>32){b.vel.y*=-1;b.mesh.position.y=clamp(b.mesh.position.y,4,32);}if((b.mesh.position.x/56)**2+(b.mesh.position.z/75)**2>1)b.vel.copy(V(0,14,0)).sub(b.mesh.position).normalize().multiplyScalar(20);if(b.mesh.position.distanceTo(player.pos)<2.25&&player.hitCooldown<=0){if(player.shield>0){b.vel.copy(b.mesh.position).sub(player.pos).normalize().multiplyScalar(26);b.frozen=.35;b.retarget=1;notify('盔甲护身 · 已挡开游走球',1.3);}else{if(carrier==='player')dropQuaffle();const dir=player.pos.clone().sub(b.mesh.position).normalize();player.vel.copy(dir).multiplyScalar(22).add(V(0,7,0));player.hitCooldown=1.6;b.vel.copy(dir).multiplyScalar(-19);notify('遭游走球撞击 · 稳住扫帚',1.8);tone(90,.22,'sawtooth',.08);}}for(const a of allies)if(b.mesh.position.distanceTo(a.mesh.position)<1.95&&a.stun<=0){const dir=b.mesh.position.clone().sub(a.mesh.position).normalize();if(a.mesh.userData.matchShield>0){b.vel.copy(dir).multiplyScalar(26);b.frozen=.35;b.retarget=1;spellBurst(a.mesh.position.clone().add(V(0,1,0)),0x79bfff);}else{if(carrier===a)dropQuaffle();a.stun=1.6;a.mesh.position.addScaledVector(dir,-2);b.vel.copy(dir).multiplyScalar(18);}}for(const r of rivals)if(b.mesh.position.distanceTo(r.mesh.position)<1.95&&r.stun<=0){if(carrier===r)dropQuaffle();const dir=r.mesh.position.clone().sub(b.mesh.position).normalize();r.stun=1.6;r.mesh.position.addScaledVector(dir,2);b.vel.copy(dir).multiplyScalar(-18);}}}
 function isWizardTarget(target){return rivals.includes(target)||target===practiceDummy;}
-function findSpellTarget(includeBludgers=match.selected===1){const cfg=configs[match.selected];if(cfg.effect==='protego')return null;const forward=match.cameraMode!=='chase'?getAimForward():camera.getWorldDirection(V()),origin=player.pos.clone().add(V(0,1,0)),cone=Math.cos(22*Math.PI/180);let best=null,bestScore=Infinity;const candidates=training()?(practiceDummy.mesh.visible?[practiceDummy]:[]):includeBludgers?[...rivals,...bludgers]:rivals;for(const target of candidates){const offset=target.mesh.position.clone().add(isWizardTarget(target)?V(0,1,0):V()).sub(origin),distance=offset.length();if(distance>cfg.range||distance<.1||offset.dot(forward)<=0)continue;const alignment=target.mesh.position.clone().add(isWizardTarget(target)?V(0,1,0):V()).sub(match.cameraMode!=='chase'?origin:camera.position).normalize().dot(forward);if(alignment<cone)continue;const score=(1-alignment)*100+distance*.04;if(score<bestScore){bestScore=score;best=target;}}return best;}
-function castSpell(){if(match.state!=='playing'||match.paused)return false;const cfg=configs[match.selected],index=match.selected;if(match.cooldowns[index]>0){notify(cfg.cn+' · 还需 '+match.cooldowns[index].toFixed(1)+' 秒',1);return false;}const target=index===2?null:findSpellTarget(index===1);if(index!==2&&!target){notify('将准星对准 '+cfg.range+' 米内的'+(index===1?'对手或游走球':'对手')+' · 未消耗冷却',1.6);return false;}match.cooldowns[index]=cfg.cooldown;match.usedSpell=true;match.callout=cfg.cn+' · '+cfg.spell;match.calloutTime=1.45;player.mesh.userData.castTime=.55;speak(cfg.spell);tone(index===2?520:420,.18,'triangle',.06);if(index===2){player.shield=4;notify('盔甲护身 · 4 秒内格挡撞击与抢断',1.8);if(training()&&match.trainingStep===5)finishTraining();return true;}const mesh=new THREE.Group();sph(mesh,.18,V(),cfg.color,.15,3);const light=new THREE.PointLight(cfg.color,1.6,5);mesh.add(light);player.mesh.updateMatrixWorld(true);player.mesh.getObjectByName('SpellSocket').getWorldPosition(mesh.position);scene.add(mesh);const direction=target.mesh.position.clone().add(isWizardTarget(target)?V(0,1,0):V()).sub(mesh.position).normalize();projectiles.push({mesh,target,effect:cfg.effect,vel:direction.multiplyScalar(46),life:2.8,color:cfg.color});return true;}
+function getMatchSkillContext(index=match.selected){
+ return window.BroomMatchSkills.getContext({player,rivals,allies,carrier,quaffle,passTarget,passReceiver:carrier==='player'?getPassReceiver():allies.includes(carrier)?'player':null,aim:getAimForward(),config:configs[index],selected:index,training:training(),practiceDummy,bludgers});
+}
+function findSpellTarget(){return getMatchSkillContext().target;}
+function castSpell(){
+ if(match.state!=='playing'||match.paused)return false;
+ const cfg=configs[match.selected],index=match.selected;
+ if(match.cooldowns[index]>0){notify(cfg.cn+' · 还需 '+match.cooldowns[index].toFixed(1)+' 秒',1);return false;}
+ const context=getMatchSkillContext(),target=context.target;
+ if(index!==2&&!target){notify(context.label+' · 未消耗冷却',1.6);return false;}
+ match.cooldowns[index]=cfg.cooldown;match.usedSpell=true;match.callout=cfg.cn+' · '+context.label;match.calloutTime=1.45;
+ player.mesh.userData.castTime=.55;speak(cfg.spell);tone(index===2?520:420,.18,'triangle',.06);
+ if(index===2){
+  const protectedUnit=context.protectedUnit,body=protectedUnit==='player'||protectedUnit===player?player.mesh:protectedUnit?.mesh||player.mesh;
+  body.userData.matchShield=4;spellBurst(body.position.clone().add(V(0,1,0)),cfg.color);
+  notify(context.label+' · 4 秒内格挡撞击与抢断',1.8);
+  if(training()&&match.trainingStep===5)finishTraining();return true;
+ }
+ const mesh=new THREE.Group();sph(mesh,.18,V(),cfg.color,.15,3);const light=new THREE.PointLight(cfg.color,1.6,5);mesh.add(light);
+ player.mesh.updateMatrixWorld(true);player.mesh.getObjectByName('SpellSocket').getWorldPosition(mesh.position);scene.add(mesh);
+ const direction=target.mesh.position.clone().add(isWizardTarget(target)?V(0,1,0):V()).sub(mesh.position).normalize();
+ projectiles.push({mesh,target,effect:cfg.effect,vel:direction.multiplyScalar(46),life:2.8,color:cfg.color});return true;
+}
 function spellBurst(pos,color){const mesh=new THREE.Group();mesh.position.copy(pos);scene.add(mesh);const ring=torus(mesh,.5,.045,V(),color,0,2);ring.quaternion.copy(camera.quaternion);for(const d of[UP,V(0,-1,0),V(-1,0,0),V(1,0,0)])sph(mesh,.1,d.clone().multiplyScalar(.6),color,0,2);spellEffects.push({mesh,life:.28});}
 function updateSpells(dt){for(let i=0;i<3;i++)match.cooldowns[i]=Math.max(0,match.cooldowns[i]-dt);for(let i=spellEffects.length-1;i>=0;i--){const effect=spellEffects[i];effect.life-=dt;effect.mesh.scale.multiplyScalar(1+dt*4);if(effect.life<=0){disposeObject(effect.mesh);spellEffects.splice(i,1);}}for(let i=projectiles.length-1;i>=0;i--){const p=projectiles[i];p.life-=dt;const aim=p.target.mesh.position.clone().add(isWizardTarget(p.target)?V(0,1,0):V());p.vel.copy(aim).sub(p.mesh.position).normalize().multiplyScalar(46);const distance=p.mesh.position.distanceTo(aim);p.mesh.position.addScaledVector(p.vel,dt);if(distance<Math.max(1.25,46*dt)){spellBurst(aim,p.color);if(isWizardTarget(p.target)){if(p.effect==='expelliarmus'){const disarmed=carrier===p.target;if(disarmed)dropQuaffle();p.target.stun=Math.max(p.target.stun,.65);notify(disarmed?'除你武器命中 · 对手已掉球':'除你武器命中 · 对手短暂受击',1.8);}else{p.target.stun=Math.max(p.target.stun,3.2);notify('昏昏倒地命中 · 对手昏迷 3.2 秒，靠近可抢球',1.8);}}else{p.target.frozen=3.2;p.target.vel.multiplyScalar(.15);notify('昏昏倒地命中 · 游走球冻结 3.2 秒',1.8);}if(training()&&p.target===practiceDummy)finishTraining();p.life=0;}if(p.life<=0){disposeObject(p.mesh);projectiles.splice(i,1);}}}
 function resultTitle(){
@@ -1121,7 +1165,7 @@ function update(dt){
   if(match.timeLeft<=0){finishByTime();return;}
  }
  player.hitCooldown=Math.max(0,player.hitCooldown-dt);
- player.shield=Math.max(0,player.shield-dt);
+ for(const body of[player.mesh,...allies.map(a=>a.mesh)])body.userData.matchShield=Math.max(0,(body.userData.matchShield||0)-dt);
  player.boundaryNotice=Math.max(0,player.boundaryNotice-dt);
  match.kickoff=Math.max(0,match.kickoff-dt);
  match.stealCooldown=Math.max(0,match.stealCooldown-dt);
@@ -1157,6 +1201,7 @@ function update(dt){
  shield.position.copy(player.pos).add(V(0,1,0));
  shield.rotation.y+=dt*.8;
  shield.scale.setScalar(1+Math.sin(match.elapsed*6)*.025);
+ for(const [i,a] of allies.entries()){const bubble=allyShields[i];bubble.visible=a.mesh.visible&&(a.mesh.userData.matchShield||0)>0;bubble.position.copy(a.mesh.position).add(V(0,1,0));bubble.scale.copy(shield.scale);}
  for(let i=0;i<flags.length;i++)flags[i].rotation.z=Math.sin(match.elapsed*2+i)*.025;
 }
 function getObjectiveInfo(){
@@ -1202,7 +1247,7 @@ const trainingHints=[
  '沿橙色球标飞向鬼飞球，调整高度，靠近自动拾取。',
  '按 J / T 向亮起的队友短传。球到达队友后继续射门练习。',
  '带球飞到蓝门 38 米内。移动鼠标或按 I / O 微调高度，准星变绿后按 F / 左键射门。',
- '将准星对准场内练习靶，按 R / 右键施法。也可按 3 选罗恩，再施放护盾。'
+ '将准星对准场内练习靶，按 R / 右键施法。也可按 3 选护盾，再施放。'
 ];
 function updateCoach(){
  const visible=training()&&match.state==='playing'&&!match.paused;
@@ -1243,38 +1288,40 @@ function updateHUD(){
  $('hud').style.opacity=match.state==='menu'?'0':'1';$('hud').inert=match.state==='menu'||match.paused||match.state==='ended';$('playerScore').textContent=match.playerScore;$('rivalScore').textContent=match.rivalScore;
  $('modeLabel').textContent=match.rules.label;
  $('staminaFill').style.width=player.stamina+'%';$('staminaValue').textContent=(player.exhausted?'恢复中 · ':'')+Math.round(player.stamina)+'%';
- const sec=Math.ceil(match.timeLeft);$('clock').textContent=training()?'∞':String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('speed').textContent='速度 '+String(Math.round(player.speed)).padStart(2,'0')+' m/s · 高度 '+Math.round(player.pos.y)+' m';$('speedFill').style.width=clamp(player.speed/(match.mode==='challenge'?48:36)*100,0,100)+'%';$('hud').dataset.cameraMode=match.cameraMode;$('viewMode').textContent=match.cameraMode==='broadcast'?'战术转播':match.cameraMode==='close'?'骑手近景':match.cameraMode==='tactical'?'全场战术':'训练跟随';$('wizardName').textContent=(match.selected+1)+'  '+configs[match.selected].name;
- const cfg=configs[match.selected],cd=match.cooldowns[match.selected];$('spellStatus').textContent=cfg.cn+' · '+(cd>0?'冷却 '+cd.toFixed(1)+' 秒':'R / 右键施放');$('spellStatus').style.color=cd>0?'var(--muted)':'var(--gold)';
+ const sec=Math.ceil(match.timeLeft);$('clock').textContent=training()?'∞':String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('speed').textContent='速度 '+String(Math.round(player.speed)).padStart(2,'0')+' m/s · 高度 '+Math.round(player.pos.y)+' m';$('speedFill').style.width=clamp(player.speed/(match.mode==='challenge'?48:36)*100,0,100)+'%';$('hud').dataset.cameraMode=match.cameraMode;$('viewMode').textContent=match.cameraMode==='broadcast'?'随球转播':match.cameraMode==='close'?'持球者近景':match.cameraMode==='tactical'?'全场战术':'训练跟随';$('wizardName').textContent=window.SchoolMagic.byId(player.mesh.userData.characterId)?.name||configs[match.selected].name;
+ const cfg=configs[match.selected],cd=match.cooldowns[match.selected],skill=getMatchSkillContext();$('spellStatus').textContent=cfg.cn+' · '+(cd>0?'冷却 '+cd.toFixed(1)+' 秒':skill.label+' · R / 右键');$('spellStatus').style.color=cd>0?'var(--muted)':'var(--gold)';
  const live=match.state==='playing'&&!match.paused,holding=carrier==='player';
  const receiver=holding?getPassReceiver():null;
  $('possession').textContent=holding?(receiver?'你持球 · J 短传 / K 直塞 / F 射门':'你持球 · F / 左键射门'):allies.includes(carrier)?'队友持球 · J 要球':carrier?'对手持球 · 加速抢断或施法':'鬼飞球未被持有';
  $('assistHint').textContent=!live||training()?'':holding?'寻找接应 · J 短传 / K 直塞 · F 蓄力射门':allies.includes(carrier)?(match.callForPass>0?'队友正在靠近 · 按 X 减速等候':'队友持球 · J 要球 / C 切人'):passTarget==='player'?'队友回传中 · 跑向接球点':!carrier?'追逐橙色球标 · Space 上升 / Q 下降 · B 逼抢':'';
  const info=live&&holding?getShotInfo():null;
- const target=live&&!holding?findSpellTarget():null;
+ const target=live?skill.target:null;
  $('reticle').style.display=match.cameraMode!=='chase'?'none':'';$('reticle').textContent=info?.assisted?'⊕':'+';
  $('reticle').classList.toggle('shot-ready',!!info?.assisted);
  targetMarker.visible=!!target;
+ if(target){targetMarker.position.copy(target.mesh.position).add(isWizardTarget(target)?V(0,1,0):V());targetMarker.quaternion.copy(camera.quaternion);}
  let hint='';
  if(info){
   hint=(info.assisted?'已对准 · F / 左键':info.distance>shotRange?'距离较远 · 无辅助':'准星未对准 · 无辅助')+' · '+Math.round(info.distance)+' 米';
   if(receiver)hint+=' · J / T 短传';
  }else if(target){
-  targetMarker.position.copy(target.mesh.position).add(isWizardTarget(target)?V(0,1,0):V());
-  targetMarker.quaternion.copy(camera.quaternion);
   const name=target===practiceDummy?'练习靶':rivals.includes(target)?carrier===target?'持球对手':'对方球员':'游走球';
-  hint=name+' · '+Math.round(player.pos.distanceTo(target.mesh.position))+' 米 · '+(cd>0?'技能冷却中':'R 施法');
+  hint=skill.label+' · '+Math.round(player.pos.distanceTo(target.mesh.position))+' 米 · '+(cd>0?'技能冷却中':'R / 右键');
  }else if(live&&!training()){
-  hint=cfg.effect==='protego'?(player.shield>0?'护盾持续 '+player.shield.toFixed(1)+' 秒':'R / 右键 · 4 秒防护'):'瞄准 '+cfg.range+' 米内'+(match.selected===1?'对手 / 游走球':'对手');
+  hint=skill.label+(cfg.effect==='protego'?' · R / 右键 · 4 秒防护':' · 靠近后 R / 右键');
  }
+ if(live&&!training())hint=cfg.cn+' · '+skill.label+' · '+(cd>0?'冷却 '+cd.toFixed(1)+' 秒':skill.available?'R / 右键':'未消耗冷却');
  $('targetHint').textContent=hint;
  for(let i=0;i<configs.length;i++){const slot=$('spellSlot'+i);if(!slot)continue;const remaining=match.cooldowns[i];slot.classList.toggle('active',i===match.selected);slot.classList.toggle('cooling',remaining>0);slot.setAttribute('aria-pressed',String(i===match.selected));slot.querySelector('small').textContent=i===2&&player.shield>0?'护盾 '+player.shield.toFixed(1)+' 秒':remaining>0?'冷却 '+remaining.toFixed(1)+' 秒':'就绪 · '+configs[i].cooldown+' 秒冷却';slot.querySelector('.cooldown-track').style.width=(remaining>0?(1-remaining/configs[i].cooldown)*100:100)+'%';}
- $('snitchStatus').textContent=training()?'训练场 · 自由练习':'LIVE · 4 v 4 · '+(keys.Tab?'全场总览':match.cameraMode==='broadcast'?'战术转播':match.cameraMode==='close'?'骑手近景':'训练跟随');$('message').textContent=match.message;$('message').style.opacity=match.messageTime>0&&live?1:0;$('spellCallout').textContent=match.callout;$('spellCallout').style.opacity=match.calloutTime>0&&live?1:0;$('countdown').style.display=match.state==='countdown'&&!match.paused?'block':'none';$('countdown').textContent=Math.max(1,Math.ceil(match.countdown));const objective=getObjectiveInfo();$('objectiveText').textContent=objective.text;$('objectiveArrow').textContent=objective.direction;updateCoach();drawRadar();
+ $('snitchStatus').textContent=training()?'训练场 · 自由练习':'LIVE · 4 v 4 · '+(keys.Tab?'全场总览':match.cameraMode==='broadcast'?'随球转播':match.cameraMode==='close'?'持球者近景':'训练跟随');$('message').textContent=match.message;$('message').style.opacity=match.messageTime>0&&live?1:0;$('spellCallout').textContent=match.callout;$('spellCallout').style.opacity=match.calloutTime>0&&live?1:0;$('countdown').style.display=match.state==='countdown'&&!match.paused?'block':'none';$('countdown').textContent=Math.max(1,Math.ceil(match.countdown));const objective=getObjectiveInfo();$('objectiveText').textContent=objective.text;$('objectiveArrow').textContent=objective.direction;updateCoach();drawRadar();
 }
 const controlMarker=new THREE.Mesh(new THREE.ConeGeometry(.28,.52,3),new THREE.MeshBasicMaterial({color:0xc8ff69,depthTest:false}));controlMarker.rotation.z=Math.PI;controlMarker.renderOrder=8;scene.add(controlMarker);
 const aimLine=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.65}));scene.add(aimLine);
 const passLine=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineDashedMaterial({color:0xbbe5cf,dashSize:.65,gapSize:.95,transparent:true,opacity:.34,depthTest:false}));passLine.name='PassArcPreview';passLine.renderOrder=7;scene.add(passLine);
 function updateTeamHUD(){
  const live=match.state==='playing'&&!match.paused;
+ camera.updateMatrixWorld(true);const controlledPoint=player.pos.clone().add(V(0,1.4,0)).project(camera),outside=Math.abs(controlledPoint.x)>.93||Math.abs(controlledPoint.y)>.82||controlledPoint.z>1;
+ $('controlLocator').hidden=!live||!outside;$('controlLocator').textContent=outside?'操控队员在画面'+(controlledPoint.x<0?'左侧':'右侧')+' · C 切换近球追球手':'';
  controlMarker.visible=live;controlMarker.position.copy(player.pos).add(V(0,3.5,0));
  aimLine.visible=live;aimLine.geometry.dispose();aimLine.geometry=new THREE.BufferGeometry().setFromPoints([player.pos.clone(),player.pos.clone().addScaledVector(getAimForward(),7)]);
  const receiver=live&&carrier==='player'?getPassReceiver():null;
@@ -1290,8 +1337,9 @@ function updateTeamHUD(){
  const labels=$('playerLabels');labels.replaceChildren();
  if(live){camera.updateMatrixWorld();for(const a of allies){
   if(a.stun>0||!a.mesh.visible)continue;const pos=a.mesh.position.clone().add(V(0,4,0)).project(camera);if(Math.abs(pos.x)>.94||Math.abs(pos.y)>.8||pos.z>1)continue;
-  const label=document.createElement('span');label.className='player-label'+(a===receiver?' selected':'');label.textContent=(a===receiver?'J ▸ ':'')+a.number+' · '+(a.role==='keeper'?'守门员':a.index===0?'右路接应':'左路前插');label.style.left=(pos.x*.5+.5)*innerWidth+'px';label.style.top=(-pos.y*.5+.5)*innerHeight+'px';labels.append(label);
+  const profile=window.SchoolMagic.byId(a.mesh.userData.characterId),label=document.createElement('span');label.className='player-label'+(a===receiver?' selected':'');label.textContent=(a===receiver?'J ▸ ':'')+a.number+' · '+(profile?.name.split(' · ')[0]||'队友')+(a.role==='keeper'?' · 守门员':'');label.style.left=(pos.x*.5+.5)*innerWidth+'px';label.style.top=(-pos.y*.5+.5)*innerHeight+'px';labels.append(label);
  }}
+ if(live&&rivals.includes(carrier)){const pos=carrier.mesh.position.clone().add(V(0,4,0)).project(camera);if(Math.abs(pos.x)<.94&&Math.abs(pos.y)<.8&&pos.z<1){const label=document.createElement('span');label.className='player-label opponent';label.textContent=(window.SchoolMagic.byId(carrier.mesh.userData.characterId)?.name.split(' · ')[0]||'对手')+' · 持球';label.style.left=(pos.x*.5+.5)*innerWidth+'px';label.style.top=(-pos.y*.5+.5)*innerHeight+'px';labels.append(label);}}
  for(const id of ['shortPassBtn','throughPassBtn'])$(id).disabled=!live||(!receiver&&!allies.includes(carrier));
  $('shootBtn').disabled=!live||carrier!=='player';$('switchPlayerBtn').disabled=!live||training();
 }
@@ -1370,11 +1418,12 @@ function frame(now){
  }
  commentary.tick(Math.min(elapsed,.5));
  updateCamera(dt);
- riderFill.position.copy(camera.position).add(V(0,6,0));riderFill.target.position.copy(player.pos).add(V(0,1,0));
+ riderFill.position.copy(camera.position).add(V(0,6,0));riderFill.target.position.copy(getMatchFocus().position).add(V(0,1,0));
  updateHUD();
  updateBallMarker();
  updateTeamHUD();
  characterPreview?.update(dt,{active:match.state==='menu'&&!match.paused});
+ playerPortraits?.update(dt,{active:(match.state==='playing'||match.state==='countdown')&&!match.paused,controlled:portraitIdentity('player'),carrier:carrier?portraitIdentity(carrier):null});
  window.BroomModels?.update(dt,match.elapsed);
  crowd?.update(dt,{elapsed:match.elapsed,active:match.state==='playing'&&!match.paused,reducedMotion:settings.reducedMotion});
  environment?.update(dt,{player:player.pos,elapsed:match.elapsed,active:match.state==='playing'&&!match.paused,reducedMotion:settings.reducedMotion,cameraMode:match.cameraMode});
@@ -1414,11 +1463,16 @@ $('sensitivity').addEventListener('input',e=>{settings.sensitivity=clamp(Number(
 $('reducedMotion').addEventListener('change',e=>{settings.reducedMotion=e.target.checked;saveSettings();});
 renderAcademyChoices();refreshSquadAppearance();syncHouseTheme();applyTeamEquipment();syncVoiceSettings();commentary.prepare();
 window.initBroomShop({replacePlayerModel,applyTeamEquipment,match,houses});
+function portraitIdentity(unit){
+ const body=unit==='player'?player.mesh:unit.mesh,id=body.userData.characterId,profile=window.SchoolMagic.byId(id);
+ return {id,key:body.uuid,name:profile?.name||id,house:unit==='player'||allies.includes(unit)?match.homeHouse:match.awayHouse};
+}
+const playerPortraits=window.BroomPlayerPortraits?.init({THREE,element:$('playerPortraits'),createWizard,disposeObject});
 const characterPreview=window.BroomCharacterPreview?.init({THREE,element:$('characterPreview'),createWizard,disposeObject,getSelection:()=>({id:configs[match.selected].id,name:configs[match.selected].name,en:configs[match.selected].en,house:match.homeHouse,houseName:houseById(match.homeHouse).name,houseColor:houseById(match.homeHouse).color,spell:configs[match.selected].cn,broomId:window.BroomGarage.current().id,broomLevel:window.BroomGarage.level(),broomName:window.BroomGarage.current().name,reducedMotion:settings.reducedMotion})});
 for(const id of ['commentaryEnabled','commentaryEnabledMenu'])$(id).addEventListener('change',e=>setCommentaryEnabled(e.target.checked));
 $('commentaryVolume').addEventListener('input',e=>{settings.commentaryVolume=clamp(Number(e.target.value),0,1);commentary.setVolume(settings.commentaryVolume);syncVoiceSettings();saveSettings();});
 window.__BROOMBALL__={
- match,player,rivals,allies,characterPreview,cameraFraming,getTacticalTargets,createWizard,disposeObject,modelScenery,commentary,announceClip,applyTeamEquipment,setCommentaryEnabled,quaffle,quaffleVel,snitch,waypoint,bludgers,projectiles,configs,settings,
+ match,player,rivals,allies,characterPreview,playerPortraits,cameraFraming,getTacticalTargets,getMatchFocus,getMatchSkillContext,updateSteals,updateSpells,updateBludgers,createWizard,disposeObject,modelScenery,commentary,announceClip,applyTeamEquipment,setCommentaryEnabled,quaffle,quaffleVel,snitch,waypoint,bludgers,projectiles,configs,settings,
  scene,camera,renderer,environment,crowd,homeGoals,awayGoals,findSpellTarget,clearInput,startMatch,restartMatch,returnToMenu,
  switchCharacter,castSpell,toggleView,throwQuaffle,getShotInfo,passQuaffle,scoreGoal,catchSnitch,
  openHelp,closeHelp,pauseMatch,resumeMatch,getObjectiveInfo,setAim,updateCamera,updateQuaffle,updateSnitch,
