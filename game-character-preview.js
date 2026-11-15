@@ -5,7 +5,13 @@ window.BroomCharacterPreview=(()=>{
   if(!element||!T)return null;
   element.innerHTML='<div class="preview-topline"><span>YOUR STARTING RIDER</span><span class="preview-live-dot">3D 角色</span></div><div class="preview-stage"><canvas id="characterPreviewCanvas" tabindex="0" aria-label="拖动以旋转当前角色的三维模型"></canvas><div class="preview-loading" role="status">正在准备角色…</div></div><div class="preview-identity"><div class="preview-house"></div><h2 class="preview-name"></h2><p class="preview-name-en"></p><div class="preview-details"><div><span>战术技能</span><strong class="preview-spell"></strong></div><div><span>飞行装备</span><strong class="preview-broom"></strong></div></div></div><div class="preview-rotation"><button type="button" class="preview-rotate-left" aria-label="向左旋转角色">↶</button><span>拖动模型旋转查看</span><button type="button" class="preview-rotate-right" aria-label="向右旋转角色">↷</button></div>';
   const canvas=element.querySelector('canvas'),stage=element.querySelector('.preview-stage'),loading=element.querySelector('.preview-loading');
-  const views=document.createElement('div');views.className='preview-view-switch';views.setAttribute('role','group');views.setAttribute('aria-label','角色预览范围');views.innerHTML='<button type="button" data-view="body" aria-pressed="true">全身 3D</button><button type="button" data-view="face" aria-pressed="false">面容近景</button>';stage.append(views);
+  const views=document.createElement('div');views.className='preview-view-switch';views.setAttribute('role','group');views.setAttribute('aria-label','角色预览范围');views.innerHTML='<button type="button" data-view="body" aria-pressed="true">全身 3D</button><button type="button" data-view="face" aria-pressed="false">面容近景</button>';
+  const toolbar=document.createElement('div');toolbar.className='preview-toolbar';element.insertBefore(toolbar,stage);toolbar.append(views,element.querySelector('.preview-rotation'));
+  // Equipment is an optional drawer. Its own close action keeps the original
+  // selector and keyboard focus available without adding a second menu page.
+  const shop=document.getElementById('broomShop');if(shop&&!shop.querySelector('.broom-shop-close')){const close=document.createElement('button');close.type='button';close.className='broom-shop-close';close.textContent='关闭装备库 ×';close.addEventListener('click',()=>{const toggle=document.getElementById('broomShopToggle');if(toggle?.getAttribute('aria-expanded')==='true')toggle.click();toggle?.focus();});shop.prepend(close);}
+  const actions=document.querySelector('#menu .menu-actions'),summary=document.createElement('div');summary.className='lobby-match-summary';summary.innerHTML='<span>即将开赛</span><strong></strong><small></small>';actions?.before(summary);
+  function updateSummary(){const home=document.querySelector('.house-option[aria-pressed="true"] strong')?.textContent||'',away=document.getElementById('opponentHouse')?.selectedOptions[0]?.textContent||'',mode=document.querySelector('.mode-option[aria-pressed="true"]');const title=mode?.dataset.mode==='training'?'学院飞行训练':home+'  vs  '+away,detail=[mode?.querySelector('strong')?.textContent,mode?.querySelector('small')?.textContent].filter(Boolean).join(' · ');if(summary.querySelector('strong').textContent!==title)summary.querySelector('strong').textContent=title;if(summary.querySelector('small').textContent!==detail)summary.querySelector('small').textContent=detail;}
   const renderer=new T.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'low-power'});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=T.SRGBColorSpace;
   renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;
@@ -23,7 +29,7 @@ window.BroomCharacterPreview=(()=>{
   let wizard=null,selection=null,signature='',meshSignature='',active=false,ready=false,frames=0,error=null;
   let elapsed=0,fitCountdown=0,width=0,height=0,rotation=-.12,userRotation=0,dragging=false,dragX=0,manual=false,viewMode='body',faceFrame=null;
   let center=new T.Vector3(0,1.6,0),distance=10,baseY=.5,projectedBounds=null,meshes=0,triangles=0,uploadedIds=[];
-  const direction=new T.Vector3(2.4,2.5,-8).normalize(),faceDirection=new T.Vector3(.12,.10,-1).normalize(),emptyBounds=()=>new T.Box3();
+  const direction=new T.Vector3(2.3,1.7,-8).normalize(),faceDirection=new T.Vector3(.12,.10,-1).normalize(),emptyBounds=()=>new T.Box3();
   function visibleBounds(){
    const box=emptyBounds();meshes=0;triangles=0;const ids=new Set();
    wizard?.updateWorldMatrix(true,true);
@@ -71,7 +77,7 @@ window.BroomCharacterPreview=(()=>{
    const accent=new T.Color(next.houseColor||0xc6ff58);ringMaterial.color.copy(accent);ringMaterial.emissive.copy(accent);rim.color.copy(accent).lerp(new T.Color(0xe2f0ff),.65);
   }
   function select(next){
-   selection={...next};metadata(selection);ready=false;error=null;meshSignature='';fitCountdown=0;manual=false;userRotation=0;rotation=-.12;
+   selection={...next};metadata(selection);ready=false;error=null;meshSignature='';fitCountdown=0;manual=false;userRotation=0;rotation=-.12;faceFrame=null;
    loading.hidden=false;
    if(wizard)disposeObject?.(wizard);
    try{
@@ -91,7 +97,7 @@ window.BroomCharacterPreview=(()=>{
   element.querySelector('.preview-rotate-left').addEventListener('click',()=>rotate(.38));element.querySelector('.preview-rotate-right').addEventListener('click',()=>rotate(-.38));
   const observer=typeof ResizeObserver==='function'?new ResizeObserver(resize):null;observer?.observe(stage);
   function update(dt,{active:enabled=true}={}){
-   active=!!enabled;if(!active)return;
+   active=!!enabled;if(!active)return;updateSummary();
    const next=getSelection?.();if(!next)return;
    const nextSignature=[next.id,next.house,next.broomId,next.broomLevel].join('|');
    if(nextSignature!==signature){signature=nextSignature;select(next);}else selection={...selection,...next};
