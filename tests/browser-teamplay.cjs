@@ -32,7 +32,7 @@ const near = (a, b, label, tolerance = 1e-6) => assert.ok(Math.abs(a - b) <= tol
       catch (error) { report.failed.push({ name, message: error.message }); console.error('FAIL', name, error.message); }
     };
     const stage = async () => {
-      for (const key of ['w', 's', 't', 'z', 'c', 'b', 'f', 'Shift']) await page.keyboard.up(key);
+      for (const key of ['w', 's', 'j', 'k', 't', 'z', 'c', 'b', 'f', 'Shift']) await page.keyboard.up(key);
       await page.evaluate(() => {
         const g = window.__BROOMBALL__;
         g.startMatch('standard');
@@ -78,19 +78,19 @@ const near = (a, b, label, tolerance = 1e-6) => assert.ok(Math.abs(a - b) <= tol
       assert.equal(result.training.state, 'playing'); report.evidence.modes = result;
     });
 
-    await check('S never reverses and held repeat never creates repeated passes', async () => {
-      await stage();
+    await check('S backpedals without passing and held J repeats do not create extra throws', async () => {
+      await stage(); await setupPass(36);
       const before = await page.evaluate(() => window.__BROOMBALL__.player.pos.toArray());
       await page.keyboard.down('s'); await advance(550); await page.keyboard.up('s');
-      const idle = await page.evaluate(() => ({ position: window.__BROOMBALL__.player.pos.toArray(), velocity: window.__BROOMBALL__.player.vel.toArray() }));
-      assert.deepEqual(idle.position, before); assert.deepEqual(idle.velocity, [0, 0, 0]);
-      await setupPass(36);
-      await page.keyboard.down('s'); await advance(100);
-      await page.keyboard.down('s'); await advance(100); await page.keyboard.up('s');
+      const reverse = await page.evaluate(() => { const g=window.__BROOMBALL__;return {position:g.player.pos.toArray(),speed:g.player.speed,passes:g.match.stats.passes,holding:g.carrier==='player'}; });
+      assert.ok(reverse.position[2]>before[2]+4);assert.ok(reverse.speed>8&&reverse.speed<16);assert.equal(reverse.passes,0);assert.equal(reverse.holding,true);
+      await stage(); await setupPass(36);
+      await page.keyboard.down('j'); await advance(100);
+      await page.keyboard.down('j'); await advance(100); await page.keyboard.up('j');
       const passed = await page.evaluate(() => { const g = window.__BROOMBALL__; return { passes: g.match.stats.passes, position: g.player.pos.toArray(), mode: g.passMode, target: g.passTarget === g.allies[0] }; });
       assert.equal(passed.passes, 1); assert.deepEqual(passed.position, before);
       assert.equal(passed.mode, 'short'); assert.equal(passed.target, true);
-      report.evidence.noReverse = { before, idle, passed };
+      report.evidence.backwardAndPass = { before, reverse, passed };
     });
 
     await check('Directional short pass reaches its receiver and automatically changes control', async () => {
@@ -99,7 +99,7 @@ const near = (a, b, label, tolerance = 1e-6) => assert.ok(Math.abs(a - b) <= tol
         receiver: g.getPassReceiver() === g.allies[0], old: g.player.mesh.uuid, next: g.allies[0].mesh.uuid,
         nearest: g.allies[2].mesh.position.distanceTo(g.player.pos), selected: g.allies[0].mesh.position.distanceTo(g.player.pos) }; });
       assert.ok(ids.nearest < ids.selected); assert.equal(ids.receiver, true, 'Aim direction wins over the nearer sideways receiver');
-      await page.keyboard.press('s'); await advance(1100);
+      await page.keyboard.press('j'); await advance(1100);
       const caught = await page.evaluate(() => { const g = window.__BROOMBALL__; return {
         carrier: g.carrier === 'player', controlled: g.player.mesh.uuid, priorMesh: g.allies[0].mesh.uuid,
         completed: g.match.stats.completedPasses, attempts: g.match.stats.passes, target: g.passTarget }; });
@@ -258,7 +258,7 @@ const near = (a, b, label, tolerance = 1e-6) => assert.ok(Math.abs(a - b) <= tol
       assert.deepEqual(pickup, { step: 3, holding: true, receiverVisible: true, hasReceiver: true });
       await advance(350);
       assert.equal(await page.evaluate(() => window.__BROOMBALL__.match.trainingStep), 3, 'Waiting cannot complete the pass lesson');
-      await page.keyboard.press('s');
+      await page.keyboard.press('j');
       assert.equal(await page.evaluate(() => window.__BROOMBALL__.match.trainingStep), 3, 'Pressing pass alone cannot complete the lesson');
       await advance(650);
       const receipt = await page.evaluate(() => { const g = window.__BROOMBALL__; return {

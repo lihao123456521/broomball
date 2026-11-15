@@ -48,16 +48,17 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    assert.equal(state.status.loaded,7);assert.deepEqual(state.status.errors,[]);assert.equal(new Set(state.models.map(m=>m.id)).size,7);
    assert.equal(state.heroImported,true);assert.equal(state.proceduralBodyVisible,false);assert(state.models.every(m=>m.vertices>100));report.evidence.imports=state;
   });
-  await check('The flying rider has a clear actual silhouette at three window sizes',async()=>{
+  await check('The flying rider remains visible in the wider default team view at three window sizes',async()=>{
    for(const [width,height]of[[1440,900],[1280,720],[800,600]]){
     await page.setViewportSize({width,height});await start();
-    const hero=await riderPixels();const threshold=height>=720?110:90;
-    assert.equal(hero.mode,'broadcast');assert.ok(hero.height>=threshold,JSON.stringify(hero));assert.ok(hero.width>=65);assert.ok(hero.pixels>=2500);assert.ok(hero.minX>width*.15&&hero.maxX<width*.85);assert.ok(hero.minY>80&&hero.maxY<height-95,'The whole rider stays above the action bar');
+    const hero=await riderPixels();const threshold=height>=720?40:30;
+    assert.equal(hero.mode,'broadcast');assert.ok(hero.height>=threshold,JSON.stringify(hero));assert.ok(hero.width>=30);assert.ok(hero.pixels>=550);assert.ok(hero.minX>width*.15&&hero.maxX<width*.85);assert.ok(hero.minY>80&&hero.maxY<height-95,'The whole rider stays above the action bar');
     report.evidence.views.push({width,height,hero});await page.screenshot({path:path.join(out,`presence-match-${width}.png`)});
    }
   });
-  await check('The stands contain full seated human silhouettes with arms and legs',async()=>{
+  await check('The stands keep full human silhouettes and show readable nearby fans in close view',async()=>{
    await page.setViewportSize({width:1280,height:720});await start();
+   await page.keyboard.press('v');await advance(1800);
    const crowd=await page.evaluate(()=>{
     const g=__BROOMBALL__,c=g.crowd,status=c.getStatus(),samples=[];
     g.camera.updateMatrixWorld(true);
@@ -70,15 +71,15 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    assert.ok(crowd.status.people>=400);assert.ok(crowd.status.drawCalls<=24);assert(crowd.parts.every(part=>part.count>=crowd.status.people));
    assert.ok(crowd.samples.filter(f=>f.height>=12&&f.width>=4).length>=12,'Several nearby fans must be large enough to read as human figures');report.evidence.crowd=crowd;
   });
-  await check('Passing to a distant teammate does not pull the rider camera away',async()=>{
+  await check('Passing keeps the controlled rider visible in the team view',async()=>{
    await start();await page.evaluate(()=>{const g=__BROOMBALL__;g.clearInput();g.setAim(0,0);g.player.pos.set(0,10,0);g.player.previousPos.copy(g.player.pos);for(const u of[...g.allies,...g.rivals]){u.mesh.position.set(38,30,34);u.speed=0;u.stun=100;u.velocity?.set(0,0,0);}g.allies[0].mesh.position.set(0,10,-38);g.allies[0].stun=0;g.setCarrier('player');for(const b of g.bludgers)b.frozen=100;});
-   await advance(900);const before=await riderPixels();await page.keyboard.press('s');await advance(400);const flight=await riderPixels();
-   assert.ok(before.height>=110);assert.ok(flight.height>=110);assert.ok(Math.abs(before.height-flight.height)<15,'A long throw keeps the same close framing');report.evidence.passFraming={before,flight};
+   await advance(900);const before=await riderPixels();await page.keyboard.press('j');await advance(400);const flight=await riderPixels();
+   assert.ok(before.height>=35);assert.ok(flight.height>=35);assert.ok(flight.height>=before.height*.75,'A pass keeps the controlled rider readable');report.evidence.passFraming={before,flight};
   });
-  await check('V offers a tactical overview and restores the close rider camera',async()=>{
+  await check('V offers a close rider view and restores the tactical team view',async()=>{
    await start();await page.setViewportSize({width:1280,height:720});await advance(900);const close=await riderPixels();
-   await page.keyboard.press('v');await advance(1800);const tactical=await riderPixels();assert.equal(tactical.mode,'tactical');assert.ok(tactical.height<close.height*.6);
-   await page.keyboard.press('v');await advance(1800);const restored=await riderPixels();assert.equal(restored.mode,'broadcast');assert.ok(restored.height>=110);report.evidence.viewToggle={close,tactical,restored};
+   await page.keyboard.press('v');await advance(1800);const tactical=await riderPixels();assert.equal(tactical.mode,'close');assert.ok(tactical.height>close.height*1.3);
+   await page.keyboard.press('v');await advance(1800);const restored=await riderPixels();assert.equal(restored.mode,'broadcast');assert.ok(restored.height>=40);report.evidence.viewToggle={close,tactical,restored};
   });
   assert.deepEqual(report.errors,[]);assert.deepEqual(report.requests,[]);console.log('CHARACTER_PRESENCE_PASS');
  }finally{fs.writeFileSync(path.join(out,'character-presence.json'),JSON.stringify(report,null,2));await browser.close();}

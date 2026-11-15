@@ -545,3 +545,8 @@ h2, .pause-title {
 #hud[data-camera-mode="broadcast"] #targetHint{top:auto;bottom:238px;max-width:70vw;white-space:normal;text-align:center;font-size:10px;opacity:.8}
 #hud[data-camera-mode="broadcast"] .ball-marker span{font-size:10px}
 @media(max-height:760px){#hud[data-camera-mode="broadcast"] #targetHint{bottom:206px}}
+/* The tactical field and rider stay clear; the objective and action bar carry these hints. */
+#hud[data-camera-mode="broadcast"] #assistHint,
+#hud[data-camera-mode="broadcast"] #targetHint,
+#hud[data-camera-mode="close"] #assistHint,
+#hud[data-camera-mode="close"] #targetHint{display:none}

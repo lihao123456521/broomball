@@ -115,9 +115,9 @@ const near = (actual, expected, label) => assert.ok(Math.abs(actual - expected) 
       near(left.aim.targetYaw, 2.2, 'Left turn target');
       near(left.aim.targetPitch, 1.05, 'Upward pitch is clamped');
       assert.ok(left.aim.yaw > 2 && left.aim.yaw < left.aim.targetYaw, 'Yaw eases toward keyboard target');
-      await page.keyboard.down('ArrowRight'); await page.keyboard.down('k');
+      await page.keyboard.down('ArrowRight'); await page.keyboard.down('o');
       await advance(300);
-      await page.keyboard.up('ArrowRight'); await page.keyboard.up('k');
+      await page.keyboard.up('ArrowRight'); await page.keyboard.up('o');
       const right = await snapshot();
       near(right.aim.targetYaw, 1.54, 'Right turn target');
       near(right.aim.targetPitch, .705, 'Downward pitch');
