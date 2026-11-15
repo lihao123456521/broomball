@@ -63,24 +63,24 @@
   <div class="objective"><div class="objective-title">CURRENT OBJECTIVE · 当前目标</div><div id="objectiveText">飞向中央橙色鬼飞球</div><div id="objectiveArrow">↑ · 38m</div></div>
   <div class="wizard-panel glass"><div class="wizard-name" id="wizardName">HARRY POTTER</div><div class="wizard-switch">1 夺回球权 &nbsp; 2 打开传球线 &nbsp; 3 保护队友</div><div id="spellStatus">R / 右键 · 除你武器</div></div>
   <section id="playerPortraits" class="player-portraits" aria-label="当前比赛球员面容"></section>
-  <div class="flight-panel glass"><div id="speed">AIRSPEED 00 · ALT 10</div><div class="speed-track"><div id="speedFill"></div></div><div class="stamina-label"><span>冲刺体力</span><span id="staminaValue">100%</span></div><div class="speed-track"><div id="staminaFill"></div></div><div class="flight-keys"><div><span><kbd>W A S D</kbd> 镜头方向移动</span><span id="viewMode">第三人称</span></div><div><span><kbd>SPACE / ↑</kbd> 上升</span><span><kbd>Q / ↓</kbd> 下降</span></div><div><span><kbd>SHIFT</kbd> 加速</span><span><kbd>V</kbd> 视角</span></div></div><div id="possession">QUAFFLE · IN FLIGHT</div></div>
+  <div class="flight-panel glass"><div id="speed">AIRSPEED 00 · ALT 10</div><div class="speed-track"><div id="speedFill"></div></div><div class="stamina-label"><span>冲刺体力</span><span id="staminaValue">100%</span></div><div class="speed-track"><div id="staminaFill"></div></div><div class="flight-keys"><div><span><kbd>W A S D</kbd> 屏幕方向移动</span><span id="viewMode">第三人称</span></div><div><span><kbd>SPACE</kbd> 上升</span><span><kbd>Q</kbd> 下降</span></div><div><span><kbd>SHIFT</kbd> 加速</span><span><kbd>V</kbd> 视角</span></div></div><div id="possession">QUAFFLE · IN FLIGHT</div></div>
   <canvas id="radar" width="336" height="288"></canvas>
   <div id="message"></div><div id="reticle">+</div><div id="targetHint"></div><div id="spellCallout"></div><div id="countdown">3</div>
   <div class="coach glass" id="coach"><div class="coach-step" id="coachStep">FLIGHT 1/6</div><div id="coachText">W 前进，A / D 横移；← / → 转向，J 短传。</div></div>
   <div class="spell-bar" id="spellBar" aria-label="选择巫师与技能"></div>
   <div id="teamStatus" class="team-status"></div><div id="passHint" class="pass-hint"></div><div id="chargeMeter" class="charge-meter"><span></span></div><div id="playerLabels"></div>
   <div id="controlLocator" hidden></div>
-  <div class="action-bar"><button id="shortPassBtn"><kbd>J</kbd>短传</button><button id="throughPassBtn"><kbd>K</kbd>直塞</button><button id="shootBtn"><kbd>F</kbd>射门</button><button id="switchPlayerBtn"><kbd>C</kbd>切人</button></div>
+  <div class="action-bar"><button id="shortPassBtn"><kbd>J</kbd>短传</button><button id="throughPassBtn"><kbd>K</kbd>直塞</button><button id="shootBtn"><kbd>F</kbd>射门</button><button id="switchPlayerBtn"><kbd>C</kbd>切人</button><button id="pressBtn" title="按住逼抢持球对手"><kbd>B</kbd>逼抢</button></div>
   <div id="assistHint"></div><div class="ball-marker" id="ballMarker" data-location="hidden"><b id="ballMarkerArrow"></b><span id="ballMarkerText"></span></div>
-  <div class="controls"><span class="keycap">W A S D</span> 移动 &nbsp;•&nbsp; <span class="keycap">SPACE / ↑</span> 上升 &nbsp;•&nbsp; <span class="keycap">Q / ↓</span> 下降 &nbsp;•&nbsp; <span class="keycap">SHIFT</span> 加速 &nbsp;•&nbsp; <span class="keycap">F / LMB</span> 射门 &nbsp;•&nbsp; <span class="keycap">R / RMB</span> 咒语<br><span>1/2/3 战术技能 &nbsp;•&nbsp; V 战术 / 近景 &nbsp;•&nbsp; J / T 短传 &nbsp;•&nbsp; K / Z 直塞 &nbsp;•&nbsp; C 切人 &nbsp;•&nbsp; 鼠标选择方向 &nbsp;•&nbsp; ← / → 转向 &nbsp;•&nbsp; H 玩法说明 &nbsp;•&nbsp; X 急停 &nbsp;•&nbsp; 松键制动 &nbsp;•&nbsp; ESC 暂停</span></div>
+  <div class="controls"><span class="keycap">W A S D</span> 移动 · <span class="keycap">Space / Q</span> 升降 · <span class="keycap">J / K</span> 短传 / 直塞 · <span class="keycap">F</span> 蓄力射门 · <span class="keycap">B</span> 逼抢 · <span class="keycap">C</span> 切人<br><span>Shift 冲刺 · X 急停 · 1/2/3 选技能 + R 使用 · V 我方视角 · 按住 Tab 全场 · H 按键 · Esc 暂停</span></div>
 </div>
 <div class="overlay" id="menu">
   <div class="menu-card"><div class="menu-controls">
     <div class="eyebrow">MATCHDAY / 2026 · 学院联赛</div><h1>BROOMBALL</h1><div class="subtitle">学院冠军赛 · 用传切，打开下一次进攻</div>
     <div class="rule"></div><div class="choose">选择代表学院 · 学院杯友谊赛</div>
     <div class="house-picker" id="housePicker" aria-label="选择代表学院"></div>
-    <div class="match-options"><label>对手学院 <select id="opponentHouse" aria-label="对手学院"></select></label><span>4 对 4 · 随球转播 · 传切配合</span></div>
-    <div class="choose">你的战术技能 · 随时按 1 / 2 / 3 切换</div>
+    <div class="match-options"><label>对手学院 <select id="opponentHouse" aria-label="对手学院"></select></label><span>4 对 4 · 我方战术 · 传切配合</span></div>
+    <div class="choose">选择出场球员 · 比赛中 C 切换队员</div>
     <div class="characters">
       <button class="character selected" data-id="harry"><span class="sigil">H</span><strong>HARRY POTTER</strong><div class="cn">哈利·波特 / 全能进攻</div><div class="spell">除你武器 · EXPELLIARMUS</div><p>缴械掉球 + 短暂受击 · 射程 36 米<br>冷却 7 秒 · 无目标不消耗</p></button>
       <button class="character" data-id="hermione"><span class="sigil">H</span><strong>HERMIONE GRANGER</strong><div class="cn">赫敏·格兰杰 / 精准控制</div><div class="spell">昏昏倒地 · STUPEFY</div><p>昏迷 / 冻结 3.2 秒 · 射程 32 米<br>冷却 9 秒 · 控制后靠近抢球</p></button>
@@ -94,33 +94,36 @@
       <button type="button" class="mode-option" data-mode="challenge" aria-pressed="false"><strong>挑战赛</strong><small>150 秒 · 高压逼抢</small></button>
     </div>
     <div class="match-options"><label><input type="checkbox" id="commentaryEnabledMenu" checked> 女性英语解说（N）</label><span>英文咒语与赛事播报 · 离线语音</span></div>
-    <div class="menu-actions"><button class="primary" id="startBtn">进入球场</button><button class="secondary" id="startHelpBtn">查看完整玩法</button></div>
+    <div class="menu-actions"><button class="primary" id="startBtn">进入球场</button><button class="secondary" id="startHelpBtn">查看按键</button></div>
     <div class="howto">
-      <div><b>01</b>W 前进，S 后退，A / D 横移；鼠标选择进攻方向。</div>
-      <div><b>02</b>Space 或 ↑ 上升，Q 或 ↓ 下降，Shift 加速。</div>
+      <div><b>01</b>W / A / S / D 按屏幕方向移动；鼠标选择传射方向。</div>
+      <div><b>02</b>Space 上升，Q 下降；Shift 冲刺，X 急停。</div>
       <div><b>03</b>飞近橙色鬼飞球自动拿球，跟着橙色球标走。</div>
       <div><b>04</b>按住 F 蓄力，松开射向蓝色门环，每球 10 分。</div>
       <div><b>05</b>J 短传，K 直塞；接球后自动切换控制。</div>
     </div>
-    <div class="menu-help"><b>J</b> 短传　<b>K</b> 直塞　<b>C</b> 切人　<b>F</b> 蓄力射门<br>W 前进 · S 后退 · A / D 横移 · ← / → 转向 · 按住 Tab 查看全场 · Female English commentary</div>
+    <div class="menu-help"><b>J</b> 短传　<b>K</b> 直塞　<b>C</b> 切人　<b>F</b> 蓄力射门<br>WASD 屏幕方向移动 · B 逼抢 · Space 上升 / Q 下降 · 按住 Tab 查看全场 · Female English commentary</div>
   </div><section id="characterPreview" class="character-preview" aria-label="所选角色三维预览"></section></div>
 </div>
-<div class="overlay hidden" id="pause"><div class="menu-card" style="max-width:560px"><div class="pause-title">比赛已暂停</div><p class="subtitle">调整手感，按 Esc 或点击继续</p><div class="settings"><label for="sensitivity">鼠标灵敏度 <input id="sensitivity" type="range" min="0.4" max="2" step="0.1"><output id="sensitivityValue">1.0×</output></label><label><input type="checkbox" id="reducedMotion"> 减少镜头动态</label><small>关闭加速视野扩张与骑手侧倾。设置自动保存在当前浏览器。</small><label><input type="checkbox" id="commentaryEnabled" checked> 女性英语解说（N）</label><label for="commentaryVolume">语音音量 <input id="commentaryVolume" type="range" min="0" max="1" step="0.05"><output id="commentaryVolumeValue">85%</output></label></div><button class="primary" id="resumeBtn">继续飞行</button><button class="secondary" id="helpBtnPause">玩法说明</button><br><button class="secondary" id="restartPauseBtn">重新开赛</button><button class="secondary" id="menuPauseBtn">返回主菜单</button></div></div>
+<div class="overlay hidden" id="pause"><div class="menu-card" style="max-width:560px"><div class="pause-title">比赛已暂停</div><p class="subtitle">调整手感，按 Esc 或点击继续</p><div class="settings"><label for="sensitivity">训练跟随视角灵敏度 <input id="sensitivity" type="range" min="0.4" max="2" step="0.1"><output id="sensitivityValue">1.0×</output></label><label><input type="checkbox" id="reducedMotion"> 减少镜头动态</label><small>关闭加速视野扩张与骑手侧倾。设置自动保存在当前浏览器。</small><label><input type="checkbox" id="commentaryEnabled" checked> 女性英语解说（N）</label><label for="commentaryVolume">语音音量 <input id="commentaryVolume" type="range" min="0" max="1" step="0.05"><output id="commentaryVolumeValue">85%</output></label></div><button class="primary" id="resumeBtn">继续飞行</button><button class="secondary" id="helpBtnPause">玩法说明</button><br><button class="secondary" id="restartPauseBtn">重新开赛</button><button class="secondary" id="menuPauseBtn">返回主菜单</button></div></div>
 <div class="overlay hidden" id="ending"><div class="menu-card" style="max-width:650px"><div class="eyebrow">比赛结束</div><h2 id="endTitle">狮队获胜</h2><div class="result-score" id="endScore">150 — 0</div><p class="result-detail" id="endDetail"></p><div id="endStats"></div><div id="endBest"></div><div id="broomReward" role="status"></div><button class="primary" id="restartBtn">再赛一场</button><button class="secondary" id="menuEndBtn">返回主菜单</button></div></div>
 <div class="overlay hidden" id="trainingEnd"><div class="menu-card" style="max-width:560px"><div class="eyebrow">引导训练</div><h2>训练完成</h2><p class="result-detail">已完成飞行、升降、拾球、短传配合、射门得分与施法。</p><button class="primary" id="trainingPlayBtn">开始标准赛</button><button class="secondary" id="trainingResetBtn">再练一次</button><button class="secondary" id="menuTrainingBtn">返回主菜单</button></div></div>
 <div class="overlay hidden" id="help">
   <div class="guide-card">
     <div class="eyebrow">HOW TO PLAY · 完整玩法</div><h2>跑出空当，传出下一次机会</h2>
     <div class="guide-grid">
-      <div class="guide-panel"><h3>飞行与操作</h3>
-        <div class="key-line"><strong>移动 / 加速</strong><span class="keycap">W A S D</span> + <span class="keycap">SHIFT</span></div>
-        <div class="key-line"><strong>上升</strong><span class="keycap">SPACE</span><span class="keycap">E</span><span class="keycap">↑</span></div>
-        <div class="key-line"><strong>下降</strong><span class="keycap">Q / CTRL</span><span class="keycap">↓</span><span class="keycap">PAGE DOWN</span></div>
-        <div class="key-line"><strong>瞄准镜头</strong>← / → 转向；跟随视角中用鼠标瞄准，I / O 调整高度</div>
-        <div class="key-line"><strong>射门</strong><span class="keycap">F</span> 按住蓄力、松开射门；鼠标左键快速射门</div>
-        <div class="key-line"><strong>传球 / 切人</strong><span class="keycap">J / T</span> 短传 / 要球；K / Z 直塞；C 切人</div>
-        <div class="key-line"><strong>咒语</strong><span class="keycap">R / 右键</span>；1/2/3 选择技能 · C 切换球员</div>
-        <div class="key-line"><strong>制动 / 其他</strong><span class="keycap">X</span> 急停；松键自动停稳 · <span class="keycap">V</span> 战术 / 近景 · <span class="keycap">H</span> 本说明 · <span class="keycap">ESC</span> 暂停</div>
+      <div class="guide-panel"><h3>按键与操作</h3>
+        <div class="key-line"><strong>移动</strong><span class="keycap">W A S D</span> 屏幕上 / 左 / 下 / 右；鼠标只选传射方向</div>
+        <div class="key-line"><strong>飞行高度</strong><span class="keycap">Space</span> 上升 · <span class="keycap">Q</span> 下降</div>
+        <div class="key-line"><strong>加速 / 停球</strong><span class="keycap">Shift</span> 冲刺 · <span class="keycap">X</span> 急停；松键自动减速</div>
+        <div class="key-line"><strong>短传 / 要球</strong><span class="keycap">J</span> 向高亮队友传球；无球时向队友要球</div>
+        <div class="key-line"><strong>直塞</strong><span class="keycap">K</span> 沿队友跑动方向传到可达空当</div>
+        <div class="key-line"><strong>射门</strong><span class="keycap">F</span> 按住蓄力、松开出手；左键快速射门</div>
+        <div class="key-line"><strong>防守 / 切人</strong><span class="keycap">B</span> 按住逼抢，温和追随高度 · <span class="keycap">C</span> 切换近球我方队员</div>
+        <div class="key-line"><strong>战术技能</strong><span class="keycap">1 / 2 / 3</span> 选择 · <span class="keycap">R / 右键</span> 使用</div>
+        <div class="key-line"><strong>镜头</strong><span class="keycap">V</span> 我方战术 / 近景 · <span class="keycap">Tab</span> 按住查看全场，松开恢复</div>
+        <div class="key-line"><strong>其他</strong><span class="keycap">Esc</span> 暂停 · <span class="keycap">H</span> 按键说明 · <span class="keycap">N</span> 解说开关</div>
+        <p class="advanced-controls">训练跟随视角：鼠标转向；← / → 调整瞄准方向，I / O 调整射门俯仰。</p>
       </div>
       <div class="guide-panel"><h3>比赛目标</h3>
         <div class="score-step"><i>1</i><div>追随屏幕上的橙色球标，飞近橙色鬼飞球即可自动拿球。</div></div>
@@ -287,8 +290,8 @@ let lastQuietCommentary=-Infinity;
 const commentary=window.createMatchCommentary({enabled:settings.commentary,volume:settings.commentaryVolume,canSpeak:()=>match.state!=='menu'&&!match.paused&&!document.hidden,onCaption:text=>{$('commentaryCaption').textContent=text;$('commentaryCaption').hidden=!text;}});
 function announceClip(key,clip,priority=1,cooldown=8){if(priority<3&&match.elapsed-lastQuietCommentary<12)return false;const line=window.BroomCommentaryClips[clip];if(!line)return false;if(settings.commentary&&priority>=4&&commentary.state.activeKey==='spell')commentary.stop();const spoken=commentary.announce(key,line.text,{priority,cooldown,clip});if(spoken&&priority<3)lastQuietCommentary=match.elapsed;return spoken;}
 const player={mesh:null,pos:V(0,10,38),vel:V(),baseSpeed:22,stamina:100,boosting:false,exhausted:false,flySpeed:11,previousPos:V(0,10,38),speed:0,shield:0,hitCooldown:0,boundaryNotice:0};
-const rivals=[],allies=[],bludgers=[],projectiles=[],spellEffects=[];let quaffle,snitch,waypoint,shield,carrier=null,quaffleVel=V(),shot=null,passTarget=null,passSender=null,passAge=0,passFlight=null,passDestination=null,passMode='short',pickupDelay=0,trainingReset=0,snitchTarget=V(),snitchRetarget=0,snitchTime=0,cameraYaw=0,cameraPitch=-.12,targetYaw=0,targetPitch=-.12,lastTime=performance.now(),audioCtx=null,helpReturn='menu';
-const keys={};
+const rivals=[],allies=[],bludgers=[],projectiles=[],spellEffects=[];let quaffle,snitch,waypoint,shield,carrier=null,quaffleVel=V(),shot=null,passTarget=null,passSender=null,passAge=0,passFlight=null,passDestination=null,passReceivePosition=null,ballGather=null,passMode='short',pickupDelay=0,trainingReset=0,snitchTarget=V(),snitchRetarget=0,snitchTime=0,cameraYaw=0,cameraPitch=-.12,targetYaw=0,targetPitch=-.12,lastTime=performance.now(),audioCtx=null,helpReturn='menu';
+const keys={};let aimSource='keyboard';
 const shotRange=38,passRange=46;
 const training=()=>match.mode==='training';
 function replacePlayerModel(){const pos=player.pos.clone(),rot=player.mesh?player.mesh.rotation.clone():null;if(player.mesh)disposeObject(player.mesh);player.mesh=createWizard(configs[match.selected].id);window.BroomHouses.applyUniform(player.mesh,match.homeHouse);scene.add(player.mesh);player.mesh.position.copy(pos);if(rot)player.mesh.rotation.copy(rot);player.pos=player.mesh.position;player.mesh.visible=!match.firstPerson;window.BroomGarage.mount(player.mesh);}
@@ -391,7 +394,7 @@ function resetMatch(mode=selectedMode){
  lastTime=performance.now();
  Object.assign(match,{mode:selectedMode,selected:startingCharacter,rules:modes[selectedMode],stats:freshStats(),
   state:selectedMode==='training'?'playing':'countdown',paused:false,countdown:3,
-  cameraMode:selectedMode==='training'?'chase':'broadcast',shotCharge:0,charging:false,tackle:0,pendingRestart:null,
+  cameraMode:'broadcast',shotCharge:0,charging:false,tackle:0,pendingRestart:null,
   elapsed:0,timeLeft:modes[selectedMode].duration,playerScore:0,rivalScore:0,message:'',
   messageTime:0,calloutTime:0,snitchActive:false,trackSnitch:false,
   kickoff:0,callForPass:0,stealCooldown:1.5,cooldowns:[0,0,0],
@@ -481,7 +484,7 @@ function clearInput(){match.charging=false;match.shotCharge=0;for(const key of O
 function pauseMatch(){commentary.stop();window.BroomVoice?.stop();if(match.state!=='playing'&&match.state!=='countdown')return;clearInput();match.paused=true;$('pause').classList.remove('hidden');if(document.pointerLockElement)document.exitPointerLock();}
 function resumeMatch(){commentary.unlock();clearInput();lastTime=performance.now();match.paused=false;$('pause').classList.add('hidden');lockPointer();}
 function openHelp(source='pause'){commentary.stop();clearInput();helpReturn=source;match.paused=true;if(document.pointerLockElement)document.exitPointerLock();$('menu').classList.add('hidden');$('pause').classList.add('hidden');$('help').classList.remove('hidden');}
-function closeHelp(){$('help').classList.add('hidden');if(helpReturn==='menu'){$('menu').classList.remove('hidden');}else{$('pause').classList.remove('hidden');}}
+function closeHelp(){$('help').classList.add('hidden');if(helpReturn==='menu'){match.paused=false;lastTime=performance.now();$('menu').classList.remove('hidden');}else{$('pause').classList.remove('hidden');}}
 function teamText(text){return text.replaceAll('狮队',houseById(match.homeHouse).name).replaceAll('鹰队',houseById(match.awayHouse).name);}
 function notify(text,time=2){match.message=teamText(text);match.messageTime=time;}
 function setAim(yaw,pitch){cameraYaw=targetYaw=yaw;cameraPitch=targetPitch=clamp(pitch,-1.15,1.05);}
@@ -499,18 +502,19 @@ function initAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webki
 function tone(freq=440,duration=.12,type='sine',volume=.05){if(!audioCtx)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(volume,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration);}
 function speak(text){if(settings.commentary)commentary.spell(text,configs[match.selected]);}
 function switchCharacter(index){if(index<0||index>2)return;const menu=match.state==='menu';if(index===match.selected&&(!menu||player.mesh.userData.characterId===configs[index].id))return;match.selected=index;if(menu){startingCharacter=index;replacePlayerModel();}renderAcademyChoices();notify(configs[index].cn+' · R / 右键使用',1.5);tone(330+index*110,.12,'triangle');}
+function getMovementBasis(){return match.cameraMode==='chase'?getHorizontalBasis():{forward:V(0,0,-1),right:V(1,0,0)};}
 function toggleView(){
  match.cameraMode=match.cameraMode==='broadcast'?'close':'broadcast';match.firstPerson=false;player.mesh.visible=true;
  if(document.pointerLockElement)document.exitPointerLock();
- notify(match.cameraMode==='broadcast'?'随球转播 · 持球者居中，按住 Tab 看全场':'持球者近景 · V 返回随球转播，按住 Tab 看全场',1.5);
+ notify(match.cameraMode==='broadcast'?'我方战术视角 · 按住 Tab 查看全场':'我方近景 · V 返回战术视角，按住 Tab 查看全场',1.5);
 }
 function switchControl(unit=null){
- if(training()||match.state!=='playing'||match.paused)return false;
+ if((training()&&!unit)||match.state!=='playing'||match.paused)return false;
  const field=allies.filter(a=>a.role!=='keeper'&&a.stun<=0);
  unit=unit||field.reduce((a,b)=>b.mesh.position.distanceToSquared(quaffle.position)<a.mesh.position.distanceToSquared(quaffle.position)?b:a,field[0]);
  if(!unit||!field.includes(unit))return false;
- const oldMesh=player.mesh;player.mesh=unit.mesh;unit.mesh=oldMesh;player.pos=player.mesh.position;
- player.previousPos.copy(player.pos);player.vel.copy(unit.velocity||V());unit.velocity=V();resetAIFlight(unit);player.speed=player.vel.length();
+ const oldMesh=player.mesh,oldVelocity=player.vel.clone();player.mesh=unit.mesh;unit.mesh=oldMesh;player.pos=player.mesh.position;
+ player.previousPos.copy(player.pos);player.vel.copy(unit.velocity||V());unit.velocity=oldVelocity;resetAIFlight(unit);if(oldVelocity.lengthSq()>.1){unit.flightDirection.copy(oldVelocity).normalize();unit.flightSpeed=oldVelocity.length();}player.speed=player.vel.length();aimSource='keyboard';setAim(player.mesh.rotation.y,0);
  if(carrier===unit)carrier='player';else if(carrier==='player')carrier=unit;
  if(passTarget===unit)passTarget='player';else if(passTarget==='player')passTarget=unit;
  if(passSender===unit)passSender='player';else if(passSender==='player')passSender=unit;
@@ -522,7 +526,7 @@ function switchControl(unit=null){
 function carryPosition(owner){
  return owner.position.clone().add(V(.95,1.15,-.35).applyQuaternion(owner.quaternion));
 }
-function setCarrier(value){
+function setCarrier(value,receiveFrom=null){
  const previous=carrier,friendly=value==='player'||allies.includes(value),wasFriendly=previous==='player'||allies.includes(previous);
  if(value&&match.state==='playing'&&(!previous||friendly!==wasFriendly))announceClip(friendly?'home-possession':'away-possession',value==='player'?'player-possession-'+(player.mesh.userData.characterId||configs[match.selected].id):'possession-'+(friendly?match.homeHouse:match.awayHouse),1,9);
  if(value!=='player'){match.charging=false;match.shotCharge=0;}
@@ -530,11 +534,11 @@ function setCarrier(value){
  shot=null;
  passTarget=null;
  passSender=null;
- passDestination=null;
- passFlight=null;
+ passDestination=null;passReceivePosition=null;
+ passFlight=null;ballGather=null;
  quaffleVel.set(0,0,0);
  pickupDelay=.35;
- if(value)quaffle.position.copy(carryPosition(value==='player'?player.mesh:value.mesh));
+ if(value){const owner=value==='player'?player.mesh:value.mesh;if(receiveFrom){ballGather={owner,from:receiveFrom.clone(),age:0,duration:.14};quaffle.position.copy(receiveFrom);}else quaffle.position.copy(carryPosition(owner));}
 }
 function resetQuaffle(position=V(0,9,0)){
  setCarrier(null);
@@ -567,7 +571,7 @@ function goalCrossing(from,to){
 }
 function getShotInfo(){
  const forward=getAimForward();
- if(match.cameraMode!=='chase'&&!training()){
+ if(match.cameraMode!=='chase'){
   const goal=closestGoal(awayGoals,player.pos),release=carryPosition(player.mesh),distance=player.pos.distanceTo(goal);
   const toGoal=goal.clone().sub(player.pos).normalize();
   const assisted=distance<=shotRange&&release.z>goal.z&&forward.dot(toGoal)>.12;
@@ -590,7 +594,7 @@ function launchShot(owner,direction,side,speed,recordMiss=false){
  carrier=null;
  passTarget=null;
  passSender=null;
- passDestination=null;
+ passDestination=null;passReceivePosition=null;ballGather=null;
  passFlight=null;
  quaffle.position.copy(release);
  shot={side,age:0,recordMiss};
@@ -611,29 +615,33 @@ function teamThrow(unit,goals,side,speed){
  const goal=closestGoal(goals,unit.mesh.position);
  launchShot(unit.mesh,goal.clone().sub(carryPosition(unit.mesh)).normalize(),side,speed);
 }
+function planPass(sender,receiver,kind='short'){
+ const source=sender==='player'?player.mesh:sender.mesh,body=receiver==='player'?player.mesh:receiver.mesh;
+ const velocity=receiver==='player'?player.vel:receiver.velocity||V();
+ const plan=window.BroomPassing.plan(THREE,{start:carryPosition(source),receiverPosition:body.position,receiverVelocity:velocity,
+  receiverForward:receiver==='player'?getAimForward():receiver.flightDirection,kind,attackDirection:V(0,0,sender==='player'||allies.includes(sender)?-1:1),
+  receiverSpeed:receiver==='player'?Math.max(player.speed,player.baseSpeed):receiver.speed*(match.mode==='challenge'?1:.88),receiverControlled:receiver==='player',receiverCarryOffset:carryPosition(body).sub(body.position)});
+ constrainPitch(plan.receivePosition,4,36);plan.destination.copy(plan.receivePosition).add(plan.carryOffset);
+ return plan;
+}
 function passBetween(sender,receiver,kind='short'){
  announceClip('pass',receiver==='player'?'return-pass':'pass',1,10);
  if(sender==='player'||allies.includes(sender))match.stats.passes++;
- const release=carryPosition(sender==='player'?player.mesh:sender.mesh);
- const pos=receiver==='player'?player.pos:receiver.mesh.position;
- const velocity=receiver==='player'?player.vel:receiver.velocity||V();
- passDestination=pos.clone().addScaledVector(velocity,.22);
- if(kind==='through')passDestination.add(V(0,0,sender==='player'||allies.includes(sender)?-12:12));
- constrainPitch(passDestination,4,36);
+ const release=carryPosition(sender==='player'?player.mesh:sender.mesh),plan=planPass(sender,receiver,kind);
+ passDestination=plan.destination;passReceivePosition=plan.receivePosition;
  match.charging=false;match.shotCharge=0;
- carrier=null;shot=null;passTarget=receiver;passSender=sender;passMode=kind;passAge=0;
+ carrier=null;shot=null;ballGather=null;passTarget=receiver;passSender=sender;passMode=kind;passAge=0;
  quaffle.position.copy(release);
- passFlight=window.BroomPassing.create(THREE,{start:release,end:passDestination,kind});
- quaffleVel.copy(passFlight.velocityAt(0));
- pickupDelay=.28;
+ passFlight=window.BroomPassing.create(THREE,{start:release,end:passDestination,kind,duration:plan.duration});
+ quaffleVel.copy(passFlight.velocityAt(0));pickupDelay=0;
 }
 function getPassReceiver(){
  if(training())return match.trainingStep===3&&allies[0].mesh.visible?allies[0]:null;
  const aim=getAimForward(),origin=player.pos;
  const score=a=>{const delta=a.mesh.position.clone().sub(origin),d=delta.length();
-  const blocked=rivals.some(r=>r.stun<=0&&segmentDistanceSq(r.mesh.position,origin,a.mesh.position)<3.5**2);
-  return delta.normalize().dot(aim)*24-d*.22+(a.role==='keeper'?-14:5)-(blocked?18:0);};
- return allies.filter(a=>a.stun<=0&&a.mesh.position.distanceTo(origin)<=passRange&&a.mesh.position.distanceTo(origin)>3)
+  const blocked=rivals.some(r=>r.stun<=0&&segmentDistanceSq(r.mesh.position,origin,a.mesh.position)<2.3**2);
+  return delta.normalize().dot(aim)*42-d*.20+(a.role==='keeper'?-18:5)-(blocked?10:0);};
+ return allies.filter(a=>a.mesh.visible&&a.stun<=0&&Math.abs(a.mesh.position.y-origin.y)<=12&&a.mesh.position.distanceTo(origin)<=passRange&&a.mesh.position.distanceTo(origin)>3)
   .sort((a,b)=>score(b)-score(a))[0]||null;
 }
 function passQuaffle(kind='short'){
@@ -641,14 +649,14 @@ function passQuaffle(kind='short'){
  if(carrier!=='player'){
   if(allies.includes(carrier)){
    match.callForPass=6;
-   if(carrier.mesh.position.distanceTo(player.pos)<=passRange){passBetween(carrier,'player',kind);match.callForPass=0;notify('队友回传 · 跑向接球点',1.5);}
+   if(carrier.mesh.position.distanceTo(player.pos)<=passRange){passBetween(carrier,'player',kind);match.callForPass=0;notify('队友回传 · 朝球接应，X 可急停',1.5);}
    else notify('要球成功 · 队友正在靠近',1.8);
    return true;
   }
   notify(passTarget?'传球飞行中 · 接球后自动切换':'无球时按 C 切人，按住 B 逼抢',1.5);return false;
  }
  const receiver=getPassReceiver();
- if(!receiver){notify('暂无接应 · 靠近队友再传球',1.5);return false;}
+ if(!receiver){notify('暂无接应 · 拉近距离或调整高度再传球',1.5);return false;}
  passBetween('player',receiver,kind);
  notify(kind==='through'?'直塞空当 · 队友前插':'短传出球 · 接球后自动切人',1.4);tone(330,.1,'triangle');return true;
 }
@@ -712,10 +720,11 @@ function rivalTarget(r){
 }
 function updatePlayer(dt){
  updateLook(dt);
- const{forward,right}=getHorizontalBasis(),input=V(),braking=!!keys.KeyX;
+ const{forward,right}=getMovementBasis(),input=V(),braking=!!keys.KeyX;
  if(keys.KeyA)input.sub(right);if(keys.KeyD)input.add(right);if(keys.KeyW)input.add(forward);if(keys.KeyS)input.sub(forward);
- const backpedaling=input.dot(forward)<-.05;
- if(keys.KeyB&&carrier&&rivals.includes(carrier)){const pressure=carrier.mesh.position.clone().sub(player.pos);pressure.y=0;if(pressure.lengthSq()>.01)input.copy(pressure.normalize());}
+ const pressing=!!keys.KeyB&&rivals.includes(carrier);
+ if(pressing){const pressure=carrier.mesh.position.clone().sub(player.pos);pressure.y=0;if(pressure.lengthSq()>.01)input.copy(pressure.normalize());}
+ const backpedaling=!pressing&&!!keys.KeyS&&!keys.KeyW;
  if(match.kickoff>0)input.set(0,0,0);
  const moving=input.lengthSq()>0;
  if(moving)input.normalize();
@@ -725,7 +734,8 @@ function updatePlayer(dt){
  if(player.stamina>=22)player.exhausted=false;
  const target=input.multiplyScalar((braking?0:player.boosting?(match.mode==='challenge'?48:36):player.baseSpeed*(backpedaling?.65:1))*(player.mesh.userData.broomMultiplier||1)),current=V(player.vel.x,0,player.vel.z);
  const opposing=current.dot(target)<0,accel=braking?180:target.lengthSq()<.1?105:opposing?110:72,next=moveVec(current,target,accel*dt);player.vel.x=next.x;player.vel.z=next.z;
- let vi=0;if(keys.KeyE||keys.Space||keys.ArrowUp||keys.PageUp||keys.Numpad8)vi++;if(keys.KeyQ||keys.ArrowDown||keys.PageDown||keys.Numpad2||keys.ControlLeft||keys.ControlRight)vi--;
+ let vi=0;if(keys.KeyE||keys.Space||keys.ArrowUp||keys.PageUp||keys.Numpad8)vi++;if(keys.KeyQ||keys.ArrowDown||keys.PageDown||keys.Numpad2)vi--;
+ if(pressing&&!vi)vi=clamp((carrier.mesh.position.y-player.pos.y)*.35,-.6,.6);
  player.vel.y=moveToward(player.vel.y,braking?0:vi*player.flySpeed,(braking?150:80)*dt);
  const previous=player.pos.clone();player.previousPos.copy(previous);
  player.pos.addScaledVector(player.vel,dt);
@@ -755,25 +765,24 @@ function updatePlayer(dt){
  }
  player.speed=Math.hypot(player.vel.x,player.vel.z);const h=player.speed;
  // Face the camera aim while strafing, so the wand and spell direction remain coherent.
+ if(match.cameraMode!=='chase'&&aimSource==='keyboard'&&moving&&!backpedaling&&!keys.ArrowLeft&&!keys.ArrowRight){targetYaw=Math.atan2(-input.x,-input.z);targetPitch=0;}
  const modelYaw=moving&&!backpedaling?Math.atan2(-input.x,-input.z):cameraYaw,dy=angleDelta(player.mesh.rotation.y,modelYaw);player.mesh.rotation.y+=dy*Math.min(1,dt*10);
  const bank=settings.reducedMotion?0:clamp(-player.vel.dot(right)*.009,-.25,.25);player.mesh.rotation.z=lerp(player.mesh.rotation.z,bank,1-Math.exp(-dt*8));
  player.mesh.rotation.x=lerp(player.mesh.rotation.x,settings.reducedMotion?0:clamp(Math.atan2(player.vel.y,Math.max(h,12))*.45,-.23,.23),1-Math.exp(-dt*5));animateWizard(player.mesh,dt,h,match.elapsed);
 }
 const cameraFraming={distance:30,targets:[],mode:'broadcast',phase:'loose',subject:'ball',focus:[0,10,0],elevation:31};
 const broadcastFocus=V(0,11.4,0);
-function getMatchFocus(){
+function getBallFocus(){
  const owner=carrier==='player'?player:carrier;
- const position=(owner?(owner===player?player.pos:owner.mesh.position):quaffle.position).clone();
- const velocity=(owner?(owner===player?player.vel:owner.velocity||owner.flightDirection?.clone().multiplyScalar(owner.flightSpeed||0)):quaffleVel)||V();
- return {owner,position,velocity,phase:carrier==='player'||allies.includes(carrier)?'attack':rivals.includes(carrier)?'defend':passTarget?'pass':shot?'shot':'loose',subject:owner?owner.mesh.uuid:'ball'};
+ return {owner,position:(owner?(owner===player?player.pos:owner.mesh.position):quaffle.position).clone(),phase:carrier==='player'||allies.includes(carrier)?'attack':rivals.includes(carrier)?'defend':passTarget?'pass':shot?'shot':'loose'};
 }
-function getTacticalTargets(activity=getMatchFocus()){
- // Keep the ball in the centre. Nearby options may widen the view, but distant riders cannot pull it away.
- const out=[activity.position.clone().add(V(0,1.2,0))],friends=activity.phase==='defend'?rivals:allies;
- const candidates=friends.filter(a=>a!==activity.owner&&a.role!=='keeper'&&a.mesh.visible&&a.stun<=0&&a.mesh.position.distanceTo(activity.position)<=36);
- if(activity.owner!==player&&player.pos.distanceTo(activity.position)<=30)candidates.unshift(player);
- for(const a of candidates.slice(0,3))out.push((a===player?player.pos:a.mesh.position).clone().add(V(0,1.4,0)));
- if(!activity.owner&&passTarget){const receiver=passTarget==='player'?player:passTarget;if((receiver===player?player.pos:receiver.mesh.position).distanceTo(activity.position)<30)out.push((receiver===player?player.pos:receiver.mesh.position).clone().add(V(0,1.4,0)));}
+function getMatchFocus(){
+ return {owner:player,position:player.pos.clone(),velocity:player.vel,phase:getBallFocus().phase,subject:player.mesh.uuid};
+}
+function getTacticalTargets(){
+ const out=[player.pos.clone().add(V(0,1.2,0))];
+ for(const ally of allies)if(ally.role==='chaser'&&ally.mesh.visible&&ally.stun<=0&&ally.mesh.position.distanceTo(player.pos)<=passRange)out.push(ally.mesh.position.clone().add(V(0,1.4,0)));
+ if(quaffle.position.distanceTo(player.pos)<26)out.push(quaffle.position.clone());
  return out;
 }
 function updateCamera(dt){
@@ -781,22 +790,22 @@ function updateCamera(dt){
  if(match.state==='menu'){camera.position.lerp(V(63,31,86),1-Math.exp(-dt*2));camera.lookAt(0,11,-6);return;}
  if(match.paused)return;
  if(keys.Tab||match.cameraMode==='tactical'){
-  const focus=V(0,10,0);camera.position.lerp(focus.clone().add(V(72,96,103)),1-Math.exp(-dt*7));camera.lookAt(focus);
+  const focus=V(0,10,0);camera.position.lerp(focus.clone().add(V(0,104,106)),1-Math.exp(-dt*7));camera.lookAt(focus);
   camera.fov=lerp(camera.fov,52,1-Math.exp(-dt*7));cameraFraming.mode='overview';
  }else if(match.cameraMode==='broadcast'){
   const activity=getMatchFocus(),points=getTacticalTargets(activity),desired=activity.position.clone().add(V(0,1.2,0));
-  const lead=activity.velocity.clone().multiplyScalar(activity.owner ? .10 : .065);lead.clampLength(0,3);desired.add(lead);
-  const follow=1-Math.exp(-dt*(broadcastFocus.distanceTo(desired)>35?12:8));broadcastFocus.lerp(desired,follow);
-  const focus=broadcastFocus,direction=V(.36,.52,.77).normalize(),right=UP.clone().cross(direction).normalize(),screenUp=direction.clone().cross(right).normalize();
+  const lead=activity.velocity.clone().multiplyScalar(.08);lead.clampLength(0,1.8);desired.add(lead);
+  const follow=1-Math.exp(-dt*(settings.reducedMotion?10:6));broadcastFocus.lerp(desired,follow);
+  const focus=broadcastFocus,direction=V(0,.52,.85).normalize(),right=UP.clone().cross(direction).normalize(),screenUp=direction.clone().cross(right).normalize();
   const tan=Math.tan(THREE.MathUtils.degToRad(50)/2),aspect=camera.aspect;
   let distance=26;
   for(const p of points){const d=p.clone().sub(desired);distance=Math.max(distance,d.dot(direction)+Math.max((Math.abs(d.dot(right))+3)/(tan*aspect*.82),(Math.abs(d.dot(screenUp))+2.5)/(tan*.70)));}
-  distance=clamp(distance,26,52);
+  distance=clamp(distance,28,60);
   cameraFraming.distance=lerp(cameraFraming.distance,distance,1-Math.exp(-dt*5));cameraFraming.targets=points.map(p=>p.toArray());cameraFraming.mode='broadcast';cameraFraming.phase=activity.phase;cameraFraming.subject=activity.subject;cameraFraming.focus=focus.toArray();
   camera.position.copy(focus).addScaledVector(direction,cameraFraming.distance);camera.lookAt(focus);
   camera.fov=lerp(camera.fov,50,1-Math.exp(-dt*6));
  }else if(match.cameraMode==='close'){
-  const activity=getMatchFocus(),focus=activity.position.clone().add(V(0,1.15,0));camera.position.lerp(focus.clone().add(V(7,8,15)),1-Math.exp(-dt*8));camera.lookAt(focus);
+  const activity=getMatchFocus(),focus=activity.position.clone().add(V(0,1.15,0));camera.position.lerp(focus.clone().add(V(0,7.8,13.5)),1-Math.exp(-dt*8));camera.lookAt(focus);
   cameraFraming.phase=activity.phase;cameraFraming.subject=activity.subject;cameraFraming.focus=focus.toArray();
   camera.fov=lerp(camera.fov,52,1-Math.exp(-dt*7));cameraFraming.mode='close';
  }else{
@@ -854,7 +863,7 @@ function updateRivals(dt){
   if(r.stun>0){flyAI(r,r.mesh.position,0,dt);continue;}
   const speed=(r.speed+(carrier===r?2:0))*match.rules.rivalSpeed;
   if(match.kickoff>0)continue;
-  flyAI(r,passTarget===r&&passDestination?passDestination:rivalTarget(r),speed,dt);
+  flyAI(r,passTarget===r&&passReceivePosition?passReceivePosition:rivalTarget(r),speed,dt);
   if(carrier===r&&match.stealCooldown<=0&&player.pos.distanceTo(r.mesh.position)<8){
    const teammate=rivals.find(a=>a!==r&&a.role==='chaser'&&a.stun<=0&&a.mesh.position.distanceTo(r.mesh.position)<35);
    if(teammate){passBetween(r,teammate);match.stealCooldown=.8;}
@@ -877,7 +886,7 @@ function updateAllies(dt){
    const goal=closestGoal(awayGoals,ally.mesh.position);target=goal.clone().add(V(0,0,10));
    if(match.callForPass>0)target=player.pos;
    else if(ally.mesh.position.distanceTo(goal)<25)teamThrow(ally,awayGoals,'player',26);
-  }else if(passTarget===ally){target=passDestination||quaffle.position;}
+  }else if(passTarget===ally){target=passReceivePosition||quaffle.position;}
   else if(carrier&&rivals.includes(carrier)){
    target=carrier.mesh.position.clone().add(V(lane*8,0,7));
   }else if(!carrier&&!shot&&!passTarget&&ally.mesh.position.distanceTo(quaffle.position)<player.pos.distanceTo(quaffle.position)){
@@ -912,18 +921,18 @@ function catchLooseBall(from,crossing,dt){
   let start=from,end=quaffle.position;
   if(relative){
    const previous=player.previousPos.distanceTo(player.pos)<=Math.max(3,player.speed*dt+1)?player.previousPos:player.pos;
-   start=from.clone().sub(previous);end=end.clone().sub(player.pos);point=V();
+   start=from.clone().sub(previous);end=end.clone().sub(player.pos);point=point.clone().sub(player.pos);
   }
   const t=segmentSphereTime(point,start,end,radius);
   if(t!==null&&t<=(crossing?.scored?crossing.t:1)&&(!first||t<first.t))first={target,type,t};
  };
  if(passTarget){
-  if(passTarget==='player')consider('player','pass',player.pos,3.05,true);
-  else if(passTarget.stun<=0)consider(passTarget,'pass',passTarget.mesh.position,3.05);
-  if(pickupDelay<=0&&!training())for(const unit of ['player',...rivals,...allies]){
+  if(passTarget==='player')consider('player','pass',carryPosition(player.mesh),1.35,true);
+  else if(passTarget.stun<=0)consider(passTarget,'pass',carryPosition(passTarget.mesh),1.35);
+  if(!training())for(const unit of ['player',...rivals,...allies]){
    if(unit===passSender||unit===passTarget)continue;
-   if(unit==='player')consider('player','intercept',player.pos,2.6,true);
-   else if(unit.stun<=0)consider(unit,'intercept',unit.mesh.position,2.5);
+   if(unit==='player')consider('player','intercept',carryPosition(player.mesh),1.35,true);
+   else if(unit.stun<=0)consider(unit,'intercept',carryPosition(unit.mesh),1.35);
   }
  }else if(pickupDelay<=0){
   if(!training()||match.trainingStep>=2)consider('player','pickup',player.pos,match.mode==='challenge'?2.85:4.2,true);
@@ -933,20 +942,20 @@ function catchLooseBall(from,crossing,dt){
  }
  if(!training()&&Math.abs(quaffleVel.z)>.001){
   const attacking=quaffleVel.z<0,keeper=attacking?rivals[2]:allies[1];
-  if(keeper.stun<=0&&keeper!==passSender)consider(keeper,'keeper',keeper.mesh.position.clone().add(V(0,.85,0)),attacking&&match.mode==='standard'?1.75:2.05);
+  if(keeper.stun<=0&&keeper!==passSender&&keeper!==passTarget)consider(keeper,'keeper',keeper.mesh.position.clone().add(V(0,.85,0)),attacking&&match.mode==='standard'?1.75:2.05);
  }
  if(!first)return false;
  const {target,type,t}=first;
  if(type==='keeper'&&target===rivals[2]){
   quaffle.position.lerpVectors(from,quaffle.position,t);
   passTarget=null;
-  passSender=null;passDestination=null;passFlight=null;
+  passSender=null;passDestination=null;passReceivePosition=null;passFlight=null;
   quaffleVel.set((Math.random()-.5)*15,5,18);
   pickupDelay=.55;
   notify('鹰队守门员扑出了鬼飞球',1.7);
  }else{
   const completed=type==='pass'&&(passSender==='player'||allies.includes(passSender));
-  setCarrier(target);
+  const reception=from.clone().lerp(quaffle.position,t);setCarrier(target,reception);
   if(completed){match.stats.completedPasses++;if(allies.includes(target)&&target.role!=='keeper'&&match.autoSwitch)switchControl(target);}
   if(type==='pass'||target==='player'){
    const protection=match.mode==='challenge'?(type==='pass'?.6:.75):1.8;
@@ -955,7 +964,7 @@ function catchLooseBall(from,crossing,dt){
   if(training()&&match.trainingStep===2&&target==='player'){
    match.trainingStep=3;allies[0].velocity.set(0,0,0);allies[0].mesh.visible=true;allies[0].mesh.position.copy(player.pos).add(V(10,0,-9));constrainPitch(allies[0].mesh.position,4,36);
   }
-  if(training()&&type==='pass'&&target===allies[0]){match.trainingStep=4;setCarrier('player');allies[0].mesh.visible=false;notify('传球完成 · 带球接近蓝门，F 射门',2);}
+  if(training()&&type==='pass'&&target===allies[0]){match.trainingStep=4;if(carrier!=='player')switchControl(target);allies[0].mesh.visible=false;notify('接球队员已由你操控 · 带球接近蓝门，F 射门',2);}
   notify(type==='pass'?(target==='player'?'接到队友传球 · F 射门':'接应队友接球'):
    target==='player'?'拿到鬼飞球 · 瞄准蓝色门环':
    type==='keeper'?'狮队守门员接住了鬼飞球':target===allies[0]?'狮队接应手拿球':'鹰队拿到鬼飞球',1.7);
@@ -1006,7 +1015,7 @@ function updatePass(dt){
  if(passAge>(passFlight?.duration??(passTarget==='player'?4:2.6))+.04){
   passTarget=null;
   passSender=null;
-  passDestination=null;
+  passDestination=null;passReceivePosition=null;
   passFlight=null;
   notify('传球落空 · 争抢鬼飞球',1.4);
  }
@@ -1014,7 +1023,7 @@ function updatePass(dt){
 function updateQuaffle(dt){
  if(carrier){
   const owner=carrier==='player'?player.mesh:carrier.mesh;
-  quaffle.position.lerp(carryPosition(owner),1-Math.exp(-dt*22));
+  const hand=carryPosition(owner);if(ballGather&&ballGather.owner===owner){ballGather.age+=dt;const t=clamp(ballGather.age/ballGather.duration,0,1),ease=t*t*(3-2*t);quaffle.position.lerpVectors(ballGather.from,hand,ease);if(t>=1)ballGather=null;}else quaffle.position.lerp(hand,1-Math.exp(-dt*22));
   quaffle.rotation.y+=dt*2;
   return;
  }
@@ -1225,9 +1234,9 @@ function getObjectiveInfo(){
  }else if(shot){
   text=shot.side==='player'?'狮队射门 · 准备争抢落点':'鹰队射门 · 回防金色门环';
  }else if(passTarget){
-  text='鬼飞球传递中 · 留意接应位置';
+  text=passTarget==='player'?'队友回传 · 朝球接应，X 可急停':'鬼飞球传递中 · 留意接应位置';
  }
- const delta=target.clone().sub(player.pos),distance=delta.length(),{forward,right}=getHorizontalBasis();
+ const delta=target.clone().sub(player.pos),distance=delta.length(),{forward,right}=getMovementBasis();
  const angle=Math.atan2(delta.dot(right),delta.dot(forward));
  let arrow='↑';
  if(Math.abs(angle)>2.6)arrow='↓';
@@ -1242,11 +1251,11 @@ function getObjectiveInfo(){
 }
 function updateWaypoint(){waypoint.visible=false;}
 const trainingHints=[
- 'W 前进，A / D 横移；← / → 转向，X 急停。S 后退，J 短传，K 直塞。按住 Tab 查看全场。',
- '按 Space 上升，Q 下降。高度变化累计 4 米即可继续。',
+ 'W / A / S / D 移动，Space 上升，Q 下降；J 短传，K 直塞，F 射门，X 急停。按住 Tab 查看全场。',
+ '按 Space 上升，Q 下降；高度变化累计 4 米即可继续。',
  '沿橙色球标飞向鬼飞球，调整高度，靠近自动拾取。',
  '按 J / T 向亮起的队友短传。球到达队友后继续射门练习。',
- '带球飞到蓝门 38 米内。移动鼠标或按 I / O 微调高度，准星变绿后按 F / 左键射门。',
+ '带球飞到蓝门 38 米内。移动鼠标选择门环方向，按住 F 蓄力并松开射门。',
  '将准星对准场内练习靶，按 R / 右键施法。也可按 3 选护盾，再施放。'
 ];
 function updateCoach(){
@@ -1288,7 +1297,7 @@ function updateHUD(){
  $('hud').style.opacity=match.state==='menu'?'0':'1';$('hud').inert=match.state==='menu'||match.paused||match.state==='ended';$('playerScore').textContent=match.playerScore;$('rivalScore').textContent=match.rivalScore;
  $('modeLabel').textContent=match.rules.label;
  $('staminaFill').style.width=player.stamina+'%';$('staminaValue').textContent=(player.exhausted?'恢复中 · ':'')+Math.round(player.stamina)+'%';
- const sec=Math.ceil(match.timeLeft);$('clock').textContent=training()?'∞':String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('speed').textContent='速度 '+String(Math.round(player.speed)).padStart(2,'0')+' m/s · 高度 '+Math.round(player.pos.y)+' m';$('speedFill').style.width=clamp(player.speed/(match.mode==='challenge'?48:36)*100,0,100)+'%';$('hud').dataset.cameraMode=match.cameraMode;$('viewMode').textContent=match.cameraMode==='broadcast'?'随球转播':match.cameraMode==='close'?'持球者近景':match.cameraMode==='tactical'?'全场战术':'训练跟随';$('wizardName').textContent=window.SchoolMagic.byId(player.mesh.userData.characterId)?.name||configs[match.selected].name;
+ const sec=Math.ceil(match.timeLeft);$('clock').textContent=training()?'∞':String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('speed').textContent='速度 '+String(Math.round(player.speed)).padStart(2,'0')+' m/s · 高度 '+Math.round(player.pos.y)+' m';$('speedFill').style.width=clamp(player.speed/(match.mode==='challenge'?48:36)*100,0,100)+'%';$('hud').dataset.cameraMode=match.cameraMode;$('viewMode').textContent=match.cameraMode==='broadcast'?'我方战术':match.cameraMode==='close'?'我方近景':match.cameraMode==='tactical'?'全场战术':'训练跟随';$('wizardName').textContent=window.SchoolMagic.byId(player.mesh.userData.characterId)?.name||configs[match.selected].name;
  const cfg=configs[match.selected],cd=match.cooldowns[match.selected],skill=getMatchSkillContext();$('spellStatus').textContent=cfg.cn+' · '+(cd>0?'冷却 '+cd.toFixed(1)+' 秒':skill.label+' · R / 右键');$('spellStatus').style.color=cd>0?'var(--muted)':'var(--gold)';
  const live=match.state==='playing'&&!match.paused,holding=carrier==='player';
  const receiver=holding?getPassReceiver():null;
@@ -1313,7 +1322,7 @@ function updateHUD(){
  if(live&&!training())hint=cfg.cn+' · '+skill.label+' · '+(cd>0?'冷却 '+cd.toFixed(1)+' 秒':skill.available?'R / 右键':'未消耗冷却');
  $('targetHint').textContent=hint;
  for(let i=0;i<configs.length;i++){const slot=$('spellSlot'+i);if(!slot)continue;const remaining=match.cooldowns[i];slot.classList.toggle('active',i===match.selected);slot.classList.toggle('cooling',remaining>0);slot.setAttribute('aria-pressed',String(i===match.selected));slot.querySelector('small').textContent=i===2&&player.shield>0?'护盾 '+player.shield.toFixed(1)+' 秒':remaining>0?'冷却 '+remaining.toFixed(1)+' 秒':'就绪 · '+configs[i].cooldown+' 秒冷却';slot.querySelector('.cooldown-track').style.width=(remaining>0?(1-remaining/configs[i].cooldown)*100:100)+'%';}
- $('snitchStatus').textContent=training()?'训练场 · 自由练习':'LIVE · 4 v 4 · '+(keys.Tab?'全场总览':match.cameraMode==='broadcast'?'随球转播':match.cameraMode==='close'?'持球者近景':'训练跟随');$('message').textContent=match.message;$('message').style.opacity=match.messageTime>0&&live?1:0;$('spellCallout').textContent=match.callout;$('spellCallout').style.opacity=match.calloutTime>0&&live?1:0;$('countdown').style.display=match.state==='countdown'&&!match.paused?'block':'none';$('countdown').textContent=Math.max(1,Math.ceil(match.countdown));const objective=getObjectiveInfo();$('objectiveText').textContent=objective.text;$('objectiveArrow').textContent=objective.direction;updateCoach();drawRadar();
+ $('snitchStatus').textContent=training()?'训练场 · 自由练习':'LIVE · 4 v 4 · '+(keys.Tab?'全场总览':match.cameraMode==='broadcast'?'我方战术':match.cameraMode==='close'?'我方近景':'训练跟随');$('message').textContent=match.message;$('message').style.opacity=match.messageTime>0&&live?1:0;$('spellCallout').textContent=match.callout;$('spellCallout').style.opacity=match.calloutTime>0&&live?1:0;$('countdown').style.display=match.state==='countdown'&&!match.paused?'block':'none';$('countdown').textContent=Math.max(1,Math.ceil(match.countdown));const objective=getObjectiveInfo();$('objectiveText').textContent=objective.text;$('objectiveArrow').textContent=objective.direction;updateCoach();drawRadar();
 }
 const controlMarker=new THREE.Mesh(new THREE.ConeGeometry(.28,.52,3),new THREE.MeshBasicMaterial({color:0xc8ff69,depthTest:false}));controlMarker.rotation.z=Math.PI;controlMarker.renderOrder=8;scene.add(controlMarker);
 const aimLine=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.65}));scene.add(aimLine);
@@ -1327,7 +1336,7 @@ function updateTeamHUD(){
  const receiver=live&&carrier==='player'?getPassReceiver():null;
  passLine.visible=!!receiver;
  if(receiver){
-  const path=window.BroomPassing.create(THREE,{start:carryPosition(player.mesh),end:receiver.mesh.position,kind:'short'}),points=[];
+  const plan=planPass('player',receiver),path=window.BroomPassing.create(THREE,{start:carryPosition(player.mesh),end:plan.destination,kind:'short',duration:plan.duration}),points=[];
   for(let i=0;i<=28;i++)points.push(path.positionAt(path.duration*i/28));
   passLine.geometry.dispose();passLine.geometry=new THREE.BufferGeometry().setFromPoints(points);passLine.computeLineDistances();
  }
@@ -1340,8 +1349,8 @@ function updateTeamHUD(){
   const profile=window.SchoolMagic.byId(a.mesh.userData.characterId),label=document.createElement('span');label.className='player-label'+(a===receiver?' selected':'');label.textContent=(a===receiver?'J ▸ ':'')+a.number+' · '+(profile?.name.split(' · ')[0]||'队友')+(a.role==='keeper'?' · 守门员':'');label.style.left=(pos.x*.5+.5)*innerWidth+'px';label.style.top=(-pos.y*.5+.5)*innerHeight+'px';labels.append(label);
  }}
  if(live&&rivals.includes(carrier)){const pos=carrier.mesh.position.clone().add(V(0,4,0)).project(camera);if(Math.abs(pos.x)<.94&&Math.abs(pos.y)<.8&&pos.z<1){const label=document.createElement('span');label.className='player-label opponent';label.textContent=(window.SchoolMagic.byId(carrier.mesh.userData.characterId)?.name.split(' · ')[0]||'对手')+' · 持球';label.style.left=(pos.x*.5+.5)*innerWidth+'px';label.style.top=(-pos.y*.5+.5)*innerHeight+'px';labels.append(label);}}
- for(const id of ['shortPassBtn','throughPassBtn'])$(id).disabled=!live||(!receiver&&!allies.includes(carrier));
- $('shootBtn').disabled=!live||carrier!=='player';$('switchPlayerBtn').disabled=!live||training();
+ const asking=allies.includes(carrier);$('shortPassBtn').innerHTML='<kbd>J</kbd>'+(asking?'要球':'短传');$('throughPassBtn').innerHTML='<kbd>K</kbd>'+(asking?'直塞要球':'直塞');for(const id of ['shortPassBtn','throughPassBtn'])$(id).disabled=!live||(!receiver&&!asking);
+ $('shootBtn').disabled=!live||carrier!=='player';$('switchPlayerBtn').disabled=!live||training();$('pressBtn').disabled=!live||!rivals.includes(carrier);$('pressBtn').classList.toggle('pressing',!!keys.KeyB);
 }
 function drawRadar(){
  const c=$('radar'),ctx=c.getContext('2d'),w=c.width,h=c.height;
@@ -1436,23 +1445,26 @@ for(const button of document.querySelectorAll('.house-option'))button.addEventLi
 $('opponentHouse').addEventListener('change',event=>selectOpponent(event.target.value));
 syncHouseTheme();
 for(const [id,action] of [['shortPassBtn',()=>passQuaffle()],['throughPassBtn',()=>passQuaffle('through')],['shootBtn',throwQuaffle],['switchPlayerBtn',()=>switchControl()]])$(id).addEventListener('click',()=>{action();canvas.focus();});
+$('pressBtn').addEventListener('pointerdown',e=>{if($('pressBtn').disabled)return;e.preventDefault();keys.KeyB=true;try{$('pressBtn').setPointerCapture(e.pointerId);}catch{}canvas.focus();});
+for(const event of ['pointerup','pointercancel','lostpointercapture'])$('pressBtn').addEventListener(event,()=>{delete keys.KeyB;});
 for(const button of document.querySelectorAll('.mode-option'))button.addEventListener('click',()=>selectMode(button.dataset.mode));
 $('startBtn').addEventListener('click',()=>startMatch());
 $('trainingPlayBtn').addEventListener('click',()=>startMatch('standard'));
 $('trainingResetBtn').addEventListener('click',restartMatch);
 for(const id of ['menuPauseBtn','menuEndBtn','menuTrainingBtn'])$(id).addEventListener('click',returnToMenu);$('resumeBtn').addEventListener('click',resumeMatch);$('restartBtn').addEventListener('click',restartMatch);$('restartPauseBtn').addEventListener('click',restartMatch);$('startHelpBtn').addEventListener('click',()=>openHelp('menu'));$('helpBtnPause').addEventListener('click',()=>openHelp('pause'));$('closeHelpBtn').addEventListener('click',closeHelp);
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
-const gameplayKeys=new Set(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyX','KeyR','KeyF','KeyT','KeyZ','KeyC','KeyB','KeyI','KeyO','KeyJ','KeyK','Tab','ArrowLeft','ArrowRight','Space','ArrowUp','ArrowDown','PageUp','PageDown','Numpad8','Numpad2','ControlLeft','ControlRight','ShiftLeft','ShiftRight']);
+const gameplayKeys=new Set(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyX','KeyR','KeyF','KeyT','KeyZ','KeyC','KeyB','KeyI','KeyO','KeyJ','KeyK','Tab','ArrowLeft','ArrowRight','Space','ArrowUp','ArrowDown','PageUp','PageDown','Numpad8','Numpad2','ShiftLeft','ShiftRight']);
 addEventListener('keydown',e=>{
- const editable=e.target instanceof HTMLElement&&e.target.matches('input,textarea,select');if(editable&&e.code!=='Escape')return;
- const active=(match.state==='playing'||match.state==='countdown')&&!match.paused;if(active&&gameplayKeys.has(e.code)){keys[e.code]=true;e.preventDefault();}if(e.repeat)return;
+ if(e.metaKey||e.ctrlKey||e.altKey)return;
+ const editable=e.target instanceof HTMLElement&&(e.target.matches('input,textarea,select')||e.target.isContentEditable);if(editable&&e.code!=='Escape')return;
+ const active=(match.state==='playing'||match.state==='countdown')&&!match.paused;if(active&&gameplayKeys.has(e.code)){keys[e.code]=true;if(['KeyW','KeyA','KeyS','KeyD','ArrowLeft','ArrowRight'].includes(e.code))aimSource='keyboard';e.preventDefault();}if(e.repeat)return;
  if(e.code==='KeyN'){e.preventDefault();setCommentaryEnabled(!settings.commentary);return;}
  if(e.code==='KeyH'){if(!$('help').classList.contains('hidden'))closeHelp();else if(match.state!=='ended')openHelp(match.state==='menu'?'menu':'pause');return;}
  if(e.code==='Escape'){e.preventDefault();if(!$('help').classList.contains('hidden'))closeHelp();else if(match.paused&&(match.state==='playing'||match.state==='countdown'))resumeMatch();else if(active)pauseMatch();return;}
  if(!active)return;if(e.code==='KeyV')toggleView();if(e.code==='KeyF'&&carrier==='player'){match.charging=true;match.shotCharge=0;}if(e.code==='KeyR')castSpell();if(e.code==='KeyJ'||e.code==='KeyT')passQuaffle();if(e.code==='KeyK'||e.code==='KeyZ')passQuaffle('through');if(e.code==='KeyC')switchControl();if(['Digit1','Digit2','Digit3'].includes(e.code))switchCharacter(Number(e.code.slice(-1))-1);
 });
 addEventListener('keyup',e=>{delete keys[e.code];if(e.code==='KeyF'&&match.charging){throwQuaffle();match.charging=false;match.shotCharge=0;}});
-addEventListener('mousemove',e=>{if(match.cameraMode!=='chase'&&e.target===canvas&&!match.paused&&(match.state==='playing'||match.state==='countdown')){const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,1-e.clientY/innerHeight*2),camera);const hit=ray.ray.intersectPlane(new THREE.Plane(UP,-player.pos.y),V());if(hit&&hit.distanceTo(player.pos)>2){const d=hit.sub(player.pos);targetYaw=Math.atan2(-d.x,-d.z);targetPitch=0;}}if(document.pointerLockElement===canvas&&!match.paused&&(match.state==='playing'||match.state==='countdown')){handleLookInput(e.movementX,e.movementY);}});
+addEventListener('mousemove',e=>{if(match.cameraMode!=='chase'&&e.target===canvas&&!match.paused&&(match.state==='playing'||match.state==='countdown')){const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(e.clientX/innerWidth*2-1,1-e.clientY/innerHeight*2),camera);const hit=ray.ray.intersectPlane(new THREE.Plane(UP,-player.pos.y),V());if(hit&&hit.distanceTo(player.pos)>2){aimSource='pointer';const d=hit.sub(player.pos);targetYaw=Math.atan2(-d.x,-d.z);targetPitch=0;}}if(document.pointerLockElement===canvas&&!match.paused&&(match.state==='playing'||match.state==='countdown')){handleLookInput(e.movementX,e.movementY);}});
 canvas.addEventListener('mousedown',e=>{if(match.state==='playing'&&!match.paused){if(match.cameraMode==='chase'&&document.pointerLockElement!==canvas){lockPointer();return;}if(e.button===0)throwQuaffle();if(e.button===2)castSpell();}});
 canvas.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('pointerlockchange',()=>{if(document.pointerLockElement!==canvas){clearInput();if(match.cameraMode==='chase'&&(match.state==='playing'||match.state==='countdown')&&!match.paused)pauseMatch();}});
@@ -1472,12 +1484,12 @@ const characterPreview=window.BroomCharacterPreview?.init({THREE,element:$('char
 for(const id of ['commentaryEnabled','commentaryEnabledMenu'])$(id).addEventListener('change',e=>setCommentaryEnabled(e.target.checked));
 $('commentaryVolume').addEventListener('input',e=>{settings.commentaryVolume=clamp(Number(e.target.value),0,1);commentary.setVolume(settings.commentaryVolume);syncVoiceSettings();saveSettings();});
 window.__BROOMBALL__={
- match,player,rivals,allies,characterPreview,playerPortraits,cameraFraming,getTacticalTargets,getMatchFocus,getMatchSkillContext,updateSteals,updateSpells,updateBludgers,createWizard,disposeObject,modelScenery,commentary,announceClip,applyTeamEquipment,setCommentaryEnabled,quaffle,quaffleVel,snitch,waypoint,bludgers,projectiles,configs,settings,
+ match,player,rivals,allies,characterPreview,playerPortraits,cameraFraming,getTacticalTargets,getMatchFocus,getBallFocus,getMovementBasis,getMatchSkillContext,updateSteals,updateSpells,updateBludgers,createWizard,disposeObject,modelScenery,commentary,announceClip,applyTeamEquipment,setCommentaryEnabled,quaffle,quaffleVel,snitch,waypoint,bludgers,projectiles,configs,settings,
  scene,camera,renderer,environment,crowd,homeGoals,awayGoals,findSpellTarget,clearInput,startMatch,restartMatch,returnToMenu,
  switchCharacter,castSpell,toggleView,throwQuaffle,getShotInfo,passQuaffle,scoreGoal,catchSnitch,
  openHelp,closeHelp,pauseMatch,resumeMatch,getObjectiveInfo,setAim,updateCamera,updateQuaffle,updateSnitch,
  houses,houseDecor,selectHouse,selectOpponent,handleLookInput,getAimState,updatePlayer,switchControl,getPassReceiver,flyAI,resetAIFlight,updateRivals,updateAllies,
- get passFlight(){return passFlight;},get passTarget(){return passTarget;},get passDestination(){return passDestination;},get passMode(){return passMode;},
+ planPass,get passReceivePosition(){return passReceivePosition;},get ballGather(){return ballGather;},get passFlight(){return passFlight;},get passTarget(){return passTarget;},get passDestination(){return passDestination;},get passMode(){return passMode;},
  get carrier(){return carrier;},setCarrier
 };
 })();

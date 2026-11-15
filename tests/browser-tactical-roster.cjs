@@ -48,8 +48,13 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    await advance(1050);const result=await page.evaluate(()=>{const g=__BROOMBALL__;return{uuid:g.player.mesh.uuid,carrier:g.carrier==='player',completed:g.match.stats.completedPasses};});assert.equal(result.uuid,receiver.uuid);assert.equal(result.carrier,true);assert.equal(result.completed,1);report.evidence.shortPass=result;
   });
   await check('K sends a lead pass without changing aim pitch and T remains a short-pass alias',async()=>{
-   await passStage();const pitch=await page.evaluate(()=>__BROOMBALL__.getAimState().targetPitch);await page.keyboard.down('k');await advance(100);await page.keyboard.up('k');
-   const through=await page.evaluate(()=>{const g=__BROOMBALL__;return{mode:g.passMode,destination:g.passDestination.toArray(),receiver:g.allies[0].mesh.position.toArray(),pitch:g.getAimState().targetPitch,passes:g.match.stats.passes};});assert.equal(through.mode,'through');assert.ok(through.destination[2]<through.receiver[2]-10);assert.equal(through.pitch,pitch);assert.equal(through.passes,1);
+   await passStage();const planned=await page.evaluate(()=>{
+    const g=__BROOMBALL__,a=g.allies[0];a.speed=24;a.velocity.set(6,0,-8);a.flightDirection.copy(a.velocity).normalize();a.flightSpeed=a.velocity.length();a.mesh.rotation.y=Math.atan2(-a.velocity.x,-a.velocity.z);
+    const p=g.planPass('player',a,'through');return{pitch:g.getAimState().targetPitch,receiver:a.mesh.position.toArray(),direction:a.flightDirection.toArray(),reachable:p.reachableDistance,destination:p.destination.toArray(),feet:p.receivePosition.toArray()};
+   });await page.keyboard.down('k');await advance(100);await page.keyboard.up('k');
+   const through=await page.evaluate(()=>{const g=__BROOMBALL__;return{mode:g.passMode,destination:g.passDestination.toArray(),feet:g.passReceivePosition.toArray(),receiver:g.allies[0].mesh.position.toArray(),pitch:g.getAimState().targetPitch,passes:g.match.stats.passes};});assert.equal(through.mode,'through');
+   const lead=through.feet.map((v,i)=>v-planned.receiver[i]),leadDistance=Math.hypot(...lead);assert.ok(leadDistance>0);assert.ok(lead.reduce((sum,v,i)=>sum+v*planned.direction[i],0)/leadDistance>.999);assert.ok(leadDistance<=planned.reachable+1e-6);
+   assert.deepEqual(through.destination,planned.destination);assert.deepEqual(through.feet,planned.feet);assert.equal(through.pitch,planned.pitch);assert.equal(through.passes,1);through.planned=planned;through.leadDistance=leadDistance;
    await passStage();await page.keyboard.press('t');assert.equal(await page.evaluate(()=>__BROOMBALL__.passMode),'short');report.evidence.through=through;
   });
   await check('The default tactical view shows the controlled rider and both field passing options',async()=>{

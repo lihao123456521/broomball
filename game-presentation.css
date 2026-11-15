@@ -560,3 +560,11 @@ h2, .pause-title {
 .player-label.opponent{color:#ffd4b0;border-bottom:2px solid #ef9b69}
 /* Keep the full-pitch map readable when a world-space name passes behind it. */
 #radar{z-index:4}
+/* Match controls share the keyboard's attack and defence vocabulary. */
+.action-bar{width:490px;grid-template-columns:repeat(5,minmax(0,1fr))}
+.action-bar button:disabled{opacity:.34;filter:saturate(.2);cursor:default}
+.action-bar #pressBtn.pressing{border-color:var(--lime);background:#294226;color:#e6ffc5}
+.advanced-controls{font-size:10px;color:#9eafc4;line-height:1.7;margin:12px 0 0}
+@media(min-width:681px) and (max-width:1100px){.action-bar{width:430px}}
+@media(max-width:680px){.action-bar{width:calc(100vw - 24px)}}
+@media(min-width:681px) and (max-width:900px){.action-bar{width:calc(100vw - 320px)}}

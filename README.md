@@ -7,11 +7,11 @@
 ## 新的比赛方式
 
 - **4 对 4**：每队三名追球手、一名守门员。己方队友向两侧拉开接应，对手会逼抢和传球。
-- **球队控制**：J / T 向高亮队友短传，K / Z 向队友前方送直塞。短传与直塞沿出手时确定的轻微抛物弧线飞行，能被拦截；接球后自动控制接球队员。C 可手动切换到最接近球的己方追球手。
-- **进攻选择**：低亮度点状弧线和球员标签标明接应目标，选择同时考虑方向、距离与对手封堵。鼠标选择进攻方向，← / → 也可转向。白色短线显示当前方向。
-- **射门**：按住 F 蓄力，松开出手；鼠标左键或屏幕按钮快速射门。战术或近景镜头中朝向蓝门且在 38 米内时辅助瞄准；训练跟随镜头需准星对准门环。实际穿过门环得 10 分。
-- **攻防转换**：B 逼近持球对手，接近后抢断；Shift 冲刺、魔法控制和守门员扑救仍可使用。进球后短暂停顿，由失球方重新开球。
-- **清晰的球权信息**：默认约 31° 的略俯视随球转播。谁持球，镜头就跟谁；对手控球也一样。传球、射门与自由球阶段跟随飞行中的球，附近接应位置按需扩展视野，远处球员不会拉走画面中心。V 切换持球者近景；按住 Tab 临时查看全场，松开恢复。小窗口保留全场雷达，操控队员离开画面时提示 C 切换近球追球手。显示控球状态、接应队员、传球路线、蓄力和技能目标。球场有 756 名带头、身体、手脚和围巾的观众，用 12 组实例绘制。
+- **球队控制**：J / T 向高亮队友短传，K / Z 向队友前方送直塞。传球目标按方向、距离与封堵选择。短传送到队友可接的手前；直塞按实际跑动方向和本次飞行时间内可达距离计算，不再固定向前12米。球路出手后固定，近身即可被拦截；接球采用短暂收球过渡，不瞬移球员，完成后自动控制我方接球队员。C 可手动切换到最接近球的己方追球手。
+- **进攻选择**：低亮度点状弧线和球员标签标明接应目标，选择同时考虑方向、距离与对手封堵。WASD 按屏幕方向移动，与鼠标瞄准分开；鼠标只选择传射方向，← / → 可作为瞄准备用。白色短线显示当前方向。
+- **射门**：按住 F 蓄力，松开出手；鼠标左键或屏幕按钮快速射门。战术或近景镜头中朝向蓝门且在 38 米内时辅助瞄准，训练与正式比赛操作一致。实际穿过门环得 10 分。
+- **攻防转换**：按住 B 或屏幕逼抢按钮接近持球对手并抢断；逼抢温和跟随高度，Space / Q 可手动覆盖；Shift 冲刺、魔法控制和守门员扑救仍可使用。进球后短暂停顿，由失球方重新开球。
+- **固定我方视角**：约31°略俯视，始终跟随当前我方操控球员。对手持球、传球飞远或射门都不会把主镜头带走；接球换控或手动 C 切人时，只平滑转到另一位我方球员。附近有效接应者决定视野宽度。V 切我方近景，按住 Tab 临时查看全场；橙色球位提示和雷达显示远处球。小窗口也固定显示我方球员面容。球场有756名带头、身体、手脚和围巾的观众，用12组实例绘制。
 - **女性英语**：65 段完整赛事解说、13 段咒语使用 HeyGen Voice 的 Joanna 自然英式女声录音；另有 3 段兼容提示，共 81 个 WAV，全部在本地离线播放，保留原始录音与字词时间戳。开场、控球、传球、射门、进球、倒计时、结算和训练共用一个播报通道，避免互相打断。N 切换语音，暂停面板可调音量；回退合成也只允许女性英语。来源见 `assets/voice/VOICE.md`。
 
 标准赛 180 秒，挑战赛 150 秒，按终场分数决胜；此次球队玩法不使用飞贼提前终结比赛。训练无计时、无对手干扰，依次完成飞行、升降、拾球、短传、射门和施法六步；实际接球和进球才推进训练。
@@ -20,24 +20,24 @@
 
 | 操作 | 按键 |
 | --- | --- |
-| 前进 / 后退 / 左右横移 | W / S / A、D |
-| 选择方向 | 移动鼠标；← / → 转向 |
-| 短传 / 向持球队友要球 | J 或 T |
-| 直塞 | K 或 Z |
+| 屏幕上 / 左 / 下 / 右 | W / A / S / D |
+| 传射方向 | 移动鼠标；← / → 备用瞄准 |
+| 短传 / 向持球队友要球 | J |
+| 直塞 | K |
 | 切换控制队员 | C |
 | 蓄力射门 | 按住 F，松开射门 |
 | 快速射门 | 鼠标左键 / 屏幕射门按钮 |
-| 逼抢 | 按住 B |
+| 逼抢 | 按住 B / 屏幕逼抢按钮 |
 | 冲刺 / 急停 | Shift / X |
-| 上升 / 下降 | Space 或 E / Q 或 Ctrl |
+| 上升 / 下降 | Space / Q |
 | 咒语 | R 或鼠标右键 |
 | 切换战术技能 | 1 / 2 / 3 |
-| 随球转播 / 持球者近景 | V |
+| 我方战术 / 我方近景 | V |
 | 临时全场总览 | 按住 Tab，松开恢复 |
-| 瞄准俯仰 | I / O |
+| 训练高级俯仰 | I / O |
 | 暂停 / 说明 | Esc / H |
 
-**S 专用于后退，J / K 负责传球。** 后退速度为巡航的 65%，保持朝向瞄准方向；后退时不冲刺、不消耗冲刺体力。松开移动键自动制动。传球、射门、切人也有可点击按钮。训练与标准赛巡航速度 22、冲刺 36；挑战赛为 28 / 48。冲刺消耗体力，X 急停优先于冲刺。暂停时可调整鼠标灵敏度和减少镜头动态，设置保存在本机。
+**S 专用于后退，J / K 负责传球。** 后退速度为巡航的 65%，保持朝向瞄准方向；后退时不冲刺、不消耗冲刺体力。松开移动键自动制动。短传、直塞、射门、切人和按住逼抢都有屏幕按钮；文字与可用状态随球权更新。Cmd / Ctrl / Alt 组合键不触发游戏动作。训练与标准赛巡航速度 22、冲刺 36；挑战赛为 28 / 48。冲刺消耗体力，X 急停优先于冲刺。暂停时可调整训练跟随视角灵敏度和减少镜头动态，设置保存在本机。
 
 ## 学院和技能
 
@@ -53,7 +53,7 @@
 
 ## 首页三维角色展示
 
-首页右侧展示当前选择的实际游戏角色，可拖动或使用左右旋转按钮查看。学院、人物、扫帚或升级等级变化会同步更新模型和信息。哈利使用上传的完整 GLB，其他角色使用重做的三维人物与上传扫帚；预览使用与比赛相同的角色工厂。可切换全身 3D 与面容近景，查看眼睛、眼镜、发型和脸部轮廓。进入比赛后首页停止渲染；比赛左侧用同一套真实三维模型显示当前操控者与持球者的正面脸部特写（含对方球员），限 8 帧每秒；暂停与菜单中停止更新。
+首页改为紧凑的比赛大厅：学院、球员、模式和开始按钮在1440、1280、800宽度均可直接看见；装备库单独展开。右侧约半屏展示实际游戏角色，可拖动或用独立工具栏旋转、查看面容。学院、人物、扫帚或升级等级变化会同步更新模型和信息。哈利使用上传的完整 GLB，其他角色使用重做的三维人物与上传扫帚；预览使用与比赛相同的角色工厂。可切换全身 3D 与面容近景，查看眼睛、眼镜、发型和脸部轮廓。进入比赛后首页停止渲染；比赛左侧用同一套真实三维模型显示当前操控者与持球者的正面脸部特写（宽屏可显示对方持球者，窄屏固定我方），限 8 帧每秒；暂停与菜单中停止更新。
 
 ## 上传的七个模型
 
@@ -82,6 +82,9 @@
 当前球队玩法验收：
 
 ```text
+node tests/browser-camera-controls.cjs
+node tests/browser-pass-feel.cjs
+node tests/browser-player-portraits.cjs
 node tests/browser-tactical-roster.cjs
 node tests/browser-character-presence.cjs
 node tests/passing-trajectory.cjs
@@ -98,8 +101,8 @@ node tests/browser-rules.cjs --file
 
 需要 Node.js、Playwright 和 Chromium。可通过 `PLAYWRIGHT_MODULE` 指定 Playwright 模块路径，通过 `BROWSER_EXECUTABLE` 指定浏览器。测试先安装统一虚拟时钟再加载游戏，覆盖真实键盘输入、接球、拦截、进球、训练全流程、暂停、低帧率及离线运行。
 
-`tests/browser-experience.cjs`、`tests/browser-houses-novice.cjs` 是此前单人追球版的体验脚本，包含旧飞贼和回传预期；当前以球队验收脚本为准。历史验证保存在 `docs/validation/`。最新战术视野、按键和十二角色展示验收见 `docs/validation/tactical-roster-homepage.md`；前轮近景与自然配音验收见 `docs/validation/rider-presence-and-natural-voice.md`；分支整合记录见 `docs/validation/2026-11-14-final-integration.md`；前轮球队重设计见 `docs/validation/2026-11-14-teamplay-redesign.md`。
+`tests/browser-experience.cjs`、`tests/browser-houses-novice.cjs` 是此前单人追球版的体验脚本，包含旧飞贼和回传预期；当前以球队验收脚本为准。历史验证保存在 `docs/validation/`。最新我方镜头、传球与大厅验收见 `docs/validation/home-team-controls-and-passing.md`；前轮战术视野和十二角色展示验收见 `docs/validation/tactical-roster-homepage.md`；前轮近景与自然配音验收见 `docs/validation/rider-presence-and-natural-voice.md`；分支整合记录见 `docs/validation/2026-11-14-final-integration.md`；前轮球队重设计见 `docs/validation/2026-11-14-teamplay-redesign.md`。
 
-请保留 `index.html`、`game-environment.js`、`game-houses.js`、`game-presentation.css`、`game-menu.css`、`game-character-art.js`、`game-character-preview.js`、`game-voice.js`、`game-passing.js`、`game-crowd.js`、`game-models.js`、`game-brooms.js`、`game-school-magic.js`、`game-commentary*.js`、`assets/` 和 `vendor/` 的相对位置。
+请保留 `index.html`、`game-environment.js`、`game-houses.js`、`game-presentation.css`、`game-menu.css`、`game-character-art.js`、`game-character-preview.js`、`game-player-portraits.js`、`game-match-skills.js`、`game-voice.js`、`game-passing.js`、`game-crowd.js`、`game-models.js`、`game-brooms.js`、`game-school-magic.js`、`game-commentary*.js`、`assets/` 和 `vendor/` 的相对位置。
 
 Three.js 使用 MIT 许可证，见 `vendor/THREE-LICENSE.txt`。

@@ -110,21 +110,31 @@ const near = (a, b, label, tolerance = 1e-6) => assert.ok(Math.abs(a - b) <= tol
 
     await check('Z leads the receiver on a fixed arc after release', async () => {
       await stage(); await setupPass(30);
-      await page.evaluate(() => window.__BROOMBALL__.allies[0].velocity.set(4, 0, -6));
+      const planned = await page.evaluate(() => {
+        const g=window.__BROOMBALL__,receiver=g.allies[0];receiver.speed=24;receiver.velocity.set(4,0,-6);
+        receiver.flightDirection.copy(receiver.velocity).normalize();receiver.flightSpeed=receiver.velocity.length();
+        receiver.mesh.rotation.y=Math.atan2(-receiver.velocity.x,-receiver.velocity.z);
+        const p=g.planPass('player',receiver,'through');return{reachable:p.reachableDistance,feet:p.receivePosition.toArray(),destination:p.destination.toArray(),direction:receiver.flightDirection.toArray()};
+      });
       await page.keyboard.press('z');
       const release = await page.evaluate(() => { const g = window.__BROOMBALL__; return {
-        mode: g.passMode, target: g.passTarget === g.allies[0], destination: g.passDestination.toArray(),
+        mode: g.passMode, target: g.passTarget === g.allies[0], destination: g.passDestination.toArray(), feet:g.passReceivePosition.toArray(),duration:g.passFlight.duration,
         velocity: g.quaffleVel.toArray(), receiver: g.allies[0].mesh.position.toArray(), position: g.quaffle.position.toArray() }; });
       assert.equal(release.mode, 'through'); assert.equal(release.target, true);
-      assert.ok(release.destination[2] < release.receiver[2] - 10, 'The ball is sent beyond the current player position');
-      assert.ok(Math.hypot(...release.velocity)>36&&Math.hypot(...release.velocity)<44,'Through pass has a readable flight speed');
+      const lead=release.feet.map((v,i)=>v-release.receiver[i]),leadDistance=Math.hypot(...lead);
+      assert.ok(leadDistance>0,'A moving receiver gets a lead into their running lane');
+      assert.ok(lead.reduce((sum,v,i)=>sum+v*planned.direction[i],0)/leadDistance>.999,'Lead follows the actual receiving run');
+      assert.ok(leadDistance<=planned.reachable+1e-6,'The receiver can reach the lead during this flight');
+      assert.deepEqual(release.feet,planned.feet);assert.deepEqual(release.destination,planned.destination);
+      const chordSpeed=Math.hypot(...release.destination.map((v,i)=>v-release.position[i]))/release.duration;
+      assert.ok(chordSpeed>=30&&chordSpeed<=34,'Through pass has a readable flight speed');
       await page.evaluate(() => window.__BROOMBALL__.allies[0].mesh.position.set(22, 10, -30));
       await advance(250);
       const flight = await page.evaluate(() => { const g = window.__BROOMBALL__; return { velocity: g.quaffleVel.toArray(), destination: g.passDestination.toArray(), position: g.quaffle.position.toArray() }; });
       assert.ok(flight.velocity[1]<release.velocity[1],'The lofted throw descends along its fixed arc');
       assert.deepEqual(flight.destination, release.destination);
       assert.ok(flight.position[2] < release.position[2] - 7);
-      report.evidence.throughPass = { release, flight };
+      report.evidence.throughPass = { planned, release, flight, leadDistance, chordSpeed };
     });
 
     await check('A defender on the flight path intercepts before the intended receiver', async () => {

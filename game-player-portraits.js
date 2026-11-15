@@ -40,10 +40,10 @@ window.BroomPlayerPortraits=(()=>{
    active=!!enabled;element.hidden=!active;if(!active){elapsed=0;return;}
    const same=!!controlled&&!!carrier&&(controlled.key&&carrier.key?controlled.key===carrier.key:controlled.id===carrier.id&&controlled.house===carrier.house),compact=window.matchMedia('(max-width:900px)').matches,nextLayout=[controlled?.key,carrier?.key,compact,same,!!carrier].join('|');
    const changed=nextLayout!==layoutKey||slots[0].signature!==(controlled?[controlled.id,controlled.house].join('|'):'')||slots[1].signature!==(carrier?[carrier.id,carrier.house].join('|'):'');layoutKey=nextLayout;
-   slots[0].node.hidden=!!(compact&&carrier&&!same);slots[1].node.hidden=!carrier||same;
-   if(compact&&carrier&&!same)slots[1].node.hidden=false;
+   slots[0].node.hidden=false;slots[1].node.hidden=compact||!carrier||same;
    element.dataset.layout=slots.some(slot=>slot.node.hidden)?'single':'dual';
    slots[0].role.textContent=same?'当前持球 / 操控':'当前操控';
+   slots[1].role.textContent=carrier&&controlled&&carrier.house!==controlled.house?'对方持球':'队友持球';
    select(slots[0],controlled);select(slots[1],carrier);elapsed+=Math.max(0,dt);if(!changed&&elapsed<.125)return;elapsed=0;
    const root=element.getBoundingClientRect(),w=Math.round(root.width),h=Math.round(root.height);if(w<1||h<1)return;
    if(width!==w||height!==h){width=w;height=h;renderer.setSize(width,height,false);}
