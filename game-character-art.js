@@ -21,7 +21,7 @@ window.BroomCharacterArt=(()=>{
   for(const child of [...body.children]){child.traverse(o=>{o.geometry?.dispose();if(o.material?.userData.owned)o.material.dispose();});child.removeFromParent();}
   const V=(x=0,y=0,z=0)=>new T.Vector3(x,y,z),up=V(0,1,0),materials=new Map();
   const primary=0x87374c,accent=0xe9c573,shirt=0xeee8d9,leather=0x302b30,pants=0x29313e,hair=profile.hair,skin=profile.skin;
-  const cheek=new T.Color(skin).lerp(new T.Color(0xe1a38b),.12).getHex(),earShade=new T.Color(skin).multiplyScalar(.77).getHex();
+  const earShade=new T.Color(skin).multiplyScalar(.77).getHex();
   function mat(c,metal=0){const key=c+':'+metal;if(!materials.has(key)){const m=new T.MeshStandardMaterial({color:c,roughness:metal?.4:.7,metalness:metal});m.userData.owned=true;materials.set(key,m);}return materials.get(key);}
   function mesh(parent,geo,c,p=V(),name=''){const o=new T.Mesh(geo,typeof c==='number'?mat(c):c);o.position.copy(p);o.name=name;o.castShadow=true;o.receiveShadow=true;parent.add(o);return o;}
   function ell(parent,c,p,s,name=''){const o=mesh(parent,new T.SphereGeometry(1,20,14),c,p,name);o.scale.copy(s);return o;}
@@ -72,17 +72,21 @@ window.BroomCharacterArt=(()=>{
   stroke(cape,[[-.38,0,0],[-.43,-.45,.28],[-.54,-.98,.72]],.013,accent,'CapeEdgeLeft');stroke(cape,[[.38,0,0],[.43,-.45,.28],[.54,-.98,.72]],.013,accent,'CapeEdgeRight');
   // Face: almond eyes, iris/pupil/highlight, sculpted cheeks, eyelids and brows.
   const head=new T.Group();head.name='Head';head.position.set(0,1.94,-.075);body.add(head);
-  ell(head,skin,V(0,0,.01),V(.292,.347,.276),'SculptedFace');
-  ell(head,skin,V(0,-.17,-.02),V(.235,.18,.225),'SoftJaw');
+  // Subtle changes in jaw width, cheek height and eye spacing distinguish faces,
+  // while the same landmarks also frame the live, front-facing match portraits.
+  const faceShapes={hermione:[.97,1.02,1],ron:[.96,1.06,1],draco:[.93,1.06,.97],pansy:[1.02,.96,.97],blaise:[1.04,1.04,1.02],luna:[.96,1.04,.98],cho:[.98,.98,.98],padma:[.99,1.02,1],cedric:[1.04,1.05,1.02],hannah:[1.02,.97,1],ernie:[1.03,1.01,1]};head.scale.fromArray(faceShapes[id]||[1,1,1]);
+  const face=ell(head,skin,V(0,0,.01),V(.292,.347,.276),'SculptedFace'),facePositions=face.geometry.getAttribute('position');
+  // Shape a continuous cheek/jaw surface. Separate skin balls create visible
+  // seams and swollen cheeks in close-up, even when their materials match.
+  for(let i=0;i<facePositions.count;i++){const y=facePositions.getY(i),jaw=Math.max(0,1-Math.abs(y+.48)*2.2);facePositions.setX(i,facePositions.getX(i)*(1+jaw*.10));}face.geometry.computeVertexNormals();
   for(const side of[-1,1]){
    ell(head,skin,V(side*.276,-.015,.01),V(.066,.095,.055),'Ear');ell(head,earShade,V(side*.30,-.015,-.027),V(.021,.051,.017),'EarInset');
-   ell(head,cheek,V(side*.143,-.09,-.221),V(.093,.059,.042),'CheekPlane');
-   ell(head,0xf1eee2,V(side*.112,.025,-.245),V(.070,.046,.035),'EyeWhite');
-   ell(head,profile.eyes,V(side*.112,.023,-.278),V(.034,.036,.015),'EyeIris');ell(head,0x17252d,V(side*.112,.022,-.291),V(.018,.026,.008),'EyePupil');ell(head,0xffffff,V(side*.103,.035,-.299),V(.009,.010,.005),'EyeCatchlight');
-   stroke(head,[[side*.048,.049,-.269],[side*.105,.070,-.279],[side*.174,.053,-.255]],.011,0x715244,'UpperEyelid');
+   ell(head,0xf1eee2,V(side*.112,.025,-.245),V(.064,.039,.024),'EyeWhite');
+   ell(head,profile.eyes,V(side*.112,.023,-.266),V(.029,.031,.010),'EyeIris');ell(head,0x17252d,V(side*.112,.022,-.275),V(.015,.023,.006),'EyePupil');ell(head,0xffffff,V(side*.103,.035,-.281),V(.008,.008,.004),'EyeCatchlight');
+   stroke(head,[[side*.048,.045,-.255],[side*.105,.063,-.268],[side*.174,.049,-.249]],.008,0x715244,'UpperEyelid');
    stroke(head,[[side*.052,.112+profile.brow,-.245],[side*.11,.133+profile.brow,-.258],[side*.18,.118,-.231]],.017,hair,'ExpressiveEyebrow');
   }
-  ell(head,skin,V(0,-.015,-.267),V(.041,.095,.048),'NoseBridge');ell(head,skin,V(0,-.064,-.297),V(.052,.037,.050),'NoseTip');
+  ell(head,skin,V(0,-.015,-.254),V(.034,.083,.034),'NoseBridge');ell(head,skin,V(0,-.064,-.281),V(.043,.030,.034),'NoseTip');
   stroke(head,[[-.065,-.154,-.228],[0,-.165,-.245],[.065,-.153,-.228]],.010,0x9e6358,'NaturalSmile');
   ell(head,0xbf8b78,V(0,-.176,-.232),V(.044,.012,.014),'LowerLip');
   function lock(p,s,rz=0,ry=0,name='LayeredHairLock'){const l=ell(head,hair,V(...p),V(...s),name);l.rotation.z=rz;l.rotation.y=ry;return l;}
@@ -152,5 +156,21 @@ window.BroomCharacterArt=(()=>{
   wizard.userData.appearance={version:2,id,hairStyle:profile.style,signature:profile.trait,skin:profile.skin,hair:profile.hair,features:['sculpted-face','iris-and-catchlights','layered-hair','tailored-jacket','cape-piping','shaped-boots','striped-scarf']};
   return wizard;
  }
- return Object.freeze({decorate,profiles:Object.freeze(profiles)});
+ // Use a landmark on the actual rig. The imported Harry is one textured mesh;
+ // its top slice isolates the head without replacing any of the uploaded art.
+ function getFaceFrame(wizard){
+  const T=window.THREE;if(!wizard)return null;wizard.updateWorldMatrix(true,true);
+  const imported=wizard.userData.importedWizard&&wizard.children.find(o=>o.userData.uploadedModel==='harry-rider');
+  if(imported){
+   if(!wizard.userData.importedFaceFrame){
+    const inverse=wizard.matrixWorld.clone().invert(),box=new T.Box3().setFromObject(imported).applyMatrix4(inverse),cut=box.max.y-box.getSize(new T.Vector3()).y*.225,head=new T.Box3(),p=new T.Vector3(),m=new T.Matrix4();
+    imported.traverseVisible(o=>{if(!o.isMesh)return;m.multiplyMatrices(inverse,o.matrixWorld);const a=o.geometry.getAttribute('position');for(let i=0;i<a.count;i++){p.fromBufferAttribute(a,i).applyMatrix4(m);if(p.y>=cut)head.expandByPoint(p);}});
+    const size=head.getSize(new T.Vector3()),center=head.getCenter(new T.Vector3());center.y-=size.y*.04;
+    wizard.userData.importedFaceFrame={center:center.toArray(),radius:Math.max(size.x*.66,size.y*.70,.42)};
+   }
+   const frame=wizard.userData.importedFaceFrame;return{center:new T.Vector3().fromArray(frame.center),radius:frame.radius,source:'harry-rider'};
+  }
+  const head=wizard.getObjectByName('Head'),center=new T.Vector3();if(!head)return null;head.getWorldPosition(center);wizard.worldToLocal(center);center.y-=.025;return{center,radius:.53,source:wizard.userData.characterId||wizard.userData.artProfile};
+ }
+ return Object.freeze({decorate,getFaceFrame,profiles:Object.freeze(profiles)});
 })();
