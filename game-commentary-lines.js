@@ -29,7 +29,7 @@
   }
   add('possession-'+home,homeName+' take possession!');
   add('shot-'+home,homeName+' line up the hoops. Shot away!');
-  add('goal-'+home,'Goal for '+homeName+'! Ten points on the board!');
+  add('goal-'+home,'Goal for '+homeName+'! What a finish!');
   add('result-'+home,homeName+' win it! What a finish!');
   add('snitch-catch-'+home,homeName+' catch the Snitch! One hundred and fifty points!');
  }

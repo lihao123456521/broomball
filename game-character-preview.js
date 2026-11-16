@@ -1,17 +1,16 @@
 /* The menu uses the same rider factory and uploaded assets as the match. */
 window.BroomCharacterPreview=(()=>{
  'use strict';
+ const positions={harry:['锋线','快速前插 · 抢点射门'],hermione:['组织','跑位策应 · 连续短传'],ron:['防守','贴身跟防 · 拦截出球'],draco:['锋线','边路突破 · 抢点射门'],pansy:['组织','接应串联 · 穿透直塞'],blaise:['防守','覆盖中路 · 拦截出球'],luna:['组织','寻找空当 · 灵活策应'],cho:['锋线','斜线前插 · 快速终结'],padma:['防守','收紧站位 · 稳健出球'],cedric:['锋线','中路推进 · 抢点射门'],hannah:['组织','短传接应 · 转移进攻'],ernie:['防守','贴身盯防 · 反击出球']};
+ function roleFor(id){const[role,style]=positions[id]||positions.harry;return{role,style};}
  function init({THREE:T,element,createWizard,disposeObject,getSelection,prepareWizard}={}){
   if(!element||!T)return null;
-  element.innerHTML='<div class="preview-topline"><span>YOUR STARTING RIDER</span><span class="preview-live-dot">3D 角色</span></div><div class="preview-stage"><canvas id="characterPreviewCanvas" tabindex="0" aria-label="拖动以旋转当前角色的三维模型"></canvas><div class="preview-loading" role="status">正在准备角色…</div></div><div class="preview-identity"><div class="preview-house"></div><h2 class="preview-name"></h2><p class="preview-name-en"></p><div class="preview-details"><div><span>战术技能</span><strong class="preview-spell"></strong></div><div><span>飞行装备</span><strong class="preview-broom"></strong></div></div></div><div class="preview-rotation"><button type="button" class="preview-rotate-left" aria-label="向左旋转角色">↶</button><span>拖动模型旋转查看</span><button type="button" class="preview-rotate-right" aria-label="向右旋转角色">↷</button></div>';
+  element.innerHTML='<div class="preview-topline"><span>你的出场队长</span><span class="preview-live-dot">实时 3D</span></div><div class="preview-stage"><canvas id="characterPreviewCanvas" tabindex="0" aria-label="拖动以旋转当前角色的三维模型"></canvas><div class="preview-loading" role="status">正在准备角色…</div></div><div class="preview-identity"><div class="preview-house"></div><h2 class="preview-name"></h2><p class="preview-name-en"></p><div class="preview-details"><div><span>场上定位</span><strong class="preview-position"></strong></div><div><span>配合特点</span><strong class="preview-style"></strong></div></div></div>';
   const canvas=element.querySelector('canvas'),stage=element.querySelector('.preview-stage'),loading=element.querySelector('.preview-loading');
   const views=document.createElement('div');views.className='preview-view-switch';views.setAttribute('role','group');views.setAttribute('aria-label','角色预览范围');views.innerHTML='<button type="button" data-view="body" aria-pressed="true">全身 3D</button><button type="button" data-view="face" aria-pressed="false">面容近景</button>';
-  const toolbar=document.createElement('div');toolbar.className='preview-toolbar';element.insertBefore(toolbar,stage);toolbar.append(views,element.querySelector('.preview-rotation'));
-  // Equipment is an optional drawer. Its own close action keeps the original
-  // selector and keyboard focus available without adding a second menu page.
-  const shop=document.getElementById('broomShop');if(shop&&!shop.querySelector('.broom-shop-close')){const close=document.createElement('button');close.type='button';close.className='broom-shop-close';close.textContent='关闭装备库 ×';close.addEventListener('click',()=>{const toggle=document.getElementById('broomShopToggle');if(toggle?.getAttribute('aria-expanded')==='true')toggle.click();toggle?.focus();});shop.prepend(close);}
-  const actions=document.querySelector('#menu .menu-actions'),summary=document.createElement('div');summary.className='lobby-match-summary';summary.innerHTML='<span>即将开赛</span><strong></strong><small></small>';actions?.before(summary);
-  function updateSummary(){const home=document.querySelector('.house-option[aria-pressed="true"] strong')?.textContent||'',away=document.getElementById('opponentHouse')?.selectedOptions[0]?.textContent||'',mode=document.querySelector('.mode-option[aria-pressed="true"]');const title=mode?.dataset.mode==='training'?'学院飞行训练':home+'  vs  '+away,detail=[mode?.querySelector('strong')?.textContent,mode?.querySelector('small')?.textContent].filter(Boolean).join(' · ');if(summary.querySelector('strong').textContent!==title)summary.querySelector('strong').textContent=title;if(summary.querySelector('small').textContent!==detail)summary.querySelector('small').textContent=detail;}
+  const toolbar=document.createElement('div');toolbar.className='preview-toolbar';element.insertBefore(toolbar,stage);toolbar.append(views);
+  let keyboard=document.getElementById('coreKeyboard');if(!keyboard){keyboard=document.createElement('section');keyboard.id='coreKeyboard';keyboard.className='core-keyboard';keyboard.setAttribute('aria-label','比赛按键');document.querySelector('#menu .menu-actions')?.before(keyboard);}
+  keyboard.innerHTML='<div class="core-keyboard-title">一只左手，完成传、跑、射</div><div class="core-keyboard-body"><div class="core-key-layout" aria-label="键盘左手区域"><kbd class="key-esc">Esc</kbd><kbd class="key-w">W</kbd><kbd class="key-e action-key">E</kbd><kbd class="key-r action-key">R</kbd><kbd class="key-a">A</kbd><kbd class="key-s">S</kbd><kbd class="key-d">D</kbd><kbd class="key-f action-key">F</kbd><kbd class="key-shift">Shift</kbd></div><div class="core-key-legend"><span><b>W A S D</b>移动</span><span><b>E</b>短传</span><span><b>R</b>直塞</span><span><b>F</b>射门 / 逼抢</span><span><b>Shift</b>冲刺 <i>·</i> <b>Esc</b>暂停</span></div></div><p class="core-auto-control">我方接球自动操控<br>对手持球自动选最近防守者</p>';
   const renderer=new T.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'low-power'});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=T.SRGBColorSpace;
   renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;
@@ -26,7 +25,7 @@ window.BroomCharacterPreview=(()=>{
   const ringMaterial=new T.MeshStandardMaterial({color:0xc6ff58,emissive:0xc6ff58,emissiveIntensity:.18,metalness:.65,roughness:.32});
   const ring=new T.Mesh(new T.TorusGeometry(2.65,.022,6,80),ringMaterial);ring.rotation.x=Math.PI/2;ring.position.y=-.01;scene.add(ring);
   const shadow=new T.Mesh(new T.CircleGeometry(2.35,48),new T.MeshBasicMaterial({color:0x020a10,transparent:true,opacity:.24,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.002;scene.add(shadow);
-  let wizard=null,selection=null,signature='',meshSignature='',active=false,ready=false,frames=0,error=null;
+  let wizard=null,selection=null,signature='',meshSignature='',appearanceSignature='',active=false,ready=false,frames=0,error=null;
   let elapsed=0,fitCountdown=0,width=0,height=0,rotation=-.12,userRotation=0,dragging=false,dragX=0,manual=false,viewMode='body',faceFrame=null;
   let center=new T.Vector3(0,1.6,0),distance=10,baseY=.5,projectedBounds=null,meshes=0,triangles=0,uploadedIds=[];
   const direction=new T.Vector3(2.3,1.7,-8).normalize(),faceDirection=new T.Vector3(.12,.10,-1).normalize(),emptyBounds=()=>new T.Box3();
@@ -72,12 +71,12 @@ window.BroomCharacterPreview=(()=>{
    element.querySelector('.preview-house').textContent=next.houseName||next.house||'学院代表队';
    element.querySelector('.preview-name').textContent=next.name||next.id||'';
    element.querySelector('.preview-name-en').textContent=next.en||'';
-   element.querySelector('.preview-spell').textContent=next.spell||'';
-   element.querySelector('.preview-broom').textContent=next.broomName||'学院赛用扫帚';
+   const position=roleFor(next.id);element.querySelector('.preview-position').textContent='队长 · '+position.role;
+   element.querySelector('.preview-style').textContent=position.style;
    const accent=new T.Color(next.houseColor||0xc6ff58);ringMaterial.color.copy(accent);ringMaterial.emissive.copy(accent);rim.color.copy(accent).lerp(new T.Color(0xe2f0ff),.65);
   }
   function select(next){
-   selection={...next};metadata(selection);ready=false;error=null;meshSignature='';fitCountdown=0;manual=false;userRotation=0;rotation=-.12;faceFrame=null;
+   selection={...next};metadata(selection);ready=false;error=null;meshSignature='';appearanceSignature='';fitCountdown=0;manual=false;userRotation=0;rotation=-.12;faceFrame=null;
    loading.hidden=false;
    if(wizard)disposeObject?.(wizard);
    try{
@@ -94,14 +93,14 @@ window.BroomCharacterPreview=(()=>{
   canvas.addEventListener('pointermove',event=>{if(!dragging)return;userRotation+=(event.clientX-dragX)*.012;dragX=event.clientX;fit();});
   const release=()=>{dragging=false;};canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',release);
   canvas.addEventListener('keydown',event=>{if(event.code==='ArrowLeft'||event.code==='ArrowRight'){event.preventDefault();event.stopPropagation();rotate(event.code==='ArrowLeft'?.25:-.25);}});
-  element.querySelector('.preview-rotate-left').addEventListener('click',()=>rotate(.38));element.querySelector('.preview-rotate-right').addEventListener('click',()=>rotate(-.38));
   const observer=typeof ResizeObserver==='function'?new ResizeObserver(resize):null;observer?.observe(stage);
   function update(dt,{active:enabled=true}={}){
-   active=!!enabled;if(!active)return;updateSummary();
+   active=!!enabled;if(!active)return;
    const next=getSelection?.();if(!next)return;
    const nextSignature=[next.id,next.house,next.broomId,next.broomLevel].join('|');
    if(nextSignature!==signature){signature=nextSignature;select(next);}else selection={...selection,...next};
    resize();if(!wizard)return;
+   const appearance=[!!wizard.userData.importedWizard,!!wizard.userData.broomLoading,wizard.userData.artProfile].join('|');if(appearance!==appearanceSignature){appearanceSignature=appearance;fitCountdown=0;meshSignature='';}
    elapsed+=Math.min(Math.max(dt,0),.05);fitCountdown-=dt;
    if(!manual&&!selection.reducedMotion)pivot.rotation.y=rotation+Math.sin(elapsed*.45)*.13;else pivot.rotation.y=rotation+userRotation;
    wizard.position.y=baseY+(!selection.reducedMotion?Math.sin(elapsed*1.8)*.035:0);
@@ -123,5 +122,5 @@ window.BroomCharacterPreview=(()=>{
   resize();
   return {update,getStatus,refresh,dispose,renderer,scene,camera,get wizard(){return wizard;}};
  }
- return Object.freeze({init});
+ return Object.freeze({init,roleFor});
 })();
