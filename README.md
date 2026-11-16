@@ -27,7 +27,7 @@
 
 标准/挑战均为180秒，一次进球记1球，终场按比分决胜；失球方重新开球。挑战只提高对方逼抢强度，不改变一套操作。
 
-短传和直塞使用出手时确定的低抛物线，不追踪接收者、不人为蛇形弯曲。直塞根据实际跑动方向、转弯、加速和飞行时间计算可达落点。近身对手也能拦截。真实接球在持球手附近判定，收球用0.14秒过渡；错失后球继续沿切线飞行。射门、接球、扑救与球门穿越用连续轨迹检测，低帧率不会直接跳过。
+短传和直塞使用出手时确定的低抛物线，不追踪接收者、不人为蛇形弯曲。直塞根据实际跑动方向、转弯、加速和飞行时间计算可达落点。近身对手也能拦截。触球综合身体、手部和扫帚前后端，贴近持球的球可直接夺球，按住F可扩大逼抢范围；玩家、AI和球都按相对运动轨迹判断，减少擦过漏判。收球用0.14秒过渡；错失后球继续沿切线飞行。射门、接球、扑救与球门穿越用连续轨迹检测，低帧率不会直接跳过。
 
 首页只做选学院/对手、选队长、选标准/挑战、开赛。12名角色保留实际3D和面容展示。比赛保留比分、控人标记、接应提示、体力、雷达和简洁按键。已移除比赛中的主动魔法、游走球干扰、手动升降、飞贼竞速、装备购买升级、额外镜头模式及分散的旧动作键。
 
@@ -65,12 +65,13 @@
 ```text
 node tests/team-control.cjs
 node tests/browser-core-match.cjs
+node tests/browser-ball-contact.cjs
 node tests/browser-core-presentation.cjs
 node tests/passing-trajectory.cjs
 ```
 
 需要Node.js、Playwright和Chromium，可通过`PLAYWRIGHT_MODULE`和`BROWSER_EXECUTABLE`指定本机路径。浏览器时钟在导航前安装，测试真实键盘、传球、换控、抢断、射门、重开、暂停和画面。
 
-历史单人版、技能版及旧键位测试保留作记录，不能作为当前核心玩法的要求。`project.godot`是此前原生原型，本轮核心重构面向浏览器入口。最新验收见`docs/validation/core-football-rebuild.md`。
+历史单人版、技能版及旧键位测试保留作记录，不能作为当前核心玩法的要求。`project.godot`是此前原生原型，本轮核心重构面向浏览器入口。核心重构验收见`docs/validation/core-football-rebuild.md`；最新触球判定调整见`docs/validation/ball-contact-tolerance.md`。
 
 Three.js使用MIT许可证，见`vendor/THREE-LICENSE.txt`。
