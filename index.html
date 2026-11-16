@@ -23,6 +23,10 @@
  <div class="core-match-keys">W A S D 移动 <span>·</span> Shift 冲刺 <span>·</span> Esc 暂停</div>
  <div class="ball-marker" id="ballMarker" data-location="hidden"><b id="ballMarkerArrow"></b><span id="ballMarkerText"></span></div>
 </div>
+<section id="goalCelebration" class="goal-celebration hidden" aria-label="精彩进球庆祝">
+ <div class="goal-celebration-copy"><span>GOAL · 比赛计时已暂停</span><h2 id="celebrationReason">精彩进球</h2><p id="celebrationChoice">挥拳庆祝 · 空格跳过</p></div>
+ <div class="goal-celebration-actions" role="group" aria-label="选择庆祝动作"><button type="button" data-celebration="fist" aria-pressed="true"><kbd>E</kbd><span>挥拳</span></button><button type="button" data-celebration="glide" aria-pressed="false"><kbd>R</kbd><span>滑翔</span></button><button type="button" data-celebration="team" aria-pressed="false"><kbd>F</kbd><span>全队</span></button><button type="button" id="skipCelebration" class="skip-celebration"><kbd>Space</kbd><span>跳过 <b id="celebrationTimer">6s</b></span></button></div>
+</section>
 <div class="overlay" id="menu"><div class="menu-card"><div class="menu-controls">
  <div class="eyebrow">MATCHDAY · 学院冠军赛</div><h1>BROOMBALL</h1><div class="subtitle">传球，跑位，赢下这一场</div>
  <div class="choose">选择学院</div><div class="house-picker" id="housePicker" aria-label="选择学院"></div>
