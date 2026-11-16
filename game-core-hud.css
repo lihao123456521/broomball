@@ -8,3 +8,11 @@
 #radar{top:auto}
 @media(min-width:621px){#passHint{left:50%;right:auto;transform:translateX(-50%)}}
 #ending .dialog-actions button{margin:0;min-height:46px}
+#passHint.buffered{color:var(--gold);border:1px solid #c6ff5855;background:#142b20e8;box-shadow:0 0 0 2px #c6ff580c}
+.action-bar button.pressing kbd{color:#efffd8}
+#chargeMeter{box-shadow:0 3px 14px #0005}
+@media(prefers-reduced-motion:reduce){#message{transition:none}}
+/* Keep play-by-play away from the ball, receiver labels and central action prompts. */
+#commentaryCaption{top:auto;bottom:132px;left:24px;transform:none;max-width:300px;text-align:left}
+@media(max-width:800px){#commentaryCaption{left:14px;bottom:126px;max-width:240px}}
+@media(max-width:620px){#commentaryCaption{display:none!important}}
