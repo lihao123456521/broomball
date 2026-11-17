@@ -59,7 +59,7 @@
 | textured (1)(1).glb | 场边金色奖杯 |
 | textured (2)(1).glb | Harry完整骑乘角色与首页展示 |
 
-Joanna 女性英语录音本地播放，逐段温和均衡音量并保留原速、原调和原始录音。常规解说结束后留白 1 秒，同一句常规台词至少间隔 24 秒；进球与终场保留优先级。传接球使用轻柔碰撞与气流音，解说播放时音效自动压低，暂停与返回首页会停止音效。暂停面板可开关解说和调节音量。资产处理见`assets/models/README.md`，声音来源见`assets/voice/VOICE.md`。
+Joanna 女性英语录音本地播放，逐段温和均衡音量并保留原速、原调和原始录音。常规解说结束后留白 1 秒，同一句常规台词至少间隔 24 秒；进球与终场保留优先级。传接球使用轻柔碰撞与气流音，解说播放时音效自动压低，暂停与返回首页会停止音效。比赛期间持续播放真实看台人声、掌声与零星欢呼，进球叠加 7 秒更强欢呼。解说时观众声适度降低，仍保留球场氛围。暂停面板可分别调节解说和观众音量，设为 0 可单独静音；设置会保存。观众素材为 Gregor Quendel 的 CC BY 4.0 现场录音，来源与改编说明见 `assets/audio/crowd/README.md`。资产处理见`assets/models/README.md`，声音来源见`assets/voice/VOICE.md`。
 
 ## 代码结构
 
@@ -87,6 +87,7 @@ node tests/browser-pressure-celebration.cjs
 node tests/commentary-engine.cjs
 python3 tests/natural-voice.py
 node tests/browser-match-audio.cjs
+node tests/browser-crowd-ambience.cjs
 node tests/browser-commentary-audio.cjs
 node tests/passing-trajectory.cjs
 ```

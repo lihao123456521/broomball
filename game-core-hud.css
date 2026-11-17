@@ -26,3 +26,6 @@
 @media(prefers-reduced-motion:reduce){.goal-celebration *{transition:none!important}}
 
 .core-audio-volume{display:flex;align-items:center;gap:12px;margin:10px 0 18px;color:#c7d9e5;font-size:12px}.core-audio-volume input{flex:1;min-width:0;accent-color:var(--gold)}.core-audio-volume output{min-width:36px;text-align:right}
+
+.audio-credit{font-size:9px;line-height:1.5;color:#91a8bd}.audio-credit a{color:inherit;text-underline-offset:2px}
+@media(max-height:650px){#pause .core-dialog{padding:20px 28px}#pause .pause-key-grid{margin:14px 0;gap:6px}#pause .dialog-actions{margin-top:16px}#pause .core-audio-volume{margin:8px 0 12px}}

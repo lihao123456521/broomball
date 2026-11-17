@@ -1,0 +1,32 @@
+{
+  "title": "Free Crowd Cheering Sounds",
+  "author": "Gregor Quendel",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "sourceUrl": "https://opengameart.org/content/free-crowd-cheering-sounds",
+  "authorUrl": "https://gregor-quendel.itch.io/free-crowd-cheering-sounds",
+  "tracks": {
+    "ambience": {
+      "file": "Gregor Quendel - Crowd Cheering Sounds - 09 - Ambience and cheering.mp3",
+      "sourceSha256": "4025e0ebcfd2861dc6baded27d1fa4a6d874f9a4b1158316650e9ba6278b4788",
+      "duration": 35.99995464852608,
+      "sampleRate": 22050,
+      "channels": 1,
+      "gain": 0.8649182922921345,
+      "rmsDbfs": -23,
+      "peakDbfs": -4.278881671146038,
+      "edits": "mono downmix, 22050 Hz, 2-second tail/head crossfade, level adjustment"
+    },
+    "cheer": {
+      "file": "Gregor Quendel - Crowd Cheering Sounds - 04 - Strong cheering - II - Short.mp3",
+      "sourceSha256": "10878a490dd3f1af7877a23c33baca143a3f86f91112c5dfb59dcf83cc94e975",
+      "duration": 7,
+      "sampleRate": 22050,
+      "channels": 1,
+      "gain": 0.7843659020826361,
+      "rmsDbfs": -18,
+      "peakDbfs": -5.07453993928483,
+      "edits": "mono downmix, 22050 Hz, excerpt 1–8 seconds, 50 ms attack and 800 ms release, level adjustment"
+    }
+  }
+}
