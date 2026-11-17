@@ -52,7 +52,18 @@ window.BroomModels = (() => {
         object.castShadow = true; object.receiveShadow = true;
         object.geometry.userData.sharedModel = true;
         const materials = Array.isArray(object.material) ? object.material : [object.material];
-        for (const material of materials) material.userData.sharedModel = true;
+        for (const material of materials) {
+          material.userData.sharedModel = true;
+          if (material.isMeshStandardMaterial) {
+            material.envMapIntensity = material.metalness > .5 ? .82 : .46;
+            material.dithering = true;
+          }
+          for (const key of ['map', 'normalMap', 'roughnessMap', 'metalnessMap']) {
+            if (!material[key]) continue;
+            material[key].anisotropy = 4;
+            material[key].needsUpdate = true;
+          }
+        }
       });
       record.status = 'ready';
       window.dispatchEvent(new CustomEvent('uploaded-model-ready', { detail: { id } }));
@@ -102,6 +113,9 @@ window.BroomModels = (() => {
       if (wizard.userData.uploadedAppearanceRequest !== token || wizard.userData.disposed) return null;
       const model = instance(template, 'harry-rider', 'player-and-team-harry');
       fit(model, 'y', 3.25, new THREE.Vector3(0, 1.05, .1), Math.PI);
+      model.userData.restRotationX = model.rotation.x;
+      model.userData.restPositionY = model.position.y;
+      wizard.userData.modelRoot = model;
       wizard.userData.replaceable.body.visible = false;
       wizard.userData.replaceable.broom.visible = false;
       wizard.userData.importedWizard = true;

@@ -2,16 +2,9 @@
 
 These male Daniel recordings are retained only as merged branch history. Current gameplay does **not** reference this directory.
 
-The active set is `assets/voice/commentary/`: 65 offline Samantha female English WAV recordings. All 13 incantations also use Samantha under `assets/voice/`. See `assets/voice/VOICE.md` and the active manifest for texts, provenance, durations, and audio checks.
+The active set is `assets/voice/commentary/`: 65 offline Joanna female British-English WAV recordings from HeyGen Voice. The 13 archived incantations and 3 compatibility cues use the same voice under `assets/voice/`. See `assets/voice/VOICE.md` for provenance and the repeatable local mastering/import command.
 
-Regenerate the active set from the repository root:
-
-```text
-node tools/commentary-catalog.cjs > /tmp/commentary.json
-swift tools/build-commentary.swift /tmp/commentary.json assets/voice/commentary
-```
-
-The builder requires the installed Samantha en-US voice and never falls back to a male/default voice.
+`tools/build-commentary.swift` is a legacy Samantha system-voice builder; it does not reproduce the current Joanna recordings. Re-import from the unchanged saved sources with `tools/import-natural-voice.py`.
 
 ---
 

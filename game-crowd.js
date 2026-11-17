@@ -16,10 +16,12 @@ window.BroomCrowd=(()=>{
    scarf:{name:'CrowdScarf',geometry:new T.TorusGeometry(1,.25,4,8)},scarfTail:{name:'CrowdScarfTail',geometry:box}
   };
   const batches=new Map(),spectators=[],wavers=[];
+  let celebration=null,celebrationWasActive=false,currentParts=null;
+  const celebrationMatrix=new T.Matrix4();
   for(const [id,spec]of Object.entries(specs))batches.set(id,{...spec,items:[],mesh:null});
   const matrix=(pos,scale,quaternion)=>{dummy.position.copy(pos);dummy.scale.copy(scale);dummy.quaternion.copy(quaternion||new T.Quaternion());dummy.updateMatrix();return dummy.matrix.clone();};
   const segment=(a,b,r)=>{const delta=b.clone().sub(a);return matrix(a.clone().add(b).multiplyScalar(.5),v(r,delta.length(),r),new T.Quaternion().setFromUnitVectors(up,delta.normalize()));};
-  function add(id,local,color,fan){const batch=batches.get(id),index=batch.items.length;batch.items.push({matrix:fan.clone().multiply(local),color});return index;}
+  function add(id,local,color,fan){const batch=batches.get(id),index=batch.items.length;batch.items.push({matrix:fan.clone().multiply(local),color});currentParts?.push({id,index});return index;}
   let seed=42673;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
   for(let section=0;section<28;section++){
    const angle=section/28*Math.PI*2,house=Math.floor(section/7);
@@ -30,6 +32,7 @@ window.BroomCrowd=(()=>{
     const standMatrix=new T.Matrix4().makeRotationY(angle);standMatrix.setPosition(standBase);
     const personMatrix=matrix(v(localX,0,localZ),v(.94+random()*.12,size,.94+random()*.12),new T.Quaternion().setFromAxisAngle(up,(random()-.5)*.13));
     const fan=standMatrix.clone().multiply(personMatrix),hipY=standing?1.97:1.6,shoulderY=standing?2.77:2.4,headY=shoulderY+.36;
+    const parts=[];currentParts=parts;
     add('torso',matrix(v(0,hipY+.4,.06),v(.34,.82,.235)),coat,fan);
     add('neck',matrix(v(0,shoulderY+.055,.015),v(.105,.18,.105)),skinColor,fan);
     add('head',matrix(v(0,headY,0),v(.235,.27,.225)),skinColor,fan);
@@ -44,14 +47,15 @@ window.BroomCrowd=(()=>{
      else if(standing){elbow=v(side*.44,shoulderY-.37,-.05);hand=v(side*.35,hipY+.12,-.12);}
      else{elbow=v(side*.43,shoulderY-.37,-.15);hand=v(side*.22,hipY+.13,-.40);}
      const upperIndex=add('upperArms',segment(shoulder,elbow,.105),coat,fan),foreIndex=add('forearms',segment(elbow,hand,.09),coat,fan),handIndex=add('hands',matrix(hand,v(.105,.12,.10)),skinColor,fan);
-     if(cheering&&side===1&&crowdIndex%3===0)wavers.push({fan,shoulder,elbow,hand,upperIndex,foreIndex,handIndex,phase:crowdIndex*.41});
+     if(cheering&&side===1&&crowdIndex%3===0)wavers.push({fan,shoulder,elbow,hand,upperIndex,foreIndex,handIndex,phase:crowdIndex*.41,house});
      const hip=v(side*.16,hipY,.07),knee=standing?v(side*.17,1.48,-.01):v(side*.18,1.50,-.50),ankle=v(side*.18,1.09,standing?-.035:-.49);
      add('thighs',segment(hip,knee,.12),0x242b39,fan);add('shins',segment(knee,ankle,.105),0x242b39,fan);
      add('boots',matrix(v(side*.18,1.025,standing?-.13:-.60),v(.24,.16,.39)),0x242328,fan);
     }
+    currentParts=null;
     const localBounds=new T.Box3(v(-.72,.94,-.84),v(.78,headY+.38+(cheering?.24:0),.40));
     const bounds=localBounds.applyMatrix4(fan),position=v().applyMatrix4(fan);
-    spectators.push({section,tier,position,height:bounds.max.y-bounds.min.y,bounds,pose:standing?'standing-cheer':cheering?'seated-cheer':'seated'});
+    spectators.push({section,house,tier,position,height:bounds.max.y-bounds.min.y,bounds,parts,pose:standing?'standing-cheer':cheering?'seated-cheer':'seated'});
    }
   }
   for(const [id,batch]of batches){
@@ -61,19 +65,38 @@ window.BroomCrowd=(()=>{
    mesh.instanceMatrix.needsUpdate=true;mesh.instanceColor.needsUpdate=true;mesh.computeBoundingSphere();mesh.computeBoundingBox();root.add(mesh);batch.mesh=mesh;
   }
   const bounds=new T.Box3().setFromObject(root);root.userData.spectators=spectators;root.userData.crowdCount=spectators.length;
-  function getStatus(){return {people:spectators.length,drawCalls:batches.size,animatedFans:wavers.length,parts:Object.fromEntries([...batches].map(([id,batch])=>[id,batch.items.length])),bounds:{min:bounds.min.toArray(),max:bounds.max.toArray()}};}
+  function getStatus(){return {people:spectators.length,drawCalls:batches.size,animatedFans:wavers.length,parts:Object.fromEntries([...batches].map(([id,batch])=>[id,batch.items.length])),bounds:{min:bounds.min.toArray(),max:bounds.max.toArray()},celebration:celebration?{house:celebration.house,time:celebration.time,duration:celebration.duration}:null};}
+  function restoreCrowdPose(){
+   for(const spectator of spectators)for(const part of spectator.parts){const batch=batches.get(part.id);if(batch.mesh)batch.mesh.setMatrixAt(part.index,batch.items[part.index].matrix);}
+   for(const batch of batches.values())if(batch.mesh)batch.mesh.instanceMatrix.needsUpdate=true;celebrationWasActive=false;
+  }
+  function celebrate({house=0,duration=4}={}){celebration={house,time:0,duration};return celebration;}
+  function reset(){celebration=null;restoreCrowdPose();}
   function update(dt,{elapsed=0,active=true,reducedMotion=false}={}){
-   if(!active||reducedMotion)return;
+   if(!active)return;
+   if(celebration){
+    celebration.time+=dt;
+    if(celebration.time>=celebration.duration){celebration=null;restoreCrowdPose();}
+    else{
+     for(const spectator of spectators){
+      const energy=spectator.house===celebration.house?1:.42,lift=reducedMotion?0:Math.max(0,Math.sin(celebration.time*7.5+spectator.position.x*.11+spectator.position.z*.07))*.45*energy;
+      for(const part of spectator.parts){const batch=batches.get(part.id),pose=celebrationMatrix.copy(batch.items[part.index].matrix);pose.elements[13]+=lift;batch.mesh.setMatrixAt(part.index,pose);}
+     }
+     for(const batch of batches.values())batch.mesh.instanceMatrix.needsUpdate=true;celebrationWasActive=true;
+    }
+   }else if(celebrationWasActive)restoreCrowdPose();
+   if(reducedMotion)return;
    const upper=batches.get('upperArms').mesh,fore=batches.get('forearms').mesh,hands=batches.get('hands').mesh;
    for(const fan of wavers){
-    const wave=Math.sin(elapsed*2.3+fan.phase),elbow=fan.elbow.clone().add(v(.015*wave,.018*wave,0)),hand=fan.hand.clone().add(v(.065*wave,.05*Math.cos(elapsed*2.3+fan.phase),0));
+    const energy=celebration?(fan.house===celebration.house?1:.42):0,phase=celebration?celebration.time*7.5+fan.phase:elapsed*2.3+fan.phase,wave=Math.sin(phase),lift=celebration?Math.max(0,wave)*.45*energy:0;
+    const elbow=fan.elbow.clone().add(v(.015*wave,.018*wave+lift*.65,0)),hand=fan.hand.clone().add(v((celebration?.11:.065)*wave,(celebration?.13:.05)*Math.cos(phase)+lift,0));
     upper.setMatrixAt(fan.upperIndex,fan.fan.clone().multiply(segment(fan.shoulder,elbow,.105)));
     fore.setMatrixAt(fan.foreIndex,fan.fan.clone().multiply(segment(elbow,hand,.09)));
     hands.setMatrixAt(fan.handIndex,fan.fan.clone().multiply(matrix(hand,v(.105,.12,.10))));
    }
    upper.instanceMatrix.needsUpdate=fore.instanceMatrix.needsUpdate=hands.instanceMatrix.needsUpdate=true;
   }
-  return {root,spectators,getStatus,update};
+  return {root,spectators,getStatus,update,celebrate,reset};
  }
  return Object.freeze({build});
 })();

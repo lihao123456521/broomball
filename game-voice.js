@@ -35,11 +35,12 @@
   const explicitMale = /(?:^|[\s,;()_-])male(?:$|[\s,;()_-])|男声|男性/i;
   const normalizeLang = value => String(value || '').replace(/_/g, '-').toLowerCase();
   const clamp = (value, minimum, maximum, fallback) => Number.isFinite(value) ? Math.min(maximum, Math.max(minimum, value)) : fallback;
-  const languageFor = (text, options = {}) => normalizeLang(options.lang).startsWith('en') ? options.lang : 'en-US';
+  const defaultLanguage = () => window.BroomNaturalVoice?.locale || 'en-US';
+  const languageFor = (text, options = {}) => normalizeLang(options.lang).startsWith('en') ? options.lang : defaultLanguage();
   const isFemale = voice => !explicitMale.test(voice.name) && (femaleNames.test(voice.name) || explicitFemale.test(voice.name));
 
   function chooseVoice(lang) {
-    const requested = normalizeLang(lang).startsWith('en') ? normalizeLang(lang) : 'en-us';
+    const requested = normalizeLang(lang).startsWith('en') ? normalizeLang(lang) : normalizeLang(defaultLanguage());
     const family = requested.split('-')[0];
     return voices
       .filter(voice => isFemale(voice) && normalizeLang(voice.lang).split('-')[0] === family)
@@ -56,7 +57,7 @@
     try { voices = synth.getVoices() || []; } catch { voices = []; }
   }
 
-  function getStatus(lang = 'en-US') {
+  function getStatus(lang = defaultLanguage()) {
     refreshVoices();
     const voice = chooseVoice(lang);
     return {
@@ -121,7 +122,7 @@
     // Always assign the selected female voice. Never let the browser choose one.
     utterance.voice = voice;
     utterance.lang = voice.lang || lang;
-    utterance.pitch = 1.04;
+    utterance.pitch = 1;
     utterance.rate = clamp(request.options.rate, .8, 1.15, 1);
     utterance.volume = clamp(request.options.volume, 0, 1, .9);
     try {

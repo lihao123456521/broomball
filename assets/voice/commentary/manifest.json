@@ -12,13 +12,33 @@
     "duration": 2.899546485260771,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 31116,
-    "rms": 5493.034203754724,
+    "peak": 15145,
+    "rms": 2673.6072605275795,
     "emphasis": [
       "Gryffindor",
       "Slytherin"
     ],
-    "source": "natural/originals/kickoff-gryffindor-slytherin.wav"
+    "source": "natural/originals/kickoff-gryffindor-slytherin.wav",
+    "sourceSha256": "df8b2e59d397b33180fa9d6146dabc2fdfda47aec1b7b8b12e6409d24cd1dd41",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.4867269976195622,
+      "gainDb": -6.254291275581182,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 31116,
+      "sourceRms": 5493.034203754724,
+      "sourceActiveRmsDbfs": -14.111786059107686,
+      "activeRmsDbfs": -20.000004736082964,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "kickoff-gryffindor-ravenclaw",
@@ -33,13 +53,33 @@
     "duration": 3.120136054421769,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 32673,
-    "rms": 5758.14956354694,
+    "peak": 14999,
+    "rms": 2643.347953932327,
     "emphasis": [
       "Gryffindor",
       "Ravenclaw"
     ],
-    "source": "natural/originals/kickoff-gryffindor-ravenclaw.wav"
+    "source": "natural/originals/kickoff-gryffindor-ravenclaw.wav",
+    "sourceSha256": "2e99aa6b1129fcb0e6a74c2b1c2b4b31ab4235cc4f4f8ea02cff670d34531de2",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.4590621682416346,
+      "gainDb": -6.762569927772218,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 32673,
+      "sourceRms": 5758.14956354694,
+      "sourceActiveRmsDbfs": -13.625319040682598,
+      "activeRmsDbfs": -20.00000027229995,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "kickoff-gryffindor-hufflepuff",
@@ -54,13 +94,33 @@
     "duration": 3.20140589569161,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30587,
-    "rms": 4962.3566029816675,
+    "peak": 15926,
+    "rms": 2583.743595592452,
     "emphasis": [
       "Gryffindor",
       "Hufflepuff"
     ],
-    "source": "natural/originals/kickoff-gryffindor-hufflepuff.wav"
+    "source": "natural/originals/kickoff-gryffindor-hufflepuff.wav",
+    "sourceSha256": "406863170a1bb699a84556f34bb3b11c966da42ad33883e35663a33faa506d12",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5206687218745336,
+      "gainDb": -5.668770218151197,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30587,
+      "sourceRms": 4962.3566029816675,
+      "sourceActiveRmsDbfs": -14.686621885753166,
+      "activeRmsDbfs": -19.999994353810262,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "possession-gryffindor",
@@ -75,12 +135,32 @@
     "duration": 2.5628571428571427,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 31139,
-    "rms": 4812.44136850954,
+    "peak": 16859,
+    "rms": 2605.5490375617164,
     "emphasis": [
       "Gryffindor"
     ],
-    "source": "natural/originals/possession-gryffindor.wav"
+    "source": "natural/originals/possession-gryffindor.wav",
+    "sourceSha256": "5be17f0355bc0a58a7fc05f467b0b96262b18c89030e0fdf9389c65f5f69ee5d",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5414196224426091,
+      "gainDb": -5.329320166577459,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 31139,
+      "sourceRms": 4812.44136850954,
+      "sourceActiveRmsDbfs": -15.030003509178641,
+      "activeRmsDbfs": -19.99999938640808,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "shot-gryffindor",
@@ -95,12 +175,32 @@
     "duration": 2.110453514739229,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 32611,
-    "rms": 3857.0716056239326,
+    "peak": 21066,
+    "rms": 2491.612693625091,
     "emphasis": [
       "Gryffindor"
     ],
-    "source": "natural/originals/shot-gryffindor.wav"
+    "source": "natural/originals/shot-gryffindor.wav",
+    "sourceSha256": "c219d220d0eafcd91e5a83e80b9028c8f49631f20c8df7c71c669f976e749bc2",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6459855493138861,
+      "gainDb": -3.7955439411334218,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 32611,
+      "sourceRms": 3857.0716056239326,
+      "sourceActiveRmsDbfs": -16.479779904777892,
+      "activeRmsDbfs": -19.999998227258445,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "goal-gryffindor",
@@ -115,12 +215,32 @@
     "duration": 3.0388662131519273,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30048,
-    "rms": 4740.02891777817,
+    "peak": 16812,
+    "rms": 2652.005044012182,
     "emphasis": [
       "Gryffindor"
     ],
-    "source": "natural/originals/goal-gryffindor.wav"
+    "source": "natural/originals/goal-gryffindor.wav",
+    "sourceSha256": "df45775307e5e573f8476899fc36f7c2cfa098137438d5bd16b81392a04b097a",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5594914042488074,
+      "gainDb": -5.044131627430667,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30048,
+      "sourceRms": 4740.02891777817,
+      "sourceActiveRmsDbfs": -15.311044031938135,
+      "activeRmsDbfs": -19.99999718183605,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "result-gryffindor",
@@ -135,12 +255,32 @@
     "duration": 2.81827664399093,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 32737,
-    "rms": 3517.755611941657,
+    "peak": 24304,
+    "rms": 2611.614442647906,
     "emphasis": [
       "Gryffindor"
     ],
-    "source": "natural/originals/result-gryffindor.wav"
+    "source": "natural/originals/result-gryffindor.wav",
+    "sourceSha256": "844788b8b8653b8397361972090c36365b1063f7f3b1af7e5c025bd9195f552f",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.742409359226656,
+      "gainDb": -2.5871312359220666,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 32737,
+      "sourceRms": 3517.755611941657,
+      "sourceActiveRmsDbfs": -17.484852498333353,
+      "activeRmsDbfs": -20.000000565070764,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "snitch-catch-gryffindor",
@@ -155,12 +295,32 @@
     "duration": 4.223083900226757,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 31989,
-    "rms": 4451.31743869479,
+    "peak": 20242,
+    "rms": 2816.743881614039,
     "emphasis": [
       "Gryffindor"
     ],
-    "source": "natural/originals/snitch-catch-gryffindor.wav"
+    "source": "natural/originals/snitch-catch-gryffindor.wav",
+    "sourceSha256": "e6f903084c6cc97245063d15c69473cf088b988a68ea1535879a062b8448a13c",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6327887262409363,
+      "gainDb": -3.9748253365718873,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 31989,
+      "sourceRms": 4451.31743869479,
+      "sourceActiveRmsDbfs": -16.241938436338515,
+      "activeRmsDbfs": -19.99999909587009,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "kickoff-slytherin-gryffindor",
@@ -175,13 +335,33 @@
     "duration": 2.81827664399093,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 31328,
-    "rms": 5298.496398812778,
+    "peak": 15867,
+    "rms": 2683.6439287771905,
     "emphasis": [
       "Gryffindor",
       "Slytherin"
     ],
-    "source": "natural/originals/kickoff-slytherin-gryffindor.wav"
+    "source": "natural/originals/kickoff-slytherin-gryffindor.wav",
+    "sourceSha256": "f6a1c9dc1858905adaf43bc1f5537434cfb8ca3efe9581e8ea3ea8a763287e10",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5064920186087267,
+      "gainDb": -5.908547878788678,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 31328,
+      "sourceRms": 5298.496398812778,
+      "sourceActiveRmsDbfs": -14.336699676639455,
+      "activeRmsDbfs": -20.000005706805133,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "kickoff-slytherin-ravenclaw",
@@ -196,13 +376,33 @@
     "duration": 2.5628571428571427,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 28360,
-    "rms": 5932.699953224472,
+    "peak": 13273,
+    "rms": 2776.6566560748743,
     "emphasis": [
       "Slytherin",
       "Ravenclaw"
     ],
-    "source": "natural/originals/kickoff-slytherin-ravenclaw.wav"
+    "source": "natural/originals/kickoff-slytherin-ravenclaw.wav",
+    "sourceSha256": "1dd483fbdf8fc6c736b23f3fbaeb874751d735c296c6402bb270f2b35696465b",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.4680259351095906,
+      "gainDb": -6.59460160676962,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 28360,
+      "sourceRms": 5932.699953224472,
+      "sourceActiveRmsDbfs": -13.679405032074852,
+      "activeRmsDbfs": -19.99999735626043,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "kickoff-slytherin-hufflepuff",
@@ -217,13 +417,33 @@
     "duration": 2.81827664399093,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 31504,
-    "rms": 5198.219993859944,
+    "peak": 16605,
+    "rms": 2739.841994595923,
     "emphasis": [
       "Slytherin",
       "Hufflepuff"
     ],
-    "source": "natural/originals/kickoff-slytherin-hufflepuff.wav"
+    "source": "natural/originals/kickoff-slytherin-hufflepuff.wav",
+    "sourceSha256": "d130ef8c0ca4f892150f213fa281bf146a5cfbcda5d190fe767b30c521d0ba1a",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.527073490357692,
+      "gainDb": -5.562576529462754,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 31504,
+      "sourceRms": 5198.219993859944,
+      "sourceActiveRmsDbfs": -14.672910773224066,
+      "activeRmsDbfs": -20.00000810729447,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "possession-slytherin",
@@ -238,12 +458,32 @@
     "duration": 2.8370068027210884,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 29730,
-    "rms": 4437.51389978361,
+    "peak": 17195,
+    "rms": 2566.538073862652,
     "emphasis": [
       "Slytherin"
     ],
-    "source": "natural/originals/possession-slytherin.wav"
+    "source": "natural/originals/possession-slytherin.wav",
+    "sourceSha256": "7ea0ab2ead6dc4154374e4c85ce3d03159cd7eb5a7c346cb3bd14eb18a2f86d5",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5783728802712961,
+      "gainDb": -4.7558415834494445,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 29730,
+      "sourceRms": 4437.51389978361,
+      "sourceActiveRmsDbfs": -15.556502684455246,
+      "activeRmsDbfs": -19.999998246757237,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "shot-slytherin",
@@ -258,12 +498,32 @@
     "duration": 2.109795918367347,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30341,
-    "rms": 4682.222510521519,
+    "peak": 16345,
+    "rms": 2522.3234874513555,
     "emphasis": [
       "Slytherin"
     ],
-    "source": "natural/originals/shot-slytherin.wav"
+    "source": "natural/originals/shot-slytherin.wav",
+    "sourceSha256": "1f1aaf10ac81fb344511ce617888a025106d457d811d1aed0b7d1277cb05b7a0",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5387022342777572,
+      "gainDb": -5.373024464113804,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30341,
+      "sourceRms": 4682.222510521519,
+      "sourceActiveRmsDbfs": -14.729816046561732,
+      "activeRmsDbfs": -20.000002600748168,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "goal-slytherin",
@@ -278,12 +538,32 @@
     "duration": 3.20140589569161,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30328,
-    "rms": 5219.750978620564,
+    "peak": 15495,
+    "rms": 2666.905874782702,
     "emphasis": [
       "Slytherin"
     ],
-    "source": "natural/originals/goal-slytherin.wav"
+    "source": "natural/originals/goal-slytherin.wav",
+    "sourceSha256": "4a02c1f3a2f0ac0143926d9845ebbf9a638d1786e17890b2ffe3508ae6e120a7",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5109259897013365,
+      "gainDb": -5.8328401026751635,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30328,
+      "sourceRms": 5219.750978620564,
+      "sourceActiveRmsDbfs": -14.613518398324771,
+      "activeRmsDbfs": -19.999995886783548,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "result-slytherin",
@@ -298,12 +578,32 @@
     "duration": 2.899546485260771,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30694,
-    "rms": 4009.0679639969712,
+    "peak": 19986,
+    "rms": 2610.511079844356,
     "emphasis": [
       "Slytherin"
     ],
-    "source": "natural/originals/result-slytherin.wav"
+    "source": "natural/originals/result-slytherin.wav",
+    "sourceSha256": "345bbe06a9abb2ea261e74f977bc3902b01f34384f4725482aa545491c571081",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6511519971679056,
+      "gainDb": -3.7263524613177617,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30694,
+      "sourceRms": 4009.0679639969712,
+      "sourceActiveRmsDbfs": -16.45811938610676,
+      "activeRmsDbfs": -19.999996762991877,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "snitch-catch-slytherin",
@@ -318,12 +618,32 @@
     "duration": 4.0141043083900225,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 32293,
-    "rms": 4502.437514016642,
+    "peak": 20252,
+    "rms": 2823.6445814348094,
     "emphasis": [
       "Slytherin"
     ],
-    "source": "natural/originals/snitch-catch-slytherin.wav"
+    "source": "natural/originals/snitch-catch-slytherin.wav",
+    "sourceSha256": "cb4f20367cb80f75c5ecb6a9258cbab82bbaf067cdc308fd7fd41eb8eb3de652",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6271366623659855,
+      "gainDb": -4.052756193141552,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 32293,
+      "sourceRms": 4502.437514016642,
+      "sourceActiveRmsDbfs": -16.269444604407504,
+      "activeRmsDbfs": -19.999995083737648,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "kickoff-ravenclaw-gryffindor",
@@ -338,13 +658,33 @@
     "duration": 3.20140589569161,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30396,
-    "rms": 5352.738443125241,
+    "peak": 15566,
+    "rms": 2741.1627825544792,
     "emphasis": [
       "Gryffindor",
       "Ravenclaw"
     ],
-    "source": "natural/originals/kickoff-ravenclaw-gryffindor.wav"
+    "source": "natural/originals/kickoff-ravenclaw-gryffindor.wav",
+    "sourceSha256": "d601b00ffc5cdb71674f216ed4a186bd50223e36c08d9feb9bd75b23b6babf92",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5121050119652898,
+      "gainDb": -5.812819474203808,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30396,
+      "sourceRms": 5352.738443125241,
+      "sourceActiveRmsDbfs": -14.413320500405113,
+      "activeRmsDbfs": -20.000000330338523,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "kickoff-ravenclaw-slytherin",
@@ -359,13 +699,33 @@
     "duration": 3.456825396825397,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 31992,
-    "rms": 5093.384599344172,
+    "peak": 16346,
+    "rms": 2602.351744881794,
     "emphasis": [
       "Slytherin",
       "Ravenclaw"
     ],
-    "source": "natural/originals/kickoff-ravenclaw-slytherin.wav"
+    "source": "natural/originals/kickoff-ravenclaw-slytherin.wav",
+    "sourceSha256": "ff70686fceb46dc0989212529456bdc8eb0ead5103f695dcc7674b0a3216bfd8",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5109276151188827,
+      "gainDb": -5.83281247015059,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 31992,
+      "sourceRms": 5093.384599344172,
+      "sourceActiveRmsDbfs": -14.399607509455947,
+      "activeRmsDbfs": -19.999998195784187,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "kickoff-ravenclaw-hufflepuff",
@@ -380,13 +740,33 @@
     "duration": 3.3755555555555556,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 26731,
-    "rms": 4022.978253602635,
+    "peak": 18246,
+    "rms": 2745.9258463802284,
     "emphasis": [
       "Ravenclaw",
       "Hufflepuff"
     ],
-    "source": "natural/originals/kickoff-ravenclaw-hufflepuff.wav"
+    "source": "natural/originals/kickoff-ravenclaw-hufflepuff.wav",
+    "sourceSha256": "e6f93d7170ae3ee156a6c7695a2ed323daf2881e8f82fba4b33a6bf62b9d546f",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6825608875015978,
+      "gainDb": -3.3171720307550068,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 26731,
+      "sourceRms": 4022.978253602635,
+      "sourceActiveRmsDbfs": -16.844309979572863,
+      "activeRmsDbfs": -20.000001414677765,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "possession-ravenclaw",
@@ -401,12 +781,32 @@
     "duration": 2.899546485260771,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30695,
-    "rms": 4629.981671845145,
+    "peak": 18223,
+    "rms": 2748.7034386150663,
     "emphasis": [
       "Ravenclaw"
     ],
-    "source": "natural/originals/possession-ravenclaw.wav"
+    "source": "natural/originals/possession-ravenclaw.wav",
+    "sourceSha256": "126d155d7c7c926de772863b33174b8997c24efc1a27714337355a9db4366d84",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5936752859449776,
+      "gainDb": -4.529020598070498,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30695,
+      "sourceRms": 4629.981671845145,
+      "sourceActiveRmsDbfs": -15.678492059245123,
+      "activeRmsDbfs": -20.000005611959573,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "shot-ravenclaw",
@@ -421,12 +821,32 @@
     "duration": 2.1933786848072563,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30369,
-    "rms": 4430.694625071801,
+    "peak": 18326,
+    "rms": 2673.7032244006855,
     "emphasis": [
       "Ravenclaw"
     ],
-    "source": "natural/originals/shot-ravenclaw.wav"
+    "source": "natural/originals/shot-ravenclaw.wav",
+    "sourceSha256": "aef5cd41793f01cf849ed425ddbcb8ee1426218d808d0c02ca8ca03a9034c54d",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.603449796319513,
+      "gainDb": -4.387177099181308,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30369,
+      "sourceRms": 4430.694625071801,
+      "sourceActiveRmsDbfs": -15.899879273102929,
+      "activeRmsDbfs": -19.999991838002366,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "goal-ravenclaw",
@@ -441,12 +861,32 @@
     "duration": 3.1665759637188207,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30040,
-    "rms": 4704.362739494966,
+    "peak": 17123,
+    "rms": 2681.475757631985,
     "emphasis": [
       "Ravenclaw"
     ],
-    "source": "natural/originals/goal-ravenclaw.wav"
+    "source": "natural/originals/goal-ravenclaw.wav",
+    "sourceSha256": "10b817f5b2e23b704e6ef384e774081e8ed704d91be27f73a30dcd28941aca42",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5699978385357087,
+      "gainDb": -4.88253582387629,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30040,
+      "sourceRms": 4704.362739494966,
+      "sourceActiveRmsDbfs": -15.470654745512624,
+      "activeRmsDbfs": -20.000004541605144,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "result-ravenclaw",
@@ -461,12 +901,32 @@
     "duration": 3.1665759637188207,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30322,
-    "rms": 4220.560074101576,
+    "peak": 19081,
+    "rms": 2655.9649483307157,
     "emphasis": [
       "Ravenclaw"
     ],
-    "source": "natural/originals/result-ravenclaw.wav"
+    "source": "natural/originals/result-ravenclaw.wav",
+    "sourceSha256": "504e386b03d9186495199b8cfb81ac796c552fdb8716a2ae924b2d9d6f738fb8",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.629292268690931,
+      "gainDb": -4.022952076809135,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30322,
+      "sourceRms": 4220.560074101576,
+      "sourceActiveRmsDbfs": -16.180522886857528,
+      "activeRmsDbfs": -19.999994781418675,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "snitch-catch-ravenclaw",
@@ -481,12 +941,32 @@
     "duration": 4.095374149659864,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 32624,
-    "rms": 4988.532193343783,
+    "peak": 18282,
+    "rms": 2795.439814942728,
     "emphasis": [
       "Ravenclaw"
     ],
-    "source": "natural/originals/snitch-catch-ravenclaw.wav"
+    "source": "natural/originals/snitch-catch-ravenclaw.wav",
+    "sourceSha256": "f6442f7e215e4522792855c6ae1655b05b2700280e9fb520aae1be34085f3696",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5603732093063964,
+      "gainDb": -5.030452718564734,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 32624,
+      "sourceRms": 4988.532193343783,
+      "sourceActiveRmsDbfs": -15.251097531801667,
+      "activeRmsDbfs": -20.000001475520314,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "kickoff-hufflepuff-gryffindor",
@@ -501,13 +981,33 @@
     "duration": 2.8647165532879817,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30550,
-    "rms": 5454.864479245967,
+    "peak": 15065,
+    "rms": 2689.8951439633765,
     "emphasis": [
       "Gryffindor",
       "Hufflepuff"
     ],
-    "source": "natural/originals/kickoff-hufflepuff-gryffindor.wav"
+    "source": "natural/originals/kickoff-hufflepuff-gryffindor.wav",
+    "sourceSha256": "78701bdd86441b0300b869a1be2517ee8ba1172054b39cf25b348bf7badc0054",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.4931186743608117,
+      "gainDb": -6.140971009272363,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30550,
+      "sourceRms": 5454.864479245967,
+      "sourceActiveRmsDbfs": -14.266016534734478,
+      "activeRmsDbfs": -20.000001815505655,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "kickoff-hufflepuff-slytherin",
@@ -522,13 +1022,33 @@
     "duration": 3.0736961451247167,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 28793,
-    "rms": 4739.499266137919,
+    "peak": 15320,
+    "rms": 2521.796703992425,
     "emphasis": [
       "Slytherin",
       "Hufflepuff"
     ],
-    "source": "natural/originals/kickoff-hufflepuff-slytherin.wav"
+    "source": "natural/originals/kickoff-hufflepuff-slytherin.wav",
+    "sourceSha256": "86fb589586422ca5cea810017e14b220ac1d412a617500fa5c6485653073f83f",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.532080847954661,
+      "gainDb": -5.480447461133478,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 28793,
+      "sourceRms": 4739.499266137919,
+      "sourceActiveRmsDbfs": -14.949900164589625,
+      "activeRmsDbfs": -20.000000858931376,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "kickoff-hufflepuff-ravenclaw",
@@ -543,13 +1063,33 @@
     "duration": 2.9459863945578233,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 29672,
-    "rms": 5196.545092471494,
+    "peak": 14749,
+    "rms": 2583.001205305985,
     "emphasis": [
       "Ravenclaw",
       "Hufflepuff"
     ],
-    "source": "natural/originals/kickoff-hufflepuff-ravenclaw.wav"
+    "source": "natural/originals/kickoff-hufflepuff-ravenclaw.wav",
+    "sourceSha256": "17e7b52843f2d07a4290f028c8821b2689c7092c886d9ba3bca6ca5facf12757",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.4970614249475537,
+      "gainDb": -6.071798790024906,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 29672,
+      "sourceRms": 5196.545092471494,
+      "sourceActiveRmsDbfs": -14.441277536157948,
+      "activeRmsDbfs": -19.999999419766137,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "possession-hufflepuff",
@@ -564,12 +1104,32 @@
     "duration": 2.899546485260771,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 28306,
-    "rms": 4351.316352506829,
+    "peak": 17347,
+    "rms": 2666.6462468563677,
     "emphasis": [
       "Hufflepuff"
     ],
-    "source": "natural/originals/possession-hufflepuff.wav"
+    "source": "natural/originals/possession-hufflepuff.wav",
+    "sourceSha256": "b9b98674d48b1462a91c2b8cac3665aa54981dff049d541366ebd047a3e7cf2d",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6128368674377771,
+      "gainDb": -4.253102320408233,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 28306,
+      "sourceRms": 4351.316352506829,
+      "sourceActiveRmsDbfs": -15.858313784958423,
+      "activeRmsDbfs": -19.99999996588484,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "shot-hufflepuff",
@@ -584,12 +1144,32 @@
     "duration": 1.9686621315192743,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30770,
-    "rms": 4802.032925764583,
+    "peak": 17131,
+    "rms": 2673.5351087487134,
     "emphasis": [
       "Hufflepuff"
     ],
-    "source": "natural/originals/shot-hufflepuff.wav"
+    "source": "natural/originals/shot-hufflepuff.wav",
+    "sourceSha256": "9a1a5cf44c0ba55df73bda41d8489b8e6b9cc87d31098df66abaeb46a1f10fc5",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5567507550772689,
+      "gainDb": -5.0867837058813965,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30770,
+      "sourceRms": 4802.032925764583,
+      "sourceActiveRmsDbfs": -15.58605928059434,
+      "activeRmsDbfs": -20.000003435520874,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "goal-hufflepuff",
@@ -604,12 +1184,32 @@
     "duration": 3.0736961451247167,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30041,
-    "rms": 4160.368260034196,
+    "peak": 19837,
+    "rms": 2747.190942576803,
     "emphasis": [
       "Hufflepuff"
     ],
-    "source": "natural/originals/goal-hufflepuff.wav"
+    "source": "natural/originals/goal-hufflepuff.wav",
+    "sourceSha256": "45f719691e2d94a951b4c7bb8803bd71bc1087c6acbf953abfa27f2e4bc5e4d4",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6603240318139718,
+      "gainDb": -3.60485793476769,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30041,
+      "sourceRms": 4160.368260034196,
+      "sourceActiveRmsDbfs": -16.610404190869815,
+      "activeRmsDbfs": -20.00000020154813,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "result-hufflepuff",
@@ -624,12 +1224,32 @@
     "duration": 3.1665759637188207,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 32571,
-    "rms": 4534.187640374574,
+    "peak": 18662,
+    "rms": 2597.8791587682513,
     "emphasis": [
       "Hufflepuff"
     ],
-    "source": "natural/originals/result-hufflepuff.wav"
+    "source": "natural/originals/result-hufflepuff.wav",
+    "sourceSha256": "e9c5d3899ca3bf4c6448894e23b2eb3cb1c87ce8c54e7f5d5d541742a4df0478",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.572953564496888,
+      "gainDb": -4.8376114873522615,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 32571,
+      "sourceRms": 4534.187640374574,
+      "sourceActiveRmsDbfs": -15.416233634752823,
+      "activeRmsDbfs": -19.999998697737496,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "snitch-catch-hufflepuff",
@@ -644,12 +1264,32 @@
     "duration": 4.269523809523809,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 27074,
-    "rms": 4241.049802787505,
+    "peak": 18027,
+    "rms": 2823.792655555486,
     "emphasis": [
       "Hufflepuff"
     ],
-    "source": "natural/originals/snitch-catch-hufflepuff.wav"
+    "source": "natural/originals/snitch-catch-hufflepuff.wav",
+    "sourceSha256": "02a038e33361b873f906868552deef83b0eb45e0d7b8c346b890f4c67b505451",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6658239656816041,
+      "gainDb": -3.5328115378688665,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 27074,
+      "sourceRms": 4241.049802787505,
+      "sourceActiveRmsDbfs": -16.719401089166478,
+      "activeRmsDbfs": -19.99999815323706,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "training",
@@ -664,10 +1304,30 @@
     "duration": 4.0141043083900225,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 31847,
-    "rms": 4291.484808786482,
+    "peak": 19460,
+    "rms": 2622.2405349411897,
     "emphasis": [],
-    "source": "natural/originals/training.wav"
+    "source": "natural/originals/training.wav",
+    "sourceSha256": "5862fd3efc6ec41f45c33e267a0f9fc0bfdf989c3725103390b6c75c5c2706fd",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6110332697978946,
+      "gainDb": -4.278702849280735,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 31847,
+      "sourceRms": 4291.484808786482,
+      "sourceActiveRmsDbfs": -15.967130136675998,
+      "activeRmsDbfs": -19.99999503665942,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "training-end",
@@ -682,10 +1342,30 @@
     "duration": 2.81827664399093,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 29296,
-    "rms": 4708.602453575364,
+    "peak": 16829,
+    "rms": 2704.854807875089,
     "emphasis": [],
-    "source": "natural/originals/training-end.wav"
+    "source": "natural/originals/training-end.wav",
+    "sourceSha256": "852950a4156b2d243d171c2d7e086c5a4c15b25987052dfd2d1d7d51f706432b",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5744495075009526,
+      "gainDb": -4.814962771277797,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 29296,
+      "sourceRms": 4708.602453575364,
+      "sourceActiveRmsDbfs": -15.426559800672436,
+      "activeRmsDbfs": -19.999993597874322,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "pass",
@@ -700,10 +1380,30 @@
     "duration": 2.300453514739229,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 32455,
-    "rms": 5276.514275786862,
+    "peak": 16757,
+    "rms": 2724.355629925099,
     "emphasis": [],
-    "source": "natural/originals/pass.wav"
+    "source": "natural/originals/pass.wav",
+    "sourceSha256": "1beff0b134ee5929128fa231d02582b8ed37a001684a69665c84048744d9ef87",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5163171979028881,
+      "gainDb": -5.741668177733358,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 32455,
+      "sourceRms": 5276.514275786862,
+      "sourceActiveRmsDbfs": -14.392587123685235,
+      "activeRmsDbfs": -19.99999822332895,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "return-pass",
@@ -718,10 +1418,30 @@
     "duration": 2.7370068027210883,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 28595,
-    "rms": 4294.165983227478,
+    "peak": 15940,
+    "rms": 2393.683752505885,
     "emphasis": [],
-    "source": "natural/originals/return-pass.wav"
+    "source": "natural/originals/return-pass.wav",
+    "sourceSha256": "c26b7fd03fe1f5cb0f8b353ee0989cf187fc934fa80463708fd107a961658366",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5574268178000322,
+      "gainDb": -5.076242824316437,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 28595,
+      "sourceRms": 4294.165983227478,
+      "sourceActiveRmsDbfs": -15.427662513103698,
+      "activeRmsDbfs": -19.99999423911496,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "time-60",
@@ -736,10 +1456,30 @@
     "duration": 2.709297052154195,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 26828,
-    "rms": 3985.577493225147,
+    "peak": 17526,
+    "rms": 2603.7403321841157,
     "emphasis": [],
-    "source": "natural/originals/time-60.wav"
+    "source": "natural/originals/time-60.wav",
+    "sourceSha256": "ebeea5a0f02c34722d4098676c313d12105712aba2164fd314a999cc9c63daa3",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6532910302576326,
+      "gainDb": -3.6978660934012693,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 26828,
+      "sourceRms": 3985.577493225147,
+      "sourceActiveRmsDbfs": -16.68970577279094,
+      "activeRmsDbfs": -20.00000095364776,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "time-30",
@@ -754,10 +1494,30 @@
     "duration": 3.6309750566893424,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 31986,
-    "rms": 4478.123240324709,
+    "peak": 17843,
+    "rms": 2498.0828496664217,
     "emphasis": [],
-    "source": "natural/originals/time-30.wav"
+    "source": "natural/originals/time-30.wav",
+    "sourceSha256": "c3ecce473f03e6252587caa92f2466de1ca88cd6ece2d49d70c883824a012f23",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5578416052157399,
+      "gainDb": -5.069781961966424,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 31986,
+      "sourceRms": 4478.123240324709,
+      "sourceActiveRmsDbfs": -15.051798264664843,
+      "activeRmsDbfs": -20.00000248871317,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "time-10",
@@ -772,10 +1532,30 @@
     "duration": 4.0141043083900225,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30841,
-    "rms": 4396.972043744058,
+    "peak": 19026,
+    "rms": 2712.534554852256,
     "emphasis": [],
-    "source": "natural/originals/time-10.wav"
+    "source": "natural/originals/time-10.wav",
+    "sourceSha256": "43a7a94310f7993db44266a5d3dee26f6638fe6d33445d372324e944c87d0200",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6169097642284953,
+      "gainDb": -4.195567116858251,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30841,
+      "sourceRms": 4396.972043744058,
+      "sourceActiveRmsDbfs": -16.137988051946515,
+      "activeRmsDbfs": -20.00000199775847,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "snitch",
@@ -790,10 +1570,30 @@
     "duration": 3.58453514739229,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 32408,
-    "rms": 5165.782300243647,
+    "peak": 16717,
+    "rms": 2664.7115654755185,
     "emphasis": [],
-    "source": "natural/originals/snitch.wav"
+    "source": "natural/originals/snitch.wav",
+    "sourceSha256": "13b1879a855ac9d06ab84af14e19458de45e1e8a620d580528a600f8f6b03b5d",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.515839148276087,
+      "gainDb": -5.749714025849666,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 32408,
+      "sourceRms": 5165.782300243647,
+      "sourceActiveRmsDbfs": -14.55050678666132,
+      "activeRmsDbfs": -20.000000012438104,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "result-draw",
@@ -808,10 +1608,30 @@
     "duration": 2.964716553287982,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 26856,
-    "rms": 3937.3152062163954,
+    "peak": 17801,
+    "rms": 2609.7893021131335,
     "emphasis": [],
-    "source": "natural/originals/result-draw.wav"
+    "source": "natural/originals/result-draw.wav",
+    "sourceSha256": "2e1ea7a648ecf69157a1bf1b195949c14637116bc0a3e63804a018eb0b2c0431",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6628369218941512,
+      "gainDb": -3.571866162921059,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 26856,
+      "sourceRms": 3937.3152062163954,
+      "sourceActiveRmsDbfs": -16.770781899035068,
+      "activeRmsDbfs": -20.00000304411849,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-possession-harry",
@@ -826,12 +1646,32 @@
     "duration": 3.20140589569161,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 29611,
-    "rms": 4397.171850323255,
+    "peak": 17311,
+    "rms": 2570.639428172691,
     "emphasis": [
       "Harry Potter"
     ],
-    "source": "natural/originals/player-possession-harry.wav"
+    "source": "natural/originals/player-possession-harry.wav",
+    "sourceSha256": "fc9cec0ad998ebe6bd7caa289ffeedf8fa6db6bc2817e24f17094fc689b92bf7",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5846118338525222,
+      "gainDb": -4.662647955937249,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 29611,
+      "sourceRms": 4397.171850323255,
+      "sourceActiveRmsDbfs": -15.530994903039145,
+      "activeRmsDbfs": -19.999998723574222,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-shot-harry",
@@ -846,12 +1686,32 @@
     "duration": 1.9462585034013606,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 30970,
-    "rms": 4203.888731063149,
+    "peak": 19348,
+    "rms": 2626.2649958081,
     "emphasis": [
       "Harry Potter"
     ],
-    "source": "natural/originals/player-shot-harry.wav"
+    "source": "natural/originals/player-shot-harry.wav",
+    "sourceSha256": "ce9287e28f7a4aa1b6f0763f7c1d83aff2c4a451065fe4bac23547d86f507a6d",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6247226364188824,
+      "gainDb": -4.086255147809167,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 30970,
+      "sourceRms": 4203.888731063149,
+      "sourceActiveRmsDbfs": -16.182699427109558,
+      "activeRmsDbfs": -19.999995047433035,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-possession-hermione",
@@ -866,12 +1726,32 @@
     "duration": 3.5497052154195012,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 31818,
-    "rms": 4499.52118997481,
+    "peak": 19252,
+    "rms": 2722.5324618885115,
     "emphasis": [
       "Hermione Granger"
     ],
-    "source": "natural/originals/player-possession-hermione.wav"
+    "source": "natural/originals/player-possession-hermione.wav",
+    "sourceSha256": "f06676b8bcd3b2520b2cb8906d91af3868bb1f3343f42be0eac02e1288a4c3a4",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6050716632083419,
+      "gainDb": -4.363863710494311,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 31818,
+      "sourceRms": 4499.52118997481,
+      "sourceActiveRmsDbfs": -15.860246863890941,
+      "activeRmsDbfs": -20.000000584934995,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-shot-hermione",
@@ -886,12 +1766,32 @@
     "duration": 2.307437641723356,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 29770,
-    "rms": 4331.767237502468,
+    "peak": 18754,
+    "rms": 2728.8213345097593,
     "emphasis": [
       "Hermione Granger"
     ],
-    "source": "natural/originals/player-shot-hermione.wav"
+    "source": "natural/originals/player-shot-hermione.wav",
+    "sourceSha256": "7a5a2fede2f11fb96f919230b31e013891ea90e8bd56e26cf565c8f5837219bf",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.629955892752048,
+      "gainDb": -4.01379714441988,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 29770,
+      "sourceRms": 4331.767237502468,
+      "sourceActiveRmsDbfs": -16.145790182442077,
+      "activeRmsDbfs": -19.999998724912867,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-possession-ron",
@@ -906,12 +1806,32 @@
     "duration": 3.421995464852608,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 32692,
-    "rms": 4900.656978456629,
+    "peak": 16961,
+    "rms": 2542.5795282282356,
     "emphasis": [
       "Ron Weasley"
     ],
-    "source": "natural/originals/player-possession-ron.wav"
+    "source": "natural/originals/player-possession-ron.wav",
+    "sourceSha256": "e3822c0c476c311bc6774e2c53b667c969924136431afc9210b2e20d3c8fb171",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5188245100588028,
+      "gainDb": -5.699590307431777,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 32692,
+      "sourceRms": 4900.656978456629,
+      "sourceActiveRmsDbfs": -14.565730869960337,
+      "activeRmsDbfs": -20.00000068146464,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-shot-ron",
@@ -926,12 +1846,32 @@
     "duration": 1.796984126984127,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 32439,
-    "rms": 5622.738424134226,
+    "peak": 15832,
+    "rms": 2744.230001396855,
     "emphasis": [
       "Ron Weasley"
     ],
-    "source": "natural/originals/player-shot-ron.wav"
+    "source": "natural/originals/player-shot-ron.wav",
+    "sourceSha256": "b7cb6939947eae2c4333925161d1d218fe0bd166147d1ce51ed765efa2059f44",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.4880591495685346,
+      "gainDb": -6.230550823284723,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 32439,
+      "sourceRms": 5622.738424134226,
+      "sourceActiveRmsDbfs": -14.348460192626266,
+      "activeRmsDbfs": -19.9999965763816,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-possession-draco",
@@ -946,12 +1886,32 @@
     "duration": 3.421995464852608,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 24833,
-    "rms": 4185.443883982969,
+    "peak": 16113,
+    "rms": 2715.7012489058134,
     "emphasis": [
       "Draco Malfoy"
     ],
-    "source": "natural/originals/player-possession-draco.wav"
+    "source": "natural/originals/player-possession-draco.wav",
+    "sourceSha256": "3f95b298e72e1e9139e0ce51701f14fac43c28ab5899c14b5cb47ba739bf7a48",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6488445744340735,
+      "gainDb": -3.757186450728622,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 24833,
+      "sourceRms": 4185.443883982969,
+      "sourceActiveRmsDbfs": -16.423393785908818,
+      "activeRmsDbfs": -20.000003733756234,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-shot-draco",
@@ -966,12 +1926,32 @@
     "duration": 2.0305215419501135,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 32511,
-    "rms": 4550.099278368828,
+    "peak": 20721,
+    "rms": 2899.952619743848,
     "emphasis": [
       "Draco Malfoy"
     ],
-    "source": "natural/originals/player-shot-draco.wav"
+    "source": "natural/originals/player-shot-draco.wav",
+    "sourceSha256": "d794899fc569912b4a3de615d9ebd1229bca6e9c0c65a18db4cc6a552f5d550a",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6373382884788122,
+      "gainDb": -3.9125998047138126,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 32511,
+      "sourceRms": 4550.099278368828,
+      "sourceActiveRmsDbfs": -16.402698785770173,
+      "activeRmsDbfs": -20.00000183968553,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-possession-pansy",
@@ -986,12 +1966,32 @@
     "duration": 3.839954648526077,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 27359,
-    "rms": 3784.718353338295,
+    "peak": 19568,
+    "rms": 2706.9266664998927,
     "emphasis": [
       "Pansy Parkinson"
     ],
-    "source": "natural/originals/player-possession-pansy.wav"
+    "source": "natural/originals/player-possession-pansy.wav",
+    "sourceSha256": "c577ee8b7b007768b822d4ac0273f1763826aad2a7b1930a21d9cbb6b24fe251",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.7152255182215357,
+      "gainDb": -2.911139978619282,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 27359,
+      "sourceRms": 3784.718353338295,
+      "sourceActiveRmsDbfs": -17.21917100143772,
+      "activeRmsDbfs": -19.99999618457129,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-shot-pansy",
@@ -1006,12 +2006,32 @@
     "duration": 2.690566893424036,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 24258,
-    "rms": 3906.5009875773735,
+    "peak": 16873,
+    "rms": 2717.2489043045184,
     "emphasis": [
       "Pansy Parkinson"
     ],
-    "source": "natural/originals/player-shot-pansy.wav"
+    "source": "natural/originals/player-shot-pansy.wav",
+    "sourceSha256": "5255a3455edaf204a82c53540316b87a214f09e697f5b8f920befb2e12ac12b1",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6955718727980676,
+      "gainDb": -3.153159762126276,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 24258,
+      "sourceRms": 3906.5009875773735,
+      "sourceActiveRmsDbfs": -16.87020060286875,
+      "activeRmsDbfs": -20.000007691385264,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-possession-blaise",
@@ -1026,12 +2046,32 @@
     "duration": 3.6309750566893424,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 26093,
-    "rms": 3836.4836293583753,
+    "peak": 17111,
+    "rms": 2515.8495614826397,
     "emphasis": [
       "Blaise Zabini"
     ],
-    "source": "natural/originals/player-possession-blaise.wav"
+    "source": "natural/originals/player-possession-blaise.wav",
+    "sourceSha256": "0105cd3623845a7414f53de129eab6161719191163d5180db29ae6a2314a8199",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6557700025619693,
+      "gainDb": -3.66496907019103,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 26093,
+      "sourceRms": 3836.4836293583753,
+      "sourceActiveRmsDbfs": -16.53295748285546,
+      "activeRmsDbfs": -20.00000099187076,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-shot-blaise",
@@ -1046,12 +2086,32 @@
     "duration": 1.9022222222222223,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 23254,
-    "rms": 3775.7688440121865,
+    "peak": 17621,
+    "rms": 2861.143592599272,
     "emphasis": [
       "Blaise Zabini"
     ],
-    "source": "natural/originals/player-shot-blaise.wav"
+    "source": "natural/originals/player-shot-blaise.wav",
+    "sourceSha256": "fc7ca16a066f7968f9afd7c440fe13f5047386116a2ffd55ecce1903b2566107",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.7577643382408713,
+      "gainDb": -2.4093167452648125,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 23254,
+      "sourceRms": 3775.7688440121865,
+      "sourceActiveRmsDbfs": -17.76632805955264,
+      "activeRmsDbfs": -19.9999978823554,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-possession-luna",
@@ -1066,12 +2126,32 @@
     "duration": 3.456825396825397,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 31680,
-    "rms": 4921.682933277386,
+    "peak": 16867,
+    "rms": 2620.346252124476,
     "emphasis": [
       "Luna Lovegood"
     ],
-    "source": "natural/originals/player-possession-luna.wav"
+    "source": "natural/originals/player-possession-luna.wav",
+    "sourceSha256": "e2f05915c0d81476589bffb19c47d054dc94a065d4537cf90cb04148a08361e6",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5324087854095143,
+      "gainDb": -5.475095734743896,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 31680,
+      "sourceRms": 4921.682933277386,
+      "sourceActiveRmsDbfs": -14.989607425659752,
+      "activeRmsDbfs": -19.999996958870238,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-shot-luna",
@@ -1086,12 +2166,32 @@
     "duration": 1.8958049886621315,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 29169,
-    "rms": 5111.500250338444,
+    "peak": 16071,
+    "rms": 2816.161717228377,
     "emphasis": [
       "Luna Lovegood"
     ],
-    "source": "natural/originals/player-shot-luna.wav"
+    "source": "natural/originals/player-shot-luna.wav",
+    "sourceSha256": "197371272a7afaad80abe991c5b8d58f91deb3014e1868675510317215e6dca2",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5509459975998575,
+      "gainDb": -5.177819351231248,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 29169,
+      "sourceRms": 5111.500250338444,
+      "sourceActiveRmsDbfs": -15.09220079208341,
+      "activeRmsDbfs": -19.999992643050987,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-possession-cho",
@@ -1106,12 +2206,32 @@
     "duration": 3.20140589569161,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 29238,
-    "rms": 4331.384845951876,
+    "peak": 17875,
+    "rms": 2648.020918554097,
     "emphasis": [
       "Cho Chang"
     ],
-    "source": "natural/originals/player-possession-cho.wav"
+    "source": "natural/originals/player-possession-cho.wav",
+    "sourceSha256": "7d4e943f853ecf599d50e6fb60afdfafacecc76fefcc6d01c04deea39f64c76c",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6113569697615592,
+      "gainDb": -4.27410264529519,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 29238,
+      "sourceRms": 4331.384845951876,
+      "sourceActiveRmsDbfs": -16.12190914131915,
+      "activeRmsDbfs": -19.99999982735228,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-shot-cho",
@@ -1126,12 +2246,32 @@
     "duration": 1.7345578231292518,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 31030,
-    "rms": 4092.5522766271138,
+    "peak": 20583,
+    "rms": 2714.651338033889,
     "emphasis": [
       "Cho Chang"
     ],
-    "source": "natural/originals/player-shot-cho.wav"
+    "source": "natural/originals/player-shot-cho.wav",
+    "sourceSha256": "8a268ec3e3ee809f73301ca5b0cff4deb44402498fb23f5eba61ae9e2b6e3307",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.663314819708418,
+      "gainDb": -3.565605992651762,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 31030,
+      "sourceRms": 4092.5522766271138,
+      "sourceActiveRmsDbfs": -16.98097680452613,
+      "activeRmsDbfs": -19.999993302698346,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-possession-padma",
@@ -1146,12 +2286,32 @@
     "duration": 3.456825396825397,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 26414,
-    "rms": 3868.5511625966656,
+    "peak": 17232,
+    "rms": 2523.791463811322,
     "emphasis": [
       "Padma Patil"
     ],
-    "source": "natural/originals/player-possession-padma.wav"
+    "source": "natural/originals/player-possession-padma.wav",
+    "sourceSha256": "0ef18efdb9d6826507c8ff79cd8c49461bd1701100d2e5b84b197dfd1cd4612e",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6523868591806831,
+      "gainDb": -3.7098959079630607,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 26414,
+      "sourceRms": 3868.5511625966656,
+      "sourceActiveRmsDbfs": -16.596042937213472,
+      "activeRmsDbfs": -20.000003618755116,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-shot-padma",
@@ -1166,12 +2326,32 @@
     "duration": 1.9703854875283446,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 27025,
-    "rms": 4440.471766857246,
+    "peak": 17169,
+    "rms": 2820.953915115892,
     "emphasis": [
       "Padma Patil"
     ],
-    "source": "natural/originals/player-shot-padma.wav"
+    "source": "natural/originals/player-shot-padma.wav",
+    "sourceSha256": "2866dc500412df89a7661827d148e284da662691ac2c77940bec261b31eb132c",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.635282770103178,
+      "gainDb": -3.9406584654838435,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 27025,
+      "sourceRms": 4440.471766857246,
+      "sourceActiveRmsDbfs": -16.346509119205788,
+      "activeRmsDbfs": -20.00000746312379,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-possession-cedric",
@@ -1186,12 +2366,32 @@
     "duration": 3.3755555555555556,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 29873,
-    "rms": 4486.0539735163375,
+    "peak": 17497,
+    "rms": 2627.5426244252494,
     "emphasis": [
       "Cedric Diggory"
     ],
-    "source": "natural/originals/player-possession-cedric.wav"
+    "source": "natural/originals/player-possession-cedric.wav",
+    "sourceSha256": "1367e21ba902f90f062feed34bf37b1bad7add1403cb087bd92d11d43ccea53b",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5857138386974867,
+      "gainDb": -4.6462902949588285,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 29873,
+      "sourceRms": 4486.0539735163375,
+      "sourceActiveRmsDbfs": -15.568144430967132,
+      "activeRmsDbfs": -20.00000111513878,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-shot-cedric",
@@ -1206,12 +2406,32 @@
     "duration": 2.272607709750567,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 28871,
-    "rms": 4339.305171897664,
+    "peak": 17714,
+    "rms": 2662.3593899777106,
     "emphasis": [
       "Cedric Diggory"
     ],
-    "source": "natural/originals/player-shot-cedric.wav"
+    "source": "natural/originals/player-shot-cedric.wav",
+    "sourceSha256": "e2e7957b7a3258a9caec9dce1a4a3e83a3581e6eae354984397364d9783184a3",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6135454973906699,
+      "gainDb": -4.243064533782151,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 28871,
+      "sourceRms": 4339.305171897664,
+      "sourceActiveRmsDbfs": -15.982212968752904,
+      "activeRmsDbfs": -20.000002017755936,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-possession-hannah",
@@ -1226,12 +2446,32 @@
     "duration": 3.2942857142857145,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 27878,
-    "rms": 3435.3462170015296,
+    "peak": 20876,
+    "rms": 2572.4733998420666,
     "emphasis": [
       "Hannah Abbott"
     ],
-    "source": "natural/originals/player-possession-hannah.wav"
+    "source": "natural/originals/player-possession-hannah.wav",
+    "sourceSha256": "ddec94e13e3282c2cbe031f01444778f87e21af2b0c2b464c2cb1837ed020d40",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.7488256161521077,
+      "gainDb": -2.5123861496292,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 27878,
+      "sourceRms": 3435.3462170015296,
+      "sourceActiveRmsDbfs": -17.57215676367718,
+      "activeRmsDbfs": -20.000002786584083,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-shot-hannah",
@@ -1246,12 +2486,32 @@
     "duration": 1.9719047619047618,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 27474,
-    "rms": 3632.3310683434424,
+    "peak": 19893,
+    "rms": 2630.007972374297,
     "emphasis": [
       "Hannah Abbott"
     ],
-    "source": "natural/originals/player-shot-hannah.wav"
+    "source": "natural/originals/player-shot-hannah.wav",
+    "sourceSha256": "c5be6ac5b766e8d84271ac680a5f14978881b6ad4a37377eb12b2ac6e529fdeb",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.7240551059840774,
+      "gainDb": -2.8045675900329927,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 27474,
+      "sourceRms": 3632.3310683434424,
+      "sourceActiveRmsDbfs": -17.362713047677627,
+      "activeRmsDbfs": -20.00000539078069,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-possession-ernie",
@@ -1266,12 +2526,32 @@
     "duration": 3.3291156462585034,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 29473,
-    "rms": 4156.704050800415,
+    "peak": 18367,
+    "rms": 2590.4155531500783,
     "emphasis": [
       "Ernie Macmillan"
     ],
-    "source": "natural/originals/player-possession-ernie.wav"
+    "source": "natural/originals/player-possession-ernie.wav",
+    "sourceSha256": "c15e9eaa264cdac76c11efd11a86adf31da229794db78a95b2fc106134f577da",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.6231897521052475,
+      "gainDb": -4.107593938569126,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 29473,
+      "sourceRms": 4156.704050800415,
+      "sourceActiveRmsDbfs": -16.15506718288481,
+      "activeRmsDbfs": -19.999995460739207,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   },
   {
     "id": "player-shot-ernie",
@@ -1286,11 +2566,31 @@
     "duration": 2.1797278911564626,
     "sampleRate": 44100,
     "channels": 1,
-    "peak": 27373,
-    "rms": 4465.131826784285,
+    "peak": 16272,
+    "rms": 2654.291258635497,
     "emphasis": [
       "Ernie Macmillan"
     ],
-    "source": "natural/originals/player-shot-ernie.wav"
+    "source": "natural/originals/player-shot-ernie.wav",
+    "sourceSha256": "a769e45cfa18d6d2a24638aff7c52ba562292d030b8a6b57aae3d37c217213f1",
+    "processing": {
+      "method": "constant-gain-with-linear-edge-fades",
+      "version": 1,
+      "measurementWindowMs": 10,
+      "measurementGateDbfs": -45.0,
+      "targetActiveRmsDbfs": -20.0,
+      "peakCeilingDbfs": -1.5,
+      "gain": 0.5944484621420116,
+      "gainDb": -4.517715842859566,
+      "edgeFadeMs": 4,
+      "edgeFadeFrames": 176,
+      "sourcePeak": 27373,
+      "sourceRms": 4465.131826784285,
+      "sourceActiveRmsDbfs": -15.6603885221526,
+      "activeRmsDbfs": -19.999995497432444,
+      "trimmedFrames": 0,
+      "playbackRate": 1,
+      "pitchShiftApplied": false
+    }
   }
 ]

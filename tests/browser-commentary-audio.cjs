@@ -103,90 +103,196 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/voice/commen
       evidence.decoded = decoded;
     });
 
+    const kickoffFile = '/kickoff-gryffindor-slytherin.wav';
+    const waitForClip = file => page.waitForFunction(file => __commentaryAudioNodes
+      .some(a => a.src.endsWith(file) && !a.paused && a.currentTime > .05), file);
+    const announceGoal = key => page.evaluate(key => __BROOMBALL__.commentary
+      .announce(key, 'ignored', { clip: 'goal-gryffindor', priority: 4, cooldown: 0 }), key);
+    const keepPossession = () => page.evaluate(() => {
+      const g = __BROOMBALL__;
+      // Keep the live match deterministic while observing real native audio.
+      for (const unit of [...g.rivals, ...g.allies]) { unit.speed = 0; unit.stun = 100; }
+      g.match.stealCooldown = 100;
+    });
     await collectAudioNodes();
-    await check('A start click plays one real recording without speech synthesis fallback', async () => {
+    await check('Start and the real countdown play one kickoff recording without synthesis', async () => {
       await page.screenshot({ path: path.join(out, 'commentary-audio-menu.png') });
-      await page.locator('[data-mode="training"]').click();
       await page.locator('#startBtn').click();
-      await page.waitForFunction(() => __BROOMBALL__.commentary.state.backend === 'audio' && window.__commentaryAudioNodes
-        .some(a => a.src.endsWith('/training.wav') && !a.paused && a.currentTime > .05));
+      assert.equal(await page.evaluate(() => __BROOMBALL__.match.state), 'countdown');
+      await keepPossession();
+      await waitForClip(kickoffFile);
       const active = await playing();
+      assert.equal(await page.evaluate(() => __BROOMBALL__.match.state), 'playing');
       assert.equal(active.length, 1);
+      assert(active[0].src.endsWith(kickoffFile));
       assert(active[0].duration > 1 && active[0].error === null);
+      assert.equal(await page.evaluate(() => __BROOMBALL__.commentary.state.backend), 'audio');
       assert.deepEqual(await page.evaluate(() => __speechFallbackCalls), []);
       evidence.started = active[0];
     });
 
-    await check('Routine events, player casting and live volume changes preserve the sentence', async () => {
+    await check('Routine events and live volume changes preserve the recorded sentence', async () => {
       const before = (await playing())[0];
       const changes = await page.evaluate(() => {
         const g = __BROOMBALL__;
-        const audio = __commentaryAudioNodes.find(a => a.src.endsWith('/training.wav') && !a.paused);
+        const audio = __commentaryAudioNodes.find(a => a.src.endsWith('/kickoff-gryffindor-slytherin.wav') && !a.paused);
         window.__activeCommentaryAudio = audio;
         const routine = g.commentary.announce('busy-pass', 'ignored', { clip: 'pass', priority: 1, cooldown: 0 });
-        g.switchCharacter(2);
-        const cast = g.castSpell();
-        g.commentary.setVolume(.35);
-        return { routine, cast, same: audio === __activeCommentaryAudio, paused: audio.paused, volume: audio.volume };
+        g.setCommentaryVolume(.35);
+        return { routine, paused: audio.paused, volume: audio.volume, rate: audio.playbackRate };
       });
       assert.equal(changes.routine, false);
-      assert.equal(changes.cast, true);
       assert.equal(changes.paused, false);
       assert.equal(changes.volume, .35);
+      assert.equal(changes.rate, 1);
       await page.waitForTimeout(180);
       const after = (await playing())[0];
       assert(after && after.src === before.src && after.time > before.time + .08);
       assert(await page.evaluate(() => __activeCommentaryAudio === __commentaryAudioNodes.find(a => !a.paused && a.src.includes('/assets/voice/commentary/'))));
-      assert.deepEqual(await page.evaluate(() => __speechFallbackCalls), []);
       evidence.continuous = { before, after, changes };
     });
 
-    await check('Pause and toggle stop native media, and resume never replays a stale line', async () => {
-      await page.evaluate(() => __BROOMBALL__.pauseMatch());
+    await check('A goal replaces routine commentary with one complete priority recording', async () => {
+      assert.equal(await announceGoal('priority-goal'), true);
+      await waitForClip('/goal-gryffindor.wav');
+      const result = await page.evaluate(() => ({ oldPaused: __activeCommentaryAudio.paused,
+        oldTime: __activeCommentaryAudio.currentTime, activeKey: __BROOMBALL__.commentary.state.activeKey }));
+      assert.equal(result.oldPaused, true);
+      assert.equal(result.oldTime, 0);
+      assert.equal(result.activeKey, 'priority-goal');
+      assert.equal((await playing()).length, 1);
+      evidence.priority = result;
+    });
+
+    await check('Live speech ducks match effects and the natural ending releases the mix', async () => {
+      await page.waitForFunction(() => __BROOMBALL__.commentary.state.speaking && __BROOMBALL__.matchAudio.state.ducked);
+      const during = await page.evaluate(() => {
+        const g = __BROOMBALL__, played = g.matchAudio.play('pass');
+        return { played, ...g.matchAudio.state, speech: g.commentary.state.speaking };
+      });
+      assert.equal(during.played, true);
+      assert.equal(during.ducked, true);
+      assert(during.activeSources > 0);
+      await page.waitForFunction(() => !__BROOMBALL__.commentary.state.speaking && !__BROOMBALL__.matchAudio.state.ducked);
+      await page.waitForTimeout(300);
+      const after = await page.evaluate(() => __BROOMBALL__.matchAudio.state);
       assert.equal((await playing()).length, 0);
-      assert.equal(await page.evaluate(() => __BROOMBALL__.commentary.state.activeKey), null);
+      assert.equal(after.ducked, false);
+      assert.equal(after.activeSources, 0);
+      evidence.ducking = { during, after };
+    });
+
+    await check('Pause stops speech and effects; controls persist volume and never replay stale audio', async () => {
+      assert.equal(await announceGoal('pause-goal'), true);
+      await waitForClip('/goal-gryffindor.wav');
+      const stopped = await page.evaluate(() => {
+        const g = __BROOMBALL__;
+        window.__activeCommentaryAudio = __commentaryAudioNodes.find(a => a.src.endsWith('/goal-gryffindor.wav') && !a.paused);
+        g.matchAudio.play('pass');
+        const before = g.matchAudio.state.activeSources;
+        g.pauseMatch();
+        return { before, after: g.matchAudio.state.activeSources, key: g.commentary.state.activeKey };
+      });
+      assert(stopped.before > 0);
+      assert.equal(stopped.after, 0);
+      assert.equal(stopped.key, null);
+      assert.equal((await playing()).length, 0);
       assert.equal(await page.evaluate(() => __activeCommentaryAudio.currentTime), 0);
+      await page.locator('#commentaryEnabled').uncheck();
+      await page.locator('#commentaryVolume').evaluate(input => {
+        input.value = '35'; input.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+      assert.equal(await page.locator('#commentaryVolumeValue').textContent(), '35%');
+      assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('broomball-comfort')).commentaryVolume), .35);
       await page.screenshot({ path: path.join(out, 'commentary-audio-pause.png') });
+      await page.locator('#resumeBtn').click();
+      assert.equal(await announceGoal('disabled-goal'), false);
+      await page.waitForTimeout(180);
+      assert.equal((await playing()).length, 0);
+      await page.keyboard.press('Escape');
+      await page.locator('#commentaryEnabled').check();
       await page.locator('#resumeBtn').click();
       await page.waitForTimeout(180);
       assert.equal((await playing()).length, 0);
-      await page.evaluate(() => {
+      evidence.pause = stopped;
+    });
+
+    await check('Resume accepts the first sound immediately without waiting for an animation frame', async () => {
+      const result = await page.evaluate(() => {
         const g = __BROOMBALL__;
-        g.commentary.announce('toggle-test', 'ignored', { clip: 'goal-gryffindor', priority: 4, cooldown: 0 });
+        g.pauseMatch();
+        const blocked = !g.matchAudio.play('pass');
+        g.resumeMatch();
+        const played = g.matchAudio.play('pass'), active = g.matchAudio.state.activeSources;
+        g.matchAudio.stop();
+        return {blocked, played, active, remaining: g.matchAudio.state.activeSources};
       });
-      await page.waitForFunction(() => __commentaryAudioNodes.some(a => a.src.endsWith('/goal-gryffindor.wav') && !a.paused && a.currentTime > .05));
-      await page.keyboard.press('n');
-      assert.equal((await playing()).length, 0);
-      await page.keyboard.press('n');
-      await page.waitForTimeout(180);
-      assert.equal((await playing()).length, 0);
-      assert.deepEqual(await page.evaluate(() => __speechFallbackCalls), []);
+      assert(result.blocked && result.played && result.active > 0);
+      assert.equal(result.remaining, 0);
+      evidence.immediateResume = result;
     });
 
-    await check('Short viewport keeps menu and pause controls reachable', async () => {
+    await check('Restart cancels active native speech and effects before a fresh countdown', async () => {
+      assert.equal(await announceGoal('restart-goal'), true);
+      await waitForClip('/goal-gryffindor.wav');
+      const result = await page.evaluate(() => {
+        const g = __BROOMBALL__;
+        const old = __commentaryAudioNodes.find(a => a.src.endsWith('/goal-gryffindor.wav') && !a.paused);
+        g.matchAudio.play('shot');
+        const before = g.matchAudio.state.activeSources;
+        g.restartMatch();
+        return { before, after: g.matchAudio.state.activeSources, state: g.match.state,
+          oldPaused: old.paused, oldTime: old.currentTime, activeKey: g.commentary.state.activeKey };
+      });
+      assert(result.before > 0);
+      assert.equal(result.after, 0);
+      assert.equal(result.state, 'countdown');
+      assert.equal(result.oldPaused, true);
+      assert.equal(result.oldTime, 0);
+      assert.equal(result.activeKey, null);
+      assert.equal((await playing()).length, 0);
+      assert.equal(await page.evaluate(() => __BROOMBALL__.matchAudio.state.paused), false);
+      evidence.restart = result;
       await page.evaluate(() => __BROOMBALL__.returnToMenu());
-      await page.setViewportSize({ width: 1280, height: 720 });
-      await page.locator('#commentaryEnabledMenu').scrollIntoViewIfNeeded();
-      assert(await page.locator('#commentaryEnabledMenu').isVisible());
-      await page.screenshot({ path: path.join(out, 'commentary-audio-menu-1280.png') });
-      await page.locator('#startBtn').click();
-      await page.evaluate(() => __BROOMBALL__.pauseMatch());
-      await page.locator('#commentaryVolume').scrollIntoViewIfNeeded();
-      assert(await page.locator('#commentaryVolume').isVisible());
-      await page.screenshot({ path: path.join(out, 'commentary-audio-pause-1280.png') });
     });
 
-    await check('The file entry point plays local recorded audio without HTTP', async () => {
+    await check('An 800 × 600 viewport keeps pause audio controls and actions reachable', async () => {
+      await page.setViewportSize({ width: 800, height: 600 });
+      await page.locator('#startBtn').click();
+      await page.keyboard.press('Escape');
+      const bounds = {};
+      for (const id of ['commentaryEnabled', 'commentaryVolume', 'resumeBtn', 'restartPauseBtn', 'menuPauseBtn']) {
+        const control = page.locator('#' + id);
+        await control.scrollIntoViewIfNeeded();
+        assert(await control.isVisible());
+        const rect = await control.boundingBox();
+        assert(rect && rect.x >= 0 && rect.y >= 0 && rect.x + rect.width <= 800 && rect.y + rect.height <= 600, id + ' is reachable');
+        bounds[id] = rect;
+      }
+      await page.screenshot({ path: path.join(out, 'commentary-audio-pause-800.png') });
+      evidence.smallViewport = bounds;
+      await page.locator('#menuPauseBtn').click();
+    });
+
+    await check('The file entry point plays offline kickoff audio with no synthesis fallback', async () => {
+      assert.deepEqual(await page.evaluate(() => __speechFallbackCalls), []);
       await page.goto(pathToFileURL(path.join(root, 'index.html')).href, { waitUntil: 'load' });
       await page.waitForFunction(() => Boolean(window.__BROOMBALL__));
+      await page.evaluate(() => { __BROOMBALL__.setCommentaryEnabled(true); __BROOMBALL__.setCommentaryVolume(.35); });
       await collectAudioNodes();
-      await page.locator('[data-mode="training"]').click();
       await page.locator('#startBtn').click();
-      await page.waitForFunction(() => __commentaryAudioNodes.some(a => a.src.startsWith('file:') && a.src.endsWith('/training.wav') && !a.paused && a.currentTime > .05));
+      await keepPossession();
+      await waitForClip(kickoffFile);
       assert.equal(await page.evaluate(() => __BROOMBALL__.commentary.state.backend), 'audio');
+      const active = await playing();
+      assert.equal(active.length, 1);
+      assert(active[0].src.startsWith('file:'));
+      assert.equal(active[0].volume, .35);
       assert.deepEqual(await page.evaluate(() => __speechFallbackCalls), []);
-      evidence.filePlayback = (await playing())[0];
+      evidence.filePlayback = active[0];
       await page.evaluate(() => __BROOMBALL__.returnToMenu());
+      assert.equal((await playing()).length, 0);
+      assert.equal(await page.evaluate(() => __BROOMBALL__.matchAudio.state.activeSources), 0);
     });
     assert.deepEqual(errors, []);
     fs.writeFileSync(path.join(out, 'commentary-audio.json'), JSON.stringify({ passed, evidence, errors }, null, 2));

@@ -1,21 +1,23 @@
-/* Samantha female English commentary and spell calls share one audio channel. */
+/* Recorded female English commentary and spell calls share one audio channel. */
 (function(global){
 'use strict';
 global.createMatchCommentary=function({enabled=true,volume=.75,onCaption=()=>{},canSpeak=()=>true}={}){
  const limit=(value,low,high,fallback)=>Number.isFinite(value)?Math.max(low,Math.min(high,value)):fallback;
  let narrationEnabled=enabled!==false,narrationVolume=limit(volume,0,1,.75);
  let synth=null,Utterance=null,voices=[],voiceReadFailed=false,narratorVoice=null;
- let clock=0,sequence=0,active=null,caption='',captionLife=0,unlockAudio=null,unlocking=null;
- const recent=new Map(),audioCache=new Map(),failedSources=new Set();
+ let clock=0,sequence=0,active=null,caption='',captionLife=0,unlockAudio=null,unlocking=null,nextRoutineAt=0;
+ const recent=new Map(),recentText=new Map(),audioCache=new Map(),failedSources=new Set();
  try{synth=global.speechSynthesis;Utterance=global.SpeechSynthesisUtterance;}catch{}
  const supported=()=>!!synth&&typeof synth.speak==='function'&&typeof Utterance==='function';
  const language=voice=>String(voice.lang||'').replaceAll('_','-').toLowerCase();
  const femaleName=voice=>/(?:^|\b)(?:samantha|victoria|karen|moira|tessa|fiona|veena|sangeeta|serena|zira|hazel|susan|heera|aria|jenny|libby|sonia|natasha|clara|michelle|neerja)(?:\b|neural)/i.test(voice.name||'')||/(?:^|[\s,;()_-])female(?:$|[\s,;()_-])/i.test(voice.name||'');
  const knownFemale=voice=>!/(?:^|[\s,;()_-])male(?:$|[\s,;()_-])/i.test(voice.name||'')&&femaleName(voice)&&language(voice).split('-')[0]==='en';
  const voiceId=voice=>voice&&(voice.voiceURI||voice.name+'|'+language(voice));
+ const recordedVoice=()=>global.BroomNaturalVoice||{};
  function chooseEnglishVoice(){
+  const accent=language({lang:recordedVoice().locale||'en-US'});
   return voices.filter(knownFemale).sort((a,b)=>{
-   const rank=voice=>(voice.localService?0:10)+(/\bsamantha\b/i.test(voice.name||'')?0:language(voice)==='en-us'?1:2);
+   const rank=voice=>(language(voice)===accent?0:20)+(voice.localService?0:10)+(/\bsamantha\b/i.test(voice.name||'')?0:1);
    return rank(a)-rank(b)||String(a.name||'').localeCompare(String(b.name||''));
   })[0]||null;
  }
@@ -36,7 +38,7 @@ global.createMatchCommentary=function({enabled=true,volume=.75,onCaption=()=>{},
  function setCaption(text){caption=text;captionLife=text?5:0;try{onCaption(text);}catch{}}
  function cancelSpeech(){try{synth?.cancel();}catch{}}
  function pauseAudio(record){
-  record.audio.onended=null;record.audio.onerror=null;record.audio.onplaying=null;
+  record.audio.onended=null;record.audio.onerror=null;record.audio.onplaying=null;record.audio.onwaiting=null;
   try{record.audio.pause();}catch{}
   try{record.audio.currentTime=0;}catch{}
  }
@@ -47,7 +49,7 @@ global.createMatchCommentary=function({enabled=true,volume=.75,onCaption=()=>{},
    previous.record.token=null;pauseAudio(previous.record);
   }
  }
- function stop(){clearActive();setCaption('');}
+ function stop(){clearActive();setCaption('');nextRoutineAt=clock;}
  function audioFor(src){
   if(failedSources.has(src)||typeof global.Audio!=='function')return null;
   if(audioCache.has(src))return audioCache.get(src);
@@ -77,9 +79,16 @@ global.createMatchCommentary=function({enabled=true,volume=.75,onCaption=()=>{},
   }catch{unlocking=null;return Promise.resolve(false);}
  }
  const current=token=>active?.token===token&&sequence===token;
+ function finishSentence(token){
+  if(!current(token))return;
+  // Only a natural ending starts the breath between sentences. Pausing,
+  // resetting or replacing a stale call must never leave delayed audio behind.
+  if(active.kind==='narrator')nextRoutineAt=clock+1;
+  active=null;
+ }
  function captionOnly(token){
   if(!current(token))return;
-  active.backend='captions';active.spoken=false;active.record=null;active.remaining=Math.max(0,captionLife);
+  active.backend='captions';active.spoken=false;active.audible=false;active.record=null;active.remaining=Math.max(0,captionLife);
  }
  function startSpeech(token){
   if(!current(token))return;
@@ -89,11 +98,12 @@ global.createMatchCommentary=function({enabled=true,volume=.75,onCaption=()=>{},
    const utterance=new Utterance(item.text),voice=narratorVoice||chooseEnglishVoice();
    utterance.lang=voice.lang||'en-US';
    utterance.voice=voice;
-   utterance.pitch=1.04;
+   utterance.pitch=1;
    utterance.rate=item.kind==='spell'?limit(item.voiceOptions.rate,.5,2,.95):1;
    utterance.volume=item.kind==='spell'?.9:narrationVolume;
-   const release=()=>{if(current(token))active=null;};
-   utterance.onend=release;utterance.onerror=release;
+   utterance.onstart=()=>{if(current(token))item.audible=true;};
+   utterance.onend=()=>finishSentence(token);
+   utterance.onerror=()=>{if(current(token))active=null;};
    item.backend='speech';item.utterance=utterance;item.spoken=true;item.remaining=item.kind==='spell'?5:15;
    if(synth.paused&&typeof synth.resume==='function')synth.resume();
    synth.speak(utterance);
@@ -106,11 +116,11 @@ global.createMatchCommentary=function({enabled=true,volume=.75,onCaption=()=>{},
   active.backend='audio';active.record=record;active.remaining=15;record.token=token;
   const release=()=>{
    if(!current(token))return;
-   record.token=null;audio.onended=null;audio.onerror=null;audio.onplaying=null;active=null;
+   record.token=null;audio.onended=null;audio.onerror=null;audio.onplaying=null;audio.onwaiting=null;finishSentence(token);
   };
   const failure=error=>{
    if(!current(token)||record.token!==token)return;
-   record.token=null;pauseAudio(record);active.record=null;
+   record.token=null;pauseAudio(record);active.record=null;active.audible=false;
    if(!allowed()||active.kind==='narrator'&&!narrationEnabled){stop();return;}
    if(error?.name==='NotAllowedError'){captionOnly(token);return;}
    failedSources.add(entry.src);
@@ -124,11 +134,13 @@ global.createMatchCommentary=function({enabled=true,volume=.75,onCaption=()=>{},
     return;
    }
    if(!allowed()||active.kind==='narrator'&&!narrationEnabled){stop();return;}
+   active.audible=true;
    active.remaining=Number.isFinite(audio.duration)&&audio.duration>0?Math.min(60,audio.duration+2):20;
   };
   audio.onended=release;audio.onerror=failure;audio.onplaying=started;
+  audio.onwaiting=()=>{if(current(token))active.audible=false;};
   try{
-   audio.volume=active.kind==='spell'?.9:narrationVolume;audio.currentTime=0;
+   audio.volume=active.kind==='spell'?.9:narrationVolume;audio.currentTime=0;audio.playbackRate=1;
    const playing=audio.play();
    if(playing&&typeof playing.then==='function')playing.then(started,failure);
    else started();
@@ -138,7 +150,7 @@ global.createMatchCommentary=function({enabled=true,volume=.75,onCaption=()=>{},
   clearActive();
   if(kind==='spell')setCaption('');else setCaption(text);
   const token=++sequence;
-  active={key,text,kind,priority,token,backend:'captions',spoken:false,remaining:5,voiceOptions};
+  active={key,text,kind,priority,token,backend:'captions',spoken:false,audible:false,remaining:5,voiceOptions};
   if(kind==='spell'){if(entry)startClip(token,entry);else startSpeech(token);}
   else if(entry&&narrationVolume>0)startClip(token,entry);
   else if(narrationVolume>0)startSpeech(token);
@@ -157,12 +169,15 @@ global.createMatchCommentary=function({enabled=true,volume=.75,onCaption=()=>{},
    if(!narrationEnabled||!allowed()||typeof text!=='string'||!text.trim())return false;
    text=text.trim();key=String(key);priority=limit(priority,0,100,1);cooldown=limit(cooldown,0,3600,8);
    if(recent.has(key)&&clock-recent.get(key)<cooldown)return false;
+   const textKey=text.replace(/\s+/g,' ').toLowerCase();
+   if(priority<=2&&(clock<nextRoutineAt||recentText.has(textKey)&&clock-recentText.get(textKey)<24))return false;
    if(active){
     if(active.kind==='spell'||active.key===key||active.text===text)return false;
     // Possession, passes and shots wait for the current sentence to finish.
     if(priority<4||priority<active.priority)return false;
    }
    recent.set(key,clock);if(recent.size>128)recent.delete(recent.keys().next().value);
+   if(priority<=2){recentText.set(textKey,clock);if(recentText.size>128)recentText.delete(recentText.keys().next().value);}
    return begin(key,text,'narrator',priority,{},entry);
   },
   spell(text,voiceOptions={}){
@@ -180,8 +195,8 @@ global.createMatchCommentary=function({enabled=true,volume=.75,onCaption=()=>{},
    if(active){active.remaining-=dt;if(active.remaining<=0)clearActive();}
   },
   stop,
-  reset(){stop();recent.clear();clock=0;},
-  setEnabled(value){narrationEnabled=value!==false;if(!narrationEnabled){if(active?.kind==='narrator')clearActive();setCaption('');}},
+  reset(){stop();recent.clear();recentText.clear();clock=0;nextRoutineAt=0;},
+  setEnabled(value){narrationEnabled=value!==false;if(!narrationEnabled){if(active?.kind==='narrator')clearActive();setCaption('');nextRoutineAt=clock;}},
   setVolume(value){
    narrationVolume=limit(value,0,1,narrationVolume);
    if(active?.kind==='narrator'){
@@ -189,7 +204,16 @@ global.createMatchCommentary=function({enabled=true,volume=.75,onCaption=()=>{},
     else if(active.backend==='speech'&&active.utterance)active.utterance.volume=narrationVolume;
    }
   },
-  get state(){return {enabled:narrationEnabled,volume:narrationVolume,available:available(),voice:narratorVoice?.name||'Samantha (offline)',language:'en-US',backend:active?.backend||preferredBackend(),activeKey:active?.key||null,caption};}
+  get state(){
+   const backend=active?.backend||preferredBackend(),voice=active?.utterance?.voice||narratorVoice,recording=recordedVoice();
+   const speaking=!!(active?.audible&&allowed()&&(active.kind==='spell'||narrationEnabled&&narrationVolume>0)&&(
+    backend==='audio'&&!active.record.audio.paused&&!active.record.audio.ended&&!active.record.audio.muted&&active.record.audio.volume>0||
+    backend==='speech'&&!synth?.paused&&active.utterance.volume>0));
+   return {enabled:narrationEnabled,volume:narrationVolume,available:available(),
+    voice:backend==='audio'?(recording.voiceName||'Female English (offline)'):voice?.name||null,
+    language:backend==='audio'?(recording.locale||'en-US'):voice?.lang||recording.locale||'en-US',
+    backend,speaking,activeKey:active?.key||null,caption};
+  }
  };
 };
 })(window);

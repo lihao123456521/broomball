@@ -22,6 +22,7 @@ function fixture(options = {}) {
     speak(utterance) {
       if (options.failSpeak) throw Error('speech service unavailable');
       spoken.push(utterance);
+      if (!options.deferredSpeech) utterance.onstart?.();
       if (options.syncError) { utterance.onerror(); throw Error('disconnected after callback'); }
     },
     cancel() { cancellations++; if (options.failCancel) throw Error('speech service disconnected'); },
@@ -31,6 +32,7 @@ function fixture(options = {}) {
     speechSynthesis: synth,
     SpeechSynthesisUtterance: function(text) { this.text = text; }
   };
+  if(options.naturalVoice)window.BroomNaturalVoice=options.naturalVoice;
   if(options.spellClips)window.BroomSpellClips=options.spellClips;
   if (options.audio) {
     window.BroomCommentaryClips = options.clips || clips;
@@ -43,7 +45,7 @@ function fixture(options = {}) {
       load() { this.loads++; }
       pause() { this.paused = true; this.pauses++; }
       play() {
-        this.plays++; this.paused = false;
+        this.plays++; this.paused = false; this.ended = false;
         if (options.deferred && !this.src.startsWith('data:')) return new Promise((resolve, reject) => pending.push({ audio: this, resolve, reject }));
         if (options.audioFailure && !this.src.startsWith('data:')) return Promise.reject(Object.assign(Error('media failed'), { name: options.audioFailure }));
         return Promise.resolve();
@@ -60,7 +62,7 @@ function fixture(options = {}) {
     engine, spoken, captions, audio, pending,
     get cancellations() { return cancellations; },
     finishSpeech() { spoken.at(-1)?.onend(); },
-    finishAudio(src) { const item = src ? audio.find(a => a.src === src) : audio.findLast(a => a.plays && !a.src.startsWith('data:')); item.onended(); },
+    finishAudio(src) { const item = src ? audio.find(a => a.src === src) : audio.findLast(a => a.plays && !a.src.startsWith('data:')); item.paused = true; item.ended = true; item.onended(); },
     setAllowed(value) { allowed = value; },
     changeVoices(value) { voices = value; listeners.voiceschanged(); }
   };
@@ -75,10 +77,10 @@ await check('English fallback pins Samantha at a natural rate and speaks complet
   const u = f.spoken[0];
   assert.equal(u.text, sentence);
   assert.equal(u.voice, samantha); assert.equal(u.lang, 'en-US');
-  assert.equal(u.pitch, 1.04); assert.equal(u.rate, 1); assert.equal(u.volume, .75);
+  assert.equal(u.pitch, 1); assert.equal(u.rate, 1); assert.equal(u.volume, .75);
   assert.equal(f.engine.state.backend, 'speech'); assert.equal(f.engine.state.available, true);
   f.finishSpeech(); f.changeVoices([english, samantha, { ...samantha, name: 'Samantha Premium' }]);
-  f.engine.announce('pass', 'Potter makes the pass.');
+  f.engine.tick(1); assert.equal(f.engine.announce('pass', 'Potter makes the pass.'), true);
   assert.equal(f.spoken.at(-1).voice, samantha, 'Voice changes do not change the selected narrator');
 });
 await check('Routine calls never interrupt a sentence; critical calls replace stale information', () => {
@@ -185,7 +187,7 @@ await check('Spell calls preserve recorded sentences and stay independent of com
   f.engine.setEnabled(false); f.engine.setVolume(0);
   assert.equal(f.engine.state.activeKey, 'spell'); assert.equal(f.cancellations, cancels);
   const u = f.spoken.at(-1);
-  assert.equal(u.lang, 'en-US'); assert.equal(u.volume, .9); assert.equal(u.pitch, 1.04); assert.equal(u.rate, .9);
+  assert.equal(u.lang, 'en-US'); assert.equal(u.volume, .9); assert.equal(u.pitch, 1); assert.equal(u.rate, .9);
   f.finishSpeech(); assert.equal(f.engine.spell('ACCIO'), true);
   const fallback = fixture({ voices: [samantha] });
   fallback.engine.announce('opening', 'Welcome to the Golden Pitch.');
@@ -231,6 +233,99 @@ await check('A watchdog bounds stuck playback and zero-volume startup remains ca
   quiet.engine.announce('opening', '', { clip: 'kickoff' });
   assert.equal(quiet.audio.length, 0); assert.equal(quiet.spoken.length, 0);
   assert.equal(quiet.engine.state.backend, 'captions'); assert.equal(quiet.engine.state.caption, clips.kickoff.text);
+});
+await check('Routine narration leaves a breath after both recorded and synthesized sentences', async () => {
+  for (const audio of [true, false]) {
+    const f = fixture({ audio });
+    f.engine.announce('opening', clips.kickoff.text, { clip: 'kickoff' }); await flush();
+    if (audio) f.finishAudio(); else f.finishSpeech();
+    assert.equal(f.engine.announce('pass', clips.pass.text, { clip: 'pass', cooldown: 0 }), false);
+    f.engine.tick(.9);
+    assert.equal(f.engine.announce('pass', clips.pass.text, { clip: 'pass', cooldown: 0 }), false);
+    f.engine.tick(.1);
+    assert.equal(f.engine.announce('pass', clips.pass.text, { clip: 'pass', cooldown: 0 }), true);
+  }
+});
+await check('Repeated routine copy is suppressed across event keys without delaying critical events', async () => {
+  const f = fixture({ audio: true });
+  f.engine.announce('player-pass', '', { clip: 'pass', cooldown: 0 }); await flush();
+  f.finishAudio(); f.engine.tick(1);
+  assert.equal(f.engine.announce('ally-pass', '', { clip: 'pass', cooldown: 0 }), false);
+  assert.equal(f.engine.announce('different-event', '  HARRY POTTER   FINDS A TEAMMATE! ', { cooldown: 0 }), false);
+  f.engine.tick(23);
+  assert.equal(f.engine.announce('ally-pass', '', { clip: 'pass', cooldown: 0 }), true);
+  await flush(); f.finishAudio();
+  assert.equal(f.engine.announce('critical', '', { clip: 'pass', priority: 4, cooldown: 0 }), true, 'Critical events bypass the breath and routine-text cooldown');
+});
+await check('Stop, off and reset clear breath timers; reset also clears repeated copy history', async () => {
+  for (const action of ['stop', 'off', 'reset']) {
+    const f = fixture({ audio: true });
+    f.engine.announce('opening', '', { clip: 'kickoff' }); await flush(); f.finishAudio();
+    if (action === 'off') { f.engine.setEnabled(false); f.engine.setEnabled(true); }
+    else f.engine[action]();
+    assert.equal(f.engine.announce('pass', '', { clip: 'pass', cooldown: 0 }), true);
+    f.engine.reset();
+    assert.equal(f.engine.announce('opening', '', { clip: 'kickoff' }), true);
+  }
+});
+await check('Stale completion callbacks cannot impose a breath on the next match', async () => {
+  for (const audio of [true, false]) {
+    const f = fixture({ audio });
+    f.engine.announce('opening', clips.kickoff.text, { clip: 'kickoff' }); await flush();
+    const oldEnd = audio ? f.audio[0].onended : f.spoken[0].onend;
+    f.engine.reset(); oldEnd();
+    assert.equal(f.engine.announce('opening', clips.kickoff.text, { clip: 'kickoff' }), true);
+  }
+});
+await check('Recorded metadata reports Joanna while fallback keeps a matching accent at original pitch', async () => {
+  const naturalVoice = { voiceName: 'Joanna - Warm & Conversational', locale: 'en-GB' };
+  const f = fixture({ audio: true, voices: [samantha, english], naturalVoice });
+  assert.equal(f.engine.state.voice, naturalVoice.voiceName); assert.equal(f.engine.state.language, 'en-GB');
+  f.engine.announce('opening', '', { clip: 'kickoff' }); await flush();
+  assert.equal(f.engine.state.voice, naturalVoice.voiceName); assert.equal(f.engine.state.language, 'en-GB');
+  assert.equal(f.audio[0].playbackRate, 1);
+  const failed = fixture({ audio: true, audioFailure: 'NotSupportedError', voices: [samantha, english], naturalVoice });
+  failed.engine.announce('opening', '', { clip: 'kickoff' }); await flush();
+  assert.equal(failed.spoken[0].voice, english); assert.equal(failed.spoken[0].pitch, 1);
+  assert.equal(failed.engine.state.voice, 'Serena'); assert.equal(failed.engine.state.language, 'en-GB');
+  failed.changeVoices([samantha]);
+  assert.equal(failed.engine.state.voice, 'Serena', 'Report the active utterance, even if the installed voice list changes');
+});
+await check('Speaking follows real playback, buffering, mute, completion and cancellation', async () => {
+  const f = fixture({ audio: true, deferred: true });
+  assert.equal(f.engine.state.speaking, false);
+  f.engine.announce('opening', '', { clip: 'kickoff' });
+  assert.equal(f.engine.state.speaking, false, 'Pending playback is not audible');
+  f.pending[0].resolve(); await flush(); assert.equal(f.engine.state.speaking, true);
+  const a = f.audio[0];
+  a.onwaiting(); assert.equal(f.engine.state.speaking, false);
+  a.onplaying(); assert.equal(f.engine.state.speaking, true);
+  f.engine.setVolume(0); assert.equal(f.engine.state.speaking, false);
+  f.engine.setVolume(.5); assert.equal(f.engine.state.speaking, true);
+  a.muted = true; assert.equal(f.engine.state.speaking, false); a.muted = false;
+  f.finishAudio(); assert.equal(f.engine.state.speaking, false);
+  f.engine.announce('goal', '', { clip: 'goal', priority: 4 }); f.pending[1].resolve(); await flush();
+  assert.equal(f.engine.state.speaking, true);
+  f.setAllowed(false); assert.equal(f.engine.state.speaking, false); f.engine.tick(.1);
+  assert.equal(f.engine.state.activeKey, null);
+  const speech = fixture({ deferredSpeech: true });
+  speech.engine.announce('opening', 'Brooms up.'); assert.equal(speech.engine.state.speaking, false);
+  speech.spoken[0].onstart(); assert.equal(speech.engine.state.speaking, true);
+  speech.engine.stop(); speech.spoken[0].onstart(); assert.equal(speech.engine.state.speaking, false);
+  const quiet = fixture({ audio: true, volume: 0 });
+  quiet.engine.announce('opening', '', { clip: 'kickoff' }); assert.equal(quiet.engine.state.speaking, false);
+});
+await check('Compatibility speech uses the recorded accent without artificial pitch shifts', async () => {
+  const spoken = [];
+  const window = {
+    BroomNaturalVoice: { voiceName: 'Joanna - Warm & Conversational', locale: 'en-GB' },
+    speechSynthesis: { getVoices: () => [samantha, english], cancel() {}, speak: u => spoken.push(u), addEventListener() {} },
+    SpeechSynthesisUtterance: function(text) { this.text = text; }
+  };
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, '..', 'game-voice.js'), 'utf8'), { window, setTimeout, clearTimeout });
+  assert.equal(await window.BroomVoice.speak('A good move.'), true);
+  assert.equal(spoken[0].voice, english); assert.equal(spoken[0].pitch, 1); assert.equal(spoken[0].rate, 1);
+  assert.equal(window.BroomVoice.getStatus().lang, 'en-GB');
 });
 console.log(`${checks.length} commentary engine checks passed`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

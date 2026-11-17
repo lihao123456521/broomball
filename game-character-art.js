@@ -22,7 +22,7 @@ window.BroomCharacterArt=(()=>{
   const V=(x=0,y=0,z=0)=>new T.Vector3(x,y,z),up=V(0,1,0),materials=new Map();
   const primary=0x87374c,accent=0xe9c573,shirt=0xeee8d9,leather=0x302b30,pants=0x29313e,hair=profile.hair,skin=profile.skin;
   const earShade=new T.Color(skin).multiplyScalar(.77).getHex();
-  function mat(c,metal=0){const key=c+':'+metal;if(!materials.has(key)){const m=new T.MeshStandardMaterial({color:c,roughness:metal?.4:.7,metalness:metal});m.userData.owned=true;materials.set(key,m);}return materials.get(key);}
+  function mat(c,metal=0){const key=c+':'+metal;if(!materials.has(key)){const m=new T.MeshStandardMaterial({color:c,roughness:metal>.5?.28:metal>.15?.48:.76,metalness:metal,envMapIntensity:metal>.5?.85:.38});m.userData.owned=true;materials.set(key,m);}return materials.get(key);}
   function mesh(parent,geo,c,p=V(),name=''){const o=new T.Mesh(geo,typeof c==='number'?mat(c):c);o.position.copy(p);o.name=name;o.castShadow=true;o.receiveShadow=true;parent.add(o);return o;}
   function ell(parent,c,p,s,name=''){const o=mesh(parent,new T.SphereGeometry(1,20,14),c,p,name);o.scale.copy(s);return o;}
   function bar(parent,a,b,r,c,name=''){const d=b.clone().sub(a),l=d.length();const o=mesh(parent,new T.CapsuleGeometry(r,Math.max(.002,l-r*2),3,9),c,a.clone().add(b).multiplyScalar(.5),name);o.quaternion.setFromUnitVectors(up,d.normalize());return o;}
@@ -150,7 +150,7 @@ window.BroomCharacterArt=(()=>{
    }
   }
   batchGroup(head);batchGroup(arm);batchGroup(cape);batchGroup(scarfTail,new Set([fabric]));batchGroup(body,new Set([coat]));
-  wizard.userData.rig={body,cape,scarfTail,arm};wizard.userData.replaceable.spellSocket=spellSocket;
+  wizard.userData.rig={body,head,cape,scarfTail,arm};wizard.userData.replaceable.spellSocket=spellSocket;
   body.userData.artVersion=2;body.userData.characterId=id;
   wizard.userData.artProfile=id;wizard.userData.artParts=['face','hair','jacket','collar','tie','scarf','cape','boots','gloves'];
   wizard.userData.appearance={version:2,id,hairStyle:profile.style,signature:profile.trait,skin:profile.skin,hair:profile.hair,features:['sculpted-face','iris-and-catchlights','layered-hair','tailored-jacket','cape-piping','shaped-boots','striped-scarf']};
