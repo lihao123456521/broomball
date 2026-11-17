@@ -27,14 +27,27 @@
  <div class="goal-celebration-copy"><span>GOAL · 比赛计时已暂停</span><h2 id="celebrationReason">精彩进球</h2><p id="celebrationChoice">挥拳庆祝 · 空格跳过</p></div>
  <div class="goal-celebration-actions" role="group" aria-label="选择庆祝动作"><button type="button" data-celebration="fist" aria-pressed="true"><kbd>E</kbd><span>挥拳</span></button><button type="button" data-celebration="glide" aria-pressed="false"><kbd>R</kbd><span>滑翔</span></button><button type="button" data-celebration="team" aria-pressed="false"><kbd>F</kbd><span>全队</span></button><button type="button" id="skipCelebration" class="skip-celebration"><kbd>Space</kbd><span>跳过 <b id="celebrationTimer">6s</b></span></button></div>
 </section>
+<section id="matchEntrance" class="match-entrance hidden" aria-label="球队入场">
+ <div class="entrance-topline"><span>学院冠军赛 · 球队入场</span><strong id="entranceMode">新手赛</strong></div>
+ <div class="entrance-matchup"><div><small>主队</small><h2 id="entranceHome">格兰芬多</h2></div><b>VS</b><div><small>客队</small><h2 id="entranceAway">斯莱特林</h2></div></div>
+ <div class="entrance-bottom"><div class="entrance-sequence"><span id="entrancePhase">双方球员进入球场</span><div class="entrance-progress"><i id="entranceProgress"></i></div></div><button type="button" id="skipEntrance"><kbd>Space</kbd> 跳过入场</button></div>
+</section>
+<section id="tutorialCoach" class="tutorial-coach hidden" aria-label="新手实操教程">
+ <header><div><span id="tutorialStepCount">01 / 06</span><h2 id="tutorialTitle">先学会移动</h2></div><button type="button" id="tutorialExit" aria-label="退出教程">退出</button></header>
+ <div class="tutorial-progress" aria-hidden="true"><i id="tutorialProgressFill"></i></div>
+ <div class="tutorial-copy" aria-live="polite"><p id="tutorialDescription"></p><div id="tutorialKeys" class="tutorial-keys"></div><p id="tutorialTip" class="tutorial-tip"></p></div>
+ <div class="tutorial-actions"><button type="button" class="secondary" id="tutorialRepeat">重练本步</button><button type="button" class="secondary" id="tutorialSkip">跳过，直接比赛</button><button type="button" class="primary hidden" id="tutorialDone">开始新手赛</button></div>
+</section>
 <div class="overlay" id="menu"><div class="menu-card"><div class="menu-controls">
  <div class="eyebrow">MATCHDAY · 学院冠军赛</div><h1>BROOMBALL</h1><div class="subtitle">传球，跑位，赢下这一场</div>
  <div class="choose">选择学院</div><div class="house-picker" id="housePicker" aria-label="选择学院"></div>
  <div class="match-options"><label>对手 <select id="opponentHouse" aria-label="对手学院"></select></label><span>4 对 4 · 球权自动换控</span></div>
  <div class="choose">选择出场队长</div><div class="characters" aria-label="选择队长"></div>
- <div class="mode-picker" role="group" aria-label="比赛模式"><button type="button" class="mode-option" data-mode="standard" aria-pressed="true"><strong>标准赛</strong><small>180 秒 · 球队配合</small></button><button type="button" class="mode-option" data-mode="challenge" aria-pressed="false"><strong>挑战赛</strong><small>180 秒 · 高压逼抢</small></button></div>
+ <div class="mode-picker" role="group" aria-label="比赛难度"><button type="button" class="mode-option" data-mode="rookie" aria-pressed="true"><strong>新手赛</strong><small>减速对手 · 辅助更多</small></button><button type="button" class="mode-option" data-mode="standard" aria-pressed="false"><strong>标准赛</strong><small>适中对抗 · 球队配合</small></button><button type="button" class="mode-option" data-mode="challenge" aria-pressed="false"><strong>挑战赛</strong><small>快速反应 · 高压逼抢</small></button></div>
+ <p class="mode-brief" id="modeBrief">对手速度较慢，射门辅助更强，适合第一次上场。</p>
+ <div class="matchday-flow" aria-label="比赛日流程"><span><b>01</b>球队入场</span><span><b>02</b>赛前倒数</span><span><b>03</b>正式开球</span></div>
  <section class="core-keyboard" id="coreKeyboard" aria-label="比赛按键"></section>
- <div class="menu-actions"><button class="primary" id="startBtn">进入球场</button></div>
+ <div class="menu-actions"><button class="secondary" id="tutorialBtn"><span>新手教程</span><small>6 项实操训练</small></button><button class="primary" id="startBtn">球队入场</button></div>
  </div><section id="characterPreview" class="character-preview" aria-label="所选球员三维展示"></section></div></div>
 <div class="overlay hidden" id="pause"><div class="core-dialog"><div class="eyebrow">MATCH PAUSED</div><h2>比赛暂停</h2><p>我方接球，自动操控持球人；对方持球，自动选择最近防守队员。传球途中可提前按 E/R/F，接球后自动一脚出球或射门。</p><div class="pause-key-grid"><span><kbd>W A S D</kbd> 移动</span><span><kbd>Shift</kbd> 冲刺</span><span><kbd>E</kbd> 短传</span><span><kbd>R</kbd> 直塞</span><span><kbd>F</kbd> 蓄力射门 / 逼抢</span><span><kbd>Esc</kbd> 继续</span></div><label class="core-audio"><input type="checkbox" id="commentaryEnabled" checked> 女性英语解说</label><div class="dialog-actions"><button class="primary" id="resumeBtn">继续比赛</button><button class="secondary" id="restartPauseBtn">重新开赛</button><button class="secondary" id="menuPauseBtn">返回首页</button></div></div></div>
 <div class="overlay hidden" id="ending"><div class="core-dialog"><div class="eyebrow">FULL TIME</div><h2 id="endTitle">比赛结束</h2><div class="result-score" id="endScore"></div><p class="result-detail" id="endDetail"></p><div id="endStats"></div><div class="dialog-actions"><button class="primary" id="restartBtn">再来一场</button><button class="secondary" id="menuEndBtn">返回首页</button></div></div></div>
