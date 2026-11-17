@@ -77,3 +77,29 @@ macOS、本机 Chrome、仓库外 Playwright。浏览器音频用真实 HTMLAudi
 
 数值与自动播放验证不能替代主观听音。试听文件为 `tests/artifacts/natural-commentary-preview.wav`，由实际运行用的开场、进球和终场录音组成；截图与结构化结果位于 `tests/artifacts/`，均为本机验证产物、不进入提交。
 
+
+## 追加：真实观众背景与最新云端提交
+
+用户明确要求持续的观众背景欢呼，以及将整合结果同步到云端。新增约 32 秒的真实现场观众循环和 7 秒进球欢呼，来源是 Gregor Quendel 的 *Free Crowd Cheering Sounds*（CC BY 4.0）。原始 MP3、来源、许可链接、处理工具、派生数据及哈希均保存在 `assets/audio/crowd/` 与 `tools/build-crowd-audio.cjs`。底床以 2 秒首尾交叉淡化衔接，先去除原文件各 2 秒的起止弱音区；运行时不请求外部服务。
+
+观众音量默认 65%，可以与解说独立调整或静音并保存。解说开始时底床平滑降到原音量的 55%，进球欢呼降到 70%；未把观众完全静音。持续底床与短音效分开管理，暂停、重开、返回首页与终场清理节点；异步解码结束时重新检查当前状态，避免迟到播放。循环经过 40 秒真实 OfflineAudioContext 渲染验证，覆盖一次循环边界。
+
+工作期间用户更新了远端 `feat/gameplay-visual-overhaul` 到 `e3edc1b`（Add matchday entrance and guided onboarding）。再次 fetch 后保留其球队入场、六步教程、新手/标准/挑战难度及配套测试；解决 `game-core.js`、样式与 README 的重叠改动。观众持续播放状态包括 `entrance`、`countdown` 和 `playing`，保留入场暂停/跳过，并让重开仍走用户新增的入场流程。
+
+本次最终工作树的真实浏览器检查：
+
+| 脚本 | 通过数 |
+| --- | ---: |
+| `browser-core-match.cjs` | 14 |
+| `browser-ball-contact.cjs` | 7 |
+| `browser-core-presentation.cjs` | 3 |
+| `browser-gameplay-overhaul.cjs` | 7 |
+| `browser-pressure-celebration.cjs` | 9 |
+| `browser-onboarding.cjs` | 13 |
+| `browser-commentary-audio.cjs` | 11 |
+| `browser-match-audio.cjs` | 10 |
+| `browser-crowd-ambience.cjs` | 8 |
+
+合计 82 项通过。新增的观众测试通过原生音频节点观察确认恰有一个循环、进球使用真实 7 秒录音、观众静音不影响解说、入场/暂停/恢复/重开/终场的生命周期正确，并检查 800×600 两个音量滑块和设置持久化。试听 `tests/artifacts/crowd-match-preview.wav` 使用实际游戏混音图渲染：前段为持续观众，5 秒后叠加进球欢呼与 Joanna 解说。自动解码和波形验证不等于主观听音审查。
+
+此次整合的交付目标是 GitHub `main`：采用普通推送，不改写远端历史；推送后核对远端 main 与本地 SHA 相同，并检查所有远端分支均无 main 尚未包含的提交。历史功能分支保留，方便追溯。

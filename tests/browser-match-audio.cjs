@@ -97,7 +97,7 @@ const {chromium} = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
   });
   assert(crowd.bed.ready && crowd.bed.before.ambiencePlaying);
   assert.equal(crowd.bed.before.ambienceStarts, 1, 'Repeated frames share one loop');
-  assert(crowd.bed.bins.every(value => value > .005), 'Crowd stays audible through the 36-second loop boundary');
+  assert(crowd.bed.bins.every(value => value > .005), 'Crowd stays audible through the 32-second loop boundary');
   assert(crowd.bed.peak < 1 && Math.abs(crowd.bed.start) === 0);
   assert.equal(crowd.bed.after.ambiencePlaying, false);
   console.log('PASS real crowd PCM is continuously audible across a loop and repeated frames never stack loops');

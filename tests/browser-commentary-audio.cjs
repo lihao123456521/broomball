@@ -118,6 +118,7 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/voice/commen
     await check('Start and the real countdown play one kickoff recording without synthesis', async () => {
       await page.screenshot({ path: path.join(out, 'commentary-audio-menu.png') });
       await page.locator('#startBtn').click();
+      if (await page.evaluate(() => __BROOMBALL__.match.state === 'entrance')) await page.locator('#skipEntrance').click();
       assert.equal(await page.evaluate(() => __BROOMBALL__.match.state), 'countdown');
       await keepPossession();
       await waitForClip(kickoffFile);
@@ -232,7 +233,7 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/voice/commen
       evidence.immediateResume = result;
     });
 
-    await check('Restart cancels active native speech and effects before a fresh countdown', async () => {
+    await check('Restart cancels stale speech and effects before a fresh entrance', async () => {
       assert.equal(await announceGoal('restart-goal'), true);
       await waitForClip('/goal-gryffindor.wav');
       const result = await page.evaluate(() => {
@@ -241,12 +242,13 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/voice/commen
         g.matchAudio.play('shot');
         const before = g.matchAudio.state.activeSources;
         g.restartMatch();
-        return { before, after: g.matchAudio.state.activeSources, state: g.match.state,
+        return { before, after: g.matchAudio.state.activeSources, crowdSources: g.matchAudio.state.activeCrowdSources, state: g.match.state,
           oldPaused: old.paused, oldTime: old.currentTime, activeKey: g.commentary.state.activeKey };
       });
       assert(result.before > 0);
-      assert.equal(result.after, 0);
-      assert.equal(result.state, 'countdown');
+      assert.equal(result.after, result.crowdSources);
+      assert(result.after <= 1);
+      assert.equal(result.state, 'entrance');
       assert.equal(result.oldPaused, true);
       assert.equal(result.oldTime, 0);
       assert.equal(result.activeKey, null);
@@ -259,6 +261,7 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/voice/commen
     await check('An 800 × 600 viewport keeps pause audio controls and actions reachable', async () => {
       await page.setViewportSize({ width: 800, height: 600 });
       await page.locator('#startBtn').click();
+      if (await page.evaluate(() => __BROOMBALL__.match.state === 'entrance')) await page.locator('#skipEntrance').click();
       await page.keyboard.press('Escape');
       const bounds = {};
       for (const id of ['commentaryEnabled', 'commentaryVolume', 'resumeBtn', 'restartPauseBtn', 'menuPauseBtn']) {
@@ -281,6 +284,7 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/voice/commen
       await page.evaluate(() => { __BROOMBALL__.setCommentaryEnabled(true); __BROOMBALL__.setCommentaryVolume(.35); });
       await collectAudioNodes();
       await page.locator('#startBtn').click();
+      if (await page.evaluate(() => __BROOMBALL__.match.state === 'entrance')) await page.locator('#skipEntrance').click();
       await keepPossession();
       await waitForClip(kickoffFile);
       assert.equal(await page.evaluate(() => __BROOMBALL__.commentary.state.backend), 'audio');

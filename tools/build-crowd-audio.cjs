@@ -30,10 +30,11 @@ function wav(samples, rate) {
    const rate = 22050, overlap = rate*2;
    let samples;
    if (kind === 'ambience') {
-    samples = decoded.slice(overlap, decoded.length-overlap);
+    const loop = decoded.slice(rate*2, decoded.length-rate*2);
+    samples = loop.slice(overlap, loop.length-overlap);
     for (let i = 0; i < overlap; i++) {
      const t = i/(overlap-1);
-     samples.push(decoded[decoded.length-overlap+i]*(1-t)+decoded[i]*t);
+     samples.push(loop[loop.length-overlap+i]*(1-t)+loop[i]*t);
     }
    } else {
     samples = decoded.slice(rate, rate*8);
@@ -48,7 +49,7 @@ function wav(samples, rate) {
    tracks[kind] = {file, sourceSha256: crypto.createHash('sha256').update(original).digest('hex'),
     duration: samples.length/rate, sampleRate: rate, channels: 1, gain,
     rmsDbfs: 20*Math.log10(rms*gain), peakDbfs: 20*Math.log10(peak*gain),
-    edits: kind==='ambience'?'mono downmix, 22050 Hz, 2-second tail/head crossfade, level adjustment':'mono downmix, 22050 Hz, excerpt 1–8 seconds, 50 ms attack and 800 ms release, level adjustment'};
+    edits: kind==='ambience'?'mono downmix, 22050 Hz, trim 2-second recording fades from each end, 2-second tail/head crossfade, level adjustment':'mono downmix, 22050 Hz, excerpt 1–8 seconds, 50 ms attack and 800 ms release, level adjustment'};
    const preview = path.join(root, 'tests/artifacts');fs.mkdirSync(preview, {recursive: true});
    fs.writeFileSync(path.join(preview, 'crowd-'+kind+'.wav'), output);
   }

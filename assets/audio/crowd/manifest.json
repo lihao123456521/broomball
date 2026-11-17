@@ -9,13 +9,13 @@
     "ambience": {
       "file": "Gregor Quendel - Crowd Cheering Sounds - 09 - Ambience and cheering.mp3",
       "sourceSha256": "4025e0ebcfd2861dc6baded27d1fa4a6d874f9a4b1158316650e9ba6278b4788",
-      "duration": 35.99995464852608,
+      "duration": 31.999954648526078,
       "sampleRate": 22050,
       "channels": 1,
-      "gain": 0.8649182922921345,
+      "gain": 0.8190241629927509,
       "rmsDbfs": -23,
-      "peakDbfs": -4.278881671146038,
-      "edits": "mono downmix, 22050 Hz, 2-second tail/head crossfade, level adjustment"
+      "peakDbfs": -4.752449022874047,
+      "edits": "mono downmix, 22050 Hz, trim 2-second recording fades from each end, 2-second tail/head crossfade, level adjustment"
     },
     "cheer": {
       "file": "Gregor Quendel - Crowd Cheering Sounds - 04 - Strong cheering - II - Short.mp3",

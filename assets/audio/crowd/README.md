@@ -12,7 +12,7 @@ and **04 – Strong cheering – II – Short**. They are field recordings, not 
 The author's source recordings remain under CC BY 4.0; no endorsement is implied.
 
 For this game, the ambience is downmixed to mono at 22,050 Hz, leveled, and its tail
-and head crossfaded over two seconds for a continuous loop. The goal cheer uses
+and head crossfaded over two seconds after trimming two seconds of source fades from each end for a continuous loop. The goal cheer uses
 seconds 1–8 with a short attack, a gentle release and level adjustment. Exact
 source hashes, gains and output measurements are in `manifest.json`.
 

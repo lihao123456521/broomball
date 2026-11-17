@@ -15,8 +15,9 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
   await page.goto(pathToFileURL(path.join(root,'index.html')).href,{waitUntil:'load'});
   await page.waitForFunction(()=>!!window.__BROOMBALL__);
   await page.evaluate(()=>Promise.all([BroomModels.ready,__BROOMBALL__.modelScenery]));
-  await page.clock.pauseAt(await page.evaluate(()=>Date.now()+100));
-  const advance=ms=>page.clock.runFor(ms);
+  await page.clock.pauseAt(await page.evaluate(()=>Date.now()+10000));
+  // Preserve the exact virtual clock and game steps; only intermediate rasterization is skipped.
+  const advance=async ms=>{await page.evaluate(()=>{const g=__BROOMBALL__;window.__testRender=g.renderer.render.bind(g.renderer);g.renderer.render=()=>{};});await page.clock.runFor(ms);await page.evaluate(()=>{const g=__BROOMBALL__;g.renderer.render=window.__testRender;delete window.__testRender;g.renderer.render(g.scene,g.camera);});};
   const speeds=await page.evaluate(()=>({allies:__BROOMBALL__.allies.map(u=>u.speed),rivals:__BROOMBALL__.rivals.map(u=>u.speed)}));
   const check=async(name,run)=>{try{await run();report.passed.push(name);console.log('PASS',name);}catch(e){report.failed.push({name,error:e.message});console.error('FAIL',name,e.message);}};
   const restoreSpeeds=()=>page.evaluate(speeds=>{const g=__BROOMBALL__;g.allies.forEach((u,i)=>u.speed=speeds.allies[i]);g.rivals.forEach((u,i)=>u.speed=speeds.rivals[i]);},speeds);
