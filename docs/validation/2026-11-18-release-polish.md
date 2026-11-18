@@ -106,3 +106,37 @@
 - 转向低速角速率 3.1→3.6 rad/s（高速 1.85→2.0），松键滑行减速 28→32 m/s²。
 - 真人复测：飞近不按 F 抢断 ✓、新手 Shift 冲刺抢断 ✓、F 逼抢抢断 ✓，0 页面错误。
 - 12 项验收套件第二轮全绿（含 30 秒自然比赛审计、触球契约、高球追踪、教程、庆祝、音频）。
+
+## 第三轮追加（庆祝演出 / 魔法观众 / 防守质感）
+
+### 进球庆祝（`game-core.js` `updateGoalCelebration` + 火花系统）
+
+- 挥拳：单手持帚、节奏挥拳（`sin(t*6)` 泵动）、抬头致意、拳边金色火花；队友在旁拍手悬浮。
+- 滑翔：绕进球门半径 8.5 米的侧倾圆弧胜利 lap，朝向切线、恒定侧倾 .34、高度起伏、火花尾迹；镜头自动跟拍。
+- 全队：队友沿二次贝塞尔弧形（侧向 bulge + 抬升）1.4s 内聚拢到得分者半径 2.6 米环，举帚+同步浮动，t≈1.5 中心火花爆发。
+- 火花：`THREE.Points` 240 粒金色 additive，`spawnSparks/updateSparks/clearSparks`，庆祝结束清空；reducedMotion 不生成不移动。
+- 契约保持：E/R/F 选择、Space 跳过、pause 冻结、reducedMotion 姿态静止、普通进球无庆祝。实测 fist/glide/team/skip 全 ✓。
+- 截图：`release-polish3-glide.png`、`release-polish3-team.png`。
+
+### 魔法观众（`game-crowd.js`）
+
+- 全员尖顶巫师帽（学院色锥体）、人手魔杖（欢呼者举杖+发光杖尖，随挥手动画摆动；坐姿者垂杖）。
+- 48 盏悬浮灯笼（独立 InstancedMesh，不计入 parts）在看台上方 y13–20 上下浮动+火苗闪烁。
+- 庆祝人浪改为按分区相位 `sin(time*5.5-section*.45)²` 传播的墨西哥人浪。
+- 批次 12→15、drawCalls 17（≤24 预算）；hat/wand/wandTip 各 756=人数（parts 契约保持）；`restoreCrowdPose` 复位灯笼。
+- 截图：`release-polish3-crowd.png`。
+
+### 抢断物理反馈（参考实况足球对抗质感）
+
+- `stealContact(winnerMesh, loser)`：胜者 `userData.swipeTime=.45`、败者 `userData.stumbleTime=.6`；
+  败者为玩家时 `player.vel*=.6`，为 AI 时 `flightSpeed*=.5`，换球权伴随身体失衡而非瞬移。
+- `animateWizard` 播放挥帚（arm 正弦挥动+body 转体）与踉跄（body/head 衰减摆动），reducedMotion 跳过。
+- 三处抢断（对方夺球 / 玩家抢断 / 队友协同）统一接入 `stealContact`。
+
+### 防守卡位 AI 的回退说明
+
+- 本轮曾实现 PES 式 goal-side contain + 反应延迟 + 伺机 lunge、标记者切线路、flyAI 平滑偏航/角速度侧倾。
+- 回归发现这些改动破坏拦截/抢断/开球契约：持球者四元数平滑摆动改变 `carryPosition`，触发异常出球使
+  carrier 在拦截后 2 帧内被清空（实测复现并定位）。为保证上线稳定，四个 AI 函数（flyAI/rivalTarget/
+  updateRivals/updateAllies）与逼抢输入已回退到第二轮 proven 版本；庆祝/观众/抢断反馈保留。
+- 回退后拦截 carrier 稳定保持（12 帧复测），12 项验收套件全绿。防守卡位 AI 留待后续单独迭代。

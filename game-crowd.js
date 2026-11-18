@@ -7,13 +7,15 @@ window.BroomCrowd=(()=>{
   const palette=[0x922f43,0x275e49,0x315d8c,0xc5a04e],accents=[0xf0c45e,0xc0c9c2,0xd0b894,0x332c27];
   const skin=[0xe7bc98,0xc9906c,0x946447,0xe0b18a,0x6e4737],hair=[0x2a2527,0x52372a,0xb7753b,0xc9af79,0x151b23];
   const material=new T.MeshStandardMaterial({color:0xffffff,roughness:.92,metalness:0,emissive:0xffffff,emissiveIntensity:.12});
+  const glowMaterial=new T.MeshStandardMaterial({color:0xfff2c8,roughness:.4,metalness:0,emissive:0xffd98a,emissiveIntensity:1.6});
   const sphere=new T.SphereGeometry(1,8,5),handShape=new T.IcosahedronGeometry(1,0),limb=new T.CylinderGeometry(1,1,1,6,1),box=new T.BoxGeometry(1,1,1);
   const specs={
    head:{name:'CrowdHead',geometry:sphere},hair:{name:'CrowdHair',geometry:new T.SphereGeometry(1,8,4,0,Math.PI*2,0,Math.PI*.58)},
    neck:{name:'CrowdNeck',geometry:limb},torso:{name:'CrowdTorso',geometry:new T.CylinderGeometry(1,.86,1,6,1)},
    upperArms:{name:'CrowdUpperArms',geometry:limb},forearms:{name:'CrowdForearms',geometry:limb},hands:{name:'CrowdHands',geometry:handShape},
    thighs:{name:'CrowdThighs',geometry:limb},shins:{name:'CrowdShins',geometry:limb},boots:{name:'CrowdBoots',geometry:box},
-   scarf:{name:'CrowdScarf',geometry:new T.TorusGeometry(1,.25,4,8)},scarfTail:{name:'CrowdScarfTail',geometry:box}
+   scarf:{name:'CrowdScarf',geometry:new T.TorusGeometry(1,.25,4,8)},scarfTail:{name:'CrowdScarfTail',geometry:box},
+   hat:{name:'CrowdHat',geometry:new T.ConeGeometry(1,1,7)},wand:{name:'CrowdWand',geometry:limb},wandTip:{name:'CrowdWandTip',geometry:sphere,material:glowMaterial}
   };
   const batches=new Map(),spectators=[],wavers=[];
   let celebration=null,celebrationWasActive=false,currentParts=null;
@@ -37,6 +39,7 @@ window.BroomCrowd=(()=>{
     add('neck',matrix(v(0,shoulderY+.055,.015),v(.105,.18,.105)),skinColor,fan);
     add('head',matrix(v(0,headY,0),v(.235,.27,.225)),skinColor,fan);
     add('hair',matrix(v(0,headY+.025,.022),v(.244,.28,.236)),hairColor,fan);
+    add('hat',matrix(v(0,headY+.34,0),v(.27,.55,.27),new T.Quaternion().setFromAxisAngle(v(1,0,0),(random()-.5)*.22)),palette[house],fan);
     const scarfRotation=new T.Quaternion().setFromAxisAngle(v(1,0,0),Math.PI/2);
     add('scarf',matrix(v(0,shoulderY+.05,0),v(.14,.14,.14),scarfRotation),trim,fan);
     add('scarfTail',matrix(v(.08,shoulderY-.21,-.245),v(.11,.45,.035)),trim,fan);
@@ -47,7 +50,12 @@ window.BroomCrowd=(()=>{
      else if(standing){elbow=v(side*.44,shoulderY-.37,-.05);hand=v(side*.35,hipY+.12,-.12);}
      else{elbow=v(side*.43,shoulderY-.37,-.15);hand=v(side*.22,hipY+.13,-.40);}
      const upperIndex=add('upperArms',segment(shoulder,elbow,.105),coat,fan),foreIndex=add('forearms',segment(elbow,hand,.09),coat,fan),handIndex=add('hands',matrix(hand,v(.105,.12,.10)),skinColor,fan);
-     if(cheering&&side===1&&crowdIndex%3===0)wavers.push({fan,shoulder,elbow,hand,upperIndex,foreIndex,handIndex,phase:crowdIndex*.41,house});
+     let wandIndex=null,tipIndex=null;
+     if(side===1){
+      const wandEnd=cheering?hand.clone().add(v(.10,.62,-.06)):hand.clone().add(v(.05,-.42,-.16));
+      wandIndex=add('wand',segment(hand,wandEnd,.028),0x6b4a2f,fan);tipIndex=add('wandTip',matrix(wandEnd,v(.05,.06,.05)),0xffe9a8,fan);
+     }
+     if(cheering&&side===1&&crowdIndex%3===0)wavers.push({fan,shoulder,elbow,hand,upperIndex,foreIndex,handIndex,wandIndex,tipIndex,section,phase:crowdIndex*.41,house});
      const hip=v(side*.16,hipY,.07),knee=standing?v(side*.17,1.48,-.01):v(side*.18,1.50,-.50),ankle=v(side*.18,1.09,standing?-.035:-.49);
      add('thighs',segment(hip,knee,.12),0x242b39,fan);add('shins',segment(knee,ankle,.105),0x242b39,fan);
      add('boots',matrix(v(side*.18,1.025,standing?-.13:-.60),v(.24,.16,.39)),0x242328,fan);
@@ -59,16 +67,33 @@ window.BroomCrowd=(()=>{
    }
   }
   for(const [id,batch]of batches){
-   const mesh=new T.InstancedMesh(batch.geometry,material,batch.items.length);mesh.name=batch.name;mesh.castShadow=false;mesh.receiveShadow=true;
+   const mesh=new T.InstancedMesh(batch.geometry,batch.material||material,batch.items.length);mesh.name=batch.name;mesh.castShadow=false;mesh.receiveShadow=true;
    mesh.userData.crowdPart=id;mesh.userData.people=spectators.length;mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
    for(let i=0;i<batch.items.length;i++){mesh.setMatrixAt(i,batch.items[i].matrix);mesh.setColorAt(i,new T.Color(batch.items[i].color));}
    mesh.instanceMatrix.needsUpdate=true;mesh.instanceColor.needsUpdate=true;mesh.computeBoundingSphere();mesh.computeBoundingBox();root.add(mesh);batch.mesh=mesh;
   }
+  // Floating Hogwarts-style lanterns hover above the stands, independent of the seated crowd.
+  const lanterns=[],lanternCount=48;
+  const lanternBody=new T.InstancedMesh(new T.CylinderGeometry(1,1,1,6,1),material,lanternCount);
+  const lanternFlame=new T.InstancedMesh(sphere,glowMaterial,lanternCount);
+  lanternBody.name='CrowdLanternBody';lanternFlame.name='CrowdLanternFlame';
+  for(let i=0;i<lanternCount;i++){
+   const angle=i/lanternCount*Math.PI*2+.11,radius=76+random()*18,base=v(Math.sin(angle)*radius,13.5+random()*6,Math.cos(angle)*radius*1.18);
+   lanterns.push({base,phase:random()*Math.PI*2});
+   lanternBody.setMatrixAt(i,matrix(base,v(.16,.42,.16)));lanternBody.setColorAt(i,new T.Color(0xf3e2c0));
+   lanternFlame.setMatrixAt(i,matrix(base.clone().add(v(0,.3,0)),v(.09,.13,.09)));lanternFlame.setColorAt(i,new T.Color(0xffdf8a));
+  }
+  lanternBody.instanceMatrix.needsUpdate=lanternFlame.instanceMatrix.needsUpdate=true;
+  lanternBody.instanceColor.needsUpdate=lanternFlame.instanceColor.needsUpdate=true;
+  lanternBody.userData.crowdPart='lanternBody';lanternFlame.userData.crowdPart='lanternFlame';
+  root.add(lanternBody,lanternFlame);
   const bounds=new T.Box3().setFromObject(root);root.userData.spectators=spectators;root.userData.crowdCount=spectators.length;
-  function getStatus(){return {people:spectators.length,drawCalls:batches.size,animatedFans:wavers.length,parts:Object.fromEntries([...batches].map(([id,batch])=>[id,batch.items.length])),bounds:{min:bounds.min.toArray(),max:bounds.max.toArray()},celebration:celebration?{house:celebration.house,time:celebration.time,duration:celebration.duration}:null};}
+  function getStatus(){return {people:spectators.length,drawCalls:batches.size+2,animatedFans:wavers.length,parts:Object.fromEntries([...batches].map(([id,batch])=>[id,batch.items.length])),bounds:{min:bounds.min.toArray(),max:bounds.max.toArray()},celebration:celebration?{house:celebration.house,time:celebration.time,duration:celebration.duration}:null};}
   function restoreCrowdPose(){
    for(const spectator of spectators)for(const part of spectator.parts){const batch=batches.get(part.id);if(batch.mesh)batch.mesh.setMatrixAt(part.index,batch.items[part.index].matrix);}
-   for(const batch of batches.values())if(batch.mesh)batch.mesh.instanceMatrix.needsUpdate=true;celebrationWasActive=false;
+   for(const batch of batches.values())if(batch.mesh)batch.mesh.instanceMatrix.needsUpdate=true;
+   lanterns.forEach((l,i)=>{lanternBody.setMatrixAt(i,matrix(l.base,v(.16,.42,.16)));lanternFlame.setMatrixAt(i,matrix(l.base.clone().add(v(0,.3,0)),v(.09,.13,.09)));});
+   lanternBody.instanceMatrix.needsUpdate=lanternFlame.instanceMatrix.needsUpdate=true;celebrationWasActive=false;
   }
   function celebrate({house=0,duration=4}={}){celebration={house,time:0,duration};return celebration;}
   function reset(){celebration=null;restoreCrowdPose();}
@@ -79,22 +104,32 @@ window.BroomCrowd=(()=>{
     if(celebration.time>=celebration.duration){celebration=null;restoreCrowdPose();}
     else{
      for(const spectator of spectators){
-      const energy=spectator.house===celebration.house?1:.42,lift=reducedMotion?0:Math.max(0,Math.sin(celebration.time*7.5+spectator.position.x*.11+spectator.position.z*.07))*.45*energy;
+      // A Mexican wave travels section by section around the bowl instead of a uniform jump.
+      const energy=spectator.house===celebration.house?1:.42,lift=reducedMotion?0:Math.pow(Math.max(0,Math.sin(celebration.time*5.5-spectator.section*.45)),2)*.55*energy;
       for(const part of spectator.parts){const batch=batches.get(part.id),pose=celebrationMatrix.copy(batch.items[part.index].matrix);pose.elements[13]+=lift;batch.mesh.setMatrixAt(part.index,pose);}
      }
      for(const batch of batches.values())batch.mesh.instanceMatrix.needsUpdate=true;celebrationWasActive=true;
     }
    }else if(celebrationWasActive)restoreCrowdPose();
    if(reducedMotion)return;
-   const upper=batches.get('upperArms').mesh,fore=batches.get('forearms').mesh,hands=batches.get('hands').mesh;
+   const upper=batches.get('upperArms').mesh,fore=batches.get('forearms').mesh,hands=batches.get('hands').mesh,wand=batches.get('wand').mesh,tip=batches.get('wandTip').mesh;
    for(const fan of wavers){
-    const energy=celebration?(fan.house===celebration.house?1:.42):0,phase=celebration?celebration.time*7.5+fan.phase:elapsed*2.3+fan.phase,wave=Math.sin(phase),lift=celebration?Math.max(0,wave)*.45*energy:0;
+    const energy=celebration?(fan.house===celebration.house?1:.42):0,phase=celebration?celebration.time*5.5-fan.section*.45+fan.phase*.25:elapsed*2.3+fan.phase,wave=Math.sin(phase),lift=celebration?Math.pow(Math.max(0,wave),2)*.55*energy:0;
     const elbow=fan.elbow.clone().add(v(.015*wave,.018*wave+lift*.65,0)),hand=fan.hand.clone().add(v((celebration?.11:.065)*wave,(celebration?.13:.05)*Math.cos(phase)+lift,0));
     upper.setMatrixAt(fan.upperIndex,fan.fan.clone().multiply(segment(fan.shoulder,elbow,.105)));
     fore.setMatrixAt(fan.foreIndex,fan.fan.clone().multiply(segment(elbow,hand,.09)));
     hands.setMatrixAt(fan.handIndex,fan.fan.clone().multiply(matrix(hand,v(.105,.12,.10))));
+    const wandEnd=hand.clone().add(v(.10+.06*wave,.62,-.06));
+    wand.setMatrixAt(fan.wandIndex,fan.fan.clone().multiply(segment(hand,wandEnd,.028)));
+    tip.setMatrixAt(fan.tipIndex,fan.fan.clone().multiply(matrix(wandEnd,v(.05,.06,.05))));
    }
-   upper.instanceMatrix.needsUpdate=fore.instanceMatrix.needsUpdate=hands.instanceMatrix.needsUpdate=true;
+   upper.instanceMatrix.needsUpdate=fore.instanceMatrix.needsUpdate=hands.instanceMatrix.needsUpdate=wand.instanceMatrix.needsUpdate=tip.instanceMatrix.needsUpdate=true;
+   lanterns.forEach((l,i)=>{
+    const bob=Math.sin(elapsed*.7+l.phase)*.7,pos=l.base.clone().add(v(Math.sin(elapsed*.3+l.phase)*.4,bob,0));
+    lanternBody.setMatrixAt(i,matrix(pos,v(.16,.42,.16)));
+    lanternFlame.setMatrixAt(i,matrix(pos.clone().add(v(0,.3,0)),v(.09*(1+Math.sin(elapsed*9+l.phase)*.18),.13,.09)));
+   });
+   lanternBody.instanceMatrix.needsUpdate=lanternFlame.instanceMatrix.needsUpdate=true;
   }
   return {root,spectators,getStatus,update,celebrate,reset};
  }
