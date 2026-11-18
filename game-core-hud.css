@@ -45,3 +45,13 @@
 @media(max-width:800px){.tutorial-coach{left:14px;width:300px}.match-entrance{padding:18px}.entrance-matchup{grid-template-columns:minmax(110px,1fr) 44px minmax(110px,1fr)}.entrance-matchup h2{font-size:23px}.entrance-sequence{width:55vw}.entrance-sequence>span{font-size:10px}}
 @media(max-width:620px){.tutorial-coach{left:12px;right:12px;top:auto;bottom:94px;width:auto;max-height:43vh}.entrance-topline{font-size:8px;letter-spacing:.7px}.entrance-matchup{top:20%;grid-template-columns:minmax(90px,1fr) 32px minmax(90px,1fr)}.entrance-matchup h2{font-size:19px}.entrance-bottom{align-items:center;gap:12px}.entrance-sequence{width:48vw}#skipEntrance{font-size:9px;padding:7px 9px}}
 @media(prefers-reduced-motion:reduce){.match-entrance *,.tutorial-coach *{transition:none!important}}
+
+/* Compact control dock: the key legend and the three core actions read as one unit. */
+.action-bar{flex-direction:column;gap:6px;bottom:18px;width:320px;padding:8px;border:1px solid #6c859940;border-radius:9px;background:#071725d9;backdrop-filter:blur(4px)}
+.dock-buttons{display:flex;gap:8px}
+.action-bar button{min-height:46px}
+.action-bar .core-match-keys{position:static;left:auto;bottom:auto;transform:none;text-align:center;font-size:9px;color:#96afc2}
+#passHint{bottom:112px}
+@media(max-width:1000px){.action-bar{width:300px;bottom:16px}#passHint{bottom:104px}}
+@media(max-width:800px){.action-bar{width:280px}#passHint{bottom:100px}}
+@media(max-width:620px){.action-bar{bottom:14px;width:calc(100vw - 30px)}#passHint{bottom:104px}#radar{bottom:112px}}

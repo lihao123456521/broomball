@@ -21,7 +21,7 @@
 | Space | 球队入场或精彩进球庆祝期间：跳过当前演出 |
 | Esc | 暂停 / 继续 |
 
-常用动作集中在左手WASD旁的E、R、F。不需要鼠标瞄准、手动升降、手动切人、切镜头或组合施法。松开方向会自动减速；传射方向以当前方向输入为准，无方向输入时保持球员朝向。屏幕三个动作按钮与键盘完全对应。队友传球飞行期间也可提前按E/R/F：E/R在真实接球后一脚出球，按住F从接球时开始蓄力，提前松开F则在接球后快速射门；对方截球会清空全部预输入。
+常用动作集中在左手WASD旁的E、R、F。不需要鼠标瞄准、手动升降、手动切人、切镜头或组合施法。移动是飞行式手感：沿航向加速、转弯画弧、松开方向键惯性滑停，反向输入先刹车再摆头；传射方向以当前方向输入为准，无方向输入时保持球员朝向。屏幕底部动作坞把键位说明与E/R/F三按钮合为一个紧凑单元，与键盘完全对应。队友传球飞行期间也可提前按E/R/F：E/R在真实接球后一脚出球，按住F从接球时开始蓄力，提前松开F则在接球后快速射门；对方截球会清空全部预输入。
 
 玩家的24米以上远射、80%以上蓄力射门或一脚射门得分会触发精彩进球庆祝。庆祝时按E挥拳、R滑翔、F全队庆祝，按Space或点击按钮跳过；期间比赛计时暂停，结束后对方开球。普通进球和AI进球只保留短促的观众欢呼，不弹出庆祝选择。
 
@@ -104,7 +104,7 @@ node tests/passing-trajectory.cjs
 
 需要Node.js、Playwright和Chromium，可通过`PLAYWRIGHT_MODULE`和`BROWSER_EXECUTABLE`指定本机路径。浏览器时钟在导航前安装，测试真实键盘、传球、换控、抢断、射门、重开、暂停和画面。
 
-历史单人版、技能版及旧键位测试保留作记录，不能作为当前核心玩法的要求。`project.godot`是此前原生原型，本轮核心重构面向浏览器入口。核心重构验收见`docs/validation/core-football-rebuild.md`；触球判定调整见`docs/validation/ball-contact-tolerance.md`；本轮手感、参与感和画面验证见`docs/validation/gameplay-visual-overhaul.md`。
+历史单人版、技能版及旧键位测试保留作记录，不能作为当前核心玩法的要求。`project.godot`是此前原生原型，本轮核心重构面向浏览器入口。核心重构验收见`docs/validation/core-football-rebuild.md`；触球判定调整见`docs/validation/ball-contact-tolerance.md`；手感、参与感和画面验证见`docs/validation/gameplay-visual-overhaul.md`；上线前真人视角打磨（飞行手感、落地物理、镜头、首页与动作坞）见`docs/validation/2026-11-18-release-polish.md`。
 
 Three.js使用MIT许可证，见`vendor/THREE-LICENSE.txt`。
 

@@ -32,6 +32,9 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/voice/commen
     await page.goto(process.env.BROOM_GAME_URL || 'http://127.0.0.1:8765/', { waitUntil: 'networkidle' });
     await page.waitForFunction(() => Boolean(window.__BROOMBALL__));
     const check = async (name, run) => { await run(); passed.push(name); console.log('PASS', name); };
+    // Software rendering under suite load can trip the game's stall auto-pause;
+    // dismiss it so entrance clicks stay reachable. Audio assertions are unchanged.
+    const dismissPause = () => page.evaluate(() => { if (__BROOMBALL__.match.paused) __BROOMBALL__.resumeMatch(); });
     const client = await page.context().newCDPSession(page);
     const collectAudioNodes = async () => {
       const prototype = await client.send('Runtime.evaluate', { expression: 'HTMLAudioElement.prototype' });
@@ -261,7 +264,7 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/voice/commen
     await check('An 800 × 600 viewport keeps pause audio controls and actions reachable', async () => {
       await page.setViewportSize({ width: 800, height: 600 });
       await page.locator('#startBtn').click();
-      if (await page.evaluate(() => __BROOMBALL__.match.state === 'entrance')) await page.locator('#skipEntrance').click();
+      if (await page.evaluate(() => __BROOMBALL__.match.state === 'entrance')) { await dismissPause(); await page.locator('#skipEntrance').click(); }
       await page.keyboard.press('Escape');
       const bounds = {};
       for (const id of ['commentaryEnabled', 'commentaryVolume', 'resumeBtn', 'restartPauseBtn', 'menuPauseBtn']) {
@@ -284,7 +287,7 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/voice/commen
       await page.evaluate(() => { __BROOMBALL__.setCommentaryEnabled(true); __BROOMBALL__.setCommentaryVolume(.35); });
       await collectAudioNodes();
       await page.locator('#startBtn').click();
-      if (await page.evaluate(() => __BROOMBALL__.match.state === 'entrance')) await page.locator('#skipEntrance').click();
+      if (await page.evaluate(() => __BROOMBALL__.match.state === 'entrance')) { await dismissPause(); await page.locator('#skipEntrance').click(); }
       await keepPossession();
       await waitForClip(kickoffFile);
       assert.equal(await page.evaluate(() => __BROOMBALL__.commentary.state.backend), 'audio');
