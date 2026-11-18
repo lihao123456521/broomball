@@ -1265,21 +1265,21 @@ function guideGeometry(count){
  geometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(count*3),3).setUsage(THREE.DynamicDrawUsage));
  return geometry;
 }
-const aimLine=new THREE.Line(guideGeometry(2),new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.65}));
+const aimLine=new THREE.Line(guideGeometry(2),new THREE.LineBasicMaterial({color:0xb7cebf,transparent:true,opacity:.38,depthWrite:false}));
 aimLine.frustumCulled=false;scene.add(aimLine);
 const passSegments=24;
 const ribbon=guideGeometry((passSegments+1)*2),indices=[],colors=[];
-const headColor=new THREE.Color(0xd8fff0),tailColor=new THREE.Color(0x2fae86);
+const headColor=new THREE.Color(0xc0e3ce),tailColor=new THREE.Color(0x93c5ae);
 for(let i=0;i<=passSegments;i++){
- const t=i/passSegments,c=headColor.clone().lerp(tailColor,t).multiplyScalar(1-t*.55);
+ const t=i/passSegments,c=headColor.clone().lerp(tailColor,t);
  colors.push(c.r,c.g,c.b,c.r,c.g,c.b);
  if(i<passSegments){const n=i*2;indices.push(n,n+1,n+2,n+1,n+3,n+2);}
 }
 ribbon.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));ribbon.setIndex(indices);
-const passLine=new THREE.Mesh(ribbon,new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:.82,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,depthTest:false,depthWrite:false}));
+const passLine=new THREE.Mesh(ribbon,new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:.45,side:THREE.DoubleSide,depthTest:false,depthWrite:false}));
 passLine.name='PassArcPreview';passLine.renderOrder=7;passLine.frustumCulled=false;scene.add(passLine);
-const passPulse=new THREE.Sprite(new THREE.SpriteMaterial({color:0xffe9a8,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthTest:false,depthWrite:false}));
-passPulse.scale.setScalar(.48);passPulse.renderOrder=8;scene.add(passPulse);
+const passPulse=new THREE.Mesh(new THREE.SphereGeometry(.12,10,6),new THREE.MeshBasicMaterial({color:0xdcebd2,transparent:true,opacity:.62,depthTest:false,depthWrite:false}));
+passPulse.renderOrder=8;scene.add(passPulse);
 const guidePoint=V(),ribbonSide=V(),sightLine=V();
 const teammateLabels=allies.map(()=>{
  const label=document.createElement('span');label.className='player-label';label.hidden=true;$('playerLabels').append(label);return label;
@@ -1300,7 +1300,7 @@ function updateTeamHUD(){
   const plan=planPass('player',receiver),path=window.BroomPassing.create(THREE,{start:carryPosition(player.mesh),end:plan.destination,kind:'short',duration:plan.duration});
   const positions=ribbon.attributes.position;
   sightLine.copy(camera.position).sub(path.from);
-  ribbonSide.subVectors(path.to,path.from).cross(sightLine).normalize().multiplyScalar(.14);
+  ribbonSide.subVectors(path.to,path.from).cross(sightLine).normalize().multiplyScalar(.105);
   for(let i=0;i<=passSegments;i++){
    path.positionAt(path.duration*i/passSegments,guidePoint);
    positions.setXYZ(i*2,guidePoint.x-ribbonSide.x,guidePoint.y-ribbonSide.y,guidePoint.z-ribbonSide.z);
