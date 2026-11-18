@@ -2,6 +2,20 @@
 
 分支：`feat/gameplay-visual-overhaul`（自云端 `main` `ce9e26a` 快进同步后在本分支开发，未改动 main）。
 
+## 第四轮（传球光带 / 最后防守守门 / 转身丝滑）
+
+- 传球预览：`passLine` 由 `LineDashedMaterial` 虚线改为 `TubeGeometry` 发光光带（24 段、半径 .13、顶点色
+  青白 `0xd8fff0`→teal `0x2fae86` 渐变、additive、depthTest/Write off），另加 `passPulse` 光点沿
+  `curve.getPointAt((elapsed*1.1)%1)` 流动指示方向。实测 `PassArcPreview` isMesh=true、175 顶点、含 color 属性、visible=true。
+- 守门：`keeperTarget` 增加 threat/near 判定——镜像持球者 x/y（spread 10）、逼近时 z 前压 4m 收角度，
+  射门时仍用投影点（spread 14）。`updateAllies` 非逼抢防守者中 `isLast`（z 最深）且对方持球在我方半场
+  （carrier.z>0）时回撤 goal-side（lerp .62、横向 lane*3）。实测持球者 (6,11,30) 时门将 (6.3,11.2,48.9)、
+  最后防守 (17.8,12.7,47.1)，均落在持球者与球门之间护门。
+- 转身：常规转向 rate `lerp(4.4,2.5)`、保速 `cruise*lerp(1,.9,(1-alignment)/.6)`、反转阈值 -.55/刹车 64/摆头 3.0、
+  模型偏航 dt*14、侧倾 -.009 clamp .2。实测 W 直行 speed 19 → 接 A 350ms 后 speed 仍 19、yaw 0→0.76、bank 0.1，
+  转弯不掉速、弧线平滑带侧倾。
+- 12 项验收套件全绿；截图 `release-polish4-pass.png` / `release-polish4-guard.png` / `release-polish4-turn.png`，0 报错。
+
 ## 方法
 
 以真人玩家视角实测：Playwright + 本机 Chrome，1440×900 桌面视口，真实键盘事件（按住/松开/组合），

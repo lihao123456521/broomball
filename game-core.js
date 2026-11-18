@@ -689,8 +689,13 @@ function constrainPitch(position,low,high){
 function keeperTarget(goals,side){
  const sign=Math.sign(goals[0].z),z=sign*53;
  const projected=shot?.side===side&&shot.age>.15?positionOnGoalPlane(quaffle.position,quaffleVel,z):null;
- const focus=projected||quaffle.position;
- return V(clamp(focus.x,projected?-14:-6,projected?14:6),clamp(focus.y,7,16),z);
+ // Guard the mouth: mirror the carrier and step out to narrow the angle when he closes in.
+ const threat=carrier&&(side==='rival'?rivals.includes(carrier):(carrier==='player'||allies.includes(carrier)));
+ const holder=threat?(carrier==='player'?player.pos:carrier.mesh.position):null;
+ const near=holder&&Math.abs(holder.z-z)<26;
+ const focus=projected||(near?holder:quaffle.position);
+ const spread=projected?14:near?10:6;
+ return V(clamp(focus.x,-spread,spread),clamp(focus.y,7,16),z-(near&&!projected?sign*4:0));
 }
 function rivalTarget(r){
  if(r.role==='keeper')return keeperTarget(awayGoals,'player');if(match.kickoff>0||match.elapsed<2)return V(r.index*22-16,10,-32);if(carrier===r)return closestGoal(homeGoals,r.mesh.position);
@@ -711,20 +716,20 @@ function updatePlayer(dt){
  // Flight steering: accelerate along the heading, arc through turns and glide to a
  // stop instead of snapping velocity, so the rider feels flown rather than dragged.
  const cruise=player.boosting?(match.mode==='challenge'?42:match.mode==='rookie'?30:32):player.baseSpeed;
- const accel=match.mode==='challenge'?55:match.mode==='rookie'?50:46,coast=32,brake=78;
+ const accel=match.mode==='challenge'?55:match.mode==='rookie'?50:46,coast=32,brake=64;
  const current=V(player.vel.x,0,player.vel.z),curSpeed=current.length();let next;
  if(!moving){const s=Math.max(0,curSpeed-coast*dt);next=curSpeed>.001?current.multiplyScalar(s/curSpeed):V();}
  else if(curSpeed<.6){next=input.clone().multiplyScalar(Math.min(cruise,curSpeed+accel*dt));}
  else{
   const dir=current.clone().divideScalar(curSpeed),alignment=clamp(dir.dot(input),-1,1);
-  if(alignment<-.35){
-   // A reversal brakes first and swings the heading around, never strafes backwards.
+  if(alignment<-.55){
+   // A true reversal brakes gently and swings the heading around, never strafes backwards.
    const s=Math.max(0,curSpeed-brake*dt),axis=dir.clone().cross(input);if(axis.lengthSq()<1e-8)axis.set(0,1,0);
-   dir.applyAxisAngle(axis.normalize(),Math.min(Math.acos(alignment),2.4*dt));next=dir.multiplyScalar(s);
+   dir.applyAxisAngle(axis.normalize(),Math.min(Math.acos(alignment),3.0*dt));next=dir.multiplyScalar(s);
   }else{
-   const angle=Math.acos(alignment),rate=lerp(3.6,2.0,clamp(curSpeed/42,0,1)),axis=dir.clone().cross(input);
+   const angle=Math.acos(alignment),rate=lerp(4.4,2.5,clamp(curSpeed/42,0,1)),axis=dir.clone().cross(input);
    if(axis.lengthSq()>1e-8)dir.applyAxisAngle(axis.normalize(),Math.min(angle,rate*dt));
-   next=dir.multiplyScalar(moveToward(curSpeed,cruise*(alignment>.86?1:.94),accel*dt));
+   next=dir.multiplyScalar(moveToward(curSpeed,cruise*lerp(1,.9,clamp((1-alignment)/.6,0,1)),accel*dt));
   }
  }
  player.vel.x=next.x;player.vel.z=next.z;
@@ -734,7 +739,7 @@ function updatePlayer(dt){
  const height=clamp((altitudeTarget-player.pos.y)*(trackingLoose?2.8:defending?2.2:2),-verticalLimit,verticalLimit);player.vel.y=moveToward(player.vel.y,height,(trackingLoose||pressing?70:defending?60:45)*dt);
  player.previousPos.copy(player.pos);player.pos.addScaledVector(player.vel,dt);const normal=constrainPitch(player.pos,.8,36);if(normal){const outward=player.vel.dot(normal);if(outward>0)player.vel.addScaledVector(normal,-outward);}
  if(moving){targetYaw=Math.atan2(-input.x,-input.z);targetPitch=0;}updateAim(dt);player.speed=Math.hypot(player.vel.x,player.vel.z);
- const modelYaw=player.speed>2?Math.atan2(-player.vel.x,-player.vel.z):moving?targetYaw:cameraYaw;player.mesh.rotation.y+=angleDelta(player.mesh.rotation.y,modelYaw)*Math.min(1,dt*12);player.mesh.rotation.z=lerp(player.mesh.rotation.z,settings.reducedMotion?0:clamp(-player.vel.x*.006,-.16,.16),1-Math.exp(-dt*8));player.mesh.rotation.x=lerp(player.mesh.rotation.x,0,1-Math.exp(-dt*6));animateWizard(player.mesh,dt,player.speed,match.elapsed);
+ const modelYaw=player.speed>2?Math.atan2(-player.vel.x,-player.vel.z):moving?targetYaw:cameraYaw;player.mesh.rotation.y+=angleDelta(player.mesh.rotation.y,modelYaw)*Math.min(1,dt*14);player.mesh.rotation.z=lerp(player.mesh.rotation.z,settings.reducedMotion?0:clamp(-player.vel.x*.009,-.2,.2),1-Math.exp(-dt*8));player.mesh.rotation.x=lerp(player.mesh.rotation.x,0,1-Math.exp(-dt*6));animateWizard(player.mesh,dt,player.speed,match.elapsed);
 }
 const cameraFraming={distance:30,targets:[],mode:'broadcast',phase:'loose',subject:'ball',focus:[0,10,0],elevation:31};
 const broadcastFocus=V(0,11.4,0);
@@ -834,7 +839,12 @@ function updateAllies(dt){
   else if(passTarget===ally)target=passReceivePosition||quaffle.position;
   else if(rivals.includes(carrier)){
    if(ally===presser)target=getPressTarget(carrier).add(V(lane*.65,0,.35));
-   else target=carrier.mesh.position.clone().lerp(closestGoal(homeGoals,carrier.mesh.position),.32).add(V(lane*10,0,0));
+   else{
+    // The last man drops goal-side to guard the mouth when the carrier enters our half.
+    const isLast=field.every(o=>o===ally||o.mesh.position.z<=ally.mesh.position.z);
+    const cover=isLast&&carrier.mesh.position.z>0;
+    target=carrier.mesh.position.clone().lerp(closestGoal(homeGoals,carrier.mesh.position),cover?.62:.32).add(V(lane*(cover?3:10),0,0));
+   }
   }
   else if(!carrier&&!shot&&!passTarget)target=quaffle.position.clone().sub(V(0,1.15,0));
   else{
@@ -1107,10 +1117,20 @@ function updateHUD(){
 }
 const controlMarker=new THREE.Mesh(new THREE.ConeGeometry(.28,.52,3),new THREE.MeshBasicMaterial({color:0xc8ff69,depthTest:false}));controlMarker.rotation.z=Math.PI;controlMarker.renderOrder=8;scene.add(controlMarker);
 const aimLine=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.65}));scene.add(aimLine);
-const passLine=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineDashedMaterial({color:0xbbe5cf,dashSize:.65,gapSize:.95,transparent:true,opacity:.34,depthTest:false}));passLine.name='PassArcPreview';passLine.renderOrder=7;scene.add(passLine);
+const passLine=new THREE.Mesh(new THREE.BufferGeometry(),new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthTest:false,depthWrite:false}));passLine.name='PassArcPreview';passLine.renderOrder=7;scene.add(passLine);
+const passPulse=new THREE.Sprite(new THREE.SpriteMaterial({color:0xffe9a8,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthTest:false,depthWrite:false}));passPulse.scale.setScalar(.7);passPulse.renderOrder=8;scene.add(passPulse);
 function updateTeamHUD(){
  const live=match.state==='playing'&&!match.paused&&!match.celebration&&!match.tutorial?.complete,holding=carrier==='player',defending=rivals.includes(carrier),buffering=canBufferTeamAction();controlMarker.visible=live;controlMarker.position.copy(player.pos).add(V(0,3.5,0));aimLine.visible=live&&holding;aimLine.geometry.dispose();aimLine.geometry=new THREE.BufferGeometry().setFromPoints([player.pos.clone(),player.pos.clone().addScaledVector(getAimForward(),6)]);
- const receiver=live&&holding?getPassReceiver():null;passLine.visible=!!receiver;if(receiver){const plan=planPass('player',receiver),path=window.BroomPassing.create(THREE,{start:carryPosition(player.mesh),end:plan.destination,kind:'short',duration:plan.duration}),points=[];for(let i=0;i<=24;i++)points.push(path.positionAt(path.duration*i/24));passLine.geometry.dispose();passLine.geometry=new THREE.BufferGeometry().setFromPoints(points);passLine.computeLineDistances();}
+ const receiver=live&&holding?getPassReceiver():null;passLine.visible=!!receiver;passPulse.visible=!!receiver;
+ if(receiver){
+  const plan=planPass('player',receiver),path=window.BroomPassing.create(THREE,{start:carryPosition(player.mesh),end:plan.destination,kind:'short',duration:plan.duration}),points=[];
+  for(let i=0;i<=24;i++)points.push(path.positionAt(path.duration*i/24));
+  const curve=new THREE.CatmullRomCurve3(points),tube=new THREE.TubeGeometry(curve,24,.13,6,false),count=tube.attributes.position.count,colors=new Float32Array(count*3),head=new THREE.Color(0xd8fff0),tail=new THREE.Color(0x2fae86);
+  for(let i=0;i<count;i++){const ring=Math.floor(i/7)/24,c=head.clone().lerp(tail,ring).multiplyScalar(1-ring*.55);colors[i*3]=c.r;colors[i*3+1]=c.g;colors[i*3+2]=c.b;}
+  tube.setAttribute('color',new THREE.BufferAttribute(colors,3));
+  passLine.geometry.dispose();passLine.geometry=tube;
+  passPulse.position.copy(curve.getPointAt((match.elapsed*1.1)%1));
+ }
  $('teamStatus').textContent=match.kickoff>0?'准备开球':actionBuffer?'连续配合 · 预输入就绪':defending?'自动防守换控':holding?'自动操控持球人':'团队配合';
  let hint='';if(actionBuffer)hint='已预输入 · '+(actionBuffer.type==='shot'?'接球后射门':'接球后一脚'+(actionBuffer.kind==='through'?'直塞':'短传'));else if(receiver)hint='E → '+(window.BroomRoster.byId(receiver.mesh.userData.characterId)?.name.split(' · ')[0]||'队友')+' · '+Math.round(receiver.mesh.position.distanceTo(player.pos))+'m';else if(buffering)hint='现在可按 E/R/F · 接球自动执行';
  $('passHint').textContent=hint;$('passHint').classList.toggle('buffered',!!actionBuffer);const meter=$('chargeMeter'),charging=match.charging||actionBuffer?.type==='shot',charge=match.charging?match.shotCharge:actionBuffer?clamp(actionBuffer.released?actionBuffer.charge:(match.elapsed-actionBuffer.created)/1.05,0,1):0;meter.style.display=charging?'block':'none';meter.firstElementChild.style.width=charge*100+'%';
