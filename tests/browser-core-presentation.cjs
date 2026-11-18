@@ -63,6 +63,26 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
     report.evidence[width]={attack,defence,paused,ended};
    });
   }
+  await check('Loose-ball HUD tells the player how to chase, including balls directly above and below',async()=>{
+   await stage();
+   const targets=await page.evaluate(()=>{
+    const g=__BROOMBALL__;g.setCarrier(null);
+    return [7,-5,0].map(gap=>{
+     g.quaffle.position.copy(g.player.pos);g.quaffle.position.y+=1.15+gap;
+     g.updateHUD();return {text:document.getElementById('objectiveText').textContent,direction:document.getElementById('objectiveArrow').textContent};
+    });
+   });
+   for(const target of targets)assert.match(target.text,/按住 F 追球/);
+   assert.match(targets[0].direction,/上方 7m/);assert.match(targets[1].direction,/下方 5m/);
+   assert.doesNotMatch(targets[2].direction,/上方|下方/);assert.ok(targets.every(t=>!/[↑↓→←]/.test(t.direction)));
+   await page.evaluate(()=>{
+    const g=__BROOMBALL__;g.quaffle.position.copy(g.player.pos);g.quaffle.position.x+=3;g.quaffle.position.y+=7.15;g.quaffle.position.z-=8;
+    g.updateHUD();g.updateTeamHUD();g.updateBallMarker();g.renderer.render(g.scene,g.camera);
+   });
+   const marker=await page.locator('#ballMarkerArrow').evaluate(el=>({display:getComputedStyle(el).display,transform:getComputedStyle(el).transform,location:el.parentElement.dataset.location}));
+   assert.equal(marker.location,'offscreen');assert.notEqual(marker.display,'inline');assert.notEqual(marker.transform,'none');
+   await page.screenshot({path:path.join(out,'core-presentation-loose-ball-800.png')});
+  });
   await check('Thirty seconds of natural match play preserve one keeper and avoid near-ball control oscillation',async()=>{
    await page.setViewportSize({width:1280,height:720});await restoreSpeeds();
    await page.evaluate(()=>{const g=__BROOMBALL__;g.startMatch('standard');g.setCommentaryEnabled(false);});await advance(3200);await page.keyboard.press('e');

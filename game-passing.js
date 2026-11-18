@@ -73,11 +73,11 @@ window.BroomPassing=(()=>{
   const loft=kind==='through'?Math.min(1.6,.36+distance*.022):Math.min(1.1,.22+distance*.018);
   const bend=0;
   const terminalVelocity=delta.clone().divideScalar(duration).add(new T.Vector3(0,-4*loft/duration,0));
-  function positionAt(time){
+  function positionAt(time,result=new T.Vector3()){
    // Continue through a missed reception instead of pausing at an invisible endpoint.
-   if(time>duration){const after=time-duration;return to.clone().addScaledVector(terminalVelocity,after).add(new T.Vector3(0,-3.75*after*after,0));}
+   if(time>duration){const after=time-duration;result.copy(to).addScaledVector(terminalVelocity,after);result.y-=3.75*after*after;return result;}
    const t=Math.max(0,Math.min(1,time/duration)),arc=4*t*(1-t);
-   return from.clone().lerp(to,t).add(new T.Vector3(0,loft*arc,0));
+   result.copy(from).lerp(to,t);result.y+=loft*arc;return result;
   }
   function velocityAt(time){
    if(time>duration)return terminalVelocity.clone().add(new T.Vector3(0,-7.5*(time-duration),0));

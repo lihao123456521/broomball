@@ -38,10 +38,18 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    await stage();const result=await page.evaluate(()=>{const g=__BROOMBALL__,r=g.rivals[0];r.mesh.position.set(4,12,-8);r.velocity=new THREE.Vector3(6,-2,-10);g.setCarrier(r);const target=g.getPressTarget(r);return{origin:r.mesh.position.toArray(),velocity:r.velocity.toArray(),target:target.toArray()};});
    assert.ok(Math.abs(result.target[0]-5.68)<1e-6,JSON.stringify(result));assert.ok(Math.abs(result.target[1]-11.44)<1e-6);assert.ok(Math.abs(result.target[2]+10.8)<1e-6);report.evidence.prediction=result;
   });
-  await check('Holding F auto-sprints toward the carrier with reduced stamina cost',async()=>{
-   await stage();await page.evaluate(()=>{const g=__BROOMBALL__,r=g.rivals[0];r.mesh.position.set(0,10,-12);r.speed=0;r.stun=100;g.setCarrier(r);});await page.keyboard.down('f');await advance(650);
-   const result=await page.evaluate(()=>{const g=__BROOMBALL__;return{speed:g.player.speed,baseSpeed:g.player.baseSpeed,stamina:g.player.stamina,boosting:g.player.boosting,z:g.player.pos.z,action:g.match.primaryAction};});await page.keyboard.up('f');
-   assert.ok(result.speed>result.baseSpeed+4,JSON.stringify(result));assert.ok(result.stamina<100&&result.stamina>75);assert.equal(result.boosting,true);assert.ok(result.z<-1);assert.equal(result.action,'defend');report.evidence.autoPress=result;
+  await check('Holding F sprints into a press and brakes within reach of a protected carrier',async()=>{
+   await stage();await page.evaluate(()=>{const g=__BROOMBALL__,r=g.rivals[0];r.mesh.position.set(0,10,-26);r.speed=0;r.stun=100;g.setCarrier(r);});await page.keyboard.down('f');
+   const result=await page.evaluate(()=>{
+    const g=__BROOMBALL__,r=g.rivals[0];let peak=0,staminaDuringSprint=100;
+    for(let i=0;i<96;i++){
+     g.update(1/60);peak=Math.max(peak,g.player.speed);
+     if(i===38)staminaDuringSprint=g.player.stamina;
+    }
+    return{peak,staminaDuringSprint,arrivalSpeed:g.player.speed,gap:g.player.pos.distanceTo(r.mesh.position),reach:g.contactRules.pressRadius,baseSpeed:g.player.baseSpeed,action:g.match.primaryAction};
+   });await page.keyboard.up('f');
+   assert.ok(result.peak>result.baseSpeed+4,JSON.stringify(result));assert.ok(result.staminaDuringSprint<100&&result.staminaDuringSprint>75);
+   assert.ok(result.arrivalSpeed<result.peak*.3);assert.ok(result.gap<result.reach,JSON.stringify(result));assert.equal(result.action,'defend');report.evidence.autoPress=result;
   });
   await check('An allied presser can win the ball and hand control to the user',async()=>{
    await stage();const result=await page.evaluate(()=>{const g=__BROOMBALL__,r=g.rivals[0],ally=g.allies.find(a=>a.role==='chaser');g.setCarrier(r);r.mesh.position.set(0,10,0);r.speed=0;r.stun=0;ally.mesh.position.set(0,10,1.2);ally.speed=0;ally.stun=0;g.player.pos.set(10,10,8);g.player.previousPos.copy(g.player.pos);g.player.mesh.position.copy(g.player.pos);g.match.stealCooldown=0;const expected=ally.mesh.uuid;g.updateSteals(1/60);return{expected,actual:g.player.mesh.uuid,holding:g.carrier==='player',steals:g.match.stats.steals,cooldown:g.match.stealCooldown};});

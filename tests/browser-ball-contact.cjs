@@ -56,6 +56,84 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    await stage();await page.evaluate(()=>{const g=__BROOMBALL__;g.quaffle.position.set(8,11.05,0);g.quaffleVel.set(0,0,0);});await advance(450);
    const result=await page.evaluate(()=>{const g=__BROOMBALL__;return{holding:!!g.carrier,distance:g.quaffle.position.distanceTo(g.player.pos),x:g.player.pos.x};});assert.equal(result.holding,false);assert.ok(result.distance>7);assert.equal(result.x,0);report.evidence.noMagnet=result;
   });
+  await check('Holding F reaches low and ceiling-height loose balls at the point of contact',async()=>{
+   const cases=[];
+   for(const ballHeight of[2,38.5]){
+    await stage();
+    await page.evaluate(h=>{const g=__BROOMBALL__;g.quaffle.position.set(12,h,-9);},ballHeight);
+    await page.keyboard.down('f');
+    const result=await page.evaluate(()=>{
+     const g=__BROOMBALL__,ball=g.quaffle.position.clone(),body=g.player.mesh;let frames=0,maxStep=0;
+     for(;frames<240&&!g.carrier;frames++){
+      const before=g.player.pos.clone();g.update(1/60);maxStep=Math.max(maxStep,before.distanceTo(g.player.pos));
+     }
+     return{holding:g.carrier==='player',sameBody:g.player.mesh===body,seconds:frames/60,
+      gap:g.player.pos.distanceTo(ball),height:g.player.pos.y,maxStep};
+    });
+    await page.keyboard.up('f');
+    assert.equal(result.holding,true,JSON.stringify(result));assert.ok(result.sameBody);
+    assert.ok(result.seconds>.3&&result.seconds<3,JSON.stringify(result));assert.ok(result.maxStep<.75);
+    assert.ok(result.gap<3.6);assert.equal(await page.evaluate(()=>__BROOMBALL__.match.stats.shots),0);
+    cases.push({ballHeight,...result});
+   }
+   report.evidence.altitudeChase=cases;
+  });
+  await check('Nearby defenders match a high carrier and arrive under control when challenging',async()=>{
+   await stage();await setupOpponent(11);
+   await page.evaluate(()=>{const g=__BROOMBALL__,opponent=g.rivals[0];opponent.mesh.position.y=27;g.resetAIFlight(opponent);g.setCarrier(opponent);g.match.stealCooldown=0;});
+   await advance(240);
+   const assisted=await page.evaluate(()=>{const p=__BROOMBALL__.player;return{height:p.pos.y,vertical:p.vel.y,horizontal:Math.hypot(p.pos.x,p.pos.z)};});
+   assert.ok(assisted.height>11&&assisted.vertical>9,JSON.stringify(assisted));assert.equal(assisted.horizontal,0);
+   await page.keyboard.down('f');
+   const result=await page.evaluate(()=>{
+    const g=__BROOMBALL__,opponent=g.rivals[0];let frames=0;
+    while(frames++<180&&g.carrier===opponent)g.update(1/60);
+    return{holding:g.carrier==='player',steals:g.match.stats.steals,gap:g.player.pos.distanceTo(opponent.mesh.position),seconds:frames/60};
+   });
+   await page.keyboard.up('f');assert.equal(result.holding,true,JSON.stringify(result));assert.equal(result.steals,1);assert.ok(result.gap<3.6);
+   report.evidence.highChallenge={assisted,result};
+  });
+  await check('The same held F follows a rival pass through to an interception',async()=>{
+   await stage();
+   await page.evaluate(()=>{
+    const g=__BROOMBALL__,sender=g.rivals[0],receiver=g.rivals[1];
+    for(const [r,p] of [[sender,[-6,10,-3]],[receiver,[12,14,-4]]]){
+     r.mesh.position.set(...p);r.stun=0;r.speed=0;g.resetAIFlight(r);
+    }
+    g.setCarrier(sender);g.match.stealCooldown=0;
+   });
+   await page.keyboard.down('f');
+   const result=await page.evaluate(()=>{
+    const g=__BROOMBALL__,receiver=g.rivals[1],origin=g.player.pos.clone();g.update(1/60);
+    const launched=g.passTarget===receiver,positions=[];let frames=0;
+    while(frames<120&&!g.carrier){g.update(1/60);frames++;if(frames%4===0)positions.push([frames,g.player.pos.toArray(),g.quaffle.position.toArray()]);}
+    return{launched,frames,holding:g.carrier==='player',distance:g.player.pos.distanceTo(origin),action:g.match.primaryAction,positions};
+   });
+   await page.keyboard.up('f');
+   assert.ok(result.launched);assert.equal(result.holding,true,JSON.stringify(result));assert.ok(result.frames>3);assert.ok(result.distance>.8);assert.equal(result.action,'defend');
+   assert.equal(await page.evaluate(()=>__BROOMBALL__.match.stats.shots),0);report.evidence.heldPressInterception=result;
+  });
+  await check('Pressing F during a home shot does not queue an unwanted chase after the save',async()=>{
+   await stage();await page.evaluate(()=>__BROOMBALL__.setCarrier('player'));
+   await page.keyboard.press('f');await page.keyboard.down('f');
+   const result=await page.evaluate(()=>{
+    const g=__BROOMBALL__,during=g.match.primaryAction;
+    g.rivals[2].mesh.position.set(0,14,-20);g.setCarrier(g.rivals[2]);g.updatePlayer(1/60);
+    return{during,after:g.match.primaryAction,speed:g.player.speed,shots:g.match.stats.shots};
+   });
+   await page.keyboard.up('f');assert.deepEqual(result,{during:null,after:null,speed:0,shots:1});
+  });
+  await check('A distant high ball leaves idle flight level and a low catch returns to a comfortable passing height',async()=>{
+   await stage();await page.evaluate(()=>{__BROOMBALL__.quaffle.position.set(42,38,-18);});await advance(500);
+   assert.equal(await page.evaluate(()=>__BROOMBALL__.player.pos.y),10);
+   const result=await page.evaluate(()=>{
+    const g=__BROOMBALL__;g.player.pos.set(0,1,0);g.player.previousPos.copy(g.player.pos);g.setCarrier('player');
+    const receiver=g.allies[0];receiver.mesh.position.set(0,17,-14);receiver.stun=0;
+    const available=g.getPassReceiver()===receiver,start=g.player.pos.y;for(let i=0;i<60;i++)g.updatePlayer(1/60);
+    return{available,start,height:g.player.pos.y};
+   });
+   assert.ok(result.available);assert.ok(result.height>4&&result.height<7,JSON.stringify(result));report.evidence.recovery=result;
+  });
   await check('Fast opposing ball and rider motion is resolved as a swept contact rather than missed between frames',async()=>{
    await stage();const result=await page.evaluate(()=>{
     const g=__BROOMBALL__;g.player.previousPos.set(-3,10,0);g.player.pos.set(3,10,0);g.player.speed=60;g.player.vel.set(60,0,0);g.quaffle.position.set(3,11.05,0);g.quaffleVel.set(-60,0,0);

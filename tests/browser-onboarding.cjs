@@ -21,12 +21,12 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
 
   await check('Homepage defaults to rookie and exposes three genuinely different difficulty rules',async()=>{
    const result=await page.evaluate(()=>{const g=__BROOMBALL__;return{mode:g.match.mode,rules:g.modes,buttons:[...document.querySelectorAll('.mode-option')].map(b=>({mode:b.dataset.mode,pressed:b.getAttribute('aria-pressed')})),tutorial:document.getElementById('tutorialBtn').textContent.trim(),brief:document.getElementById('modeBrief').textContent};});
-   assert.equal(result.mode,'rookie');assert.equal(result.buttons.length,3);assert.equal(result.buttons.find(b=>b.mode==='rookie').pressed,'true');assert.match(result.tutorial,/6 项实操训练/);assert.match(result.brief,/辅助/);
+   onScreen(await rect('.core-key-legend'),1280,720);assert.equal(result.mode,'rookie');assert.equal(result.buttons.length,3);assert.equal(result.buttons.find(b=>b.mode==='rookie').pressed,'true');assert.match(result.tutorial,/6 项实操训练/);assert.match(result.brief,/辅助/);
    assert.ok(result.rules.rookie.rivalSpeed<result.rules.standard.rivalSpeed&&result.rules.standard.rivalSpeed<result.rules.challenge.rivalSpeed);assert.ok(result.rules.rookie.rivalStealRadius<result.rules.challenge.rivalStealRadius);assert.ok(result.rules.rookie.shotAssistRange>result.rules.standard.shotAssistRange);report.evidence.difficulty=result;
    await render();await page.screenshot({path:path.join(out,'onboarding-home-1280.png')});
   });
   await check('Homepage mode, tutorial and entrance controls fit 800 × 600',async()=>{
-   await page.setViewportSize({width:800,height:600});await advance(100);for(const id of['.mode-picker','#tutorialBtn','#startBtn','.matchday-flow'])onScreen(await rect(id),800,600);await render();await page.screenshot({path:path.join(out,'onboarding-home-800.png')});await page.setViewportSize({width:1280,height:720});await advance(50);
+   await page.setViewportSize({width:800,height:600});await advance(100);for(const id of['.mode-picker','#tutorialBtn','#startBtn','.matchday-flow','.core-key-legend'])onScreen(await rect(id),800,600);await render();await page.screenshot({path:path.join(out,'onboarding-home-800.png')});await page.setViewportSize({width:1280,height:720});await advance(50);
   });
   await check('Teams physically enter while the broadcast camera and pause clock remain coherent',async()=>{
    await page.locator('#startBtn').click();const before=await page.evaluate(()=>__BROOMBALL__.match.entrance.actors.map(a=>({start:a.start.toArray(),current:a.unit.mesh.position.toArray()})));await advance(1450);
@@ -49,9 +49,11 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    await page.keyboard.down('w');await page.keyboard.down('Shift');await advance(1450);await page.keyboard.up('Shift');await page.keyboard.up('w');const state=await tutorialState();assert.equal(state.step,2,JSON.stringify(state));assert.equal(state.kind,'short');
   });
   await check('E completes a real short-pass reception before unlocking through passes',async()=>{
+   await page.keyboard.press('r');await advance(1900);assert.equal((await tutorialState()).step,2);assert.equal((await tutorialState()).passes,0);
    await page.keyboard.press('e');await advance(1900);const state=await tutorialState();assert.equal(state.step,3,JSON.stringify(state));assert.equal(state.kind,'through');assert.equal(state.passes,1);
   });
   await check('R completes a real through-pass reception before unlocking shooting',async()=>{
+   await page.keyboard.press('e');await advance(1900);assert.equal((await tutorialState()).step,3);assert.equal((await tutorialState()).passes,1);
    await page.keyboard.press('r');await advance(2400);const state=await tutorialState();assert.equal(state.step,4,JSON.stringify(state));assert.equal(state.kind,'shot');assert.equal(state.passes,2);await render();await page.screenshot({path:path.join(out,'onboarding-tutorial-shot.png')});
   });
   await check('Charging and releasing F completes the shooting drill',async()=>{
