@@ -6,7 +6,7 @@ window.BroomCrowd=(()=>{
   const v=(x=0,y=0,z=0)=>new T.Vector3(x,y,z),up=v(0,1,0),dummy=new T.Object3D();
   const palette=[0x922f43,0x275e49,0x315d8c,0xc5a04e],accents=[0xf0c45e,0xc0c9c2,0xd0b894,0x332c27];
   const skin=[0xe7bc98,0xc9906c,0x946447,0xe0b18a,0x6e4737],hair=[0x2a2527,0x52372a,0xb7753b,0xc9af79,0x151b23];
-  const material=new T.MeshStandardMaterial({color:0xffffff,roughness:.92,metalness:0,emissive:0xffffff,emissiveIntensity:.045});
+  const material=new T.MeshStandardMaterial({color:0xffffff,roughness:.92,metalness:0,emissive:0xffffff,emissiveIntensity:.12});
   const sphere=new T.SphereGeometry(1,8,5),handShape=new T.IcosahedronGeometry(1,0),limb=new T.CylinderGeometry(1,1,1,6,1),box=new T.BoxGeometry(1,1,1);
   const specs={
    head:{name:'CrowdHead',geometry:sphere},hair:{name:'CrowdHair',geometry:new T.SphereGeometry(1,8,4,0,Math.PI*2,0,Math.PI*.58)},

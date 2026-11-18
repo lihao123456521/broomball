@@ -44,7 +44,7 @@ function makePitchMaterials(){
 }
 function buildWorld(){
  const skyGeo=new THREE.SphereGeometry(520,32,16),skyMat=new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,uniforms:{top:{value:new THREE.Color(0x142443)},horizon:{value:new THREE.Color(0xd6907b)},bottom:{value:new THREE.Color(0x27314a)}},vertexShader:'varying vec3 vPos; void main(){vPos=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',fragmentShader:'varying vec3 vPos;uniform vec3 top;uniform vec3 horizon;uniform vec3 bottom;void main(){float h=normalize(vPos).y;vec3 c=h>0.0?mix(horizon,top,smoothstep(0.0,.75,h)):mix(horizon,bottom,smoothstep(0.0,.3,-h));gl_FragColor=vec4(c,1.0);}'});scene.add(new THREE.Mesh(skyGeo,skyMat));
- scene.add(new THREE.HemisphereLight(0xb9c9ed,0x263021,1.08));const sun=new THREE.DirectionalLight(0xffd2a0,2.25);sun.position.set(-70,120,65);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-100;sun.shadow.camera.right=100;sun.shadow.camera.top=100;sun.shadow.camera.bottom=-100;sun.shadow.camera.far=350;sun.shadow.bias=-.0004;scene.add(sun);const fill=new THREE.DirectionalLight(0x718fd0,.48);fill.position.set(90,45,-80);scene.add(fill);
+ scene.add(new THREE.HemisphereLight(0xd6c8b4,0x2a3524,1.05));const sun=new THREE.DirectionalLight(0xffd2a0,2.35);sun.position.set(-95,78,60);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-100;sun.shadow.camera.right=100;sun.shadow.camera.top=100;sun.shadow.camera.bottom=-100;sun.shadow.camera.far=350;sun.shadow.bias=-.0004;scene.add(sun);const fill=new THREE.DirectionalLight(0x718fd0,.48);fill.position.set(90,45,-80);scene.add(fill);
  const base=cyl(scene,1,1.2,V(0,-.62,0),0x173e32,1,96);base.scale.set(59,1,80);const skirt=cyl(scene,1,2,V(0,-1.7,0),0xb28a45,1,96);skirt.scale.set(60,1,81);
  const pitchMaterials=makePitchMaterials();
  for(let i=0;i<11;i++){const z=-60+i*12,w=53*Math.sqrt(Math.max(0,1-(z/77)**2));box(scene,V(w*2,.055,12.05),V(0,.025,z),pitchMaterials[i%2]);}
@@ -187,6 +187,8 @@ const ballTrail=new THREE.Line(trailGeometry,new THREE.LineBasicMaterial({color:
 const contactHalo=new THREE.Mesh(new THREE.TorusGeometry(.86,.028,6,48),new THREE.MeshBasicMaterial({color:0xffc56e,transparent:true,opacity:.48,depthWrite:false}));contactHalo.name='QuaffleContactHalo';contactHalo.visible=false;scene.add(contactHalo);
 // A ground shadow under the ball makes its height readable from the broadcast camera.
 const ballGroundShadow=new THREE.Mesh(new THREE.CircleGeometry(.85,24),new THREE.MeshBasicMaterial({color:0x04140c,transparent:true,opacity:.32,depthWrite:false}));ballGroundShadow.rotation.x=-Math.PI/2;ballGroundShadow.position.y=.09;ballGroundShadow.name='QuaffleGroundShadow';scene.add(ballGroundShadow);
+// A billboard ring marks the rival carrier so the defender always knows the press target.
+const pressRing=new THREE.Mesh(new THREE.TorusGeometry(1.7,.045,6,48),new THREE.MeshBasicMaterial({color:0x9fc3dd,transparent:true,opacity:.4,depthWrite:false}));pressRing.name='PressTargetRing';pressRing.visible=false;scene.add(pressRing);
 let trailReset=true,ballFeedbackPulse=0;
 function kickBallFeedback(duration=.2){ballFeedbackPulse=Math.max(ballFeedbackPulse,duration);}
 function updateBallFeedback(dt){
@@ -203,6 +205,8 @@ function updateBallFeedback(dt){
  }
  ballGroundShadow.visible=active&&quaffle.visible;
  if(ballGroundShadow.visible){ballGroundShadow.position.set(quaffle.position.x,.09,quaffle.position.z);const h=clamp(quaffle.position.y,0,30);ballGroundShadow.material.opacity=clamp(.42-h*.012,.08,.42);ballGroundShadow.scale.setScalar(1+h*.03);}
+ pressRing.visible=active&&rivals.includes(carrier);
+ if(pressRing.visible){pressRing.position.copy(carrier.mesh.position).add(V(0,.9,0));pressRing.quaternion.copy(camera.quaternion);const on=match.primaryAction==='defend'&&keys.KeyF;pressRing.material.color.set(on?0xffd76a:0x9fc3dd);pressRing.material.opacity=on?.75:.4;pressRing.scale.setScalar(on?1.15:1);}
 }
 const modelScenery=window.BroomModels?.mountScene({THREE,scene});
 $('startBtn').disabled=true;$('startBtn').textContent='正在准备球场…';
@@ -653,7 +657,7 @@ function updatePlayer(dt){
  // Flight steering: accelerate along the heading, arc through turns and glide to a
  // stop instead of snapping velocity, so the rider feels flown rather than dragged.
  const cruise=player.boosting?(match.mode==='challenge'?42:match.mode==='rookie'?30:32):player.baseSpeed;
- const accel=match.mode==='challenge'?55:match.mode==='rookie'?50:46,coast=28,brake=78;
+ const accel=match.mode==='challenge'?55:match.mode==='rookie'?50:46,coast=32,brake=78;
  const current=V(player.vel.x,0,player.vel.z),curSpeed=current.length();let next;
  if(!moving){const s=Math.max(0,curSpeed-coast*dt);next=curSpeed>.001?current.multiplyScalar(s/curSpeed):V();}
  else if(curSpeed<.6){next=input.clone().multiplyScalar(Math.min(cruise,curSpeed+accel*dt));}
@@ -664,14 +668,16 @@ function updatePlayer(dt){
    const s=Math.max(0,curSpeed-brake*dt),axis=dir.clone().cross(input);if(axis.lengthSq()<1e-8)axis.set(0,1,0);
    dir.applyAxisAngle(axis.normalize(),Math.min(Math.acos(alignment),2.4*dt));next=dir.multiplyScalar(s);
   }else{
-   const angle=Math.acos(alignment),rate=lerp(3.1,1.85,clamp(curSpeed/42,0,1)),axis=dir.clone().cross(input);
+   const angle=Math.acos(alignment),rate=lerp(3.6,2.0,clamp(curSpeed/42,0,1)),axis=dir.clone().cross(input);
    if(axis.lengthSq()>1e-8)dir.applyAxisAngle(axis.normalize(),Math.min(angle,rate*dt));
    next=dir.multiplyScalar(moveToward(curSpeed,cruise*(alignment>.86?1:.94),accel*dt));
   }
  }
  player.vel.x=next.x;player.vel.z=next.z;
- const chasingOpponentPass=!carrier&&passTarget&&rivals.includes(passSender),trackingLoose=!carrier&&!shot&&(!passTarget||chasingOpponentPass),altitudeTarget=pressing?pressTarget.y:trackingLoose?clamp(quaffle.position.y+quaffleVel.y*.16-1.15,.8,30):player.pos.y,verticalLimit=trackingLoose?11.5:pressing?14:6;
- const height=clamp((altitudeTarget-player.pos.y)*(trackingLoose?2.8:2),-verticalLimit,verticalLimit);player.vel.y=moveToward(player.vel.y,height,(trackingLoose||pressing?70:45)*dt);
+ const chasingOpponentPass=!carrier&&passTarget&&rivals.includes(passSender),trackingLoose=!carrier&&!shot&&(!passTarget||chasingOpponentPass),defending=!pressing&&rivals.includes(carrier);
+ const altitudeTarget=pressing?pressTarget.y:trackingLoose?clamp(quaffle.position.y+quaffleVel.y*.16-1.15,.8,30):defending?clamp(carrier.mesh.position.y,.8,30):player.pos.y;
+ const verticalLimit=trackingLoose?11.5:pressing?14:defending?9:6;
+ const height=clamp((altitudeTarget-player.pos.y)*(trackingLoose?2.8:defending?2.2:2),-verticalLimit,verticalLimit);player.vel.y=moveToward(player.vel.y,height,(trackingLoose||pressing?70:defending?60:45)*dt);
  player.previousPos.copy(player.pos);player.pos.addScaledVector(player.vel,dt);const normal=constrainPitch(player.pos,.8,36);if(normal){const outward=player.vel.dot(normal);if(outward>0)player.vel.addScaledVector(normal,-outward);}
  if(moving){targetYaw=Math.atan2(-input.x,-input.z);targetPitch=0;}updateAim(dt);player.speed=Math.hypot(player.vel.x,player.vel.z);
  const modelYaw=player.speed>2?Math.atan2(-player.vel.x,-player.vel.z):moving?targetYaw:cameraYaw;player.mesh.rotation.y+=angleDelta(player.mesh.rotation.y,modelYaw)*Math.min(1,dt*12);player.mesh.rotation.z=lerp(player.mesh.rotation.z,settings.reducedMotion?0:clamp(-player.vel.x*.006,-.16,.16),1-Math.exp(-dt*8));player.mesh.rotation.x=lerp(player.mesh.rotation.x,0,1-Math.exp(-dt*6));animateWizard(player.mesh,dt,player.speed,match.elapsed);
@@ -972,11 +978,11 @@ function updateSteals(dt=1/60){
   if(defender){setCarrier(defender,quaffle.position.clone());match.stealCooldown=match.mode==='rookie'?1.2:match.mode==='challenge'?.65:.9;notify('对方夺球 · 已自动切换防守队员',1.5);}return;
  }
  const touchingBall=riderBallContactTime('player',previousBallPosition,quaffle.position,dt)!==null;
- const pressing=match.primaryAction==='defend'&&keys.KeyF,sprinting=player.speed>30;
+ const pressing=match.primaryAction==='defend'&&keys.KeyF,sprinting=player.boosting;
  const challenging=(pressing||sprinting)&&riderChallengeContact(carrier,dt,pressing?contactRules.pressRadius:contactRules.sprintRadius);
- if(touchingBall||challenging){setCarrier('player',quaffle.position.clone());match.stealCooldown=contactRules.protection;match.stats.steals++;notify('抢断成功 · E 传球 / F 射门',1.5);return;}
+ if(touchingBall||challenging){setCarrier('player',quaffle.position.clone());match.stealCooldown=contactRules.protection;match.stats.steals++;kickBallFeedback(.3);matchAudio.play('catch');notify('抢断成功 · E 传球 / F 射门',1.5);return;}
  const defender=allies.find(a=>a.role==='chaser'&&a.stun<=0&&a.mesh.position.distanceTo(carrier.mesh.position)<2.05);
- if(defender){setCarrier(defender,quaffle.position.clone());match.stealCooldown=contactRules.protection;match.stats.steals++;ensureTeamControl();notify('队友协同抢断 · 已接管球权',1.5);}
+ if(defender){setCarrier(defender,quaffle.position.clone());match.stealCooldown=contactRules.protection;match.stats.steals++;kickBallFeedback(.22);ensureTeamControl();notify('队友协同抢断 · 已接管球权',1.5);}
 }
 
 function resultTitle(){
