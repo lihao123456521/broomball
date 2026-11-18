@@ -143,20 +143,227 @@
     "sha256": "48051e37eb703e6d2f28a346ffa327606602b307c49f87905aaee678d9ba5ca8",
     "sourceBytes": 24881184,
     "sourceTriangles": 270426,
-    "runtimeBytes": 4120692,
-    "runtimeTriangles": 64934,
-    "vertices": 76148,
+    "runtimeBytes": 3895720,
+    "runtimeTriangles": 64966,
+    "vertices": 69106,
     "texture": 2048,
     "bounds": {
       "min": [
         -0.7250000238418579,
-        -1.1282607316970825,
+        -1.1266412734985352,
         -1.127543330192566
       ],
       "max": [
         0.7250000238418579,
         1.1282607316970825,
         1.1269409656524658
+      ]
+    }
+  },
+  {
+    "id": "stadium-ground",
+    "source": "ground.glb",
+    "sha256": "28b4f9de1c0dc8bdaeadffb9e9974b0daf90637dc2ac276f748fc6fe4713ba2d",
+    "sourceBytes": 27250464,
+    "sourceTriangles": 539876,
+    "runtimeBytes": 1057448,
+    "runtimeTriangles": 10500,
+    "vertices": 5587,
+    "texture": 2048,
+    "bounds": {
+      "min": [
+        -52.45673751831055,
+        -0.6333262324333191,
+        -52.40633010864258
+      ],
+      "max": [
+        52.449119567871094,
+        0.6288642287254333,
+        52.42890167236328
+      ]
+    }
+  },
+  {
+    "id": "goal-pillar",
+    "source": "pillar.glb",
+    "sha256": "e85b770595040b3e14e70a685e1bb97ab7b3b525ec5588621e006628ec8186bf",
+    "sourceBytes": 13312064,
+    "sourceTriangles": 126662,
+    "runtimeBytes": 235860,
+    "runtimeTriangles": 4500,
+    "vertices": 3730,
+    "texture": 512,
+    "bounds": {
+      "min": [
+        -0.3725062906742096,
+        -1.5230311155319214,
+        -0.1776522994041443
+      ],
+      "max": [
+        0.37282833456993103,
+        1.523906946182251,
+        0.17773039638996124
+      ]
+    }
+  },
+  {
+    "id": "draco-rider",
+    "source": "textured(3).glb",
+    "sha256": "f34b631c71b56c003b3d0892d2e5af509c07bd615bcf8cd97152b9d232ff1181",
+    "sourceBytes": 23725196,
+    "sourceTriangles": 291716,
+    "runtimeBytes": 1878712,
+    "runtimeTriangles": 35996,
+    "vertices": 28877,
+    "texture": 1536,
+    "bounds": {
+      "min": [
+        -0.1899999976158142,
+        -0.1922830194234848,
+        -0.13280995190143585
+      ],
+      "max": [
+        0.1899999976158142,
+        0.19240473210811615,
+        0.1330544501543045
+      ]
+    }
+  },
+  {
+    "id": "cedric-rider",
+    "source": "textured (4).glb",
+    "sha256": "93439c34f6de191d5d442082d94e3e92625d50a4392ca5dac24d2b7b03b843cd",
+    "sourceBytes": 22900148,
+    "sourceTriangles": 294272,
+    "runtimeBytes": 1920572,
+    "runtimeTriangles": 35998,
+    "vertices": 28551,
+    "texture": 1536,
+    "bounds": {
+      "min": [
+        -0.7492323517799377,
+        -0.7499470710754395,
+        -0.5262857675552368
+      ],
+      "max": [
+        0.7492866516113281,
+        0.7502641081809998,
+        0.526067852973938
+      ]
+    }
+  },
+  {
+    "id": "blaise-rider",
+    "source": "textured (5).glb",
+    "sha256": "999358cb5c851abe526c794ecc6f3faa367883733310ff05fac52fbdbf50195e",
+    "sourceBytes": 22668664,
+    "sourceTriangles": 273880,
+    "runtimeBytes": 2039896,
+    "runtimeTriangles": 35994,
+    "vertices": 32252,
+    "texture": 1536,
+    "bounds": {
+      "min": [
+        -0.7248455882072449,
+        -1.4144585132598877,
+        -1.492006540298462
+      ],
+      "max": [
+        0.7239249348640442,
+        1.4184861183166504,
+        1.492573857307434
+      ]
+    }
+  },
+  {
+    "id": "pansy-rider",
+    "source": "textured (6).glb",
+    "sha256": "da724038329cad2dfa011af4c587ef3e1a5757aac389f69902743eb4fe40d7c2",
+    "sourceBytes": 24142632,
+    "sourceTriangles": 257374,
+    "runtimeBytes": 2034884,
+    "runtimeTriangles": 35914,
+    "vertices": 33729,
+    "texture": 1536,
+    "bounds": {
+      "min": [
+        -0.7469143867492676,
+        -1.1261481046676636,
+        -1.1259276866912842
+      ],
+      "max": [
+        0.7456632256507874,
+        1.127685785293579,
+        1.126361608505249
+      ]
+    }
+  },
+  {
+    "id": "cho-rider",
+    "source": "textured (8).glb",
+    "sha256": "fe7c49083f4ed9388a90f481117fed1ca738ecf7db62e58531d0df865f9e6f38",
+    "sourceBytes": 21450596,
+    "sourceTriangles": 225390,
+    "runtimeBytes": 1915416,
+    "runtimeTriangles": 35982,
+    "vertices": 30637,
+    "texture": 1536,
+    "bounds": {
+      "min": [
+        -0.699999988079071,
+        -1.712091326713562,
+        -1.7192350625991821
+      ],
+      "max": [
+        0.697636604309082,
+        1.717063307762146,
+        1.717644453048706
+      ]
+    }
+  },
+  {
+    "id": "luna-rider",
+    "source": "textured (9).glb",
+    "sha256": "2b872a75932480cc7d526eecade423309b8e87c3dbc11e511148a3f0418dca9a",
+    "sourceBytes": 22482788,
+    "sourceTriangles": 235020,
+    "runtimeBytes": 2110500,
+    "runtimeTriangles": 35966,
+    "vertices": 35208,
+    "texture": 1536,
+    "bounds": {
+      "min": [
+        -0.22368773818016052,
+        -0.2680074870586395,
+        -0.22075779736042023
+      ],
+      "max": [
+        0.22487281262874603,
+        0.26819634437561035,
+        0.22052471339702606
+      ]
+    }
+  },
+  {
+    "id": "hannah-rider",
+    "source": "textured(7).glb",
+    "sha256": "15ba47e898407786383f2c45e8c558996694c49a7c0a4515cf991d0c15655a26",
+    "sourceBytes": 22279432,
+    "sourceTriangles": 235182,
+    "runtimeBytes": 2085860,
+    "runtimeTriangles": 35948,
+    "vertices": 34596,
+    "texture": 1536,
+    "bounds": {
+      "min": [
+        -0.75,
+        -1.0227030515670776,
+        -0.9351058602333069
+      ],
+      "max": [
+        0.7499197721481323,
+        1.023866891860962,
+        0.9341705441474915
       ]
     }
   }
