@@ -4,14 +4,14 @@ window.BroomEnvironment = (() => {
     const root = new T.Group();
     root.name = 'HighlandStadium';
     scene.add(root);
-    scene.fog.color.set(0x9bafbf);
-    scene.fog.density = .00155;
+    scene.fog.color.set(0xc9a189);
+    scene.fog.density = .0013;
     scene.traverse(object => {
       const uniforms = object.material?.uniforms;
       if (uniforms?.top && uniforms?.horizon && uniforms?.bottom) {
-        uniforms.top.value.set(0x345779);
-        uniforms.horizon.value.set(0xb6c5d2);
-        uniforms.bottom.value.set(0x6c8494);
+        uniforms.top.value.set(0x27476b);
+        uniforms.horizon.value.set(0xe9b189);
+        uniforms.bottom.value.set(0x4a5a74);
       }
     });
     const palette = new Map();
@@ -127,6 +127,77 @@ window.BroomEnvironment = (() => {
       box(15.9, 2.2, .3, 0, 8.2, -4, color, stand);
     }
 
+    // Golden-hour atmosphere: drifting soft clouds and a low sun glow above the bowl.
+    const cloudCanvas = document.createElement('canvas'); cloudCanvas.width = 256; cloudCanvas.height = 128;
+    const cloudCtx = cloudCanvas.getContext('2d');
+    for (let i = 0; i < 9; i++) {
+      const cx = 30 + random() * 196, cy = 45 + random() * 40, r = 18 + random() * 26;
+      const grad = cloudCtx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      grad.addColorStop(0, 'rgba(255,236,214,.5)'); grad.addColorStop(1, 'rgba(255,236,214,0)');
+      cloudCtx.fillStyle = grad; cloudCtx.fillRect(0, 0, 256, 128);
+    }
+    const cloudTexture = new T.CanvasTexture(cloudCanvas);
+    const clouds = [];
+    for (let i = 0; i < 8; i++) {
+      const sprite = new T.Sprite(new T.SpriteMaterial({ map: cloudTexture, transparent: true, opacity: .5 + random() * .25, depthWrite: false }));
+      const a = random() * Math.PI * 2, d = 260 + random() * 140;
+      sprite.position.set(Math.sin(a) * d, 95 + random() * 60, Math.cos(a) * d);
+      sprite.scale.set(120 + random() * 90, 42 + random() * 26, 1);
+      sprite.userData.angle = a; sprite.userData.distance = d; sprite.userData.speed = .004 + random() * .004;
+      root.add(sprite); clouds.push(sprite);
+    }
+    const glowCanvas = document.createElement('canvas'); glowCanvas.width = 128; glowCanvas.height = 128;
+    const glowCtx = glowCanvas.getContext('2d');
+    const glowGrad = glowCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    glowGrad.addColorStop(0, 'rgba(255,214,150,.9)'); glowGrad.addColorStop(.35, 'rgba(255,190,120,.35)'); glowGrad.addColorStop(1, 'rgba(255,190,120,0)');
+    glowCtx.fillStyle = glowGrad; glowCtx.fillRect(0, 0, 128, 128);
+    const sunGlow = new T.Sprite(new T.SpriteMaterial({ map: new T.CanvasTexture(glowCanvas), transparent: true, depthWrite: false }));
+    sunGlow.position.set(-95, 78, 60).normalize().multiplyScalar(470);
+    sunGlow.scale.set(150, 150, 1);
+    root.add(sunGlow);
+
+    // Mown apron, perimeter ad boards and a continuous bowl wall tie the pitch to the stands.
+    const apron = mesh(new T.RingGeometry(1, 1.06, 72), material(0x2f6b4f), 0, .06, 0);
+    apron.rotation.x = -Math.PI / 2; apron.scale.set(56, 77, 1);
+    const boardCanvas = document.createElement('canvas'); boardCanvas.width = 512; boardCanvas.height = 64;
+    const boardCtx = boardCanvas.getContext('2d');
+    boardCtx.fillStyle = '#0b1d2c'; boardCtx.fillRect(0, 0, 512, 64);
+    boardCtx.fillStyle = '#e8c15a'; boardCtx.font = '700 30px "Microsoft YaHei", sans-serif'; boardCtx.textAlign = 'center';
+    boardCtx.fillText('BROOMBALL · 学院冠军赛', 256, 42);
+    boardCtx.fillStyle = '#8e243b'; boardCtx.fillRect(0, 0, 14, 64); boardCtx.fillStyle = '#205b48'; boardCtx.fillRect(498, 0, 14, 64);
+    const boardMaterial = new T.MeshStandardMaterial({ map: new T.CanvasTexture(boardCanvas), roughness: .8 });
+    for (let i = 0; i < 36; i++) {
+      const a = i / 36 * Math.PI * 2;
+      const board = mesh(new T.BoxGeometry(9.6, 1.1, .28), boardMaterial, Math.sin(a) * 58.5, .62, Math.cos(a) * 79.5);
+      board.rotation.y = a;
+    }
+    for (let i = 0; i < 28; i++) {
+      const a = (i + .5) / 28 * Math.PI * 2;
+      const wall = box(19.5, 3.4, 1.2, Math.sin(a) * 70.5, 1.7, Math.cos(a) * 89.5, 0x303849);
+      wall.rotation.y = a;
+    }
+    const lampMaterial = new T.MeshStandardMaterial({ color: 0xfff2cc, emissive: 0xffedb8, emissiveIntensity: 1.5, roughness: .5 });
+    for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+      const x = sx * 66, z = sz * 92;
+      cylinder(.5, .8, 34, x, 17, z, 0x3a4250, 8);
+      const head = box(7, 3.2, 1.2, x, 34.5, z, lampMaterial);
+      head.rotation.y = Math.atan2(-x, -z); head.rotation.x = .35;
+      const cap = box(7.6, .5, 1.6, x, 36.3, z, 0x3a4250); cap.rotation.y = Math.atan2(-x, -z);
+    }
+    const bannerHouses = [['格兰芬多', '#8e243b', '#f3cb70'], ['斯莱特林', '#205b48', '#d1e2df'], ['拉文克劳', '#244d85', '#e0a36c'], ['赫奇帕奇', '#e2ac35', '#29211a']];
+    for (let i = 0; i < 4; i++) {
+      const a = i / 4 * Math.PI * 2 + Math.PI / 4;
+      const [name, color, trim] = bannerHouses[i];
+      const c = document.createElement('canvas'); c.width = 128; c.height = 192;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = color; ctx.fillRect(0, 0, 128, 192);
+      ctx.strokeStyle = trim; ctx.lineWidth = 8; ctx.strokeRect(6, 6, 116, 180);
+      ctx.fillStyle = trim; ctx.font = '700 52px "Microsoft YaHei", sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(name[0], 64, 86); ctx.font = '700 30px "Microsoft YaHei", sans-serif'; ctx.fillText(name.slice(1), 64, 140);
+      const banner = mesh(new T.PlaneGeometry(5.5, 8.2), new T.MeshStandardMaterial({ map: new T.CanvasTexture(c), roughness: .85, side: T.DoubleSide }), Math.sin(a) * 70.5, 7.6, Math.cos(a) * 89.5);
+      banner.rotation.y = a + Math.PI;
+    }
+
     const signs = [];
     const label = (text, sub, color, x, y, z, scale = 1) => {
       const c = document.createElement('canvas'); c.width = 640; c.height = 160;
@@ -189,6 +260,11 @@ window.BroomEnvironment = (() => {
           shadowMaterial.opacity = Math.max(.07, .26 - player.y * .004);
         }
         if (!reducedMotion) for (let i = 0; i < ripples.length; i++) ripples[i].scale.setScalar(1 + Math.sin(elapsed * .6 + i) * .07);
+        if (!reducedMotion) for (const cloud of clouds) {
+          cloud.userData.angle += dt * cloud.userData.speed;
+          cloud.position.x = Math.sin(cloud.userData.angle) * cloud.userData.distance;
+          cloud.position.z = Math.cos(cloud.userData.angle) * cloud.userData.distance;
+        }
       }
     };
   }

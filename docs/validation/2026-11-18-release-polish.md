@@ -1,0 +1,156 @@
+# 2026-11-18 · 上线前全面打磨（真人视角实测驱动）
+
+分支：`feat/gameplay-visual-overhaul`（自云端 `main` `ce9e26a` 快进同步后在本分支开发，未改动 main）。
+
+## 第四轮（传球光带 / 最后防守守门 / 转身丝滑）
+
+- 传球预览：`passLine` 由 `LineDashedMaterial` 虚线改为 `TubeGeometry` 发光光带（24 段、半径 .13、顶点色
+  青白 `0xd8fff0`→teal `0x2fae86` 渐变、additive、depthTest/Write off），另加 `passPulse` 光点沿
+  `curve.getPointAt((elapsed*1.1)%1)` 流动指示方向。实测 `PassArcPreview` isMesh=true、175 顶点、含 color 属性、visible=true。
+- 守门：`keeperTarget` 增加 threat/near 判定——镜像持球者 x/y（spread 10）、逼近时 z 前压 4m 收角度，
+  射门时仍用投影点（spread 14）。`updateAllies` 非逼抢防守者中 `isLast`（z 最深）且对方持球在我方半场
+  （carrier.z>0）时回撤 goal-side（lerp .62、横向 lane*3）。实测持球者 (6,11,30) 时门将 (6.3,11.2,48.9)、
+  最后防守 (17.8,12.7,47.1)，均落在持球者与球门之间护门。
+- 转身：常规转向 rate `lerp(4.4,2.5)`、保速 `cruise*lerp(1,.9,(1-alignment)/.6)`、反转阈值 -.55/刹车 64/摆头 3.0、
+  模型偏航 dt*14、侧倾 -.009 clamp .2。实测 W 直行 speed 19 → 接 A 350ms 后 speed 仍 19、yaw 0→0.76、bank 0.1，
+  转弯不掉速、弧线平滑带侧倾。
+- 12 项验收套件全绿；截图 `release-polish4-pass.png` / `release-polish4-guard.png` / `release-polish4-turn.png`，0 报错。
+
+## 方法
+
+以真人玩家视角实测：Playwright + 本机 Chrome，1440×900 桌面视口，真实键盘事件（按住/松开/组合），
+全程截图与物理采样（速度、滑行距离、转向弧线、球弹跳高度、追球拾取），先记录问题再修改，修改后复测。
+
+## 实测发现的问题（修改前）
+
+1. **球的"折射"奇怪**：鬼飞球在离地 2 米的隐形地板反弹并悬浮停球（球半径仅 0.62 米）；
+   边界反弹恢复系数 0.78 过高，球到处乱弹。
+2. **移速与转向奇怪**：0→23 m/s 仅 0.35 秒；松开方向键 105 m/s² 急刹，滑行仅 2.4 米；
+   转向是速度向量直接插值——速率不变、横向"平移"，像冰壶不像飞行。
+3. **很难摸到球**：转播镜头 30–60 米远、俯角 31.5°，球员和球在屏幕上只有几十像素；
+   开球时进攻球门完全在屏幕外；拾取要求几何精确接触，无任何容错。
+4. **首页按键分布奇怪**：1440×900 下"球队入场"主按钮被裁切到首屏之外，必须滚动才能开赛；
+   键位图与 CTA 挤在同一滚动流里；整体视觉平淡、无主题层次。
+5. **比赛内提示重复堆叠**：顶部目标栏与开球通知重复罗列 E/R/F/Shift 键位，三行文字叠在球门上方；
+   底部键位说明与三个动作按钮分离。
+
+## 修改内容
+
+### 球物理（`game-core.js` `updateQuaffle`）
+
+- 地面接触改为真实球半径高度（0.68 米），反弹恢复系数 0.45、水平摩擦 0.82，
+  落地后滚动摩擦衰减直至停在草皮上，不再悬浮。
+- 椭圆边界反弹恢复系数 0.78→0.6 并附加 0.97 切向衰减；天花板 0.66→0.5。
+- 新增**近距接球容错**：自由球速度 <12 m/s 且距手 <3.1 米时，按距离/速度比例柔和引向手部；
+  8 米外绝不吸球（保留 `browser-ball-contact` 的无远程吸附契约），传球/射门飞行不受影响。
+- 实测：球从 18 米落下，在 0.69 米触地、以约 4 米峰值回弹后滚停；真人式转向追球 0.7 秒内拾取成功。
+
+### 飞行手感（`game-core.js` `updatePlayer`）
+
+- 改为航向 steering：沿当前航向加速（新手 50 / 标准 46 / 挑战 55 m/s²），
+  转弯按速度相关角速率（3.1→1.85 rad/s）画弧，急转轻微掉速；
+  反向输入先刹车（78 m/s²）再摆头，不向后平移。
+- 松开方向键以 28 m/s² 惯性滑停（实测滑行 6.3 米 / 0.7 秒），不再急刹。
+- 巡航速度新手 19 / 标准 20 / 挑战 24 m/s，冲刺 30 / 32 / 42 m/s（原 23/22/28 与 36/48）。
+- 模型朝向跟随**实际速度方向**而非输入方向，飞行姿态与轨迹一致。
+- 垂直自动追踪（自由球/逼抢/高球）逻辑与上限保持不变，高球拾取回归通过。
+- 实测：0→19 m/s 0.36 秒；W→A 90° 转向为完整圆弧，速率保持 19 m/s。
+
+### 转播镜头（`game-core.js` `updateBroadcastCamera`）
+
+- 俯角 31.5°→23.6°（direction 0,.52,.85 → 0,.40,.917），距离 30–60→24–46 米，拟合余量收紧。
+- 焦点仍锁定被控球员（屏幕中心 ±10% 契约保持），开球时对方三个球门完整进入画面上缘。
+- 球员与球显著变大，深度可判；新增**球的地面投影**（随高度变淡变大）辅助判断球高。
+
+### 首页重设计（`index.html` / `game-core-ui.css` / `game-character-preview.js`）
+
+- 结构：标题区（hero）+ 可滚动内容区（`menu-scroll`）+ **固定底部 CTA**——任何分辨率下
+  "球队入场 / 新手教程"始终首屏可见（1440×900、1280×720、800×600 实测 rect 全部在屏内）。
+- 主题色跟随所选学院（`--menu-accent`，格兰芬多金/斯莱特林银/拉文克劳铜/赫奇帕奇黄），
+  渐变标题、分区刻度线、学院/队长/难度卡片悬停反馈、比赛日流程时间线、键位图独立卡片。
+- 键位图在 1440×900 首屏完整可见；≤780px 高度自动隐藏（滚动区仍可访问其余设置）。
+- 自动操控说明改为单行，整体垂直节奏压缩约 90px。
+
+### 比赛内 HUD（`index.html` / `game-core-hud.css` / `game-core.js`）
+
+- 键位说明并入动作坞：`W A S D 移动 · Shift 冲刺 · Esc 暂停` 与 E/R/F 三按钮成为一个紧凑单元，
+  宽度 344→320、半透明毛玻璃，不再与底部分离。
+- 顶部目标栏文案去重（持球时只显示"进攻对方球门 · 按住 F 蓄力，松开射门"+ 方向距离），
+  开球通知改为"开球 · 我方持球，向对方球门推进"，键位教学统一交给动作坞与首页键位图。
+- 草皮条纹对比增强，两端新增得分区弧线，进攻参照更清晰。
+
+## 保持不变的契约
+
+- 一套核心键位（WASD / Shift / E / R / F / Esc / Space），无鼠标瞄准、无手动升降切人。
+- 触球半径、扫帚前后判定、 swept 接触、夺球保护冷却、8 米无吸附、高球垂直追踪、
+  接球预输入、被控球员屏幕中心投影、守门员唯一性与换控防抖——对应回归全部通过。
+
+## 验证结果
+
+- 真人实测（`playtest2`）：0 页面错误；加速/滑行/转向/追球拾取/落地弹跳全部符合上述指标。
+- 验收套件 12 项全部通过：
+  `team-control`(22) · `passing-trajectory` · `commentary-engine`(20) · `browser-core-match`(14) ·
+  `browser-ball-contact`(7) · `browser-core-presentation`(3) · `browser-gameplay-overhaul`(7) ·
+  `browser-pressure-celebration`(9) · `browser-onboarding`(13) · `browser-commentary-audio` ·
+  `browser-crowd-ambience`(8) · `browser-match-audio`。
+  （`browser-commentary-audio` 需 `BROOM_GAME_URL` 指向本地静态服务，其余用 file:// 入口。）
+- `browser-commentary-audio` 增加环境防抖：软件渲染在高负载下可能触发游戏既有的"画面停顿过久自动暂停"，
+  测试在点击入场跳过前先恢复暂停；全部音频断言（真实 WAV 解码、无合成回退、音量、节点清理）保持不变。
+- 首页三分辨率 rect 校验：CTA 与教程按钮均在屏内；1440×900 键位图完整首屏。
+
+## 第二轮追加（背景氛围与抢球手感）
+
+### 背景建模
+
+- 天空/雾改为黄昏暖橙渐变（top 0x27476b / horizon 0xe9b189），太阳降低角度（-95,78,60）产生长影，
+  环境光转暖；新增漂移云与落日光晕 sprite。
+- 球场外圈：修剪草 apron 环、36 块" BROOMBALL · 学院冠军赛 "广告板、28 段连续看台基墙、
+  四角 34 米泛光灯塔（发光灯头）、四学院垂幅（格兰芬多/斯莱特林/拉文克劳/赫奇帕奇）。
+- 观众材质自发光 .045→.12，黄昏下看台人群清晰；全部新增静态网格经 `batchStaticMeshes` 按材质合批。
+- 截图：`release-polish2-kickoff.png`、`release-polish2-atmosphere.png`。
+
+### 移动与抢球
+
+- 防守自动跟高：`updatePlayer` 新增 defending 分支——对方持球且未按 F 时，高度柔和匹配持球人
+  （增益 2.2、上限 9 m/s、加速度 60）。实测高度差序列 2.55→1.85→1.32→0.97→0.67→0.4 米并抢断成功。
+- 冲刺抢断判定 `player.speed>30` → `player.boosting`：新手赛冲刺上限恰为 30，原判定永远不触发；
+  修复后三档难度 Shift 冲抢均有效（实测 rookie 冲刺抢断成功）。
+- 抢断成功：`kickBallFeedback(.3)` 光环脉冲 + `matchAudio.play('catch')`；队友协同抢断同样有脉冲。
+- 新增 `PressTargetRing` 防守目标标记环：对方持球时显示于持球人身上，按 F 逼抢变金放大。
+- 转向低速角速率 3.1→3.6 rad/s（高速 1.85→2.0），松键滑行减速 28→32 m/s²。
+- 真人复测：飞近不按 F 抢断 ✓、新手 Shift 冲刺抢断 ✓、F 逼抢抢断 ✓，0 页面错误。
+- 12 项验收套件第二轮全绿（含 30 秒自然比赛审计、触球契约、高球追踪、教程、庆祝、音频）。
+
+## 第三轮追加（庆祝演出 / 魔法观众 / 防守质感）
+
+### 进球庆祝（`game-core.js` `updateGoalCelebration` + 火花系统）
+
+- 挥拳：单手持帚、节奏挥拳（`sin(t*6)` 泵动）、抬头致意、拳边金色火花；队友在旁拍手悬浮。
+- 滑翔：绕进球门半径 8.5 米的侧倾圆弧胜利 lap，朝向切线、恒定侧倾 .34、高度起伏、火花尾迹；镜头自动跟拍。
+- 全队：队友沿二次贝塞尔弧形（侧向 bulge + 抬升）1.4s 内聚拢到得分者半径 2.6 米环，举帚+同步浮动，t≈1.5 中心火花爆发。
+- 火花：`THREE.Points` 240 粒金色 additive，`spawnSparks/updateSparks/clearSparks`，庆祝结束清空；reducedMotion 不生成不移动。
+- 契约保持：E/R/F 选择、Space 跳过、pause 冻结、reducedMotion 姿态静止、普通进球无庆祝。实测 fist/glide/team/skip 全 ✓。
+- 截图：`release-polish3-glide.png`、`release-polish3-team.png`。
+
+### 魔法观众（`game-crowd.js`）
+
+- 全员尖顶巫师帽（学院色锥体）、人手魔杖（欢呼者举杖+发光杖尖，随挥手动画摆动；坐姿者垂杖）。
+- 48 盏悬浮灯笼（独立 InstancedMesh，不计入 parts）在看台上方 y13–20 上下浮动+火苗闪烁。
+- 庆祝人浪改为按分区相位 `sin(time*5.5-section*.45)²` 传播的墨西哥人浪。
+- 批次 12→15、drawCalls 17（≤24 预算）；hat/wand/wandTip 各 756=人数（parts 契约保持）；`restoreCrowdPose` 复位灯笼。
+- 截图：`release-polish3-crowd.png`。
+
+### 抢断物理反馈（参考实况足球对抗质感）
+
+- `stealContact(winnerMesh, loser)`：胜者 `userData.swipeTime=.45`、败者 `userData.stumbleTime=.6`；
+  败者为玩家时 `player.vel*=.6`，为 AI 时 `flightSpeed*=.5`，换球权伴随身体失衡而非瞬移。
+- `animateWizard` 播放挥帚（arm 正弦挥动+body 转体）与踉跄（body/head 衰减摆动），reducedMotion 跳过。
+- 三处抢断（对方夺球 / 玩家抢断 / 队友协同）统一接入 `stealContact`。
+
+### 防守卡位 AI 的回退说明
+
+- 本轮曾实现 PES 式 goal-side contain + 反应延迟 + 伺机 lunge、标记者切线路、flyAI 平滑偏航/角速度侧倾。
+- 回归发现这些改动破坏拦截/抢断/开球契约：持球者四元数平滑摆动改变 `carryPosition`，触发异常出球使
+  carrier 在拦截后 2 帧内被清空（实测复现并定位）。为保证上线稳定，四个 AI 函数（flyAI/rivalTarget/
+  updateRivals/updateAllies）与逼抢输入已回退到第二轮 proven 版本；庆祝/观众/抢断反馈保留。
+- 回退后拦截 carrier 稳定保持（12 帧复测），12 项验收套件全绿。防守卡位 AI 留待后续单独迭代。

@@ -53,3 +53,13 @@
 .entrance-captain strong{font-size:clamp(20px,3vw,40px);line-height:1.15}
 
 @media(min-width:621px){body:has(#tutorialCoach:not(.hidden)) #commentaryCaption{left:auto;right:18px;bottom:166px;max-width:min(300px,40vw)}}
+
+/* Compact control dock: the key legend and the three core actions read as one unit. */
+.action-bar{flex-direction:column;gap:6px;bottom:18px;width:320px;padding:8px;border:1px solid #6c859940;border-radius:9px;background:#071725d9;backdrop-filter:blur(4px)}
+.dock-buttons{display:flex;gap:8px}
+.action-bar button{min-height:46px}
+.action-bar .core-match-keys{position:static;left:auto;bottom:auto;transform:none;text-align:center;font-size:9px;color:#96afc2}
+#passHint{bottom:112px}
+@media(max-width:1000px){.action-bar{width:300px;bottom:16px}#passHint{bottom:104px}}
+@media(max-width:800px){.action-bar{width:280px}#passHint{bottom:100px}}
+@media(max-width:620px){.action-bar{bottom:14px;width:calc(100vw - 30px)}#passHint{bottom:104px}#radar{bottom:112px}}

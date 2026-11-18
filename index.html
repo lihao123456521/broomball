@@ -19,8 +19,7 @@
  <div class="match-status glass"><strong id="possession"></strong><div class="stamina-label"><span>冲刺体力</span><span id="staminaValue">100%</span></div><div class="speed-track"><div id="staminaFill"></div></div></div>
  <canvas id="radar" width="336" height="288" aria-label="全场雷达"></canvas>
  <div id="message" role="status"></div><div id="countdown">3</div><div id="playerLabels"></div><div id="passHint" class="pass-hint"></div><div id="chargeMeter" class="charge-meter"><span></span></div>
- <div class="action-bar" aria-label="核心比赛操作"><button id="shortPassBtn"><kbd>E</kbd><span>短传</span></button><button id="throughPassBtn"><kbd>R</kbd><span>直塞</span></button><button id="primaryBtn"><kbd>F</kbd><span>射门</span></button></div>
- <div class="core-match-keys">W A S D 移动 <span>·</span> Shift 冲刺 <span>·</span> Esc 暂停</div>
+ <div class="action-bar" aria-label="核心比赛操作"><div class="core-match-keys dock-keys">W A S D 移动 <span>·</span> Shift 冲刺 <span>·</span> Esc 暂停</div><div class="dock-buttons"><button id="shortPassBtn"><kbd>E</kbd><span>短传</span></button><button id="throughPassBtn"><kbd>R</kbd><span>直塞</span></button><button id="primaryBtn"><kbd>F</kbd><span>射门</span></button></div></div>
  <div class="ball-marker" id="ballMarker" data-location="hidden"><b id="ballMarkerArrow"></b><span id="ballMarkerText"></span></div>
 </div>
 <section id="goalCelebration" class="goal-celebration hidden" aria-label="精彩进球庆祝">
@@ -40,7 +39,8 @@
  <div class="tutorial-actions"><button type="button" class="secondary" id="tutorialRepeat">重练本步</button><button type="button" class="secondary" id="tutorialSkip">跳过，直接比赛</button><button type="button" class="primary hidden" id="tutorialDone">开始新手赛</button></div>
 </section>
 <div class="overlay" id="menu"><div class="menu-card"><div class="menu-controls">
- <div class="eyebrow">MATCHDAY · 学院冠军赛</div><h1>BROOMBALL</h1><div class="subtitle">传球，跑位，赢下这一场</div>
+ <header class="menu-hero"><div class="eyebrow">MATCHDAY · 学院冠军赛</div><h1>BROOMBALL</h1><div class="subtitle">传球，跑位，赢下这一场</div></header>
+ <div class="menu-scroll">
  <div class="choose">选择学院</div><div class="house-picker" id="housePicker" aria-label="选择学院"></div>
  <div class="match-options"><label>对手 <select id="opponentHouse" aria-label="对手学院"></select></label><span>4 对 4 · 球权自动换控</span></div>
  <div class="choose">选择出场队长</div><div class="characters" aria-label="选择队长"></div>
@@ -48,6 +48,7 @@
  <p class="mode-brief" id="modeBrief">对手速度较慢，射门辅助更强，适合第一次上场。</p>
  <div class="matchday-flow" aria-label="比赛日流程"><span><b>01</b>球队入场</span><span><b>02</b>赛前倒数</span><span><b>03</b>正式开球</span></div>
  <section class="core-keyboard" id="coreKeyboard" aria-label="比赛按键"></section>
+ </div>
  <div class="menu-actions"><button class="secondary" id="tutorialBtn"><span>新手教程</span><small>6 项实操训练</small></button><button class="primary" id="startBtn">球队入场</button></div>
  </div><section id="characterPreview" class="character-preview" aria-label="所选球员三维展示"></section></div></div>
 <div class="overlay hidden" id="pause"><div class="core-dialog"><div class="eyebrow">MATCH PAUSED</div><h2>比赛暂停</h2><p>我方接球后自动换控。对方持球时按住 F 逼抢，球脱手后继续按住即可追球。队友来球时，可提前按 E、R 或 F 衔接下一脚。</p><div class="pause-key-grid"><span><kbd>W A S D</kbd> 移动</span><span><kbd>Shift</kbd> 冲刺</span><span><kbd>E</kbd> 短传</span><span><kbd>R</kbd> 直塞</span><span><kbd>F</kbd> 蓄力射门 / 逼抢</span><span><kbd>Esc</kbd> 继续</span></div><label class="core-audio"><input type="checkbox" id="commentaryEnabled" checked> 女性英语解说</label><label class="core-audio-volume" for="commentaryVolume"><span>解说音量</span><input id="commentaryVolume" type="range" min="0" max="100" step="1" value="85"><output id="commentaryVolumeValue" for="commentaryVolume">85%</output></label><label class="core-audio-volume" for="crowdVolume"><span>观众音量</span><input id="crowdVolume" type="range" min="0" max="100" step="1" value="65"><output id="crowdVolumeValue" for="crowdVolume">65%</output></label><div class="audio-credit">观众录音：<a href="https://gregor-quendel.itch.io/free-crowd-cheering-sounds" target="_blank" rel="noopener">Gregor Quendel</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> · 已剪辑混音</div><div class="dialog-actions"><button class="primary" id="resumeBtn">继续比赛</button><button class="secondary" id="restartPauseBtn">重新开赛</button><button class="secondary" id="menuPauseBtn">返回首页</button></div></div></div>
