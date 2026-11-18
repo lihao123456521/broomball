@@ -125,6 +125,32 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    }
    assert.equal(caught.holding,true,JSON.stringify(caught));assert.equal(caught.uuid,result.uuid);assert.ok(caught.height<8);assert.ok(caught.maxBodyStep<.2,JSON.stringify(caught));assert.equal(caught.otherMotion,0);report.evidence.lowLooseBall={initial:result,caught};
   });
+  await check('Each house fields its three distinct captains and a separately voiced, controllable keeper',async()=>{
+   const rosters=await page.evaluate(()=>Object.keys(BroomRoster.rosters));
+   for(const [index,house] of rosters.entries()){
+    const result=await page.evaluate(({house,index})=>{
+     const g=__BROOMBALL__;g.returnToMenu();g.selectHouse(house);g.switchCharacter(index%3);g.startMatch('standard');
+     const home=[g.player,...g.allies],away=g.rivals;
+     const ids=units=>units.map(unit=>unit.mesh.userData.characterId).sort();
+     const expected=side=>[...BroomRoster.rosters[side].map(profile=>profile.id),side+'-keeper'].sort();
+     const selected=g.player.mesh.userData.characterId,homeIds=ids(home),awayIds=ids(away);
+     const keeper=home.find(unit=>unit.role==='keeper'),keeperId=keeper.mesh.userData.characterId;
+     let helmet=false;keeper.mesh.traverse(node=>{if(node.name==='PaddedKeeperHelmet'||node.userData.artParts?.includes('PaddedKeeperHelmet'))helmet=true;});
+     const clips=[],announce=g.commentary.announce;
+     try{
+      g.commentary.announce=(key,text,options)=>{clips.push(options.clip);return false;};
+      Object.assign(g.match,{state:'playing',elapsed:18,kickoff:0});
+      g.setCarrier(keeper);g.throwQuaffle();
+     }finally{g.commentary.announce=announce;}
+     return{homeIds,awayIds,selected,expectedCaptain:BroomRoster.rosters[house][index%3].id,expectedHome:expected(house),
+      expectedAway:expected(g.match.awayHouse),keeperId,controlled:g.player.mesh.userData.characterId,helmet,clips};
+    },{house,index});
+    assert.deepEqual(result.homeIds,result.expectedHome);assert.deepEqual(result.awayIds,result.expectedAway);
+    assert.equal(result.selected,result.expectedCaptain);assert.equal(result.keeperId,house+'-keeper');
+    assert.equal(result.controlled,result.keeperId);assert.ok(result.helmet);
+    assert.deepEqual(result.clips,['possession-'+house,'shot-'+house]);
+   }
+  });
   assert.deepEqual(report.errors,[]);assert.deepEqual(report.requests,[]);assert.deepEqual(report.failed,[]);console.log('BROWSER_CORE_MATCH_PASS',report.passed.length);
  }finally{fs.writeFileSync(path.join(out,'core-match-browser.json'),JSON.stringify(report,null,2));await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

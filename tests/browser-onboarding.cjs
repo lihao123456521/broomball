@@ -17,16 +17,20 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
   const check=async(name,fn)=>{try{await fn();report.passed.push(name);console.log('PASS',name);}catch(e){report.failed.push({name,error:e.message});console.error('FAIL',name,e.message);}};
   const rect=id=>page.evaluate(id=>{const r=document.querySelector(id).getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height};},id);
   const onScreen=(r,w,h)=>{assert.ok(r.width>0&&r.height>0);assert.ok(r.x>=-1&&r.y>=-1&&r.x+r.width<=w+1&&r.y+r.height<=h+1,JSON.stringify(r));};
+  const visibleKeyLegend=()=>page.locator('.core-key-legend span').evaluateAll(items=>items.every(item=>{
+   const r=item.getBoundingClientRect();
+   return r.width>0&&r.height>0&&item.contains(document.elementFromPoint(r.left+3,r.top+r.height/2));
+  }));
   const tutorialState=()=>page.evaluate(()=>{const g=__BROOMBALL__,t=g.match.tutorial;return{mode:g.match.mode,state:g.match.state,timeLeft:g.match.timeLeft,step:t?.step,kind:t?t.kind||g.tutorialSteps[t.step].kind:null,progress:t?.progress,complete:t?.complete,passes:g.match.stats.completedPasses,shots:g.match.stats.shots,steals:g.match.stats.steals,coachVisible:!document.getElementById('tutorialCoach').classList.contains('hidden')};});
 
   await check('Homepage defaults to rookie and exposes three genuinely different difficulty rules',async()=>{
    const result=await page.evaluate(()=>{const g=__BROOMBALL__;return{mode:g.match.mode,rules:g.modes,buttons:[...document.querySelectorAll('.mode-option')].map(b=>({mode:b.dataset.mode,pressed:b.getAttribute('aria-pressed')})),tutorial:document.getElementById('tutorialBtn').textContent.trim(),brief:document.getElementById('modeBrief').textContent};});
-   onScreen(await rect('.core-key-legend'),1280,720);assert.equal(result.mode,'rookie');assert.equal(result.buttons.length,3);assert.equal(result.buttons.find(b=>b.mode==='rookie').pressed,'true');assert.match(result.tutorial,/6 项实操训练/);assert.match(result.brief,/辅助/);
+   assert.ok(await visibleKeyLegend(),'All keys visible without scrolling at 720p');assert.equal(result.mode,'rookie');assert.equal(result.buttons.length,3);assert.equal(result.buttons.find(b=>b.mode==='rookie').pressed,'true');assert.match(result.tutorial,/6 项实操训练/);assert.match(result.brief,/辅助/);
    assert.ok(result.rules.rookie.rivalSpeed<result.rules.standard.rivalSpeed&&result.rules.standard.rivalSpeed<result.rules.challenge.rivalSpeed);assert.ok(result.rules.rookie.rivalStealRadius<result.rules.challenge.rivalStealRadius);assert.ok(result.rules.rookie.shotAssistRange>result.rules.standard.shotAssistRange);report.evidence.difficulty=result;
    await render();await page.screenshot({path:path.join(out,'onboarding-home-1280.png')});
   });
   await check('Homepage mode, tutorial and entrance controls fit 800 × 600',async()=>{
-   await page.setViewportSize({width:800,height:600});await advance(100);for(const id of['.mode-picker','#tutorialBtn','#startBtn','.matchday-flow','.core-key-legend'])onScreen(await rect(id),800,600);await render();await page.screenshot({path:path.join(out,'onboarding-home-800.png')});await page.setViewportSize({width:1280,height:720});await advance(50);
+   await page.setViewportSize({width:800,height:600});await advance(100);for(const id of['.mode-picker','#tutorialBtn','#startBtn','.matchday-flow','.core-key-legend'])onScreen(await rect(id),800,600);assert.ok(await visibleKeyLegend(),'All keys visible without scrolling at 800 × 600');const tutorial=await rect('#tutorialBtn'),start=await rect('#startBtn');assert.ok(Math.abs(tutorial.y-start.y)<2);await render();await page.screenshot({path:path.join(out,'onboarding-home-800.png')});await page.setViewportSize({width:1280,height:720});await advance(50);
   });
   await check('Teams physically enter while the broadcast camera and pause clock remain coherent',async()=>{
    await page.locator('#startBtn').click();const before=await page.evaluate(()=>__BROOMBALL__.match.entrance.actors.map(a=>({start:a.start.toArray(),current:a.unit.mesh.position.toArray()})));await advance(1450);

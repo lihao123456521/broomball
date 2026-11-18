@@ -16,7 +16,9 @@ window.BroomCharacterArt=(()=>{
   ernie:{hair:0x795c3f,skin:0xe7b99a,eyes:0x566859,style:'neat',trait:'neat chestnut side part',brow:-.005}
  };
  function decorate(wizard,{id='harry'}={}){
-  const T=window.THREE,profile=profiles[id]||profiles.harry,body=wizard.userData.replaceable.body;
+  const T=window.THREE,body=wizard.userData.replaceable.body;
+  const keeper=id.endsWith('-keeper')&&window.BroomRoster?.byId(id);
+  const profile=keeper?{...keeper,style:'crop',eyes:0x4c4941,brow:0,trait:'padded keeper helmet'}:profiles[id]||profiles.harry;
   if(body.userData.artVersion===2&&body.userData.characterId===id)return wizard;
   for(const child of [...body.children]){child.traverse(o=>{o.geometry?.dispose();if(o.material?.userData.owned)o.material.dispose();});child.removeFromParent();}
   const V=(x=0,y=0,z=0)=>new T.Vector3(x,y,z),up=V(0,1,0),materials=new Map();
@@ -121,6 +123,14 @@ window.BroomCharacterArt=(()=>{
    for(const side of[-1,1])lock([side*.27,.055,.03],[.065,.15,.20],side*.08);
    if(profile.style==='waves')for(let i=0;i<5;i++)lock([-.2+i*.10,.27,-.045],[.10,.13,.16],-.55+i*.12);
   }
+  if(keeper){
+   ell(head,leather,V(0,.20,.03),V(.33,.235,.30),'PaddedKeeperHelmet');
+   for(const side of[-1,1]){
+    ell(head,leather,V(side*.285,.008,.025),V(.065,.14,.115),'KeeperEarGuard');
+    ell(body,leather,V(side*.39,1.49,.08),V(.17,.125,.22),'KeeperShoulderPad');
+   }
+   stroke(head,[[0,.26,-.249],[0,.37,-.18],[0,.43,.025],[0,.37,.21]],.016,accent,'KeeperHelmetStripe');
+  }
   if(id==='ron')for(const side of[-1,1])for(let i=0;i<5;i++)ell(head,0xa96949,V(side*(.075+i*.025),-.09+(i%2)*.025,-.262+i*.007),V(.008,.008,.005),'Freckle');
   if(id==='harry'){
    for(const side of[-1,1])mesh(head,new T.TorusGeometry(.091,.012,6,24),0x24252a,V(side*.113,.026,-.294),'RoundSpectacle');bar(head,V(-.025,.035,-.30),V(.025,.035,-.30),.010,0x24252a,'SpectacleBridge');
@@ -156,19 +166,14 @@ window.BroomCharacterArt=(()=>{
   wizard.userData.appearance={version:2,id,hairStyle:profile.style,signature:profile.trait,skin:profile.skin,hair:profile.hair,features:['sculpted-face','iris-and-catchlights','layered-hair','tailored-jacket','cape-piping','shaped-boots','striped-scarf']};
   return wizard;
  }
- // Use a landmark on the actual rig. The imported Harry is one textured mesh;
- // its top slice isolates the head without replacing any of the uploaded art.
+ // The landmark is stored in each original rider's model space, including its pose.
  function getFaceFrame(wizard){
   const T=window.THREE;if(!wizard)return null;wizard.updateWorldMatrix(true,true);
-  const imported=wizard.userData.importedWizard&&wizard.children.find(o=>o.userData.uploadedModel==='harry-rider');
-  if(imported){
-   if(!wizard.userData.importedFaceFrame){
-    const inverse=wizard.matrixWorld.clone().invert(),box=new T.Box3().setFromObject(imported).applyMatrix4(inverse),cut=box.max.y-box.getSize(new T.Vector3()).y*.225,head=new T.Box3(),p=new T.Vector3(),m=new T.Matrix4();
-    imported.traverseVisible(o=>{if(!o.isMesh)return;m.multiplyMatrices(inverse,o.matrixWorld);const a=o.geometry.getAttribute('position');for(let i=0;i<a.count;i++){p.fromBufferAttribute(a,i).applyMatrix4(m);if(p.y>=cut)head.expandByPoint(p);}});
-    const size=head.getSize(new T.Vector3()),center=head.getCenter(new T.Vector3());center.y-=size.y*.04;
-    wizard.userData.importedFaceFrame={center:center.toArray(),radius:Math.max(size.x*.66,size.y*.70,.42)};
-   }
-   const frame=wizard.userData.importedFaceFrame;return{center:new T.Vector3().fromArray(frame.center),radius:frame.radius,source:'harry-rider'};
+  const model=wizard.userData.modelRoot,face=model?.userData?.faceLandmark;
+  if(face){
+   model.updateMatrix();
+   return {center:new T.Vector3().fromArray(face.center).applyMatrix4(model.matrix),
+    radius:Math.max(.42,face.radius*model.scale.y),source:model.userData.uploadedModel};
   }
   const head=wizard.getObjectByName('Head'),center=new T.Vector3();if(!head)return null;head.getWorldPosition(center);wizard.worldToLocal(center);center.y-=.025;return{center,radius:.53,source:wizard.userData.characterId||wizard.userData.artProfile};
  }

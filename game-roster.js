@@ -88,5 +88,16 @@ window.BroomRoster=(()=>{const rosters={
    "hair": 7953461
   }
  ]
-};const all=Object.values(rosters).flat();return Object.freeze({rosters,all,byId:id=>all.find(player=>player.id===id)});})();
+};
+ const keepers={
+  gryffindor:{id:'gryffindor-keeper',name:'格兰芬多守门员',hair:0x503024,skin:0xbb845e},
+  slytherin:{id:'slytherin-keeper',name:'斯莱特林守门员',hair:0x302527,skin:0xe0b094},
+  ravenclaw:{id:'ravenclaw-keeper',name:'拉文克劳守门员',hair:0x402f29,skin:0xa16c4e},
+  hufflepuff:{id:'hufflepuff-keeper',name:'赫奇帕奇守门员',hair:0x82532f,skin:0xdeac87}
+ };
+ // The selection screen contains the three outfield captains in each house.
+ const all=Object.values(rosters).flat();
+ const byIdentity=new Map([...all,...Object.values(keepers)].map(profile=>[profile.id,profile]));
+ return Object.freeze({rosters,keepers,all,byId:id=>byIdentity.get(id)});
+})();
 window.SchoolMagic=window.BroomRoster;

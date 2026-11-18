@@ -113,7 +113,7 @@ window.BroomCharacterPreview=(()=>{
    // Dragging can expose the long side of a broom. Expand just enough to keep it in view.
    if(viewMode==='body'&&projectedBounds&&(projectedBounds.left<width*.045||projectedBounds.right>width*.955||projectedBounds.top<height*.035||projectedBounds.bottom>height*.965)){distance*=1.025;placeCamera();projectedBounds=project(box);}
    renderer.render(scene,camera);frames++;
-   ready=!wizard.userData.broomLoading&&(selection.id!=='harry'||!!wizard.userData.importedWizard)&&!error;
+   ready=!wizard.userData.broomLoading&&(!window.BroomModels?.hasRider(selection.id)||!!wizard.userData.importedWizard)&&!error;
    loading.hidden=ready;
   }
   function getStatus(){return {characterId:selection?.id||null,house:selection?.house||null,ready,active,renderedFrames:frames,width,height,meshCount:meshes,triangles:Math.round(triangles),uploadedIds:[...uploadedIds],projectedBounds,viewMode,faceSource:faceFrame?.source||null,error,rotation:pivot.rotation.y};}

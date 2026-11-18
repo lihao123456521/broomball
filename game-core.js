@@ -46,9 +46,10 @@ function buildWorld(){
  const skyGeo=new THREE.SphereGeometry(520,32,16),skyMat=new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,uniforms:{top:{value:new THREE.Color(0x142443)},horizon:{value:new THREE.Color(0xd6907b)},bottom:{value:new THREE.Color(0x27314a)}},vertexShader:'varying vec3 vPos; void main(){vPos=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',fragmentShader:'varying vec3 vPos;uniform vec3 top;uniform vec3 horizon;uniform vec3 bottom;void main(){float h=normalize(vPos).y;vec3 c=h>0.0?mix(horizon,top,smoothstep(0.0,.75,h)):mix(horizon,bottom,smoothstep(0.0,.3,-h));gl_FragColor=vec4(c,1.0);}'});scene.add(new THREE.Mesh(skyGeo,skyMat));
  scene.add(new THREE.HemisphereLight(0xd6c8b4,0x2a3524,1.05));const sun=new THREE.DirectionalLight(0xffd2a0,2.35);sun.position.set(-95,78,60);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-100;sun.shadow.camera.right=100;sun.shadow.camera.top=100;sun.shadow.camera.bottom=-100;sun.shadow.camera.far=350;sun.shadow.bias=-.0004;scene.add(sun);const fill=new THREE.DirectionalLight(0x718fd0,.48);fill.position.set(90,45,-80);scene.add(fill);
  const base=cyl(scene,1,1.2,V(0,-.62,0),0x173e32,1,96);base.scale.set(59,1,80);const skirt=cyl(scene,1,2,V(0,-1.7,0),0xb28a45,1,96);skirt.scale.set(60,1,81);
+ const pitchFallback=new THREE.Group();pitchFallback.name='PitchFallback';pitchFallback.userData.sceneryFallback=true;scene.add(pitchFallback);
  const pitchMaterials=makePitchMaterials();
- for(let i=0;i<11;i++){const z=-60+i*12,w=53*Math.sqrt(Math.max(0,1-(z/77)**2));box(scene,V(w*2,.055,12.05),V(0,.025,z),pitchMaterials[i%2]);}
- lineEllipse(55.5,76.5,.14,0xe7c779);lineEllipse(52.8,73.8,.13,0xdce8d5);const center=torus(scene,10,.1,V(0,.14,0),0xe9ddae);center.rotation.x=Math.PI/2;center.scale.y=1.25;box(scene,V(45,.06,.16),V(0,.13,0),0xe9ddae);const crest=torus(scene,2.8,.14,V(0,.15,0),0xe7c779,.4);crest.rotation.x=Math.PI/2;crest.scale.y=1.25;
+ for(let i=0;i<11;i++){const z=-60+i*12,w=53*Math.sqrt(Math.max(0,1-(z/77)**2));box(pitchFallback,V(w*2,.055,12.05),V(0,.025,z),pitchMaterials[i%2]);}
+ pitchFallback.add(lineEllipse(55.5,76.5,.14,0xe7c779),lineEllipse(52.8,73.8,.13,0xdce8d5));const center=torus(scene,10,.1,V(0,.14,0),0xe9ddae);center.rotation.x=Math.PI/2;center.scale.y=1.25;box(pitchFallback,V(45,.06,.16),V(0,.13,0),0xe9ddae);const crest=torus(scene,2.8,.14,V(0,.15,0),0xe7c779,.4);crest.rotation.x=Math.PI/2;crest.scale.y=1.25;
  // Scoring arcs at each end give the rider a visible attacking reference.
  for(const side of[-1,1]){const pts=[];for(let i=0;i<=40;i++){const a=Math.PI*(i/40);pts.push(V(Math.cos(a)*16,.14,side*61-Math.sin(a)*side*14));}scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0xe9ddae,transparent:true,opacity:.6})));}
  buildStands();buildGoals();buildAirwall();buildHorizon();
@@ -81,7 +82,16 @@ function buildStands(){
  }
  for(const x of[-68,68])for(const z of[-76,76]){const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);cyl(g,3,22,V(0,10.5,0),0x3b4052,2.35,12);cyl(g,3.6,.65,V(0,20.8,0),0xd0aa60,3.6,16,.5);cyl(g,4.2,6.5,V(0,25,0),x*z>0?crimson:navy,0,12);cyl(g,.12,6,V(0,30.5,0),0xd6b76f,.12,8,.6);sph(g,.38,V(0,33.6,0),0xffe39a,.4,2);makeFlag(g,V(2.3,30.4,0),x*z>0?crimson:navy,4.6,2.2);}}
 function makeFlag(parent,pos,color,w,h){const m=addMesh(parent,new THREE.PlaneGeometry(w,h,8,2),new THREE.MeshStandardMaterial({color,side:THREE.DoubleSide,roughness:.8}),pos);m.rotation.y=Math.PI/2;flags.push(m);return m;}
-function buildGoals(){for(const side of[-1,1])for(let i=0;i<3;i++){const pos=V((i-1)*12,i===1?15:10,side*61),color=side<0?0x75b9ed:0xf3ce71,glow=side<0?0xb9e5ff:0xfff0ac;(side>0?homeGoals:awayGoals).push(pos);cyl(scene,.24,pos.y,V(pos.x,pos.y/2,pos.z),side<0?0x647f9c:0xcaa354,.24,12,.65);cyl(scene,.72,.35,V(pos.x,.18,pos.z),color,.72,16,.65);torus(scene,hoopRadius,hoopTubeRadius,pos,color,.65,.65);torus(scene,3.77,.045,pos,glow,.4,1.5);}}
+function buildGoals(){
+ const fallback=new THREE.Group();fallback.name='GoalFallback';fallback.userData.sceneryFallback=true;scene.add(fallback);
+ for(const side of[-1,1])for(let i=0;i<3;i++){
+  const pos=V((i-1)*12,i===1?15:10,side*61),color=side<0?0x75b9ed:0xf3ce71,glow=side<0?0xb9e5ff:0xfff0ac;
+  (side>0?homeGoals:awayGoals).push(pos);
+  cyl(fallback,.24,pos.y,V(pos.x,pos.y/2,pos.z),side<0?0x647f9c:0xcaa354,.24,12,.65);
+  cyl(fallback,.72,.35,V(pos.x,.18,pos.z),color,.72,16,.65);torus(fallback,hoopRadius,hoopTubeRadius,pos,color,.65,.65);
+  torus(scene,3.95,.045,pos,glow,.4,1.5);
+ }
+}
 function buildAirwall(){
  // The ground line marks the playable boundary without a cage across the view.
  lineEllipse(55.2,74.5,.3,0x79a5b6,64);
@@ -236,14 +246,18 @@ function updateBallFeedback(dt){
  pressRing.visible=active&&rivals.includes(carrier);
  if(pressRing.visible){pressRing.position.copy(carrier.mesh.position).add(V(0,.9,0));pressRing.quaternion.copy(camera.quaternion);const on=match.primaryAction==='defend'&&keys.KeyF;pressRing.material.color.set(on?0xffd76a:0x9fc3dd);pressRing.material.opacity=on?.75:.4;pressRing.scale.setScalar(on?1.15:1);}
 }
-const modelScenery=window.BroomModels?.mountScene({THREE,scene});
+const modelScenery=window.BroomModels?.mountScene({THREE,scene,goals:[...homeGoals,...awayGoals],openingRadius:hoopRadius-hoopTubeRadius});
 $('startBtn').disabled=true;$('startBtn').textContent='正在准备球场…';
 Promise.all([modelScenery,window.BroomModels?.ready]).then(()=>{$('startBtn').disabled=false;if(match.state==='menu')selectMode(selectedMode);});
 function renderAcademyChoices(){const box=document.querySelector('.characters');box.replaceChildren();for(const [i,cfg] of configs.entries()){const button=document.createElement('button');button.type='button';button.className='character'+(i===startingCharacter?' selected':'');button.dataset.id=cfg.id;button.setAttribute('aria-pressed',String(i===startingCharacter));button.innerHTML='<strong>'+cfg.en+'</strong><div class="cn">'+cfg.name+'</div><span class="player-role">'+cfg.role+'</span>';button.onclick=()=>switchCharacter(i);box.append(button);}}
 function refreshSquadAppearance(){
- for(const [i,unit] of [...allies,...rivals].entries()){
-  const friendly=allies.includes(unit),roster=window.BroomRoster.rosters[friendly?match.homeHouse:match.awayHouse];
-  const profile=roster[friendly?(unit.role==='keeper'?2:unit.index===0?1:0):unit.index%3];
+ const {rosters,keepers}=window.BroomRoster;
+ const homeFielders=rosters[match.homeHouse].filter(profile=>profile.id!==configs[startingCharacter].id);
+ const awayFielders=[...rosters[match.awayHouse]];
+ for(const unit of [...allies,...rivals]){
+  const friendly=allies.includes(unit),house=friendly?match.homeHouse:match.awayHouse;
+  const keeper=friendly?unit.slot===1:unit.role==='keeper';
+  const profile=keeper?keepers[house]:(friendly?homeFielders:awayFielders).shift();
   if(unit.mesh.userData.characterId===profile.id)continue;
   const old=unit.mesh,mesh=createWizard(profile.id,!friendly);mesh.position.copy(old.position);mesh.rotation.copy(old.rotation);mesh.visible=old.visible;disposeObject(old);unit.mesh=mesh;scene.add(mesh);resetAIFlight(unit);
  }
@@ -293,7 +307,7 @@ function resetMatch(mode=selectedMode){
  player.pos.set(0,10,38);player.previousPos.copy(player.pos);player.mesh.rotation.set(0,0,0);player.mesh.visible=true;player.vel.set(0,0,0);
  Object.assign(player,{baseSpeed:match.mode==='challenge'?24:match.mode==='rookie'?19:20,speed:0,stamina:100,boosting:false,exhausted:false,boundaryNotice:0});
  const starts=[V(-16,10,-34),V(18,10,-31),V(0,10,-53),V(25,10,2)];for(const r of rivals){r.mesh.visible=true;r.mesh.position.copy(starts[r.index]);r.stun=0;resetAIFlight(r);}
- resetQuaffle();quaffle.visible=true;setAim(0,0);broadcastFocus.copy(player.pos).add(V(0,1.2,0));cameraFraming.distance=30;updateCamera(1);
+ resetQuaffle();quaffle.visible=true;setAim(0,0);broadcastFocus.copy(player.pos).add(V(0,1.2,0));cameraFraming.distance=kickoffCameraDistance;updateCamera(1);
  for(const id of ['pause','ending','matchEntrance','tutorialCoach'])$(id).classList.add('hidden');renderAcademyChoices();updateHUD();
 }
 function beginMatchEntrance(){
@@ -303,7 +317,7 @@ function beginMatchEntrance(){
   return{unit,side,target,start:V((index%4-1.5)*3.2,6+(index%2)*1.4,side*69),delay:(index%4)*.12};
  });
  const captain = configs[startingCharacter];
- match.state='entrance';match.entrance={elapsed:0,duration:6.4,actors,shot:null};
+ match.state='entrance';quaffle.visible=false;match.entrance={elapsed:0,duration:6.4,actors,shot:null};
  $('entranceCaptain').textContent=captain.name;
  $('entranceCaptainClub').textContent=houseById(match.homeHouse).name+' · 出场队长';
  $('entranceHome').textContent=houseById(match.homeHouse).name;$('entranceAway').textContent=houseById(match.awayHouse).name;$('entranceMode').textContent=match.rules.label;
@@ -315,8 +329,8 @@ function beginMatchEntrance(){
 function finishMatchEntrance(){
  const entrance=match.entrance;if(!entrance)return false;
  for(const actor of entrance.actors){actor.unit.mesh.position.copy(actor.target);actor.unit.mesh.rotation.x=0;actor.unit.mesh.rotation.z=0;if(actor.unit===player){player.previousPos.copy(player.pos);player.vel.set(0,0,0);}else{actor.unit.previousPos=actor.target.clone();actor.unit.velocity?.set(0,0,0);resetAIFlight(actor.unit);}}
- match.entrance=null;match.state='countdown';
- broadcastFocus.copy(player.pos).y+=1.2;cameraFraming.distance=38;
+ match.entrance=null;match.state='countdown';quaffle.visible=true;
+ broadcastFocus.copy(player.pos).y+=1.2;cameraFraming.distance=kickoffCameraDistance;
  match.countdown=3;match.stealCooldown=1.5;setAim(0,0);camera.fov=50;camera.updateProjectionMatrix();$('matchEntrance').classList.add('hidden');updateCamera(0);notify('双方入场完毕 · 准备开球',1.5);return true;
 }
 function updateMatchEntrance(dt){
@@ -490,7 +504,7 @@ function carryPosition(owner){
 function setCarrier(value,receiveFrom=null){
  const previous=carrier,friendly=value==='player'||allies.includes(value),wasFriendly=previous==='player'||allies.includes(previous);
  if(!value||rivals.includes(value)){actionBuffer=null;if(match.primaryAction==='bufferedShot')match.primaryAction=null;}
- if(value&&match.state==='playing'&&(!previous||friendly!==wasFriendly))announceClip(friendly?'home-possession':'away-possession',value==='player'?'player-possession-'+(player.mesh.userData.characterId||configs[match.selected].id):'possession-'+(friendly?match.homeHouse:match.awayHouse),1,9);
+ if(value&&match.state==='playing'&&(!previous||friendly!==wasFriendly))announceClip(friendly?'home-possession':'away-possession',value==='player'&&player.role!=='keeper'?'player-possession-'+player.mesh.userData.characterId:'possession-'+(friendly?match.homeHouse:match.awayHouse),1,9);
  if(value!=='player'){match.charging=false;match.shotCharge=0;if(rivals.includes(value)&&keys.KeyF)match.primaryAction='defend';}
  carrier=value;
  shot=null;
@@ -555,7 +569,7 @@ function getShotInfo(){
  return {goal,distance,assisted,direction};
 }
 function launchShot(owner,direction,side,speed,recordMiss=false,details={}){
- announceClip('shot-'+side,owner===player.mesh?'player-shot-'+(player.mesh.userData.characterId||configs[match.selected].id):'shot-'+(side==='player'?match.homeHouse:match.awayHouse),2,6);
+ announceClip('shot-'+side,owner===player.mesh&&player.role!=='keeper'?'player-shot-'+player.mesh.userData.characterId:'shot-'+(side==='player'?match.homeHouse:match.awayHouse),2,6);
  owner.userData.castTime=.3;kickBallFeedback(.24);
  const release=carryPosition(owner);
  carrier=null;
@@ -566,6 +580,7 @@ function launchShot(owner,direction,side,speed,recordMiss=false,details={}){
  quaffle.position.copy(release);
  shot={side,age:0,recordMiss,owner,charge:details.charge||0,distance:details.distance||0,assisted:!!details.assisted,oneTouch:!!details.oneTouch,celebrationEligible:side==='player'&&owner===player.mesh};
  quaffleVel.copy(direction).multiplyScalar(speed);
+ notify(side==='player'?'我方射门':'对方射门',1.1);
  pickupDelay=.18;
 }
 function throwQuaffle(oneTouch=false){
@@ -813,7 +828,8 @@ function updatePlayer(dt){
  const modelYaw=player.speed>2?Math.atan2(-player.vel.x,-player.vel.z):moving?targetYaw:cameraYaw;player.mesh.rotation.y+=angleDelta(player.mesh.rotation.y,modelYaw)*Math.min(1,dt*14);player.mesh.rotation.z=lerp(player.mesh.rotation.z,settings.reducedMotion?0:clamp(-player.vel.x*.009,-.2,.2),1-Math.exp(-dt*8));player.mesh.rotation.x=lerp(player.mesh.rotation.x,0,1-Math.exp(-dt*6));animateWizard(player.mesh,dt,player.speed,match.elapsed);
 }
 const cameraFraming={distance:30,targets:[],mode:'broadcast',phase:'loose',subject:'ball',focus:[0,10,0],elevation:31};
-const broadcastFocus=V(0,11.4,0);
+const broadcastFocus=V(0,11.4,0),broadcastDirection=V(0,.40,.917).normalize();
+const kickoffCameraDistance=30;
 function getBallFocus(){
  const owner=carrier==='player'?player:carrier;
  return {owner,position:(owner?(owner===player?player.pos:owner.mesh.position):quaffle.position).clone(),phase:carrier==='player'||allies.includes(carrier)?'attack':rivals.includes(carrier)?'defend':passTarget?'pass':shot?'shot':'loose'};
@@ -863,7 +879,7 @@ function updateEntranceCamera(entrance){
   const t = clamp((elapsed-4.95)/(entrance.duration-4.95),0,1);
   const blend = t*t*(3-2*t);
   focus = V(0,10,12).lerp(player.pos.clone().add(V(0,1.2,0)),blend);
-  offset = V(18,20,40).lerp(V(0,.52,.85).normalize().multiplyScalar(38),blend);
+  offset = V(18,20,40).lerp(broadcastDirection.clone().multiplyScalar(kickoffCameraDistance),blend);
   fov = 50;
  }
  camera.position.copy(focus).add(offset);
@@ -883,7 +899,7 @@ function updateCamera(dt){
   Object.assign(cameraFraming,{targets:celebration.actors.map(actor=>actor.mesh.position.toArray()),mode:'celebration',phase:'celebration',subject:celebration.scorer.uuid,focus:broadcastFocus.toArray(),distance:camera.position.distanceTo(broadcastFocus)});return;
  }
  const activity=getMatchFocus(),points=getTacticalTargets(),desired=activity.position.clone().add(V(0,1.2,0)),lead=player.vel.clone().multiplyScalar(.07).clampLength(0,1.6);desired.add(lead);
- broadcastFocus.lerp(desired,1-Math.exp(-dt*7));const direction=V(0,.40,.917).normalize(),right=V(1,0,0),screenUp=direction.clone().cross(right),tan=Math.tan(THREE.MathUtils.degToRad(50)/2);let distance=24;
+ broadcastFocus.lerp(desired,1-Math.exp(-dt*7));const direction=broadcastDirection,right=V(1,0,0),screenUp=direction.clone().cross(right),tan=Math.tan(THREE.MathUtils.degToRad(50)/2);let distance=24;
  for(const p of points){const d=p.clone().sub(desired);distance=Math.max(distance,d.dot(direction)+Math.max((Math.abs(d.x)+2.5)/(tan*camera.aspect*.84),(Math.abs(d.dot(screenUp))+2)/(tan*.72)));}distance=clamp(distance,24,46);
  cameraFraming.distance=lerp(cameraFraming.distance,distance,1-Math.exp(-dt*5));Object.assign(cameraFraming,{targets:points.map(p=>p.toArray()),mode:'broadcast',phase:activity.phase,subject:player.mesh.uuid,focus:broadcastFocus.toArray()});camera.position.copy(broadcastFocus).addScaledVector(direction,cameraFraming.distance);camera.lookAt(broadcastFocus);camera.fov=50;camera.updateProjectionMatrix();
 }
@@ -1037,9 +1053,13 @@ function catchLooseBall(from,crossing,dt){
   }
 
 
-  if(!continued)notify(type==='pass'?(target==='player'?'接到队友传球 · F 射门':'接应队友接球'):
-   target==='player'?'拿到鬼飞球 · 瞄准蓝色门环':
-   type==='keeper'?'狮队守门员接住了鬼飞球':target===allies[0]?'狮队接应手拿球':'鹰队拿到鬼飞球',1.7);
+  if(!continued){
+   const team=houseById(friendlyUnit(carrier)?match.homeHouse:match.awayHouse).name;
+   const message=type==='keeper'?team+'守门员接住了鬼飞球':
+    carrier==='player'?(type==='pass'?'接到队友传球 · F 射门':'拿到鬼飞球 · 向对方球门推进'):
+    team+(type==='pass'?'队员接到传球':'拿到鬼飞球');
+   notify(message,1.7);
+  }
  }
  return true;
 }
@@ -1159,14 +1179,14 @@ function updateSteals(dt=1/60){
  if(carrier==='player'||allies.includes(carrier)){
   if((carrier==='player'?player:carrier).role==='keeper')return;
   const position=carrier==='player'?player.pos:carrier.mesh.position,stealRadius=match.rules.rivalStealRadius,defender=rivals.find(r=>r.role==='chaser'&&r.stun<=0&&r.mesh.position.distanceTo(position)<stealRadius);
-  if(defender){setCarrier(defender,quaffle.position.clone());stealContact(defender.mesh,carrier);match.stealCooldown=match.mode==='rookie'?1.2:match.mode==='challenge'?.65:.9;notify('对方夺球 · 已自动切换防守队员',1.5);}return;
+  if(defender){stealContact(defender.mesh,carrier);setCarrier(defender,quaffle.position.clone());match.stealCooldown=match.mode==='rookie'?1.2:match.mode==='challenge'?.65:.9;notify('对方夺球 · 已自动切换防守队员',1.5);}return;
  }
  const touchingBall=riderBallContactTime('player',previousBallPosition,quaffle.position,dt)!==null;
  const pressing=match.primaryAction==='defend'&&keys.KeyF,sprinting=player.boosting;
  const challenging=(pressing||sprinting)&&riderChallengeContact(carrier,dt,pressing?contactRules.pressRadius:contactRules.sprintRadius);
- if(touchingBall||challenging){setCarrier('player',quaffle.position.clone());stealContact(player.mesh,carrier);match.stealCooldown=contactRules.protection;match.stats.steals++;kickBallFeedback(.3);matchAudio.play('catch');notify('抢断成功 · E 传球 / F 射门',1.5);return;}
+ if(touchingBall||challenging){stealContact(player.mesh,carrier);setCarrier('player',quaffle.position.clone());match.stealCooldown=contactRules.protection;match.stats.steals++;kickBallFeedback(.3);matchAudio.play('catch');notify('抢断成功 · E 传球 / F 射门',1.5);return;}
  const defender=allies.find(a=>a.role==='chaser'&&a.stun<=0&&a.mesh.position.distanceTo(carrier.mesh.position)<2.05);
- if(defender){setCarrier(defender,quaffle.position.clone());stealContact(defender.mesh,carrier);match.stealCooldown=contactRules.protection;match.stats.steals++;kickBallFeedback(.22);ensureTeamControl();notify('队友协同抢断 · 已接管球权',1.5);}
+ if(defender){stealContact(defender.mesh,carrier);setCarrier(defender,quaffle.position.clone());match.stealCooldown=contactRules.protection;match.stats.steals++;kickBallFeedback(.22);ensureTeamControl();notify('队友协同抢断 · 已接管球权',1.5);}
 }
 
 function resultTitle(){
@@ -1235,7 +1255,7 @@ function updateBallMarker(){
 }
 function updateHUD(){
  const live=match.state==='playing'&&!match.paused&&!match.celebration&&!match.tutorial?.complete,holding=carrier==='player',defending=rivals.includes(carrier),hidden=match.state==='menu'||match.state==='entrance';
- $('hud').style.opacity=hidden?'0':'1';$('hud').inert=hidden||match.paused||match.state==='ended';$('playerScore').textContent=match.playerScore;$('rivalScore').textContent=match.rivalScore;$('modeLabel').textContent=match.tutorial?'新手训练':match.rules.label;const sec=Math.ceil(match.timeLeft);$('clock').textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('staminaFill').style.width=player.stamina+'%';$('staminaValue').textContent=Math.round(player.stamina)+'%';$('possession').textContent=holding?'我方持球':defending?'防守 · 最近队员':'我方传球 / 争夺球权';$('message').textContent=match.message;$('message').style.opacity=live&&match.messageTime>0?1:0;$('countdown').style.display=match.state==='countdown'&&!match.paused?'block':'none';$('countdown').textContent=Math.max(1,Math.ceil(match.countdown));const info=getObjectiveInfo();$('objectiveText').textContent=info.text;$('objectiveArrow').textContent=info.direction;drawRadar();
+ $('hud').style.opacity=hidden?'0':'1';$('hud').inert=hidden||match.paused||match.state==='ended';$('playerScore').textContent=match.playerScore;$('rivalScore').textContent=match.rivalScore;$('modeLabel').textContent=match.tutorial?'新手训练':match.rules.label;const sec=Math.ceil(match.timeLeft);$('clock').textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('staminaFill').style.width=player.stamina+'%';$('staminaValue').textContent=Math.round(player.stamina)+'%';$('possession').textContent=holding||allies.includes(carrier)?'我方持球':defending?'防守 · 最近队员':shot?(shot.side==='player'?'我方射门':'对方射门'):passTarget?(friendlyUnit(passSender)?'我方传球':'对方传球'):'自由球';$('message').textContent=match.message;$('message').style.opacity=live&&match.messageTime>0?1:0;$('countdown').style.display=match.state==='countdown'&&!match.paused?'block':'none';$('countdown').textContent=Math.max(1,Math.ceil(match.countdown));const info=getObjectiveInfo();$('objectiveText').textContent=info.text;$('objectiveArrow').textContent=info.direction;drawRadar();
 }
 const controlMarker=new THREE.Mesh(new THREE.ConeGeometry(.28,.52,3),new THREE.MeshBasicMaterial({color:0xc8ff69,depthTest:false}));controlMarker.rotation.z=Math.PI;controlMarker.renderOrder=8;scene.add(controlMarker);
 function guideGeometry(count){

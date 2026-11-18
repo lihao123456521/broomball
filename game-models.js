@@ -2,6 +2,16 @@
 window.BroomModels = (() => {
   'use strict';
   const base = new URL('.', document.currentScript.src);
+  const riders = {
+    harry:    ['harry-rider',  'textured (2)(1).glb', '哈利'],
+    draco:    ['draco-rider',  'textured(3).glb', '德拉科'],
+    cedric:   ['cedric-rider', 'textured (4).glb', '塞德里克'],
+    blaise:   ['blaise-rider', 'textured (5).glb', '布雷斯'],
+    pansy:    ['pansy-rider',  'textured (6).glb', '潘西'],
+    hannah:   ['hannah-rider', 'textured(7).glb', '汉娜'],
+    cho:      ['cho-rider',    'textured (8).glb', '秋'],
+    luna:     ['luna-rider',   'textured (9).glb', '卢娜']
+  };
   const sources = [
     ['academy-hall', 'textured.glb', '学院主堡'],
     ['academy-tower', 'textured (1).glb', '学院尖塔'],
@@ -9,7 +19,9 @@ window.BroomModels = (() => {
     ['rampart', 'textured (3).glb', '学院城墙'],
     ['broom', 'textured(1).glb', '上传的飞行扫帚'],
     ['snitch', 'textured (1)(1).glb', '金色飞贼奖杯'],
-    ['harry-rider', 'textured (2)(1).glb', '哈利飞行模型']
+    ['stadium-ground', 'ground.glb', '草地球场'],
+    ['goal-pillar', 'pillar.glb', '铜制球门'],
+    ...Object.values(riders)
   ];
   const state = new Map(sources.map(([id, source, name]) => [id, { id, source, name, status: 'idle', placements: [] }]));
   const templates = new Map();
@@ -65,6 +77,7 @@ window.BroomModels = (() => {
           }
         }
       });
+      if (id.endsWith('-rider')) template.userData.faceLandmark = findFace(template);
       record.status = 'ready';
       window.dispatchEvent(new CustomEvent('uploaded-model-ready', { detail: { id } }));
       return template;
@@ -105,13 +118,36 @@ window.BroomModels = (() => {
     return model;
   }
 
+  // The eight uploaded riders each contain one posed, textured mesh. Measure the
+  // upper head once per template in model space so a rider's lean travels with it.
+  function findFace(template) {
+    const box = new THREE.Box3().setFromObject(template);
+    const height = box.max.y - box.min.y;
+    // A forward-leaning rider's shoulders extend behind the head. Use the
+    // crown to locate its horizontal centre, then aim lower at the face.
+    const cut = box.max.y - height * .12;
+    const head = new THREE.Box3(), point = new THREE.Vector3();
+    template.traverse(part => {
+      if (!part.isMesh) return;
+      const positions = part.geometry.attributes.position;
+      for (let i = 0; i < positions.count; i++) {
+        point.fromBufferAttribute(positions, i).applyMatrix4(part.matrixWorld);
+        if (point.y >= cut) head.expandByPoint(point);
+      }
+    });
+    const size = head.getSize(new THREE.Vector3()), center = head.getCenter(new THREE.Vector3());
+    center.y = box.max.y - height * .105;
+    return { center: center.toArray(), radius: Math.max(size.x * .72, height * .15) };
+  }
+
   async function mountWizard(wizard, { characterId } = {}) {
-    if (characterId !== 'harry') return null;
+    const id = riders[characterId]?.[0];
+    if (!id) return null;
     const token = {}; wizard.userData.uploadedAppearanceRequest = token;
     try {
-      const template = await load('harry-rider');
+      const template = await load(id);
       if (wizard.userData.uploadedAppearanceRequest !== token || wizard.userData.disposed) return null;
-      const model = instance(template, 'harry-rider', 'player-and-team-harry');
+      const model = instance(template, id, 'player-and-team-' + characterId);
       fit(model, 'y', 3.25, new THREE.Vector3(0, 1.05, .1), Math.PI);
       model.userData.restRotationX = model.rotation.x;
       model.userData.restPositionY = model.position.y;
@@ -124,12 +160,54 @@ window.BroomModels = (() => {
     } catch { return null; }
   }
 
-  async function mountScene({ scene, snitch } = {}) {
+  async function mountPitch(scene) {
+    const ground = instance(await load('stadium-ground'), 'stadium-ground', 'match-turf');
+    const bounds = new THREE.Box3().setFromObject(ground);
+    const size = bounds.getSize(new THREE.Vector3()), center = bounds.getCenter(new THREE.Vector3());
+    // The painted white boundary lies at about 84% of the uploaded grass disc.
+    ground.scale.set(131 / size.x, .65 / size.y, 177 / size.z);
+    ground.position.set(-center.x * ground.scale.x, .045 - bounds.max.y * ground.scale.y, -center.z * ground.scale.z);
+    ground.traverse(part => { if (part.isMesh) part.castShadow = false; });
+    scenery.add(ground);
+    scene.getObjectByName('PitchFallback').visible = false;
+  }
+
+  async function mountGoals(scene, goals, openingRadius) {
+    const template = await load('goal-pillar');
+    // Measured from pillar.glb. The artist's opening is slightly oval.
+    // Fit its inside edge to the circular scoring aperture, and shorten only
+    // the shaft below the ring so each foot still rests on the grass.
+    const ringY = 1.1175, shaftTop = .60, footY = -1.524;
+    const scaleX = openingRadius / .318, scaleY = openingRadius / .3575;
+    const variants = new Map();
+    for (const goal of goals) {
+      if (!variants.has(goal.y)) {
+        const variant = template.clone(true);
+        const shaftHeight = goal.y + (shaftTop - ringY) * scaleY;
+        variant.traverse(part => {
+          if (!part.isMesh) return;
+          const geometry = part.geometry.clone(), positions = geometry.attributes.position;
+          for (let i = 0; i < positions.count; i++) {
+            const y = positions.getY(i);
+            const worldY = y < shaftTop ? (y - footY) * shaftHeight / (shaftTop - footY) : goal.y + (y - ringY) * scaleY;
+            positions.setXYZ(i, positions.getX(i) * scaleX, worldY, positions.getZ(i) * scaleX);
+          }
+          geometry.computeVertexNormals(); geometry.computeBoundingBox(); geometry.computeBoundingSphere();
+          part.geometry = geometry;
+        });
+        variants.set(goal.y, variant);
+      }
+      const pillar = instance(variants.get(goal.y), 'goal-pillar', 'scoring-hoop');
+      pillar.position.set(goal.x, 0, goal.z); scenery.add(pillar);
+    }
+    scene.getObjectByName('GoalFallback').visible = false;
+  }
+
+  async function mountScene({ scene, snitch, goals = [], openingRadius } = {}) {
     if (scenery) return scenery;
     activeScene = scene;
     scenery = new THREE.Group(); scenery.name = 'ImportedAcademy'; scene.add(scenery);
     const placeholder = scene.getObjectByName('HighlandStadium')?.children.find(child => child.isGroup && Math.abs(child.position.x + 128) < .1 && Math.abs(child.position.z + 151) < .1);
-    if (placeholder) placeholder.visible = false;
     const placements = [
       ['academy-hall', 'western-great-hall', 'y', 62, [-102, -2, -116], .20],
       ['academy-tower', 'north-west-tower', 'y', 36, [-76, -2, -55], .08],
@@ -142,7 +220,10 @@ window.BroomModels = (() => {
       const model = instance(await load(id), id, label);
       fit(model, dimension, size, new THREE.Vector3(...point), rotation, true);
       scenery.add(model);
+      if (id === 'academy-hall' && placeholder) placeholder.visible = false;
     });
+    if (scene.getObjectByName('PitchFallback')) jobs.push(mountPitch(scene));
+    if (goals.length && scene.getObjectByName('GoalFallback')) jobs.push(mountGoals(scene, goals, openingRadius));
     jobs.push((async () => {
       const template = await load('snitch');
       const podium = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 3, 2.7, 12), new THREE.MeshStandardMaterial({ color: 0x263b45, metalness: .45, roughness: .5 }));
@@ -174,6 +255,6 @@ window.BroomModels = (() => {
     }
   }
 
-  return { load, mountWizard, mountScene, update, getStatus, recordPlacement,
+  return { load, mountWizard, mountScene, update, getStatus, recordPlacement, hasRider: id => !!riders[id],
     get ready() { return ready || (ready = Promise.allSettled(sources.map(([id]) => load(id)))); } };
 })();

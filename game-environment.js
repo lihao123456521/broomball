@@ -66,6 +66,7 @@ window.BroomEnvironment = (() => {
 
     // A compact castle silhouette is kept beyond the stands and boundary.
     const castle = new T.Group();
+    castle.userData.sceneryFallback = true;
     castle.position.set(-128, -1.4, -151);
     castle.rotation.y = -.22;
     root.add(castle);
@@ -273,7 +274,7 @@ window.BroomEnvironment = (() => {
     scene.updateMatrixWorld(true);
     const groups = new Map();
     scene.traverse(object => {
-      if (!object.isMesh || !object.material?.isMeshStandardMaterial || object.material.transparent ||
+      if (object.isInstancedMesh || object.parent?.userData.sceneryFallback || !object.isMesh || !object.material?.isMeshStandardMaterial || object.material.transparent ||
           object.material.side === T.DoubleSide || !object.geometry.getAttribute('normal') ||
           !object.geometry.getAttribute('uv')) return;
       const key = object.material.uuid + ':' + object.castShadow + ':' + object.receiveShadow;

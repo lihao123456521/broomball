@@ -43,8 +43,8 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
   });
   await check('Touching the held ball can win possession without F or a sprint',async()=>{
    await stage();await setupOpponent(1.2);await advance(32);
-   const result=await page.evaluate(()=>{const g=__BROOMBALL__;return{holding:g.carrier==='player',steals:g.match.stats.steals,speed:g.player.speed,charging:g.match.charging};});
-   assert.equal(result.holding,true);assert.equal(result.steals,1);assert.ok(result.speed<1);assert.equal(result.charging,false);report.evidence.automaticTouch=result;
+   const result=await page.evaluate(()=>{const g=__BROOMBALL__;return{holding:g.carrier==='player',steals:g.match.stats.steals,speed:g.player.speed,charging:g.match.charging,winnerSwiped:g.player.mesh.userData.swipeTime>0,loserStumbled:g.rivals[0].mesh.userData.stumbleTime>0};});
+   assert.ok(result.winnerSwiped&&result.loserStumbled);assert.equal(result.holding,true);assert.equal(result.steals,1);assert.ok(result.speed<1);assert.equal(result.charging,false);report.evidence.automaticTouch=result;
   });
   await check('F wins a close challenge while an opponent eight metres away remains out of reach',async()=>{
    await stage();await setupOpponent(3.3);await page.keyboard.down('f');await advance(80);

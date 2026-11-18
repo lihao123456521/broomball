@@ -33,7 +33,7 @@ window.BroomPlayerPortraits=(()=>{
    renderer.setViewport(x,y,w,h);renderer.setScissor(x,y,w,h);renderer.render(slot.scene,slot.camera);
    const ids=new Set();slot.wizard.traverseVisible(o=>{if(o.userData.uploadedModel)ids.add(o.userData.uploadedModel);});slot.uploadedIds=[...ids];
    const top=frame.center.clone().add(new T.Vector3(0,frame.radius*.7,0)).project(slot.camera),bottom=frame.center.clone().add(new T.Vector3(0,-frame.radius*.7,0)).project(slot.camera);
-   slot.ready=slot.identity.id!=='harry'||!!slot.wizard.userData.importedWizard;slot.source=frame.source;slot.facePixels=Math.abs(top.y-bottom.y)*h*.5;
+   slot.ready=!window.BroomModels?.hasRider(slot.identity.id)||!!slot.wizard.userData.importedWizard;slot.source=frame.source;slot.facePixels=Math.abs(top.y-bottom.y)*h*.5;
    slot.node.dataset.ready=String(slot.ready);
   }
   function update(dt,{active:enabled=false,controlled=null,carrier=null}={}){

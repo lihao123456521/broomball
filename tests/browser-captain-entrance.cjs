@@ -50,6 +50,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
       remaining -= step;
      }
      g.updateCamera(0);
+     g.scene.updateMatrixWorld(true);
      g.camera.updateMatrixWorld();
      const rider = g.player.mesh;
      const face = BroomCharacterArt.getFaceFrame(rider);
@@ -70,6 +71,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
       shot: g.cameraFraming.phase,
       subject: g.cameraFraming.subject === rider.uuid,
       id: rider.userData.characterId,
+      faceSource: face.source,
       title: document.getElementById('entranceCaptain').textContent,
       name: g.configs[g.match.selected].name,
       diameter: (edge.x - projected.x) * innerWidth,
@@ -79,6 +81,8 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
     }, time);
     assert.equal(sample.shot, shot);
     assert.equal(sample.id, id);
+    if (['harry','draco','blaise','pansy','cedric','hannah','cho','luna'].includes(id))
+     assert.equal(sample.faceSource, id + '-rider');
     assert.equal(sample.title, sample.name);
     assert.ok(sample.subject && sample.hitCaptain, JSON.stringify({ id, sample }));
     assert.ok(Math.abs(sample.projected[0]) < .2 && Math.abs(sample.projected[1]) < .55);
