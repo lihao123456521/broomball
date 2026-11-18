@@ -190,7 +190,7 @@ const modes={
  challenge:{label:'挑战赛',duration:180,rivalSpeed:.92,rivalStealRadius:2.3,rivalShotSpeed:28,keeperSaveRadius:2.05,aimAssistRadius:4.25,shotAssistRange:38}
 };
 const modeBriefs={rookie:'对手速度较慢，射门辅助更强，适合第一次上场。',standard:'速度与逼抢适中，适合熟悉配合后挑战。',challenge:'更快对手与高压逼抢，适合熟练玩家。'};
-const freshStats=()=>({shots:0,goals:0,steals:0,passes:0,completedPasses:0,oneTouchPasses:0,oneTouchShots:0,touches:0,homePossession:0,awayPossession:0});
+const freshStats=()=>({shots:0,goals:0,steals:0,interceptions:0,passes:0,completedPasses:0,oneTouchPasses:0,oneTouchShots:0,touches:0,homePossession:0,awayPossession:0});
 let selectedMode='rookie',startingCharacter=0;
 const match={cameraMode:'broadcast',autoSwitch:true,shotCharge:0,charging:false,primaryAction:null,pendingRestart:null,homeHouse:settings.house,awayHouse:settings.opponent,mode:'rookie',rules:modes.rookie,stats:freshStats(),state:'menu',paused:false,countdown:3,elapsed:0,timeLeft:180,playerScore:0,rivalScore:0,message:'',messageTime:0,kickoff:0,stealCooldown:1.5,selected:0,lastControlSwitchAt:-Infinity,entrance:null,tutorial:null};
 let lastQuietCommentary=-Infinity;
@@ -1044,9 +1044,11 @@ function catchLooseBall(from,crossing,dt){
   pickupDelay=.18;
   notify('鹰队守门员扑出了鬼飞球',1.7);
  }else{
-  const completed=type==='pass'&&(passSender==='player'||allies.includes(passSender));
+  const completed=type==='pass'&&friendlyUnit(passSender);
+  const intercepted=!!passTarget&&rivals.includes(passSender)&&friendlyUnit(target);
   const reception=from.clone().lerp(quaffle.position,t);setCarrier(target,reception);const continued=!!passTarget||!!shot;
   if(completed)match.stats.completedPasses++;
+  if(intercepted)match.stats.interceptions++;
   if(type==='pass'||carrier==='player'){
    const protection=match.mode==='challenge'?.65:contactRules.protection;
    match.stealCooldown=Math.max(match.stealCooldown,protection);
@@ -1055,7 +1057,7 @@ function catchLooseBall(from,crossing,dt){
 
   if(!continued){
    const team=houseById(friendlyUnit(carrier)?match.homeHouse:match.awayHouse).name;
-   const message=type==='keeper'?team+'守门员接住了鬼飞球':
+   const message=intercepted?'截下对方传球 · E 传球 / F 射门':type==='keeper'?team+'守门员接住了鬼飞球':
     carrier==='player'?(type==='pass'?'接到队友传球 · F 射门':'拿到鬼飞球 · 向对方球门推进'):
     team+(type==='pass'?'队员接到传球':'拿到鬼飞球');
    notify(message,1.7);
@@ -1192,7 +1194,7 @@ function updateSteals(dt=1/60){
 function resultTitle(){
  return match.playerScore>match.rivalScore?houseById(match.homeHouse).name+'获胜':match.rivalScore>match.playerScore?houseById(match.awayHouse).name+'获胜':'双方平局';
 }
-function finishMatch(title,detail){if(match.state!=='playing')return;clearInput();match.state='ended';matchAudio.stop();announceClip('result',match.playerScore===match.rivalScore?'result-draw':'result-'+(match.playerScore>match.rivalScore?match.homeHouse:match.awayHouse),5,0);$('endTitle').textContent=teamText(title);$('endScore').textContent=match.playerScore+' — '+match.rivalScore;$('endDetail').textContent=detail;const stats=match.stats;$('endStats').textContent='射门 '+stats.shots+' · 进球 '+stats.goals+' · 抢断 '+stats.steals+' · 触球 '+stats.touches+' · 成功传球 '+stats.completedPasses+' / '+stats.passes+' · 一脚配合 '+(stats.oneTouchPasses+stats.oneTouchShots)+' · 控球率 '+Math.round(stats.homePossession/Math.max(1,stats.homePossession+stats.awayPossession)*100)+'%';$('ending').classList.remove('hidden');}
+function finishMatch(title,detail){if(match.state!=='playing')return;clearInput();match.state='ended';matchAudio.stop();announceClip('result',match.playerScore===match.rivalScore?'result-draw':'result-'+(match.playerScore>match.rivalScore?match.homeHouse:match.awayHouse),5,0);$('endTitle').textContent=teamText(title);$('endScore').textContent=match.playerScore+' — '+match.rivalScore;$('endDetail').textContent=detail;const stats=match.stats;$('endStats').textContent='射门 '+stats.shots+' · 进球 '+stats.goals+' · 抢断 '+stats.steals+' · 拦截 '+stats.interceptions+' · 触球 '+stats.touches+' · 成功传球 '+stats.completedPasses+' / '+stats.passes+' · 一脚配合 '+(stats.oneTouchPasses+stats.oneTouchShots)+' · 控球率 '+Math.round(stats.homePossession/Math.max(1,stats.homePossession+stats.awayPossession)*100)+'%';$('ending').classList.remove('hidden');}
 function finishByTime(){
  finishMatch(resultTitle(),'时间结束，按双方总分结算。');
 }

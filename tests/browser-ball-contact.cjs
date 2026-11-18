@@ -111,7 +111,8 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    });
    await page.keyboard.up('f');
    assert.ok(result.launched);assert.equal(result.holding,true,JSON.stringify(result));assert.ok(result.frames>3);assert.ok(result.distance>.8);assert.equal(result.action,'defend');
-   assert.equal(await page.evaluate(()=>__BROOMBALL__.match.stats.shots),0);report.evidence.heldPressInterception=result;
+   const stats=await page.evaluate(()=>__BROOMBALL__.match.stats);
+   assert.equal(stats.shots,0);assert.equal(stats.steals,0);assert.equal(stats.interceptions,1);report.evidence.heldPressInterception=result;
   });
   await check('Pressing F during a home shot does not queue an unwanted chase after the save',async()=>{
    await stage();await page.evaluate(()=>__BROOMBALL__.setCarrier('player'));
