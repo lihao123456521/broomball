@@ -4,7 +4,7 @@ source vertex UVs and silhouettes. Downsized textures remain embedded in GLB.
 """
 from pathlib import Path
 from array import array
-import argparse,base64,hashlib,json,os,struct,subprocess,tempfile
+import argparse,base64,hashlib,io,json,os,struct,subprocess,tempfile
 ROOT=Path(__file__).resolve().parent
 NAMES=['textured.glb','textured (1).glb','textured (2).glb','textured (3).glb','textured(1).glb','textured (1)(1).glb','textured (2)(1).glb']
 IDS=['academy-hall','academy-tower','gatehouse','rampart','broom','snitch','harry-rider']
@@ -26,6 +26,12 @@ MATCHDAY = [
  ('cho-rider', 'textured (8).glb', 36000, 1536),
  ('luna-rider', 'textured (9).glb', 36000, 1536),
 ]
+COMPLETION = [
+ ('ron-rider', 'Ron.glb', 36000, 1536),
+ ('hermione-rider', 'hermine.glb', 36000, 1536),
+ ('ernie-rider', 'eni.glb', 36000, 1536),
+ ('padma-rider', 'padema.glb', 36000, 1536),
+]
 
 def build(source, id, target, texture_size):
  name=source.name
@@ -37,6 +43,7 @@ def build(source, id, target, texture_size):
   if not Path(node).exists():node='node'
   geometry_args=[node,str(ROOT/'tools'/'simplify_geometry.cjs'),str(source),str(out),str(target)]
   if id.endswith('-rider'):geometry_args.append('rider')
+  if id in {spec[0] for spec in COMPLETION}:geometry_args.append('.001')
   result=subprocess.run(geometry_args,check=True,capture_output=True,text=True)
   print(id,result.stdout.strip(),flush=True)
   optimized=out.read_bytes();counts=struct.unpack_from('<IIII',optimized);offset=16;arrays=[]
@@ -44,10 +51,12 @@ def build(source, id, target, texture_size):
    values=array(fmt);values.frombytes(optimized[offset:offset+count*4]);arrays.append(values);offset+=count*4
   pp,nn,uu,ii=arrays
  texindex=doc['materials'][0]['pbrMetallicRoughness']['baseColorTexture']['index'];image=doc['images'][doc['textures'][texindex]['source']];view=doc['bufferViews'][image['bufferView']];im=bin[view['byteOffset']:view['byteOffset']+view['byteLength']]
- with tempfile.TemporaryDirectory()as td:
-  png=Path(td)/'base.png';jpg=Path(td)/'base.jpg';png.write_bytes(im)
-  subprocess.run(['sips','-Z',str(texture_size),'-s','format','jpeg','-s','formatOptions','85',str(png),'--out',str(jpg)],check=True,stdout=subprocess.DEVNULL)
-  imagebytes=jpg.read_bytes()
+ from PIL import Image
+ with Image.open(io.BytesIO(im)) as source_image:
+  texture=source_image.convert('RGB')
+  texture.thumbnail((texture_size,texture_size),Image.Resampling.LANCZOS)
+  jpeg=io.BytesIO();texture.save(jpeg,format='JPEG',quality=85)
+  imagebytes=jpeg.getvalue()
  chunks=[];views=[]
  def part(data):
   offset=sum(len(c)for c in chunks);views.append({'buffer':0,'byteOffset':offset,'byteLength':len(data)});chunks.append(data+b'\0'*((-len(data))%4));return len(views)-1
@@ -67,16 +76,20 @@ def build(source, id, target, texture_size):
 if __name__ == '__main__':
  parser=argparse.ArgumentParser(description=__doc__)
  parser.add_argument('--matchday-sources',type=Path,help='Directory containing the second delivery of GLB uploads. Builds its nine distinct new models.')
+ parser.add_argument('--completion-sources',type=Path,help='Directory containing Ron.glb, hermine.glb, eni.glb and padema.glb.')
  args=parser.parse_args()
  destination=ROOT/'manifest.json'
  manifest={entry['id']:entry for entry in json.loads(destination.read_text())} if destination.exists() else {}
  (ROOT/'runtime').mkdir(exist_ok=True)
- if args.matchday_sources:
+ if args.completion_sources:
+  source_dir=args.completion_sources
+  specs=COMPLETION
+ elif args.matchday_sources:
   source_dir=args.matchday_sources
   specs=MATCHDAY
  else:
   source_dir=ROOT/'originals'
-  specs=[(id,name,budget,2048 if id=='harry-rider' else 1024) for id,name,budget in zip(IDS,NAMES,TARGET)] + MATCHDAY
+  specs=[(id,name,budget,2048 if id=='harry-rider' else 1024) for id,name,budget in zip(IDS,NAMES,TARGET)] + MATCHDAY + COMPLETION
  for id,name,target,texture_size in specs:
   manifest[id]=build(source_dir/name,id,target,texture_size)
   print('SAVED',id,manifest[id]['runtimeBytes'],flush=True)

@@ -81,14 +81,13 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
     }, time);
     assert.equal(sample.shot, shot);
     assert.equal(sample.id, id);
-    if (['harry','draco','blaise','pansy','cedric','hannah','cho','luna'].includes(id))
-     assert.equal(sample.faceSource, id + '-rider');
+    assert.equal(sample.faceSource, id + '-rider');
     assert.equal(sample.title, sample.name);
     assert.ok(sample.subject && sample.hitCaptain, JSON.stringify({ id, sample }));
     assert.ok(Math.abs(sample.projected[0]) < .2 && Math.abs(sample.projected[1]) < .55);
     assert.ok(sample.diameter > 140);
     sizes.push(sample.diameter);
-    if (['harry', 'luna'].includes(id)) {
+    if (['harry', 'luna','ron','hermione','ernie','padma'].includes(id)) {
      await page.clock.runFor(20);
      await page.screenshot({ path: path.join(out, 'entrance-' + id + '-' + shot + '.png') });
     }
