@@ -10,7 +10,11 @@ window.BroomModels = (() => {
     pansy:    ['pansy-rider',  'textured (6).glb', '潘西'],
     hannah:   ['hannah-rider', 'textured(7).glb', '汉娜'],
     cho:      ['cho-rider',    'textured (8).glb', '秋'],
-    luna:     ['luna-rider',   'textured (9).glb', '卢娜']
+    luna:     ['luna-rider',   'textured (9).glb', '卢娜'],
+    ron:      ['ron-rider',    'Ron.glb', '罗恩'],
+    hermione: ['hermione-rider', 'hermine.glb', '赫敏'],
+    ernie:    ['ernie-rider',  'eni.glb', '厄尼'],
+    padma:    ['padma-rider',  'padema.glb', '帕德玛']
   };
   const sources = [
     ['academy-hall', 'textured.glb', '学院主堡'],
@@ -118,7 +122,7 @@ window.BroomModels = (() => {
     return model;
   }
 
-  // The eight uploaded riders each contain one posed, textured mesh. Measure the
+  // The twelve uploaded riders each contain one posed, textured mesh. Measure the
   // upper head once per template in model space so a rider's lean travels with it.
   function findFace(template) {
     const box = new THREE.Box3().setFromObject(template);

@@ -366,5 +366,97 @@
         0.9341705441474915
       ]
     }
+  },
+  {
+    "id": "ron-rider",
+    "source": "Ron.glb",
+    "sha256": "89e32bdf3e033ef493320246c1c55294ed69272f342dbb209c27baabb77546c0",
+    "sourceBytes": 26074940,
+    "sourceTriangles": 291548,
+    "runtimeBytes": 6805164,
+    "runtimeTriangles": 140194,
+    "vertices": 147380,
+    "texture": 1536,
+    "bounds": {
+      "min": [
+        -0.6000000238418579,
+        -0.7843625545501709,
+        -0.6906945109367371
+      ],
+      "max": [
+        0.5996942520141602,
+        0.7848063111305237,
+        0.6906945109367371
+      ]
+    }
+  },
+  {
+    "id": "hermione-rider",
+    "source": "hermine.glb",
+    "sha256": "2519dad8619367eb917cc544ee497330e4adc483afffd2c2541ec16ed9255874",
+    "sourceBytes": 26761260,
+    "sourceTriangles": 298038,
+    "runtimeBytes": 8068232,
+    "runtimeTriangles": 159602,
+    "vertices": 178970,
+    "texture": 1536,
+    "bounds": {
+      "min": [
+        -0.699999988079071,
+        -0.6302908658981323,
+        -0.7138208150863647
+      ],
+      "max": [
+        0.699999988079071,
+        0.6305416822433472,
+        0.7134339809417725
+      ]
+    }
+  },
+  {
+    "id": "ernie-rider",
+    "source": "eni.glb",
+    "sha256": "978f189df17f078e01f23f9a95157491b0b66e97291cac33386a1aeac048bfbe",
+    "sourceBytes": 20327252,
+    "sourceTriangles": 217174,
+    "runtimeBytes": 3054872,
+    "runtimeTriangles": 61244,
+    "vertices": 61659,
+    "texture": 1536,
+    "bounds": {
+      "min": [
+        -0.7249863147735596,
+        -1.1616722345352173,
+        -1.185678482055664
+      ],
+      "max": [
+        0.7250000238418579,
+        1.1623883247375488,
+        1.1859397888183594
+      ]
+    }
+  },
+  {
+    "id": "padma-rider",
+    "source": "padema.glb",
+    "sha256": "1b49b7d399d60f0f1172f1c62a51cf108b32ace8d2d3960dbafce60a4664a02f",
+    "sourceBytes": 25338760,
+    "sourceTriangles": 288360,
+    "runtimeBytes": 3993244,
+    "runtimeTriangles": 81264,
+    "vertices": 85047,
+    "texture": 1536,
+    "bounds": {
+      "min": [
+        -0.6985922455787659,
+        -1.8315412998199463,
+        -1.9553507566452026
+      ],
+      "max": [
+        0.699999988079071,
+        1.8333609104156494,
+        1.9553507566452026
+      ]
+    }
   }
 ]
