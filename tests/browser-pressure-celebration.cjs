@@ -73,6 +73,14 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/artifacts');
    assert.equal(result.selected,'team');assert.ok(result.actors.slice(1).some(a=>a.travel>.1),JSON.stringify(result.actors));assert.ok(result.panel.x>=0&&result.panel.y>=0&&result.panel.x+result.panel.width<=800&&result.panel.y+result.panel.height<=600,JSON.stringify(result.panel));assert.equal(result.buttons.length,4);for(const b of result.buttons)assert.ok(b.x>=0&&b.y>=0&&b.x+b.width<=800&&b.y+b.height<=600);report.evidence.team=result;
    await page.screenshot({path:path.join(out,'pressure-celebration-team-800.png')});
   });
+  await check('Switching from a lap to the team holds the scorer in place and brings teammates in on opposite sides',async()=>{
+   await scoreBeautiful(true);await page.keyboard.press('r');await advance(2250);
+   const start=await page.evaluate(()=>__BROOMBALL__.match.celebration.scorer.position.toArray());
+   await page.keyboard.press('f');await advance(2450);
+   const end=await page.evaluate(()=>{const [lead,...allies]=__BROOMBALL__.match.celebration.actors;
+    return {pos:lead.mesh.position.toArray(),sides:allies.map(a=>{const d=a.mesh.position.clone().sub(lead.mesh.position);return d.x*Math.cos(lead.mesh.rotation.y)-d.z*Math.sin(lead.mesh.rotation.y);})};});
+   assert.ok(Math.hypot(end.pos[0]-start[0],end.pos[2]-start[2])<.2);assert.equal(end.sides.length,2);assert.ok(end.sides[0]<-3&&end.sides[1]>3);
+  });
   await check('Space skips celebration and hands the restart to the opponent',async()=>{
    await scoreBeautiful();await page.keyboard.press('Space');await advance(100);const skipped=await page.evaluate(()=>{const g=__BROOMBALL__;return{celebration:g.match.celebration,panel:!document.getElementById('goalCelebration').classList.contains('hidden'),kickoff:g.match.kickoff,timeLeft:g.match.timeLeft};});
    assert.equal(skipped.celebration,null);assert.equal(skipped.panel,false);assert.ok(skipped.kickoff>0);await advance(2200);const restarted=await page.evaluate(()=>{const g=__BROOMBALL__;return{pending:g.match.pendingRestart,rival:g.rivals.includes(g.carrier),timeLeft:g.match.timeLeft};});assert.equal(restarted.pending,null);assert.equal(restarted.rival,true);assert.ok(restarted.timeLeft<skipped.timeLeft);report.evidence.skip={skipped,restarted};

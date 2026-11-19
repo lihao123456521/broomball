@@ -653,6 +653,14 @@ function clearGoalCelebration(){
 }
 function selectCelebration(style,restart=true){
  const celebration=match.celebration;if(!celebration||!celebrationLabels[style])return false;
+ if(restart){
+  // Crossfade from the actual pose on screen, including when a second choice interrupts the first.
+  for(const a of celebration.actors){
+   a.from={p:a.mesh.position.clone(),q:a.mesh.quaternion.clone(),m:a.model?.root.quaternion.clone()};
+   a.startPosition=a.mesh.position.clone();a.startYaw=a.mesh.rotation.y;
+  }
+  celebration.burst=false;
+ }
  celebration.selected=style;if(restart){celebration.elapsed=0;celebration.duration=4.2;playCrowdCheer(.55);}
  for(const button of document.querySelectorAll('[data-celebration]'))button.setAttribute('aria-pressed',String(button.dataset.celebration===style));
  $('celebrationChoice').textContent=celebrationLabels[style]+' · 空格跳过';return true;
@@ -672,47 +680,50 @@ function endGoalCelebration(){
 function updateGoalCelebration(dt){
  const celebration=match.celebration;if(!celebration)return;celebration.elapsed+=dt;
  const t=celebration.elapsed,reduced=settings.reducedMotion;
+ const lead=celebration.actors[0],yaw=lead.startYaw??lead.rotation.y,center=lead.startPosition??lead.position;
+ const forward=V(-Math.sin(yaw),0,-Math.cos(yaw)),right=V(Math.cos(yaw),0,-Math.sin(yaw));
+ const smooth=v=>{v=clamp(v,0,1);return v*v*(3-2*v);},rise=reduced?1:smooth(t/.65);
  celebration.actors.forEach((actor,index)=>{
   restoreCelebrationActor(actor);const mesh=actor.mesh,model=actor.model?.root,rig=mesh.userData.rig,main=index===0;
+  const side=index===1?-1:1,actorYaw=actor.startYaw??actor.rotation.y;
+  if(actor.startPosition){mesh.position.copy(actor.startPosition);mesh.rotation.y=actorYaw;}
   if(main&&celebration.selected==='glide'){
-   // Quidditch victory lap: a banked arc around the scoring end, facing the tangent.
    if(!reduced){
-    const a=t*1.05,r=8.5;
-    mesh.position.set(actor.position.x+Math.sin(a)*r,clamp(actor.position.y+Math.sin(t*.9)*1.6,7,24),actor.position.z+Math.cos(a)*r-r);
-    mesh.rotation.y=Math.atan2(-Math.cos(a),Math.sin(a));mesh.rotation.z=.34;mesh.rotation.x=-.06;
-    if(Math.random()<.55)spawnSparks(mesh.position.clone().add(V(0,.4,1.2)),2,.5);
+    const angle=.70*(t-.60*(1-Math.exp(-t/.60))),r=6.4;
+    mesh.position.addScaledVector(forward,r*Math.sin(angle)).addScaledVector(right,r*(1-Math.cos(angle)));
+    mesh.position.y+=.88*(1-Math.cos(Math.min(Math.PI,t*.95)))*.5;
+    mesh.rotation.y=actorYaw-angle;mesh.rotation.z+=.31*rise;mesh.rotation.x-=.10*rise;
    }
-   if(model){model.rotation.x-=.28;model.rotation.z-=.1;}
-   if(rig){rig.arm.rotation.x=-.5;rig.head.rotation.x=-.1;}
+   if(model){model.rotation.x-=.10*rise;model.rotation.z-=.06*rise;}
+   if(rig)rig.arm.rotation.x=-.55*rise;
   }else if(celebration.selected==='team'){
    if(main){
-    if(!reduced)mesh.position.y+=Math.sin(t*3)*.12;
-    if(model){model.rotation.z-=.18;model.rotation.x-=.08;}
-    if(rig){rig.arm.rotation.x=-1.9;rig.head.rotation.x=-.18;}
-    if(!reduced&&t>1.45&&t<1.62)spawnSparks(mesh.position.clone().add(V(0,1.7,0)),26,1.4);
+    if(!reduced){mesh.position.y+=.65*rise;mesh.rotation.z+=.13*Math.sin(t*2)*rise;}
+    if(model)model.rotation.x-=.13*rise;if(rig)rig.arm.rotation.x=-1.8*rise;
    }else{
-    // Teammates sweep in on curved paths and form a broom-raised ring around the scorer.
-    const angle=(index===1?-1:1)*2.2+Math.PI/2,target=celebration.actors[0].position.clone().add(V(Math.sin(angle)*2.6,0,Math.cos(angle)*2.6));
     if(!reduced){
-     const p=clamp(t/1.4,0,1),ease=1-Math.pow(1-p,3),mid=actor.position.clone().lerp(target,.5).add(V((index===1?-1:1)*3.2,2.2,0));
-     mesh.position.copy(actor.position.clone().lerp(mid,ease).lerp(mid.clone().lerp(target,ease),ease));
-     mesh.rotation.y=Math.atan2(-(target.x-mesh.position.x),-(target.z-mesh.position.z));
-     if(p>=1){mesh.position.y+=Math.sin(t*4+index)*.1;mesh.rotation.z=(index===1?1:-1)*.14;}
+     const target=center.clone().addScaledVector(right,side*3.8).addScaledVector(forward,-2.5);
+     target.y+=.48;const u=smooth(t/(2.05+.12*index));
+     mesh.position.lerp(target,u).addScaledVector(right,side*2.5*Math.sin(Math.PI*u));mesh.position.y+=1.55*Math.sin(Math.PI*u);
+     mesh.rotation.y+=angleDelta(actorYaw,yaw+side*.26)*u;
+     mesh.rotation.z+=side*.23*Math.sin(Math.PI*u);
     }
-    if(model){model.rotation.z+=(index===1?.2:-.2);model.rotation.x-=.1;}
-    if(rig)rig.arm.rotation.x=-1.7+(reduced?0:Math.sin(t*5+index)*.12);
+    if(model)model.rotation.z+=side*.09*rise;if(rig)rig.arm.rotation.x=-1.32*rise;
    }
-  }else{
-   if(main){
-    // One hand on the broom, rhythmic fist pump, head up to the crowd.
-    if(!reduced){mesh.position.y+=Math.abs(Math.sin(t*4.2))*.22;mesh.rotation.y+=Math.sin(t*1.6)*.12;if(Math.random()<.35)spawnSparks(mesh.position.clone().add(V(.5,1.7,0)),2,.6);}
-    if(model){model.rotation.z-=.2;model.rotation.x-=.1;}
-    if(rig){const pump=Math.max(0,Math.sin(t*6));rig.arm.rotation.x=-.7-pump*1.1;rig.arm.rotation.z=-.25;rig.head.rotation.x=-.22;}
-   }else{
-    if(!reduced){mesh.position.y+=Math.abs(Math.sin(t*4.2+index))*.14;mesh.rotation.y+=Math.sin(t*2+index)*.15;}
-    if(rig)rig.arm.rotation.x=-.4+(reduced?0:Math.sin(t*7+index)*.3);
-   }
+  }else if(main){
+   // A lift, a single accent, then a settling beat also read on solid, unrigged rider models.
+   const pulse=reduced?1:Math.sin(Math.PI*smooth((t-.12)/1.45)),settle=reduced?0:Math.sin(Math.PI*smooth((t-1.6)/1.35));
+   if(!reduced){mesh.position.addScaledVector(forward,1.8*smooth(t/2.1));mesh.position.y+=.9*pulse+.27*settle+.24*rise;
+    mesh.rotation.x-=.17*pulse;mesh.rotation.z+=.24*pulse-.12*settle;}
+   if(model){model.rotation.x-=.13*pulse;model.rotation.z-=.08*rise;}
+   if(rig){rig.arm.rotation.x=-.6*rise-1.48*pulse;rig.arm.rotation.z=-.23*rise;rig.head.rotation.x=-.16*rise;}
+  }else if(!reduced){mesh.position.y+=.15*Math.sin(t*2.6+index)*rise;}
+  if(main&&!reduced&&!celebration.burst&&t>(celebration.selected==='team'?2.1:.85)){
+   celebration.burst=true;spawnSparks(mesh.position.clone().add(V(0,1.6,0)),12,1.0);
   }
+  if(actor.from){const blend=reduced?1:smooth(t/.68);mesh.position.lerp(actor.from.p,1-blend);mesh.quaternion.slerp(actor.from.q,1-blend);
+   if(model&&actor.from.m)model.quaternion.slerp(actor.from.m,1-blend);if(blend===1)delete actor.from;}
+
  });
  updateSparks(dt);
  $('celebrationTimer').textContent=Math.max(0,Math.ceil(celebration.duration-celebration.elapsed))+'s';
@@ -894,7 +905,7 @@ function updateCamera(dt){
  if(match.state==='menu'){camera.position.lerp(V(63,31,86),1-Math.exp(-dt*2));camera.lookAt(0,11,-6);return;}if(match.paused)return;
  if(match.state==='entrance'&&match.entrance){updateEntranceCamera(match.entrance);return;}
  if(match.celebration){
-  const celebration=match.celebration,focus=celebration.scorer.position.clone().add(V(0,1.1,0)),team=celebration.selected==='team',side=celebration.scorer.position.x>0?-1:1;
+  const celebration=match.celebration,focus=celebration.scorer.position.clone().add(V(0,1.1,0)),team=celebration.selected==='team',side=celebration.actors[0].position.x>0?-1:1;
   const desired=focus.clone().add(V(side*(team?12:8.5),team?5.2:3.8,team?14:10.5));camera.position.lerp(desired,1-Math.exp(-dt*4.5));broadcastFocus.lerp(focus,1-Math.exp(-dt*7));camera.lookAt(broadcastFocus);camera.fov=lerp(camera.fov,team?46:42,1-Math.exp(-dt*5));camera.updateProjectionMatrix();
   Object.assign(cameraFraming,{targets:celebration.actors.map(actor=>actor.mesh.position.toArray()),mode:'celebration',phase:'celebration',subject:celebration.scorer.uuid,focus:broadcastFocus.toArray(),distance:camera.position.distanceTo(broadcastFocus)});return;
  }
